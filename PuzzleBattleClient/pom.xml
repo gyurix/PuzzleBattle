@@ -10,6 +10,11 @@
     <modelVersion>4.0.0</modelVersion>
     <name>PuzzleBattleClient</name>
     <artifactId>client</artifactId>
-
-
+    <dependencies>
+        <dependency>
+            <groupId>org.puzzlebattle</groupId>
+            <artifactId>core</artifactId>
+            <version>1.0</version>
+        </dependency>
+    </dependencies>
 </project>
