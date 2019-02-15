@@ -1,4 +1,4 @@
-package org.puzzlebattle.client.screen.games;
+package org.puzzlebattle.client.games.fourinarow;
 
 import javafx.stage.Stage;
 import org.puzzlebattle.client.screen.AbstractScreen;

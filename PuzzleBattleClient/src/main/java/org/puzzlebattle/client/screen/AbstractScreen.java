@@ -13,19 +13,16 @@ import java.util.ArrayList;
 @Getter
 public abstract class AbstractScreen {
 
-  protected Pane canvas;
-  private Scene root;
+  protected Pane pane;
+  private Scene scene;
 
-
-  @Getter
-  //private VBox root;
   private ArrayList<Timeline> scheduledTasks = new ArrayList<>();
   @Getter
   private Stage stage;
 
   public AbstractScreen(Stage stage) {
     this.stage = stage;
-    canvas = new Pane();
+    pane = new Pane();
   }
 
   public double getHeight() {
@@ -56,10 +53,14 @@ public abstract class AbstractScreen {
     return tl;
   }
 
+  public void registerEvents(Scene scene) {
+  }
+
   public void show() {
-    root = new Scene(canvas,getWidth(), getHeight());
+    scene = new Scene(pane, getWidth(), getHeight());
+    registerEvents(scene);
     stage.setTitle(getTitle());
-    stage.setScene(root);
+    stage.setScene(scene);
     stage.show();
     stage.setOnCloseRequest(e -> onCloseHandler());
   }
