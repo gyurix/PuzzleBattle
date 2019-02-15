@@ -1,7 +1,6 @@
 package org.puzzlebattle.client.games.bouncer;
 
 import javafx.geometry.Point2D;
-import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import lombok.Getter;
@@ -23,23 +22,25 @@ public class Bouncer extends Rectangle {
     setStroke(color);
   }
 
-  public void addRectangleOnCanvas(Pane canvas, double X, double Y) {
-    canvas.getChildren().add(this);
-  }
-
-  public double getCenterX() {
-    return getX() + getWidth() / 2;
-  }
-
   public double getCenterY() {
     return getY() + getHeight() / 2;
   }
 
-  private Point2D getVelocity(BouncerBall ball) {
-    if (!contains(ball.getCenterX(), ball.getCenterY()))
+  public boolean contains(BouncerBall ball) {
+    for (double x = -1; x <= 1; x += 0.2) {
+      for (double y = -1; y <= 1; y += 0.2) {
+        if (contains(ball.getCenterX() + x * ball.getRadius(), ball.getCenterY() + y * ball.getRadius()))
+          return true;
+      }
+    }
+    return false;
+  }
+
+  public Point2D getAppliedVelocity(BouncerBall ball, double yMultiplier) {
+    if (!contains(ball))
       return null;
     double step = 5 / getWidth();
     double dif = (getX() - ball.getCenterX()) * step;
-    return new Point2D(ball.getVelocity().getX(), -(5 - Math.abs(dif)));
+    return new Point2D(ball.getVelocity().getX() - dif, yMultiplier * (5 - Math.abs(dif) * 0.5));
   }
 }
