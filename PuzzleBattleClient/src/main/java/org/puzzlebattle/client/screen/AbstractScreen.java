@@ -3,7 +3,7 @@ package org.puzzlebattle.client.screen;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.Scene;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import lombok.Getter;
@@ -12,15 +12,20 @@ import java.util.ArrayList;
 
 @Getter
 public abstract class AbstractScreen {
+
+  protected Pane canvas;
+  private Scene root;
+
+
   @Getter
-  private VBox root;
+  //private VBox root;
   private ArrayList<Timeline> scheduledTasks = new ArrayList<>();
   @Getter
   private Stage stage;
 
   public AbstractScreen(Stage stage) {
     this.stage = stage;
-    this.root = new VBox();
+    canvas = new Pane();
   }
 
   public double getHeight() {
@@ -52,9 +57,9 @@ public abstract class AbstractScreen {
   }
 
   public void show() {
-    Scene scene = new Scene(root, getWidth(), getHeight());
+    root = new Scene(canvas,getWidth(), getHeight());
     stage.setTitle(getTitle());
-    stage.setScene(scene);
+    stage.setScene(root);
     stage.show();
     stage.setOnCloseRequest(e -> onCloseHandler());
   }

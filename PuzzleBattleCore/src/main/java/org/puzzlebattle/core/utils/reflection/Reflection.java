@@ -9,8 +9,8 @@ import java.util.Map;
 
 public class Reflection {
   public static final Gson GSON = new Gson();
-  static HashMap<FieldAccessor, FieldAccessor> fields = new HashMap<>();
-  static HashMap<MethodInvoker, MethodInvoker> methods = new HashMap<>();
+  static HashMap<FieldAccessor, FieldAccessor> fields = new HashMap<FieldAccessor, FieldAccessor>();
+  static HashMap<MethodInvoker, MethodInvoker> methods = new HashMap<MethodInvoker, MethodInvoker>();
 
   public static void applyJson(Object o, JsonObject json) {
     Class cl = o.getClass();

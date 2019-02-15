@@ -1,6 +1,7 @@
 package org.puzzlebattle.client.games.ballbouncer;
 
-import javafx.scene.canvas.Canvas;
+
+import javafx.scene.layout.Pane;
 import lombok.Getter;
 
 @Getter
@@ -18,7 +19,7 @@ public class BallBouncerPlayer extends BallBouncerEntity {
   }
 
   @Override
-  public void render(Canvas canvas) {
+  public void render(Pane canvas) {
 
   }
 }

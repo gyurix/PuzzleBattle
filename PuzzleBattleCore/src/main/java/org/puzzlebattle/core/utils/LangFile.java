@@ -6,7 +6,7 @@ import org.puzzlebattle.core.utils.reflection.Reflection;
 import java.util.HashMap;
 
 public class LangFile {
-  private HashMap<String, String> mapping = new HashMap<>();
+  private HashMap<String, String> mapping = new HashMap<String, String>();
   private LangFile parent;
 
   public LangFile(String language) {
@@ -34,7 +34,7 @@ public class LangFile {
   }
 
   private void load(JsonObject json) {
-    json.entrySet().forEach(e -> {
+    json.entrySet().forEach((e) -> {
       if (e.getValue() instanceof JsonObject)
         load(e.getKey(), (JsonObject) e.getValue());
       else
