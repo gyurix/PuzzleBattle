@@ -15,8 +15,18 @@ public class BallBouncerScreen extends AbstractScreen {
     super(stage);
     this.game = game;
     pane.setBackground(new Background(new BackgroundFill(game.getSettings().getBackgroundColor(), null, null)));
-    pane.getChildren().addAll(game.getBall(), game.getEnemy().getBouncer(), game.getYou().getBouncer());
+    pane.getChildren().addAll(game.getBall(), game.getEnemy().getBouncer(), game.getEnemy().getGoals(), game.getYou().getBouncer(), game.getYou().getGoals());
     scheduleAtFixedRate(16, game::tick);
+  }
+
+  @Override
+  public double getHeight() {
+    return game.getMapSize().getY();
+  }
+
+  @Override
+  public double getWidth() {
+    return game.getMapSize().getX();
   }
 
   @Override

@@ -8,7 +8,7 @@ import lombok.Data;
 @AllArgsConstructor
 @Data
 public class BouncerPlayerSettings {
-  private Color color;
+  private Color color, goalColor;
   private KeyCode left, right;
   private double movementIntensity;
 }
