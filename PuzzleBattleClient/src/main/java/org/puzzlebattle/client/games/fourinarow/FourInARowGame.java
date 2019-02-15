@@ -1,4 +1,16 @@
 package org.puzzlebattle.client.games.fourinarow;
 
-public class FourInARowGame {
+
+import org.puzzlebattle.client.games.Game;
+
+public class FourInARowGame extends Game {
+
+
+  public FourInARowGame()
+  {
+
+
+  }
+
+
 }
