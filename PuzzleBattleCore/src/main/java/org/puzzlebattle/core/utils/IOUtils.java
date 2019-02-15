@@ -27,7 +27,7 @@ public class IOUtils {
       try {
         File f = new File(name).getAbsoluteFile();
         f.getParentFile().mkdirs();
-        transloadStream(IOUtils.class.getResourceAsStream(name), new FileOutputStream(f));
+        transloadStream(IOUtils.class.getClassLoader().getResourceAsStream(name), new FileOutputStream(f));
       } catch (Throwable e) {
         System.err.println("Failed to save resource " + name);
         e.printStackTrace();

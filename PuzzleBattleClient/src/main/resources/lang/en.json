@@ -1,0 +1,6 @@
+{
+  "started": "Started <name> v <version>",
+  "end": {
+    "finished": "Finished <name> v <version>"
+  }
+}

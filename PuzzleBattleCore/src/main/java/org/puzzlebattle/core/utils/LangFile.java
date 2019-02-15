@@ -50,4 +50,8 @@ public class LangFile {
         mapping.put(key + "." + e.getKey(), e.getValue().getAsString());
     });
   }
+
+  public void msg(String key, Object... vars) {
+    System.out.println(get(key, vars));
+  }
 }
