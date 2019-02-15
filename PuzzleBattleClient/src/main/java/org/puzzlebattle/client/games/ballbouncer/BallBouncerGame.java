@@ -3,9 +3,10 @@ package org.puzzlebattle.client.games.ballbouncer;
 import javafx.geometry.Point2D;
 import javafx.scene.paint.Color;
 import lombok.Getter;
+import org.puzzlebattle.client.games.Game;
 
 @Getter
-public class BallBouncerGame {
+public class BallBouncerGame extends Game {
   private Ball ball;
   private Point2D mapSize = new Point2D(400, 400);
   private BallBouncerPlayer you, enemy;
