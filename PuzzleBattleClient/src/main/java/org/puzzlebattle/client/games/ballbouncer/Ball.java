@@ -17,7 +17,7 @@ public class Ball extends BallBouncerEntity {
   private double oldPointX;
   private double oldPointY;
 
-  public Ball(BallBouncerGame game) {
+  public Ball(BallBouncerGame game, double radius) {
     super(game);
 
     loc = game.getMapSize().multiply(0.5);
@@ -25,12 +25,13 @@ public class Ball extends BallBouncerEntity {
     //saves initial X and Y coordinates after obtaining map size
     oldPointX = loc.getX();
     oldPointY= loc.getY();
-    ball = new CasualBall(oldPointX,oldPointY,50,50);
+    ball = new CasualBall(oldPointX,oldPointY,radius,radius);
     velocity = new Point2D(-3, 5);
   }
 
-  public void addBallOnCanvas(Pane canvas){
+  public void addBallOnCanvas(Pane canvas,double X, double Y){
     canvas.getChildren().add(ball);
+    ball.relocate(X,Y);
   }
 
 

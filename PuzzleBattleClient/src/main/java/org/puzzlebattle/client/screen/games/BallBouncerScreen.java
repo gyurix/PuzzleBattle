@@ -12,7 +12,9 @@ public class BallBouncerScreen extends AbstractScreen {
   public BallBouncerScreen(Stage stage, BallBouncerGame game) {
     super(stage);
     this.game = game;
-    game.getBall().addBallOnCanvas(super.canvas);
+    game.getBall().addBallOnCanvas(super.canvas,250,250);
+    game.getYou().getBouncer().addRectangleOnCanvas(super.canvas,100,20);
+    game.getEnemy().getBouncer().addRectangleOnCanvas(super.canvas,100,400);
     scheduleAtFixedRate(16, this::render);
   }
 
