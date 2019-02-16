@@ -3,14 +3,14 @@ package org.puzzlebattle.client.games.fourinarow;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
+
 public class Coin extends Circle {
 
   private double Ycoordinate = 50;
-  private double coinRadius = 50;
-
+  private double coinRadius = 25;
 
   public Coin(double X, Color coinColor) {
-    this(X,50,50,coinColor);
+    this(X,50,25,coinColor);
   }
 
 
@@ -26,7 +26,5 @@ public class Coin extends Circle {
   public double getCoinRadius() {
       return coinRadius;
   }
-
-
 
 }

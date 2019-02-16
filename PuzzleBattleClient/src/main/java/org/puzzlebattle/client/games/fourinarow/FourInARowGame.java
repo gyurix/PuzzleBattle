@@ -1,9 +1,8 @@
 package org.puzzlebattle.client.games.fourinarow;
 
 
-import javafx.geometry.Point2D;
-import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
+import javafx.scene.paint.Color;
 import org.puzzlebattle.client.games.Game;
 import org.puzzlebattle.client.games.bouncer.BouncerGameSettings;
 
@@ -15,20 +14,22 @@ public class FourInARowGame extends Game {
   private FourInARowGameSettings settings;
   private FourInARowPlayer you, enemy;
   private ArrayList<FourInARowPlayer> players = new ArrayList<FourInARowPlayer>();
+
   private int fillingColumns[];
+
+
   public FourInARowGame(Object serverConnection, FourInARowGameSettings settings) {
 
     super(serverConnection);
     this.settings= settings;
 
-    you = new FourInARowPlayer(this,true);
-    enemy = new FourInARowPlayer(this,false);
+    you = new FourInARowPlayer(this,true,Color.RED);
+    enemy = new FourInARowPlayer(this,false, Color.BLUE);
     players.add(you);
     players.add(enemy);
 
     createFillingColumns();
   }
-
 
   private void createFillingColumns() {
       fillingColumns = new int[settings.getMaxColumns()+1];
@@ -36,51 +37,49 @@ public class FourInARowGame extends Game {
         fillingColumns[i]=0;
   }
 
-
-  public void onKeyEvent(KeyCode key, boolean pressed) {
+  public FourInARowPoint questionForMove(KeyCode key, boolean pressed) {
 
     if (key.compareTo(settings.getDigit0())== 1) {
       if(conditionsToMove(1))
-        applyMove(1);
+        return applyMove(1);
     }
     else if (key.compareTo(settings.getDigit1())==1) {
       if(conditionsToMove(2))
-        applyMove(2);
+        return applyMove(2);
     }
     else if (key.compareTo(settings.getDigit2())==1) {
       if(conditionsToMove(3))
-        applyMove(3);
+        return applyMove(3);
     }
     else if (key.compareTo(settings.getDigit3())==1) {
       if(conditionsToMove(4))
-        applyMove(4);
+        return applyMove(4);
     }
     else if (key.compareTo(settings.getDigit4())==1) {
       if(conditionsToMove(5))
-        applyMove(5);
+        return applyMove(5);
     }
     else if (key.compareTo(settings.getDigit5())==1) {
       if(conditionsToMove(6))
-        applyMove(6);
+        return applyMove(6);
     }
     else if (key.compareTo(settings.getDigit6())==1) {
       if(conditionsToMove(7))
         if(settings.getMaxColumns() >= 7)
-            applyMove(7);
+          return applyMove(7);
     }
     else if (key.compareTo(settings.getDigit7())==1) {
       if(conditionsToMove(8))
         if(settings.getMaxColumns() >= 8)
-            applyMove(8);
+          return applyMove(8);
     }
     else if (key.compareTo(settings.getDigit8())==1) {
       if(conditionsToMove(9))
         if(settings.getMaxColumns() >= 9)
-            applyMove(9);
+          return applyMove(9);
     }
-
+    return null;
   }
-
 
   private boolean conditionsToMove(int column)
   {
@@ -90,15 +89,13 @@ public class FourInARowGame extends Game {
       return false;
   }
 
-  private void applyMove(int numberOfSelectedColumn) {
+  private FourInARowPoint applyMove(int numberOfSelectedColumn) {
 
-    System.out.println("applying move:");
     fillingColumns[numberOfSelectedColumn]++;
     FourInARowPlayer playerOnTheMove = getWhoIsOnTheMove();
 
-    System.out.println(numberOfSelectedColumn);
-
     switchPlayer(playerOnTheMove);
+    return new FourInARowPoint(numberOfSelectedColumn, playerOnTheMove.getColorOfPlayersCoin());
   }
 
   private void switchPlayer(FourInARowPlayer playerOnTheMove)
@@ -127,4 +124,5 @@ public class FourInARowGame extends Game {
     else
         return enemy;
   }
+
 }

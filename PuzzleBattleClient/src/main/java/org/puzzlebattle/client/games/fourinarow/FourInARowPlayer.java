@@ -1,15 +1,20 @@
 package org.puzzlebattle.client.games.fourinarow;
 
+import javafx.scene.paint.Color;
+
 public class FourInARowPlayer {
 
   private FourInARowGame game;
   private boolean move;
   private static int counterOfPlayers = 0;
   private int playingNumber;
+  private Color colorForCoins;
 
-  public FourInARowPlayer(FourInARowGame game,boolean firstStep ) {
+
+  public FourInARowPlayer(FourInARowGame game,boolean firstStep,Color colorForCoins ) {
     this.game =game;
     this.move =firstStep;
+    this.colorForCoins = colorForCoins;
     counterOfPlayers++;
     playingNumber=counterOfPlayers;
   }
@@ -24,4 +29,5 @@ public class FourInARowPlayer {
 
   public static int getNumberOfPlayers() {return counterOfPlayers;}
 
+  public Color getColorOfPlayersCoin(){ return colorForCoins; }
 }

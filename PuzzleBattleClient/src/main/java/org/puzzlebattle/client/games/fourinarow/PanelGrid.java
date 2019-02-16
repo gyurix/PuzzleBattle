@@ -9,6 +9,8 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 
+import java.util.ArrayList;
+
 
 public class PanelGrid extends Pane {
 
@@ -16,15 +18,14 @@ public class PanelGrid extends Pane {
   private int columns = 7;
   private double thicknessOfRows = 10;
   private double thicknessOfColumns = 15;
-  private double rowSpace;
-  private double columnSpace;
-  private Rectangle obdlznik;
   private Rectangle rect;
   private Label label;
   private double initialSpace= 50;
   private double spaceFromTop = 10;
   private Font font;
   private final int fontSize = 20;
+  private double distanceOfColumns;
+  private ArrayList<Rectangle> grid = new ArrayList<Rectangle>();
 
 
 
@@ -47,12 +48,14 @@ public class PanelGrid extends Pane {
        int columnSpace = countColumnSpace(Y,width);
 
        for(int i =0;i<rows+1;i=i+1){
-         panel.getChildren().add(createRectangle(initialSpace,i*rowSpace+initialSpace + columnSpace, height,thicknessOfRows,colorOfRows));
+         grid.add(createRectangle(initialSpace,i*rowSpace+initialSpace + columnSpace, height,thicknessOfRows,colorOfRows));
+         panel.getChildren().add(grid.get(i));
          System.out.println("0 "+i*rowSpace+"   "+thicknessOfRows+" "+height);
        }
 
        for(int i=0;i<columns+1;i=i+1) {
-         panel.getChildren().add(createRectangle(i*rowSpace+initialSpace,initialSpace,thicknessOfColumns,height,colorOfColumns));
+         grid.add(createRectangle(i*rowSpace+initialSpace,initialSpace,thicknessOfColumns,height,colorOfColumns));
+         panel.getChildren().add(grid.get(i+rows+1));
        }
 
   }
@@ -69,8 +72,8 @@ public class PanelGrid extends Pane {
     return (int) ((width-sizeOfRowGrids)/numberOfColumns);
   }
 
-  private Rectangle createRectangle(double X,double Y,double width, double height,Color color)
-  {
+  private Rectangle createRectangle(double X,double Y,double width, double height,Color color) {
+
      rect= new Rectangle(X,Y,width, height);
      rect.setFill(color);
      rect.setStroke(color);
@@ -80,11 +83,17 @@ public class PanelGrid extends Pane {
 
   private void createLabels(Pane panel,double positionX, double positionY,double widthOfWindow,int numberOfWindows) {
 
-    int distance = countRowSpace(numberOfWindows,widthOfWindow);
+    this.distanceOfColumns = countRowSpace(numberOfWindows,widthOfWindow);
 
     for (int number = 1; number <= numberOfWindows; number = number + 1) {
-      panel.getChildren().add(createLabel(positionX+number*distance+ number*thicknessOfRows, positionY, Integer.toString(number)));
+      panel.getChildren().add(createLabel(positionX+number*distanceOfColumns+ number*thicknessOfRows,
+              positionY, Integer.toString(number)));
     }
+  }
+
+  public double calculatePositionForCoin(int requestedColumn) {
+
+    return initialSpace/2+requestedColumn*distanceOfColumns+ requestedColumn*thicknessOfRows;
   }
 
   private Label createLabel(double positionX, double positionY,String context) {
@@ -95,13 +104,23 @@ public class PanelGrid extends Pane {
     return label;
   }
 
-  private void applySettingsOnLabel(Label label)
-  {
+  private void applySettingsOnLabel(Label label) {
+
     font= new Font("TimesNewRoman",fontSize);
     label.setFont(font);
     label.setBackground(new Background(new BackgroundFill(Paint.valueOf("GAINSBORO"),null,null)));
     label.setStyle("-fx-control-inner-background: lightGray");
 
+  }
+
+  public void repaintGrid() {
+
+    Rectangle rectangleForRepaint;
+
+    for(int i=0; i<grid.size(); i++) {
+      rectangleForRepaint =  grid.get(i);
+      rectangleForRepaint.relocate(rectangleForRepaint.getX(),rectangleForRepaint.getY());
+    }
   }
 
 }
