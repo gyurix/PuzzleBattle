@@ -26,6 +26,11 @@ public class FourInARowScreen extends AbstractScreen {
     lang.msg("end.finished", "name", "Puzzle Battle Client", "version", "1.0");
   }
 
+  public void registerEvents(Scene scene) {
+    scene.setOnKeyPressed((e) -> game.onKeyEvent(e.getCode(), true));
+  //  scene.setOnKeyReleased((e) -> game.onKeyEvent(e.getCode(), false));
+  }
+
 
 }
 
