@@ -3,6 +3,8 @@ package org.puzzlebattle.client.games.fourinarow;
 import javafx.geometry.Point2D;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.stage.Stage;
 
 import org.puzzlebattle.client.screen.AbstractScreen;
@@ -25,6 +27,7 @@ public class FourInARowScreen extends AbstractScreen {
     super(stage);
     this.game= game;
     pane = new PanelGrid(0,0,mapSize.getX(),mapSize.getY());
+    pane.setBackground(new Background(new BackgroundFill(game.getFourInARowGameSettings().getBackgroundColor(), null, null)));
 }
 
   @Override
@@ -33,7 +36,7 @@ public class FourInARowScreen extends AbstractScreen {
   }
 
   public void registerEvents(Scene scene) {
-    scene.setOnKeyPressed((e) -> this.onKeyEvent(e.getCode(), true));
+    scene.setOnKeyPressed((e) -> this.onKeyEvent(e.getCode()));
   //  scene.setOnKeyReleased((e) -> this.onKeyEvent(e.getCode(), false));
   }
 
@@ -47,9 +50,9 @@ public class FourInARowScreen extends AbstractScreen {
         return newCoin;
   }
 
-  public void onKeyEvent(KeyCode key, boolean pressed) {
+  public void onKeyEvent(KeyCode key) {
       FourInARowPoint fourInARowPoint = null;
-      fourInARowPoint= game.questionForMove(key,pressed);
+      fourInARowPoint= game.questionForMove(key);
 
       if(fourInARowPoint!=null) {
         Coin newCoin;

@@ -1,6 +1,7 @@
 package org.puzzlebattle.client.games.fourinarow;
 
 import javafx.scene.input.KeyCode;
+import javafx.scene.paint.Color;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -10,21 +11,22 @@ import static javafx.scene.input.KeyCode.*;
 @Data
 public class FourInARowGameSettings {
 
-  private KeyCode digit0 = DIGIT0;
-  private KeyCode digit1 = DIGIT1;
-  private KeyCode digit2 = DIGIT2;
-  private KeyCode digit3 = DIGIT3;
-  private KeyCode digit4 = DIGIT4;
-  private KeyCode digit5 = DIGIT5;
-  private KeyCode digit6 = DIGIT6;
-  private KeyCode digit7 = DIGIT7;
-  private KeyCode digit8 = DIGIT8;
-  private KeyCode digit9 = DIGIT9;
+  private static KeyCode digit[] = new KeyCode[]{DIGIT0,DIGIT1,DIGIT2,DIGIT3,DIGIT4,DIGIT5,DIGIT6,DIGIT7,DIGIT8,DIGIT9};
+  private static KeyCode numpad[] = new KeyCode[]{NUMPAD0,NUMPAD1,NUMPAD2,NUMPAD3,NUMPAD4,NUMPAD5,NUMPAD6,NUMPAD7,NUMPAD8,NUMPAD9};
+
+  private Color backgroundColor = Color.GAINSBORO;
+
   private int maxColumns =7;
   private int maxRows = 5;
 
   public FourInARowGameSettings(){
+  }
 
+  public static KeyCode getDigit(int x) {
+    return (x<10)? digit[x] : null;
+  }
 
+  public static KeyCode getNumpad(int x) {
+    return (x<10)? numpad[x] : null;
   }
 }

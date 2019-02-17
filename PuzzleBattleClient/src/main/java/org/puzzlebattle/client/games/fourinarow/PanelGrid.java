@@ -108,9 +108,6 @@ public class PanelGrid extends Pane {
 
     font= new Font("TimesNewRoman",fontSize);
     label.setFont(font);
-    label.setBackground(new Background(new BackgroundFill(Paint.valueOf("GAINSBORO"),null,null)));
-    label.setStyle("-fx-control-inner-background: lightGray");
-
   }
 
   public void repaintGrid() {

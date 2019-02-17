@@ -31,53 +31,24 @@ public class FourInARowGame extends Game {
     createFillingColumns();
   }
 
+  public FourInARowGameSettings getFourInARowGameSettings() {
+    return settings;
+  }
+
   private void createFillingColumns() {
       fillingColumns = new int[settings.getMaxColumns()+1];
       for(int i=0;i<settings.getMaxColumns()+1;i++)
         fillingColumns[i]=0;
   }
 
-  public FourInARowPoint questionForMove(KeyCode key, boolean pressed) {
+  public FourInARowPoint questionForMove(KeyCode key) {
 
-    if (key.compareTo(settings.getDigit0())== 1) {
-      if(conditionsToMove(1))
-        return applyMove(1);
+    for(int i=1;i<10;i++)
+      if (key == settings.getDigit(i) || key == settings.getNumpad(i)) {
+        if(conditionsToMove(i))
+            return applyMove(i);
     }
-    else if (key.compareTo(settings.getDigit1())==1) {
-      if(conditionsToMove(2))
-        return applyMove(2);
-    }
-    else if (key.compareTo(settings.getDigit2())==1) {
-      if(conditionsToMove(3))
-        return applyMove(3);
-    }
-    else if (key.compareTo(settings.getDigit3())==1) {
-      if(conditionsToMove(4))
-        return applyMove(4);
-    }
-    else if (key.compareTo(settings.getDigit4())==1) {
-      if(conditionsToMove(5))
-        return applyMove(5);
-    }
-    else if (key.compareTo(settings.getDigit5())==1) {
-      if(conditionsToMove(6))
-        return applyMove(6);
-    }
-    else if (key.compareTo(settings.getDigit6())==1) {
-      if(conditionsToMove(7))
-        if(settings.getMaxColumns() >= 7)
-          return applyMove(7);
-    }
-    else if (key.compareTo(settings.getDigit7())==1) {
-      if(conditionsToMove(8))
-        if(settings.getMaxColumns() >= 8)
-          return applyMove(8);
-    }
-    else if (key.compareTo(settings.getDigit8())==1) {
-      if(conditionsToMove(9))
-        if(settings.getMaxColumns() >= 9)
-          return applyMove(9);
-    }
+
     return null;
   }
 
