@@ -66,7 +66,7 @@ public class FourInARowGame extends Game {
     FourInARowPlayer playerOnTheMove = getWhoIsOnTheMove();
 
     switchPlayer(playerOnTheMove);
-    return new FourInARowPoint(numberOfSelectedColumn, playerOnTheMove.getColorOfPlayersCoin());
+    return new FourInARowPoint(numberOfSelectedColumn, playerOnTheMove.getColorOfPlayersCoin(),fillingColumns[numberOfSelectedColumn]-1);
   }
 
   private void switchPlayer(FourInARowPlayer playerOnTheMove)

@@ -1,5 +1,6 @@
 package org.puzzlebattle.client.games.fourinarow;
 
+import javafx.application.Platform;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -41,6 +42,9 @@ public class PanelGrid extends Pane {
       createLabels(this,initialSpace/2,spaceFromTop,width,columns);
   }
 
+  public double getThicknessOfRows() { return thicknessOfRows; }
+
+  public double getDistanceOfColumns() {return distanceOfColumns; }
 
   private void createGrids(Pane panel, double X, double Y, double width, double height, Color colorOfRows,Color colorOfColumns) {
 
@@ -116,6 +120,7 @@ public class PanelGrid extends Pane {
 
     for(int i=0; i<grid.size(); i++) {
       rectangleForRepaint =  grid.get(i);
+      rectangleForRepaint.toFront();
       rectangleForRepaint.relocate(rectangleForRepaint.getX(),rectangleForRepaint.getY());
     }
   }

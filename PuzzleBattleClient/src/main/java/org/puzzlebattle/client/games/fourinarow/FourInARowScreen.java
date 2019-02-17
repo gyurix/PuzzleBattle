@@ -10,6 +10,7 @@ import javafx.stage.Stage;
 import org.puzzlebattle.client.screen.AbstractScreen;
 
 import java.util.ArrayList;
+import java.util.Timer;
 
 import static org.puzzlebattle.client.ClientLauncher.lang;
 
@@ -43,7 +44,9 @@ public class FourInARowScreen extends AbstractScreen {
   public Coin createCoin(FourInARowPoint fourInARowPoint)
   {
         double initialPositionX = ((PanelGrid) pane).calculatePositionForCoin(fourInARowPoint.getNumberOfColumn());
-        Coin newCoin = new Coin(initialPositionX,fourInARowPoint.getColorOfPlayerForCoin());
+        double thicknessOfRows = ((PanelGrid) pane).getThicknessOfRows();
+        double ballSize= ((PanelGrid) pane).getDistanceOfColumns();
+        Coin newCoin = new Coin(initialPositionX,fourInARowPoint.getColorOfPlayerForCoin(),(ballSize+thicknessOfRows)*fourInARowPoint.getCoinsInColumnBelow());
         coins.add(newCoin);
         pane.getChildren().add(newCoin);
 
@@ -63,7 +66,12 @@ public class FourInARowScreen extends AbstractScreen {
   }
 
   public void renderCoinFall(Coin newCoin) {
-    System.out.println("Render");
+
+    ((PanelGrid) pane ).repaintGrid();
+    //running timer task as daemon thread
+    Timer timer = new Timer(true);
+    timer.scheduleAtFixedRate(new CoinFall(50,400-newCoin.getMaximumHeighForFall(),this,newCoin), 0, 100);
+
   }
 
   public void repaintCoins() {
@@ -79,10 +87,7 @@ public class FourInARowScreen extends AbstractScreen {
 
   public void repaint(double X, double Y, Coin coin)
   {
-    coin.relocate(X,Y);
-    repaintCoins();
-    ((PanelGrid) pane ).repaintGrid();
-
+      coin.relocate(X,Y);
   }
 }
 
