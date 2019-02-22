@@ -5,6 +5,15 @@ import javafx.scene.paint.Color;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+
+/**
+ * Player settings are stored here. For example movementIntensity or codes for keys,
+ * which are used to control game while playing.
+ *
+ * @author (Juraj Barath)
+ * @version (1.0)
+ */
+
 @AllArgsConstructor
 @Data
 public class BouncerPlayerSettings {

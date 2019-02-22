@@ -11,12 +11,34 @@ import org.puzzlebattle.client.games.bouncer.BallBouncerScreen;
 import org.puzzlebattle.client.games.bouncer.BouncerGame;
 import org.puzzlebattle.client.games.bouncer.BouncerGameSettings;
 
+/**
+ * Write a description of class SkladPonuka here.
+ *
+ * @author (Juraj Barath, Jakub Perdek)
+ * @version (1.0)
+ */
+
 public class ClientLauncher extends Application {
   public static LangFile lang;
+
+
+  /**
+   * Method where application starts
+   *
+   * @param  args  arguments, which can be set before start of program
+   */
 
   public static void main(String[] args) {
     Application.launch();
   }
+
+
+  /**
+   * Basic settings as language, name of the game, version will be applied.
+   * This is client program launcher. Here client application strats.
+   *
+   * @param  stage  the first stage which will be displayed
+   */
 
   public void start(Stage stage) {
     LangFile english = new LangFile("en");

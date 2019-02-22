@@ -6,12 +6,25 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import lombok.Getter;
 
+
+/**
+ * Write a description of class SkladPonuka here.
+ *
+ * @author (Juraj Barath)
+ * @version (1.0)
+ */
+
 @Getter
 public class BouncerPlayer {
   private BouncerGame game;
   private Bouncer bouncer;
   private int goalCount;
   private Text goals;
+
+
+  /**
+   * Constructor for objects of class SkladPonuka
+   */
 
   public BouncerPlayer(BouncerGame game, Bouncer bouncer, Color textColor) {
     this.game = game;
@@ -20,6 +33,14 @@ public class BouncerPlayer {
     goals.setFont(new Font(24));
     goals.setFill(textColor);
   }
+
+
+  /**
+   * An example of a method - replace this comment with your own
+   *
+   * @param  y  a sample parameter for a method
+   * @return    the sum of x and y
+   */
 
   public void goal() {
     ++goalCount;

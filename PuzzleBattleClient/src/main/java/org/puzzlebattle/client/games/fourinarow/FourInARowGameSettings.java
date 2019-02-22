@@ -7,6 +7,15 @@ import lombok.Data;
 
 import static javafx.scene.input.KeyCode.*;
 
+
+/**
+ * Settings for four in a row game are stored here.
+ * Class contains KeyCodes for digits and numpads, preffered background color and number of columns and rows in the game.
+ *
+ * @author (Jakub Perdek)
+ * @version (1.0)
+ */
+
 @AllArgsConstructor
 @Data
 public class FourInARowGameSettings {
@@ -17,14 +26,35 @@ public class FourInARowGameSettings {
   private Color backgroundColor = Color.GAINSBORO;
 
   private int maxColumns =7;
-  private int maxRows = 5;
+  private  int maxRows = 5;
+
+
+  /**
+   * Empty constructor for applying Four in a row game settings
+   */
 
   public FourInARowGameSettings(){
   }
 
+
+  /**
+   * Method which stores KeyCode representation of digits, which can be pressed on keyboard.
+   *
+   * @param  x  number in sequence of selected digit
+   * @return    KeyCode of selected digit, representation of digit key which is pressed
+   */
+
   public static KeyCode getDigit(int x) {
     return (x<10)? digit[x] : null;
   }
+
+
+  /**
+   * Method which stores KeyCode representation of numpads, which can be pressed on keyboard.
+   *
+   * @param  x  number in sequence of selected numpad
+   * @return    KeyCode of selected numpad, representation of numpad key which is pressed
+   */
 
   public static KeyCode getNumpad(int x) {
     return (x<10)? numpad[x] : null;

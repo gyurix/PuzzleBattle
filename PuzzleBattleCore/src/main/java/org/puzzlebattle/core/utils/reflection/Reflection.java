@@ -7,6 +7,13 @@ import com.google.gson.JsonObject;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Write a description of class SkladPonuka here.
+ *
+ * @author (Juraj Barath)
+ * @version (1.0)
+ */
+
 public class Reflection {
   public static final Gson GSON = new Gson();
   static HashMap<FieldAccessor, FieldAccessor> fields = new HashMap<FieldAccessor, FieldAccessor>();

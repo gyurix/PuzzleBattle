@@ -6,11 +6,26 @@ import javafx.scene.shape.Rectangle;
 import lombok.Getter;
 
 
+/**
+ * Bouncer with its attributes are prepared here.
+ *
+ * @author (Juraj Barath)
+ * @version (1.0)
+ */
+
 @Getter
 public class Bouncer extends Rectangle {
   private Color color;
   private BouncerGame game;
 
+
+  /**
+   * Constructor enables to create certain type of bouncer
+   * Many attributes can be specified:
+   *    -color
+   *    -position
+   *    -size
+   */
 
   public Bouncer(BouncerGame game, double x, double y, double width, double height, Color color) {
     super(x, y, width, height);
@@ -22,9 +37,25 @@ public class Bouncer extends Rectangle {
     setStroke(color);
   }
 
+
+  /**
+   * An example of a method - replace this comment with your own
+   *
+   * @param  y  a sample parameter for a method
+   * @return    the sum of x and y
+   */
+
   public double getCenterY() {
     return getY() + getHeight() / 2;
   }
+
+
+  /**
+   * An example of a method - replace this comment with your own
+   *
+   * @param  y  a sample parameter for a method
+   * @return    the sum of x and y
+   */
 
   public boolean contains(BouncerBall ball) {
     for (double x = -1; x <= 1; x += 0.2) {
@@ -35,6 +66,14 @@ public class Bouncer extends Rectangle {
     }
     return false;
   }
+
+
+  /**
+   * An example of a method - replace this comment with your own
+   *
+   * @param  y  a sample parameter for a method
+   * @return    the sum of x and y
+   */
 
   public Point2D getAppliedVelocity(BouncerBall ball, double yMultiplier) {
     if (!contains(ball))

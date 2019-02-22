@@ -4,6 +4,15 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import lombok.Data;
 
+
+/**
+ * Setting for a ball bouncer game are stored here. Settings for both players, you and enemy are created
+ * here too. Special values which contain are ready for use.
+ *
+ * @author (Juraj Barath)
+ * @version (1.0)
+ */
+
 @Data
 public class BouncerGameSettings {
   private Color backgroundColor = Color.BLACK;

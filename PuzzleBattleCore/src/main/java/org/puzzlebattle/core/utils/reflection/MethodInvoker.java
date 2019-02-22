@@ -3,6 +3,13 @@ package org.puzzlebattle.core.utils.reflection;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 
+/**
+ * Write a description of class SkladPonuka here.
+ *
+ * @author (Juraj Barath)
+ * @version (1.0)
+ */
+
 public class MethodInvoker {
   private Class cl;
   private Method method;

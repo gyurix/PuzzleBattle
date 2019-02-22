@@ -1,6 +1,23 @@
 package org.puzzlebattle.core.utils;
 
+/**
+ * Variable units
+ *
+ * @author (Juraj Barath)
+ * @version (1.0)
+ */
+
 public class VariableUtils {
+
+
+  /**
+   * Adump
+   *
+   * @param  in  input
+   * @param  vars  list of variables
+   * @return    string from variables
+   */
+
   public static String dump(String in, Object... vars) {
     if (vars.length < 2)
       return in;
@@ -17,6 +34,15 @@ public class VariableUtils {
     out.setCharAt(out.length() - 1, '}');
     return out.toString();
   }
+
+
+  /**
+   * fill
+   *
+   * @param  in  input
+   * @param  vars  list of variables
+   * @return    string from variables
+   */
 
   public static String fill(String in, Object... vars) {
     String k = null;

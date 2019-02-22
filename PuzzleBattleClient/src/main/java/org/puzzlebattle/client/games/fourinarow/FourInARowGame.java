@@ -9,6 +9,13 @@ import org.puzzlebattle.client.games.bouncer.BouncerGameSettings;
 import java.util.ArrayList;
 
 
+/**
+ * Write a description of class SkladPonuka here.
+ *
+ * @author (Jakub Perdek)
+ * @version (1.0)
+ */
+
 public class FourInARowGame extends Game {
 
   private FourInARowGameSettings settings;
@@ -17,6 +24,10 @@ public class FourInARowGame extends Game {
 
   private int fillingColumns[];
 
+
+  /**
+   * Four in a row game is created, players with specific colors are added, setting are stored.
+   */
 
   public FourInARowGame(Object serverConnection, FourInARowGameSettings settings) {
 
@@ -31,15 +42,37 @@ public class FourInARowGame extends Game {
     createFillingColumns();
   }
 
+
+  /**
+   * Settings for a game can be obtained from here.
+   *
+   * @return    settings for Four in a row game
+   */
+
   public FourInARowGameSettings getFourInARowGameSettings() {
     return settings;
   }
+
+
+  /**
+   * For every column, counter of coins inserted is set on null - zero
+   * Counter is created here.
+   *
+   */
 
   private void createFillingColumns() {
       fillingColumns = new int[settings.getMaxColumns()+1];
       for(int i=0;i<settings.getMaxColumns()+1;i++)
         fillingColumns[i]=0;
   }
+
+
+  /**
+   * Analyse if correct key was pressed on the keyboard.
+   *
+   * @param  key  key which was pressed
+   * @return    information about selected column, color of player on the move and other necessary information
+   */
 
   public FourInARowPoint questionForMove(KeyCode key) {
 
@@ -52,6 +85,15 @@ public class FourInARowGame extends Game {
     return null;
   }
 
+
+  /**
+   * Analyse conditions to move. Maximum number of columns can't be higher then number of available columns and
+   * counter of coins shouldn't be higher then capacity of every column.
+   *
+   * @param  column  selected column by player, where coin will fall
+   * @return    true if move can be accepted, or false if not
+   */
+
   private boolean conditionsToMove(int column)
   {
     if(settings.getMaxColumns() >= column && fillingColumns[column]<=settings.getMaxRows())
@@ -59,6 +101,15 @@ public class FourInARowGame extends Game {
     else
       return false;
   }
+
+
+  /**
+   * Steps which are necessary if move was accepted. Counter of coins in specific column must be increased.
+   * Player is found, his move is taken and set to next player. Information about falling coin are stored into FourInARowPoint object.
+   *
+   * @param  numberOfSelectedColumn  selected column by player
+   * @return    information about column and coin, which will be added into it
+   */
 
   private FourInARowPoint applyMove(int numberOfSelectedColumn) {
 
@@ -68,6 +119,13 @@ public class FourInARowGame extends Game {
     switchPlayer(playerOnTheMove);
     return new FourInARowPoint(numberOfSelectedColumn, playerOnTheMove.getColorOfPlayersCoin(),fillingColumns[numberOfSelectedColumn]-1);
   }
+
+
+  /**
+   * Method where player on the move lost his move and another player in sequence obtains this move
+   *
+   * @param  playerOnTheMove  player who is on the move
+   */
 
   private void switchPlayer(FourInARowPlayer playerOnTheMove)
   {
@@ -86,6 +144,13 @@ public class FourInARowGame extends Game {
     players.get(number-1).setMove();
 
   }
+
+
+  /**
+   * Method where person who is on the move is selected and returned.
+   *
+   * @return    player on the move
+   */
 
   private FourInARowPlayer getWhoIsOnTheMove() {
     if(you.isOnTheMove())

@@ -3,6 +3,13 @@ package org.puzzlebattle.core.utils.reflection;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
+/**
+ * Write a description of class SkladPonuka here.
+ *
+ * @author (Juraj Barath)
+ * @version (1.0)
+ */
+
 public class FieldAccessor {
   private static Field modifierField;
 

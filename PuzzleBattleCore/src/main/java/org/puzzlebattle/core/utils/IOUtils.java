@@ -3,8 +3,24 @@ package org.puzzlebattle.core.utils;
 import java.io.*;
 import java.nio.charset.Charset;
 
+
+/**
+ * Write a description of class SkladPonuka here.
+ *
+ * @author (Juraj Barath)
+ * @version (1.0)
+ */
+
 public class IOUtils {
   public static final Charset UTF8 = Charset.forName("UTF-8");
+
+
+  /**
+   * File to string, if can't convert, then returns null
+   *
+   * @param  fileName  name of the file
+   * @return    string in UTF8
+   */
 
   public static String fileToString(String fileName) {
     try {
@@ -16,11 +32,26 @@ public class IOUtils {
     return null;
   }
 
+
+  /**
+   * Reads and transloads stream
+   *
+   * @param  is  input stream
+   * @return    byte buffer
+   */
+
   public static byte[] readStreamFully(InputStream is) {
     ByteArrayOutputStream bos = new ByteArrayOutputStream();
     transloadStream(is, bos);
     return bos.toByteArray();
   }
+
+
+  /**
+   * Saving resources
+   *
+   * @param  names  list of names
+   */
 
   public static void saveResources(String... names) {
     for (String name : names) {
@@ -34,6 +65,14 @@ public class IOUtils {
       }
     }
   }
+
+
+  /**
+   * Transloads of the stream
+   *
+   * @param  is  input stream
+   * @param  os output stream
+   */
 
   public static void transloadStream(InputStream is, OutputStream os) {
     try {

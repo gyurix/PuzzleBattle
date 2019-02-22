@@ -14,6 +14,14 @@ import java.util.Timer;
 
 import static org.puzzlebattle.client.ClientLauncher.lang;
 
+
+/**
+ * Screen for Four in a row game
+ *
+ * @author (Jakub Perdek)
+ * @version (1.0)
+ */
+
 public class FourInARowScreen extends AbstractScreen {
 
   private FourInARowGame game;
@@ -24,6 +32,11 @@ public class FourInARowScreen extends AbstractScreen {
   //private PanelGrid panGrid;
   private Point2D mapSize = new Point2D(400, 400);
 
+
+  /**
+   * Constructor for objects of class SkladPonuka
+   */
+
   public FourInARowScreen(Stage stage, FourInARowGame game) {
     super(stage);
     this.game= game;
@@ -31,15 +44,36 @@ public class FourInARowScreen extends AbstractScreen {
     pane.setBackground(new Background(new BackgroundFill(game.getFourInARowGameSettings().getBackgroundColor(), null, null)));
 }
 
+
+  /**
+   * Method  which is called on the close
+   *
+   */
+
   @Override
   public void onClose() {
     lang.msg("end.finished", "name", "Puzzle Battle Client", "version", "1.0");
   }
 
+
+  /**
+   * Method for registering events. Key listeners can be applied after pressing certain keys, but in other methods.
+   *
+   * @param  scene scene where events should be registered
+   */
+
   public void registerEvents(Scene scene) {
     scene.setOnKeyPressed((e) -> this.onKeyEvent(e.getCode()));
-  //  scene.setOnKeyReleased((e) -> this.onKeyEvent(e.getCode(), false));
   }
+
+
+  /**
+   * Coin is created here. First necessary values are obtained from fourInARowPoint to specify coin.
+   * After creation of coin is added to pane.
+   *
+   * @param  fourInARowPoint  necessary information for creating coin
+   * @return    created coin
+   */
 
   public Coin createCoin(FourInARowPoint fourInARowPoint)
   {
@@ -53,6 +87,14 @@ public class FourInARowScreen extends AbstractScreen {
         return newCoin;
   }
 
+
+  /**
+   * If instance of fourInARowPoint is created, is not null, then coin can be created.
+   * After calling special method, which creates coin, coin fall can be rendered.
+   *
+   * @param  key  key which is pressed
+   */
+
   public void onKeyEvent(KeyCode key) {
       FourInARowPoint fourInARowPoint = null;
       fourInARowPoint= game.questionForMove(key);
@@ -65,6 +107,14 @@ public class FourInARowScreen extends AbstractScreen {
 
   }
 
+
+  /**
+   * Rendering of coin fall is provided here. At first all components are repainted and set to a front.
+   * Then in background coin fall is simulated.
+   *
+   * @param  newCoin  new coin, which will be falling from certain position
+   */
+
   public void renderCoinFall(Coin newCoin) {
 
     ((PanelGrid) pane ).repaintGrid();
@@ -73,6 +123,12 @@ public class FourInARowScreen extends AbstractScreen {
     timer.scheduleAtFixedRate(new CoinFall(50,400-newCoin.getMaximumHeighForFall(),this,newCoin), 0, 100);
 
   }
+
+
+  /**
+   * All created coins are relocated, if their position has been changed.
+   *
+   */
 
   public void repaintCoins() {
 
@@ -84,6 +140,14 @@ public class FourInARowScreen extends AbstractScreen {
     }
   }
 
+
+  /**
+   * Relocation of the coin. Used to render coin fall.
+   *
+   * @param  X  new X coordinate for coin
+   * @param  Y  new Y coordinate for coin
+   * @param  coin  falling coin, which must be relocated while falling
+   */
 
   public void repaint(double X, double Y, Coin coin)
   {

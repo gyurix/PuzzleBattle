@@ -11,6 +11,13 @@ import java.security.*;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.Random;
 
+/**
+ * Utils for encryption
+ *
+ * @author (Juraj Barath)
+ * @version (1.0)
+ */
+
 public class EncryptionUtils {
   private static KeyGenerator aesGenerator;
   private static Random random = new Random();
@@ -47,6 +54,11 @@ public class EncryptionUtils {
   @Setter
   private PublicKey rsaEncryptKey;
 
+
+  /**
+   * Constructor for encryption utils
+   */
+
   public EncryptionUtils() {
     try {
       rsaCipher = Cipher.getInstance("RSA");
@@ -56,9 +68,23 @@ public class EncryptionUtils {
     }
   }
 
+
+  /**
+   * Method which generates EAS key
+   *
+   * @return   EAS key
+   */
+
   public static Key generateAES() {
     return aesGenerator.generateKey();
   }
+
+
+  /**
+   * Method which generate IV
+   *
+   * @return    Iv parameter spec
+   */
 
   public static IvParameterSpec generateIV() {
     byte[] data = new byte[16];
@@ -66,17 +92,48 @@ public class EncryptionUtils {
     return new IvParameterSpec(data);
   }
 
+
+  /**
+   * Key pair will be generated
+   *
+   * @return    generated key pair
+   */
+
   public static KeyPair generateRSA() {
     return rsaGenerator.generateKeyPair();
   }
+
+
+  /**
+   * Conversion to EAS key
+   *
+   * @param  key  data which represents key in buffer
+   * @return    the sum of x and y
+   */
 
   public static Key toAESKey(byte[] key) {
     return new SecretKeySpec(key, "AES");
   }
 
+
+  /**
+   * A conversion to Iv
+   *
+   * @param  data  data in buffer
+   * @return    IV parameter spec
+   */
+
   public static IvParameterSpec toIV(byte[] data) {
     return new IvParameterSpec(data);
   }
+
+
+  /**
+   * In this method RSA public key will be generated from buffer
+   *
+   * @param  key  buffer with decoded key
+   * @return    RSA public key
+   */
 
   public static PublicKey toRSAPublicKey(byte[] key) {
     try {
@@ -85,6 +142,13 @@ public class EncryptionUtils {
       throw new RuntimeException(e);
     }
   }
+
+  /**
+   * Decryption of EAS
+   *
+   * @param  data data in buffer
+   * @return    decrypted EAS, byte buffer
+   */
 
   public byte[] decryptAES(byte[] data) {
     try {
@@ -101,6 +165,14 @@ public class EncryptionUtils {
     }
   }
 
+
+  /**
+   * Decryption of RSA
+   *
+   * @param  data data in buffer
+   * @return    decrypted RSA, byte buffer, if any error- null
+   */
+
   public byte[] decryptRSA(byte[] data) {
     try {
       rsaCipher.init(Cipher.DECRYPT_MODE, rsaDecryptKey);
@@ -110,6 +182,14 @@ public class EncryptionUtils {
       return null;
     }
   }
+
+
+  /**
+   * Encryption of EAS
+   *
+   * @param  data  data in buffer
+   * @return    encrypted EAS, byte buffer
+   */
 
   public byte[] encryptAES(byte[] data) {
     try {
@@ -124,6 +204,14 @@ public class EncryptionUtils {
       return null;
     }
   }
+
+
+  /**
+   * An example of a method - replace this comment with your own
+   *
+   * @param  data data in buffer
+   * @return    encrypted RSA, byte buffer
+   */
 
   public byte[] encryptRSA(byte[] data) {
     try {

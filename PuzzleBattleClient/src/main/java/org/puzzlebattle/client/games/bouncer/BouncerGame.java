@@ -7,6 +7,14 @@ import org.puzzlebattle.client.games.Game;
 
 import java.util.Random;
 
+
+/**
+ * Ball Bouncer game class. Events, ball and players are controlled here.
+ *
+ * @author (Juraj Barath, Jakub Perdek)
+ * @version (1.0)
+ */
+
 @Getter
 public class BouncerGame extends Game {
   private Point2D mapSize = new Point2D(720, 720);
@@ -18,6 +26,10 @@ public class BouncerGame extends Game {
   private BouncerPlayer you, enemy;
 
 
+  /**
+   * Constructor for objects of class SkladPonuka
+   */
+
   public BouncerGame(Object serverConnection, BouncerGameSettings settings) {
     super(serverConnection);
     this.settings = settings;
@@ -26,10 +38,26 @@ public class BouncerGame extends Game {
     createYou();
   }
 
+
+  /**
+   * An example of a method - replace this comment with your own
+   *
+   * @param  y  a sample parameter for a method
+   * @return    the sum of x and y
+   */
+
   private void createBall() {
     ball = new BouncerBall(this, 20);
     resetBall();
   }
+
+
+  /**
+   * An example of a method - replace this comment with your own
+   *
+   * @param  y  a sample parameter for a method
+   * @return    the sum of x and y
+   */
 
   private void createEnemy() {
     enemy = new BouncerPlayer(this,
@@ -38,6 +66,14 @@ public class BouncerGame extends Game {
     );
   }
 
+
+  /**
+   * An example of a method - replace this comment with your own
+   *
+   * @param  y  a sample parameter for a method
+   * @return    the sum of x and y
+   */
+
   private void createYou() {
     you = new BouncerPlayer(this,
             new Bouncer(this, mapSize.getX() / 2 - 50, (mapSize.getY() - mapSize.getY() / 32) - 7.5, 100, 15, settings.getYou().getColor()),
@@ -45,13 +81,37 @@ public class BouncerGame extends Game {
     );
   }
 
+
+  /**
+   * An example of a method - replace this comment with your own
+   *
+   * @param  y  a sample parameter for a method
+   * @return    the sum of x and y
+   */
+
   public boolean isEnemyFailed() {
     return ball.getCenterY() < mapSize.getY() / 32;
   }
 
+
+  /**
+   * An example of a method - replace this comment with your own
+   *
+   * @param  y  a sample parameter for a method
+   * @return    the sum of x and y
+   */
+
   public boolean isYouFailed() {
     return ball.getCenterY() > mapSize.getY() - mapSize.getY() / 32;
   }
+
+
+  /**
+   * An example of a method - replace this comment with your own
+   *
+   * @param  y  a sample parameter for a method
+   * @return    the sum of x and y
+   */
 
   public void move(boolean left, boolean right, BouncerPlayer player, double intensity) {
     if (left && right)
@@ -63,6 +123,14 @@ public class BouncerGame extends Game {
     else if (right)
       bouncer.setX(Math.min(mapSize.getX() - bouncer.getWidth(), x + intensity));
   }
+
+
+  /**
+   * An example of a method - replace this comment with your own
+   *
+   * @param  y  a sample parameter for a method
+   * @return    the sum of x and y
+   */
 
   public void onKeyEvent(KeyCode key, boolean pressed) {
     if (key == settings.getYou().getLeft())
@@ -77,6 +145,14 @@ public class BouncerGame extends Game {
     }
   }
 
+
+  /**
+   * An example of a method - replace this comment with your own
+   *
+   * @param  y  a sample parameter for a method
+   * @return    the sum of x and y
+   */
+
   public void resetBall() {
     ball.setCenterX(mapSize.getX() / 2);
     ball.setCenterY(mapSize.getY() / 2);
@@ -84,6 +160,14 @@ public class BouncerGame extends Game {
     ball.setVelocity(new Point2D((random.nextBoolean() ? -1 : 1) * (2 + random.nextDouble() * 2),
             (random.nextBoolean() ? -1 : 1) * (1 + random.nextDouble() * 2)));
   }
+
+
+  /**
+   * An example of a method - replace this comment with your own
+   *
+   * @param  y  a sample parameter for a method
+   * @return    the sum of x and y
+   */
 
   public void tick() {
     move(left1, right1, you, settings.getYou().getMovementIntensity());
