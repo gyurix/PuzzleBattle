@@ -9,6 +9,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -19,12 +20,11 @@ import java.util.ArrayList;
  */
 
 public class PanelGrid extends Pane {
-
   private final int fontSize = 20;
   private int columns = 7;
-  private double distanceOfColumns;
+  private int distanceOfColumns;
   private Font font;
-  private ArrayList<Rectangle> grid = new ArrayList<Rectangle>();
+  private List<Rectangle> grid = new ArrayList<Rectangle>();
   private double initialSpace = 50;
   private Label label;
   private Rectangle rect;
@@ -48,8 +48,6 @@ public class PanelGrid extends Pane {
    */
 
   public PanelGrid(double X, double Y, double width, double height, FourInARowScreen fourInARowScreen) {
-    super();
-
     createGrids(this, rows, columns, width, height, Color.YELLOW, Color.GREEN);
     createLabels(this, initialSpace / 2, spaceFromTop, width, columns, fourInARowScreen);
   }
@@ -67,15 +65,24 @@ public class PanelGrid extends Pane {
   }
 
   /**
-   * Method which calculates distance, where coin will take
+   * Method which creates labels, to mark columns.
    *
-   * @param requestedColumn column where coin should fall
-   * @return location of Y coordinate, where coin should fall
+   * @param panel           panel where labels should be positioned
+   * @param positionX       position X where grid starts, X coordinate
+   * @param positionY       position Y where grid starts, Y coordinate
+   * @param widthOfWindow   width of whole window
+   * @param numberOfWindows number of windows in the row
    */
 
-  public double calculatePositionForCoin(int requestedColumn) {
+  private void createLabels(Pane panel, double positionX, double positionY, double widthOfWindow, int numberOfWindows, FourInARowScreen fourInARowScreen) {
+    this.distanceOfColumns = countRowSpace(numberOfWindows, widthOfWindow) - 1;
 
-    return initialSpace / 2 + requestedColumn * distanceOfColumns + requestedColumn * thicknessOfRows;
+    for (int number = 1; number <= numberOfWindows; number = number + 1) {
+      Label label = createLabel(positionX + number * distanceOfColumns + number * thicknessOfRows,
+              positionY, Integer.toString(number));
+      label.setOnMouseClicked(e -> handleLabel(e, fourInARowScreen));
+      panel.getChildren().add(label);
+    }
   }
 
   /**
@@ -88,7 +95,6 @@ public class PanelGrid extends Pane {
    */
 
   private int countColumnSpace(double numberOfColumns, double width) {
-
     double sizeOfRowGrids = numberOfColumns * thicknessOfRows;
     return (int) ((width - sizeOfRowGrids) / numberOfColumns);
   }
@@ -103,7 +109,6 @@ public class PanelGrid extends Pane {
    */
 
   private int countRowSpace(double numberOfRows, double width) {
-
     double sizeOfRowGrids = numberOfRows * thicknessOfRows;
     return (int) ((width - sizeOfRowGrids) / numberOfRows);
   }
@@ -119,9 +124,7 @@ public class PanelGrid extends Pane {
    * @param colorOfRows    color for rows, rectangles which run horizontally
    * @param colorOfColumns color for columns, rectangles which run vertically
    */
-
   private void createGrids(Pane panel, double X, double Y, double width, double height, Color colorOfRows, Color colorOfColumns) {
-
     int rowSpace = countRowSpace(X, width);
     int columnSpace = countColumnSpace(Y, width);
 
@@ -135,7 +138,6 @@ public class PanelGrid extends Pane {
       grid.add(createRectangle(i * rowSpace + initialSpace, initialSpace, thicknessOfColumns, height, colorOfColumns));
       panel.getChildren().add(grid.get(i + rows + 1));
     }
-
   }
 
   /**
@@ -146,9 +148,7 @@ public class PanelGrid extends Pane {
    * @param context   text which will be displayed on the label
    * @return created label
    */
-
   private Label createLabel(double positionX, double positionY, String context) {
-
     label = new Label(context);
     applySettingsOnLabel(label);
     label.relocate(positionX, positionY);
@@ -156,27 +156,14 @@ public class PanelGrid extends Pane {
   }
 
   /**
-   * Method which creates labels, to mark columns.
+   * Method which calculates distance, where coin will take
    *
-   * @param panel           panel where labels should be positioned
-   * @param positionX       position X where grid starts, X coordinate
-   * @param positionY       position Y where grid starts, Y coordinate
-   * @param widthOfWindow   width of whole window
-   * @param numberOfWindows number of windows in the row
+   * @param requestedColumn column where coin should fall
+   * @return location of Y coordinate, where coin should fall
    */
 
-  private void createLabels(Pane panel, double positionX, double positionY, double widthOfWindow, int numberOfWindows, FourInARowScreen fourInARowScreen) {
-
-    Label label;
-    this.distanceOfColumns = countRowSpace(numberOfWindows, widthOfWindow);
-    FourInARowScreen screen;
-
-    for (int number = 1; number <= numberOfWindows; number = number + 1) {
-      label = createLabel(positionX + number * distanceOfColumns + number * thicknessOfRows,
-              positionY, Integer.toString(number));
-      label.setOnMouseClicked(e -> handleLabel(e, fourInARowScreen));
-      panel.getChildren().add(label);
-    }
+  public double getColumnX(int requestedColumn) {
+    return initialSpace / 2 + requestedColumn * (distanceOfColumns + thicknessOfRows) + 4;
   }
 
   /**
@@ -192,7 +179,6 @@ public class PanelGrid extends Pane {
    */
 
   private Rectangle createRectangle(double X, double Y, double width, double height, Color color) {
-
     rect = new Rectangle(X, Y, width, height);
     rect.setFill(color);
     rect.setStroke(color);
@@ -224,25 +210,4 @@ public class PanelGrid extends Pane {
     String labelText = label.getText();
     fourInARowScreen.onKeyEvent(FourInARowGameSettings.getDigit(Integer.parseInt(labelText)));
   }
-
-  /**
-   * Method which repaints panel grid. Every component is relocated according to its coordinates and
-   * every part is set to the front.
-   */
-
-  public void repaintGrid() {
-
-    Rectangle rectangleForRepaint;
-
-    for (int i = 0; i < grid.size(); i++) {
-      rectangleForRepaint = grid.get(i);
-      rectangleForRepaint.toFront();
-      rectangleForRepaint.relocate(rectangleForRepaint.getX(), rectangleForRepaint.getY());
-    }
-  }
-
-  private void sourceHandler() {
-
-  }
-
 }

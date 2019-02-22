@@ -14,8 +14,8 @@ import java.util.ArrayList;
 /**
  * Screen where basic settings are prepared and Pane for drawing is created
  *
- * @author (Juraj Barath, Jakub Perdek)
- * @version (1.0)
+ * @author Juraj Barath, Jakub Perdek
+ * @version 1.0
  */
 
 @Getter

@@ -3,28 +3,24 @@ package org.puzzlebattle.client.games.fourinarow;
 /**
  * Four in a row entity
  *
- * @author (Jakub Perdek)
- * @version (1.0)
+ * @author Jakub Perdek, Juraj Barath
+ * @version 1.0
  */
-
 public class FourInARowEntity {
 
-  private int mapOfPlayers[][];
+  private int[][] mapOfPlayers;
   private int numberInRowToWin;
-  private int rowsOfMap, columnsOfMap;
-  //private FourInARowScreen gameScreen;
+  private int rows, columns;
 
-  public FourInARowEntity(int rowsOfMap, int columnsOfMap, int numberInRowToWin) {
-    this.rowsOfMap = rowsOfMap;
-    this.columnsOfMap = columnsOfMap;
+  public FourInARowEntity(int rows, int columns, int numberInRowToWin) {
+    this.rows = rows;
+    this.columns = columns;
     this.numberInRowToWin = numberInRowToWin;
-    mapOfPlayers = new int[columnsOfMap + 1][rowsOfMap + 1];
-    setNullToAMapValues(mapOfPlayers, this.rowsOfMap, this.columnsOfMap);
+    mapOfPlayers = new int[columns + 1][rows + 1];
+    setNullToAMapValues(mapOfPlayers, this.rows, this.columns);
   }
 
   private boolean analyseOfWinningMove(int row, int column, int playerNumber) {
-
-
     int pointsObtainedInARow = 0;
     int pointsObtainedInAColumn = 0;
     int toLeft, toRight, toDown;
@@ -42,7 +38,7 @@ public class FourInARowEntity {
       toLeft = toLeft - 1;
     }
 
-    while (toRight < columnsOfMap && mapOfPlayers[column][toRight] == playerNumber) {
+    while (toRight < columns && mapOfPlayers[column][toRight] == playerNumber) {
       pointsObtainedInARow = pointsObtainedInARow + 1;
       toRight = toRight + 1;
     }
@@ -54,15 +50,11 @@ public class FourInARowEntity {
 
     if (pointsObtainedInARow >= numberInRowToWin) {
       return true;
-    } else if (pointsObtainedInAColumn >= numberInRowToWin) {
-      return true;
-    }
-    return false;
+    } else return pointsObtainedInAColumn >= numberInRowToWin;
 
   }
 
   public void isWinningMove(FourInARowPlayer playerOnTheMove, int row, int column, FourInARowScreen gameScreen) {
-
     int playerNumber = playerOnTheMove.getPlayingNumber();
 
     if (analyseOfWinningMove(row, column, playerNumber)) {
@@ -72,7 +64,7 @@ public class FourInARowEntity {
     }
   }
 
-  public void setNullToAMapValues(int mapOfPlayers[][], int rowsOfMap, int columnsOfMap) {
+  public void setNullToAMapValues(int[][] mapOfPlayers, int rowsOfMap, int columnsOfMap) {
     for (int i = 0; i < columnsOfMap; i = i + 1) {
       for (int j = 0; j < rowsOfMap; j = j + 1) {
         mapOfPlayers[i][j] = 0;

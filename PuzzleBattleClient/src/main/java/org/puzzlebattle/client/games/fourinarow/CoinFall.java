@@ -1,46 +1,47 @@
 package org.puzzlebattle.client.games.fourinarow;
 
-import java.util.TimerTask;
+import javafx.animation.Timeline;
+import lombok.Setter;
 
 
 /**
  * Simulation of coin fall, falling coin from certain place -at selected column
  *
- * @author (Jakub Perdek)
- * @version (1.0)
+ * @author Jakub Perdek, Juraj Barath
+ * @version 1.0
  */
+public class CoinFall implements Runnable {
 
-public class CoinFall extends TimerTask {
-
-  private double i;
-  private Coin newCoin;
-  private FourInARowScreen screen;
-  private double to;
+  private Coin coin;
+  private double speed;
+  private double targetY;
+  @Setter
+  private Timeline timeline;
 
 
   /**
-   * Constructor which stores information about coin fall, as initial position from which coin starts fall
-   * and final position where coin stops falling. Certain representation of coin and screen on which the simulation will be drawn
-   * is prepared here too.
+   * Rendering task used for animating a coin fall.
+   *
+   * @param coin    - The fallable coin
+   * @param targetY - The coins target Y coordinate
+   * @param speed   - The coins falling speed
    */
-
-  public CoinFall(double from, double to, FourInARowScreen screen, Coin newCoin) {
-    super();
-    this.screen = screen;
-    this.newCoin = newCoin;
-    this.i = from;
-    this.to = to;
+  public CoinFall(FourInARowScreen screen, Coin coin, double targetY, double speed) {
+    this.coin = coin;
+    this.targetY = targetY;
+    this.speed = speed;
+    timeline = screen.scheduleAtFixedRate(16, this);
   }
 
 
   /**
-   * Repaint method to simulate coin fall. If coin crossed given distance, then it stops falling
+   * Applies the next frame of the animation.
+   * Automatically cancels the animation after the coin fully fell.
    */
-
   public void run() {
-    if (i < to) {
-      screen.repaint(newCoin.getInitialPozitionXForFall(), i, newCoin);
-      i += 20;
-    }
+    double toY = Math.min(targetY, coin.getCenterY() + speed);
+    coin.setCenterY(toY);
+    if (toY == targetY)
+      timeline.stop();
   }
 }

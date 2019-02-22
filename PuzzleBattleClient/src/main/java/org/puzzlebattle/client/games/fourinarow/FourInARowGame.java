@@ -3,6 +3,7 @@ package org.puzzlebattle.client.games.fourinarow;
 
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
+import lombok.Getter;
 import org.puzzlebattle.client.games.Game;
 
 import java.util.ArrayList;
@@ -16,10 +17,10 @@ import java.util.ArrayList;
  */
 
 public class FourInARowGame extends Game {
-
-  private int fillingColumns[];
+  private int[] fillingColumns;
   private FourInARowEntity fourInARowEntity;
   private ArrayList<FourInARowPlayer> players = new ArrayList<FourInARowPlayer>();
+  @Getter
   private FourInARowGameSettings settings;
   private FourInARowPlayer you, enemy;
 
@@ -29,7 +30,6 @@ public class FourInARowGame extends Game {
    */
 
   public FourInARowGame(Object serverConnection, FourInARowGameSettings settings) {
-
     super(serverConnection);
     this.settings = settings;
 
@@ -90,16 +90,6 @@ public class FourInARowGame extends Game {
   }
 
   /**
-   * Settings for a game can be obtained from here.
-   *
-   * @return settings for Four in a row game
-   */
-
-  public FourInARowGameSettings getFourInARowGameSettings() {
-    return settings;
-  }
-
-  /**
    * Method where person who is on the move is selected and returned.
    *
    * @return player on the move
@@ -124,7 +114,7 @@ public class FourInARowGame extends Game {
   public FourInARowPoint questionForMove(KeyCode key) {
 
     for (int i = 1; i < 10; i++)
-      if (key == settings.getDigit(i) || key == settings.getNumpad(i)) {
+      if (key == FourInARowGameSettings.getDigit(i) || key == FourInARowGameSettings.getNumpad(i)) {
         if (conditionsToMove(i)) {
           return applyMove(i);
         }
