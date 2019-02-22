@@ -32,7 +32,9 @@ public class FourInARowPlayer {
     playingNumber=counterOfPlayers;
   }
 
-
+  public static void nullNumberOfPlayers() {
+    counterOfPlayers = 0;
+  }
   /**
    * Method which specifies if concrete player is on the move, have rights to play at the moment
    *

@@ -21,7 +21,7 @@ public class FourInARowGame extends Game {
   private FourInARowGameSettings settings;
   private FourInARowPlayer you, enemy;
   private ArrayList<FourInARowPlayer> players = new ArrayList<FourInARowPlayer>();
-
+  private FourInARowEntity fourInARowEntity;
   private int fillingColumns[];
 
 
@@ -34,11 +34,13 @@ public class FourInARowGame extends Game {
     super(serverConnection);
     this.settings= settings;
 
+    FourInARowPlayer.nullNumberOfPlayers();
     you = new FourInARowPlayer(this,true,Color.RED);
     enemy = new FourInARowPlayer(this,false, Color.BLUE);
     players.add(you);
     players.add(enemy);
 
+    fourInARowEntity = new FourInARowEntity(settings.getMaxRows(),settings.getMaxColumns(), settings.getMaxInTheRow());
     createFillingColumns();
   }
 
@@ -117,7 +119,9 @@ public class FourInARowGame extends Game {
     FourInARowPlayer playerOnTheMove = getWhoIsOnTheMove();
 
     switchPlayer(playerOnTheMove);
-    return new FourInARowPoint(numberOfSelectedColumn, playerOnTheMove.getColorOfPlayersCoin(),fillingColumns[numberOfSelectedColumn]-1);
+    fourInARowEntity.setPlayerNumberToAMap(playerOnTheMove,fillingColumns[numberOfSelectedColumn],numberOfSelectedColumn);
+    return new FourInARowPoint(numberOfSelectedColumn, playerOnTheMove.getColorOfPlayersCoin(),
+                                        fillingColumns[numberOfSelectedColumn]-1,fourInARowEntity,playerOnTheMove);
   }
 
 

@@ -14,7 +14,8 @@ public class FourInARowPoint {
   private int numberOfColumn;
   private Color colorOfPlayerForCoin;
   private int coinsInColumnBelow;
-
+  private FourInARowEntity fourInARowEntity;
+  private FourInARowPlayer playerPoint;
 
   /**
    * Temporary stores information about future coin.
@@ -23,11 +24,13 @@ public class FourInARowPoint {
    *    -coin in column below, which are useful to specific height, distance, which coin will fall
    */
 
-  public FourInARowPoint(int numberOfColumn,Color colorOfPlayerForCoin, int coinsInColumnBelow) {
+  public FourInARowPoint(int numberOfColumn,Color colorOfPlayerForCoin, int coinsInColumnBelow,FourInARowEntity fourInARowEntity,FourInARowPlayer playerPoint) {
 
     this.numberOfColumn= numberOfColumn;
     this.colorOfPlayerForCoin= colorOfPlayerForCoin;
     this.coinsInColumnBelow = coinsInColumnBelow;
+    this.fourInARowEntity =fourInARowEntity;
+    this.playerPoint = playerPoint;
   }
 
 
@@ -56,5 +59,11 @@ public class FourInARowPoint {
    */
 
   public int getCoinsInColumnBelow() { return coinsInColumnBelow; }
+
+
+  public void isWinner(FourInARowScreen fourInARowScreen) {
+    fourInARowEntity.isWinningMove(playerPoint,coinsInColumnBelow+1,numberOfColumn,fourInARowScreen);
+  }
+
 
 }

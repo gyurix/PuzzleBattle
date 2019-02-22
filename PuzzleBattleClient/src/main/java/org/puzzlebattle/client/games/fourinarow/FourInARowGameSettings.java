@@ -25,8 +25,9 @@ public class FourInARowGameSettings {
 
   private Color backgroundColor = Color.GAINSBORO;
 
-  private int maxColumns =7;
-  private  int maxRows = 5;
+  private  int maxColumns =7;
+  private  int maxRows = 6;
+  private  int maxInTheRow = 5;
 
 
   /**

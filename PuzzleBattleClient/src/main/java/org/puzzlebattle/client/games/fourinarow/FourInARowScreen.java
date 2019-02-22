@@ -2,9 +2,11 @@ package org.puzzlebattle.client.games.fourinarow;
 
 import javafx.geometry.Point2D;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import org.puzzlebattle.client.screen.AbstractScreen;
@@ -103,6 +105,7 @@ public class FourInARowScreen extends AbstractScreen {
         Coin newCoin;
         newCoin = createCoin(fourInARowPoint);
         renderCoinFall(newCoin);
+        fourInARowPoint.isWinner(this);
       }
 
   }
@@ -152,6 +155,23 @@ public class FourInARowScreen extends AbstractScreen {
   public void repaint(double X, double Y, Coin coin)
   {
       coin.relocate(X,Y);
+  }
+
+
+  public void showWinnerScreen(FourInARowPlayer playerOnTheMove) {
+    WinningDialog winningDialog = new WinningDialog(this,playerOnTheMove);
+    winningDialog.initModality(Modality.WINDOW_MODAL);
+    winningDialog.initOwner(super.getStage());
+    winningDialog.show();
+  }
+
+  public void showDialogForNextMove()
+  {
+    Alert informationAlert = new Alert(Alert.AlertType.CONFIRMATION);
+    informationAlert.setTitle("Next player on the move");
+    informationAlert.setX(super.getWidth()-100);
+    informationAlert.setY(super.getHeight()-100);
+    informationAlert.showAndWait();
   }
 }
 
