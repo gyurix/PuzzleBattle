@@ -1,11 +1,14 @@
 package org.puzzlebattle.client.games.fourinarow;
 
 
+import javafx.event.EventHandler;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
+
 
 import java.util.ArrayList;
 
@@ -37,8 +40,8 @@ public class PanelGrid extends Pane {
    * Grid panel will be created 50 from top and 0, strictly on the left with specified width and height
    */
 
-  public PanelGrid(double width, double height) {
-      this(0,50,width, height);
+  public PanelGrid(double width, double height, FourInARowScreen fourInARowScreen) {
+      this(0,50,width, height,fourInARowScreen);
   }
 
 
@@ -47,11 +50,11 @@ public class PanelGrid extends Pane {
    * Specific Grid panel, where additionally position X and Y where panel should be situated can be set
    */
 
-  public PanelGrid(double X, double Y, double  width, double height) {
+  public PanelGrid(double X, double Y, double  width, double height,FourInARowScreen fourInARowScreen) {
       super();
 
       createGrids(this,rows,columns,width, height, Color.YELLOW, Color.GREEN);
-      createLabels(this,initialSpace/2,spaceFromTop,width,columns);
+      createLabels(this,initialSpace/2,spaceFromTop,width,columns,fourInARowScreen);
   }
 
 
@@ -167,17 +170,30 @@ public class PanelGrid extends Pane {
    * @param  numberOfWindows  number of windows in the row
    */
 
-  private void createLabels(Pane panel,double positionX, double positionY,double widthOfWindow,int numberOfWindows) {
+  private void createLabels(Pane panel,double positionX, double positionY,double widthOfWindow,int numberOfWindows,FourInARowScreen fourInARowScreen) {
 
+    Label label;
     this.distanceOfColumns = countRowSpace(numberOfWindows,widthOfWindow);
+    FourInARowScreen screen;
 
     for (int number = 1; number <= numberOfWindows; number = number + 1) {
-      panel.getChildren().add(createLabel(positionX+number*distanceOfColumns+ number*thicknessOfRows,
-              positionY, Integer.toString(number)));
+      label= createLabel(positionX+number*distanceOfColumns+ number*thicknessOfRows,
+              positionY, Integer.toString(number));
+      label.setOnMouseClicked(e->handleLabel(e,fourInARowScreen));
+      panel.getChildren().add(label);
     }
   }
 
+  private void handleLabel(MouseEvent event,FourInARowScreen fourInARowScreen) {
+    Label label = (Label) event.getSource();
+    String labelText = label.getText();
+    fourInARowScreen.onKeyEvent( FourInARowGameSettings.getDigit(Integer.parseInt(labelText)));
+  }
 
+  private void sourceHandler()
+  {
+
+  }
   /**
    * Method which calculates distance, where coin will take
    *

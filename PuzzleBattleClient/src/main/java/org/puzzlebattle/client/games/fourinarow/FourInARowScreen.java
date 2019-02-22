@@ -42,7 +42,7 @@ public class FourInARowScreen extends AbstractScreen {
   public FourInARowScreen(Stage stage, FourInARowGame game) {
     super(stage);
     this.game= game;
-    pane = new PanelGrid(0,0,mapSize.getX(),mapSize.getY());
+    pane = new PanelGrid(0,0,mapSize.getX(),mapSize.getY(),this);
     pane.setBackground(new Background(new BackgroundFill(game.getFourInARowGameSettings().getBackgroundColor(), null, null)));
 }
 
@@ -123,7 +123,7 @@ public class FourInARowScreen extends AbstractScreen {
     ((PanelGrid) pane ).repaintGrid();
     //running timer task as daemon thread
     Timer timer = new Timer(true);
-    timer.scheduleAtFixedRate(new CoinFall(50,400-newCoin.getMaximumHeighForFall(),this,newCoin), 0, 100);
+    timer.scheduleAtFixedRate(new CoinFall(50,400-newCoin.getMaximumHeighForFall(),this,newCoin), 0, 85);
 
   }
 
@@ -169,6 +169,7 @@ public class FourInARowScreen extends AbstractScreen {
   {
     Alert informationAlert = new Alert(Alert.AlertType.CONFIRMATION);
     informationAlert.setTitle("Next player on the move");
+    informationAlert.setContentText("Next player is on the move");
     informationAlert.setX(super.getWidth()-100);
     informationAlert.setY(super.getHeight()-100);
     informationAlert.showAndWait();

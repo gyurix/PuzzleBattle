@@ -19,7 +19,7 @@ public class FourInARowEntity {
     this.columnsOfMap = columnsOfMap;
     this.numberInRowToWin = numberInRowToWin;
     mapOfPlayers = new int[columnsOfMap+1][rowsOfMap+1];
-    setNullToAMapValues(mapOfPlayers, rowsOfMap,columnsOfMap);
+    setNullToAMapValues(mapOfPlayers, this.rowsOfMap,this.columnsOfMap);
   }
 
   public void setNullToAMapValues(int mapOfPlayers[][],int rowsOfMap,int columnsOfMap) {
@@ -49,6 +49,7 @@ public class FourInARowEntity {
 
    private boolean analyseOfWinningMove(int row,int column,int playerNumber){
 
+
       int pointsObtainedInARow = 0;
       int pointsObtainedInAColumn= 0;
       int toLeft, toRight, toDown;
@@ -66,7 +67,7 @@ public class FourInARowEntity {
         toLeft= toLeft - 1;
       }
 
-      while (toRight <= columnsOfMap && mapOfPlayers[column][toRight] == playerNumber){
+      while (toRight < columnsOfMap && mapOfPlayers[column][toRight] == playerNumber){
         pointsObtainedInARow= pointsObtainedInARow+1;
         toRight= toRight + 1;
       }

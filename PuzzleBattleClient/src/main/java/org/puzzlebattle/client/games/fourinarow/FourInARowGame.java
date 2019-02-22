@@ -80,8 +80,9 @@ public class FourInARowGame extends Game {
 
     for(int i=1;i<10;i++)
       if (key == settings.getDigit(i) || key == settings.getNumpad(i)) {
-        if(conditionsToMove(i))
-            return applyMove(i);
+        if(conditionsToMove(i)) {
+          return applyMove(i);
+        }
     }
 
     return null;
@@ -98,9 +99,10 @@ public class FourInARowGame extends Game {
 
   private boolean conditionsToMove(int column)
   {
-    if(settings.getMaxColumns() >= column && fillingColumns[column]<=settings.getMaxRows())
-        return true;
-    else
+    if(settings.getMaxColumns() >= column && fillingColumns[column]<settings.getMaxRows()) {
+      System.out.println(fillingColumns[column]+" <> "+settings.getMaxRows());
+      return true;
+    }    else
       return false;
   }
 
