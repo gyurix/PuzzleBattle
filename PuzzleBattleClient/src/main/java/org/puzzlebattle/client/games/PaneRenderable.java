@@ -16,7 +16,7 @@ public interface PaneRenderable {
   /**
    * Method for rendering pane.
    *
-   * @param  canvas  pane which should be renderes
+   * @param canvas pane which should be renderes
    */
 
   void render(Pane canvas);

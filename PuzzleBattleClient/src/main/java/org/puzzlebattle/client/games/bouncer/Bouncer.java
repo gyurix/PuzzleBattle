@@ -22,9 +22,9 @@ public class Bouncer extends Rectangle {
   /**
    * Constructor enables to create certain type of bouncer
    * Many attributes can be specified:
-   *    -color
-   *    -position
-   *    -size
+   * -color
+   * -position
+   * -size
    */
 
   public Bouncer(BouncerGame game, double x, double y, double width, double height, Color color) {
@@ -37,24 +37,11 @@ public class Bouncer extends Rectangle {
     setStroke(color);
   }
 
-
   /**
    * An example of a method - replace this comment with your own
    *
-   * @param  y  a sample parameter for a method
-   * @return    the sum of x and y
-   */
-
-  public double getCenterY() {
-    return getY() + getHeight() / 2;
-  }
-
-
-  /**
-   * An example of a method - replace this comment with your own
-   *
-   * @param  y  a sample parameter for a method
-   * @return    the sum of x and y
+   * @param y a sample parameter for a method
+   * @return the sum of x and y
    */
 
   public boolean contains(BouncerBall ball) {
@@ -67,12 +54,11 @@ public class Bouncer extends Rectangle {
     return false;
   }
 
-
   /**
    * An example of a method - replace this comment with your own
    *
-   * @param  y  a sample parameter for a method
-   * @return    the sum of x and y
+   * @param y a sample parameter for a method
+   * @return the sum of x and y
    */
 
   public Point2D getAppliedVelocity(BouncerBall ball, double yMultiplier) {
@@ -81,5 +67,16 @@ public class Bouncer extends Rectangle {
     double step = 5 / getWidth();
     double dif = (getX() - ball.getCenterX()) * step;
     return new Point2D(ball.getVelocity().getX() - dif, yMultiplier * (5 - Math.abs(dif) * 0.5));
+  }
+
+  /**
+   * An example of a method - replace this comment with your own
+   *
+   * @param y a sample parameter for a method
+   * @return the sum of x and y
+   */
+
+  public double getCenterY() {
+    return getY() + getHeight() / 2;
   }
 }

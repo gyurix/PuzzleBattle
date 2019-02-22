@@ -13,28 +13,28 @@ import javafx.stage.Stage;
 
 public class WinningDialog extends Stage {
 
+  private BorderPane border;
+  private Button closeButton;
+  private Font f;
+  private Image image;
+  private ImageView img1;
+  private Button newGame;
+  private Button returnToMenu;
   private Scene scene;
   private VBox verticalBox;
-  private Button newGame;
-  private Button closeButton;
-  private Button returnToMenu;
   private Label winner;
-  private BorderPane border;
-  private Font f;
-  private ImageView img1;
-  private Image image;
 
-  public WinningDialog(FourInARowScreen fourInARowScreen,FourInARowPlayer winningPlayer) {
-      prepareLayouts(fourInARowScreen);
-      scene = new Scene(border,fourInARowScreen.getWidth(),fourInARowScreen.getHeight());
-      applySettingsToStage(winningPlayer);
+  public WinningDialog(FourInARowScreen fourInARowScreen, FourInARowPlayer winningPlayer) {
+    prepareLayouts(fourInARowScreen);
+    scene = new Scene(border, fourInARowScreen.getWidth(), fourInARowScreen.getHeight());
+    applySettingsToStage(winningPlayer);
   }
 
   private void applySettingsToStage(FourInARowPlayer winningPlayer) {
     int playerNumber = winningPlayer.getPlayingNumber();
-    this.setTitle("Player number "+playerNumber + " is winner.");
+    this.setTitle("Player number " + playerNumber + " is winner.");
     this.setScene(scene);
-    this.setOnCloseRequest(e->onClose());
+    this.setOnCloseRequest(e -> onClose());
     this.sizeToScene();
   }
 
@@ -47,8 +47,40 @@ public class WinningDialog extends Stage {
     returnToMenu.setMaxWidth(Double.MAX_VALUE);
     closeButton.setMaxWidth(Double.MAX_VALUE);
 
-    closeButton.setOnAction(e->onClose());
-    newGame.setOnAction(e->startNewGame(fourInARowScreen));
+    closeButton.setOnAction(e -> onClose());
+    newGame.setOnAction(e -> startNewGame(fourInARowScreen));
+  }
+
+  private void createAndPrepareLabelWinner() {
+    winner = new Label("Winner");
+    winner.setMaxWidth(Double.MAX_VALUE);
+    f = new Font("Arial", 55);
+    winner.setFont(f);
+  }
+
+  public double getWinningDialogHeight() {
+    return 400;
+  }
+
+  public double getWinningDialogWidth() {
+    return 250;
+  }
+
+  private void onClose() {
+    this.close();
+    Platform.exit();
+  }
+
+  private void prepareLayouts(FourInARowScreen fourInARowScreen) {
+    border = new BorderPane();
+    border.setMaxSize(fourInARowScreen.getWidth(), fourInARowScreen.getHeight());
+    verticalBox = new VBox(10);
+    createAndPrepareButtons(fourInARowScreen);
+    verticalBox.getChildren().addAll(newGame, returnToMenu, closeButton);
+    border.setRight(verticalBox);
+    tryToAddImage();
+    createAndPrepareLabelWinner();
+    border.setTop(winner);
   }
 
   private void startNewGame(FourInARowScreen fourInARowScreen) {
@@ -57,46 +89,11 @@ public class WinningDialog extends Stage {
     new FourInARowScreen(fourInARowScreen.getStage(), new FourInARowGame(null, new FourInARowGameSettings())).show();
   }
 
-  private void onClose()
-  {
-    this.close();
-    Platform.exit();
-  }
-
-  private void createAndPrepareLabelWinner() {
-      winner = new Label("Winner");
-      winner.setMaxWidth(Double.MAX_VALUE);
-      f = new Font("Arial",55);
-      winner.setFont(f);
-  }
-
-  private void prepareLayouts(FourInARowScreen fourInARowScreen) {
-    border= new BorderPane();
-    border.setMaxSize(fourInARowScreen.getWidth(),fourInARowScreen.getHeight());
-    verticalBox= new VBox(10);
-    createAndPrepareButtons(fourInARowScreen);
-    verticalBox.getChildren().addAll(newGame,returnToMenu,closeButton);
-    border.setRight(verticalBox);
-    tryToAddImage();
-    createAndPrepareLabelWinner();
-    border.setTop(winner);
-  }
-
-  private void tryToAddImage()
-  {
-    String imageURL =  "file:///C:\\Users\\perdek\\IdeaProjects\\PuzzleBattle\\oldChap.png";
-    image =new Image(imageURL);
+  private void tryToAddImage() {
+    String imageURL = "file:///C:\\Users\\perdek\\IdeaProjects\\PuzzleBattle\\oldChap.png";
+    image = new Image(imageURL);
     img1 = new ImageView();
     img1.setImage(image);
     border.setLeft(img1);
-  }
-
-
-  public double getWinningDialogWidth() {
-    return 250;
-  }
-
-  public double getWinningDialogHeight(){
-    return 400;
   }
 }

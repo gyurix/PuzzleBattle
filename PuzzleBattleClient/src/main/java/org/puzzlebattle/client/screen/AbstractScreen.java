@@ -42,7 +42,7 @@ public abstract class AbstractScreen {
   /**
    * Method which returns height of the screen
    *
-   * @return    height of the screen, 480 by default
+   * @return height of the screen, 480 by default
    */
   public double getHeight() {
     return 480;
@@ -53,7 +53,6 @@ public abstract class AbstractScreen {
    * Method which returns title of the screen
    *
    * @return title of the screen, Puzzle Battle -name-
-   *
    */
   public String getTitle() {
     return "Puzzle Battle - " + getClass().getSimpleName().replace("Screen", "");
@@ -63,7 +62,7 @@ public abstract class AbstractScreen {
   /**
    * Method which returns width of the screen
    *
-   * @return    width of the screen, 640 by default
+   * @return width of the screen, 640 by default
    */
 
   public double getWidth() {
@@ -73,7 +72,6 @@ public abstract class AbstractScreen {
 
   /**
    * Method where is speciffied what to do after closing a window
-   *
    */
 
   public void onClose() {
@@ -83,7 +81,6 @@ public abstract class AbstractScreen {
   /**
    * In this method is specified what to do before closing a window.
    * All scheduled tasks must be stopped.
-   *
    */
 
   private void onCloseHandler() {
@@ -91,13 +88,21 @@ public abstract class AbstractScreen {
     onClose();
   }
 
+  /**
+   * Method where register events are set
+   *
+   * @param scene scene which is used to register events
+   */
+
+  public void registerEvents(Scene scene) {
+  }
 
   /**
    * New TimeLine will be created here, and task in specified duration will be launched
    *
-   * @param  duration  duration of the specific task
-   * @param  task  thread which will be launched
-   * @return    created TimeLine
+   * @param duration duration of the specific task
+   * @param task     thread which will be launched
+   * @return created TimeLine
    */
 
   public Timeline scheduleAtFixedRate(long duration, Runnable task) {
@@ -109,19 +114,8 @@ public abstract class AbstractScreen {
   }
 
   /**
-   * Method where register events are set
-   *
-   * @param  scene  scene which is used to register events
-   */
-
-  public void registerEvents(Scene scene) {
-  }
-
-
-  /**
    * New scene with applied pane where animations will be drawn.
    * Title, Height and width from this class will be set as size of the scene.
-   *
    */
   public void show() {
     scene = new Scene(pane, getWidth(), getHeight());

@@ -17,9 +17,9 @@ import java.util.Random;
 
 @Getter
 public class BouncerGame extends Game {
-  private Point2D mapSize = new Point2D(720, 720);
   private BouncerBall ball;
   private boolean left1, left2;
+  private Point2D mapSize = new Point2D(720, 720);
   private Random random = new Random();
   private boolean right1, right2;
   private BouncerGameSettings settings;
@@ -41,7 +41,6 @@ public class BouncerGame extends Game {
 
   /**
    * It creates a ball.
-   *
    */
 
   private void createBall() {
@@ -52,7 +51,6 @@ public class BouncerGame extends Game {
 
   /**
    * Enemy is created here.
-   *
    */
 
   private void createEnemy() {
@@ -65,7 +63,6 @@ public class BouncerGame extends Game {
 
   /**
    * It creates you.
-   *
    */
 
   private void createYou() {
@@ -79,7 +76,7 @@ public class BouncerGame extends Game {
   /**
    * Method which analyses if enemy don't get a goal.
    *
-   * @return    if you give a goal. Enemy does't catch ball
+   * @return if you give a goal. Enemy does't catch ball
    */
 
   public boolean isEnemyFailed() {
@@ -90,7 +87,7 @@ public class BouncerGame extends Game {
   /**
    * Method which analyses if you don't get a goal.
    *
-   * @return    if you fails. You don't catch ball.
+   * @return if you fails. You don't catch ball.
    */
 
   public boolean isYouFailed() {
@@ -101,10 +98,10 @@ public class BouncerGame extends Game {
   /**
    * An example of a method - replace this comment with your own
    *
-   * @param  left  a sample parameter for a method
-   * @param  right  a sample parameter for a method
-   * @param  player  a sample parameter for a method
-   * @param  intensity  a sample parameter for a method
+   * @param left      a sample parameter for a method
+   * @param right     a sample parameter for a method
+   * @param player    a sample parameter for a method
+   * @param intensity a sample parameter for a method
    */
 
   public void move(boolean left, boolean right, BouncerPlayer player, double intensity) {
@@ -122,8 +119,8 @@ public class BouncerGame extends Game {
   /**
    * Key event, which is triggered by special keys. These keys can manipulate with bouncers.
    *
-   * @param  key  used key
-   * @param  pressed  if button is pressed
+   * @param key     used key
+   * @param pressed if button is pressed
    */
 
   public void onKeyEvent(KeyCode key, boolean pressed) {
@@ -142,7 +139,6 @@ public class BouncerGame extends Game {
 
   /**
    * Resets a ball into its standard position
-   *
    */
 
   public void resetBall() {
@@ -156,7 +152,6 @@ public class BouncerGame extends Game {
 
   /**
    * Ticking of the ball
-   *
    */
 
   public void tick() {

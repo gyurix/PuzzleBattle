@@ -16,8 +16,8 @@ import lombok.Getter;
 
 @Getter
 public class BouncerPlayer {
-  private BouncerGame game;
   private Bouncer bouncer;
+  private BouncerGame game;
   private int goalCount;
   private Text goals;
 
@@ -37,7 +37,6 @@ public class BouncerPlayer {
 
   /**
    * If goal was given
-   *
    */
 
   public void goal() {

@@ -2,14 +2,10 @@ package org.puzzlebattle.client;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
-
 import org.puzzlebattle.client.games.fourinarow.FourInARowGame;
 import org.puzzlebattle.client.games.fourinarow.FourInARowGameSettings;
 import org.puzzlebattle.client.games.fourinarow.FourInARowScreen;
 import org.puzzlebattle.core.utils.LangFile;
-import org.puzzlebattle.client.games.bouncer.BallBouncerScreen;
-import org.puzzlebattle.client.games.bouncer.BouncerGame;
-import org.puzzlebattle.client.games.bouncer.BouncerGameSettings;
 
 /**
  * Write a description of class SkladPonuka here.
@@ -25,7 +21,7 @@ public class ClientLauncher extends Application {
   /**
    * Method where application starts
    *
-   * @param  args  arguments, which can be set before start of program
+   * @param args arguments, which can be set before start of program
    */
 
   public static void main(String[] args) {
@@ -37,7 +33,7 @@ public class ClientLauncher extends Application {
    * Basic settings as language, name of the game, version will be applied.
    * This is client program launcher. Here client application strats.
    *
-   * @param  stage  the first stage which will be displayed
+   * @param stage the first stage which will be displayed
    */
 
   public void start(Stage stage) {

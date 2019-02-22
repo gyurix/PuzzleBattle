@@ -32,7 +32,6 @@ public class BouncerBall extends Circle {
 
   /**
    * Thick of the ball
-   *
    */
 
   public void tick() {

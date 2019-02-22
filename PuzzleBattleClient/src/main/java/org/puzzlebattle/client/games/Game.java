@@ -21,7 +21,7 @@ public abstract class Game {
   /**
    * on message
    *
-   * @param  o  Json object
+   * @param o Json object
    */
 
   public void onMessage(JsonObject o) {
