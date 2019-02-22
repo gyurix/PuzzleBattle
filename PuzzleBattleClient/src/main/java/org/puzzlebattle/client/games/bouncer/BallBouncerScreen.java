@@ -36,10 +36,9 @@ public class BallBouncerScreen extends AbstractScreen {
 
 
   /**
-   * An example of a method - replace this comment with your own
+   * Returns height of the map
    *
-   * @param  y  a sample parameter for a method
-   * @return    the sum of x and y
+   * @return    height of the map
    */
 
   @Override
@@ -49,10 +48,9 @@ public class BallBouncerScreen extends AbstractScreen {
 
 
   /**
-   * An example of a method - replace this comment with your own
+   * Returns width of the map
    *
-   * @param  y  a sample parameter for a method
-   * @return    the sum of x and y
+   * @return    width of the map
    */
 
   @Override

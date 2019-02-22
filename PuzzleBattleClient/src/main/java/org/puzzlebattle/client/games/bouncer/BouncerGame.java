@@ -40,10 +40,8 @@ public class BouncerGame extends Game {
 
 
   /**
-   * An example of a method - replace this comment with your own
+   * It creates a ball.
    *
-   * @param  y  a sample parameter for a method
-   * @return    the sum of x and y
    */
 
   private void createBall() {
@@ -53,10 +51,8 @@ public class BouncerGame extends Game {
 
 
   /**
-   * An example of a method - replace this comment with your own
+   * Enemy is created here.
    *
-   * @param  y  a sample parameter for a method
-   * @return    the sum of x and y
    */
 
   private void createEnemy() {
@@ -68,10 +64,8 @@ public class BouncerGame extends Game {
 
 
   /**
-   * An example of a method - replace this comment with your own
+   * It creates you.
    *
-   * @param  y  a sample parameter for a method
-   * @return    the sum of x and y
    */
 
   private void createYou() {
@@ -83,10 +77,9 @@ public class BouncerGame extends Game {
 
 
   /**
-   * An example of a method - replace this comment with your own
+   * Method which analyses if enemy don't get a goal.
    *
-   * @param  y  a sample parameter for a method
-   * @return    the sum of x and y
+   * @return    if you give a goal. Enemy does't catch ball
    */
 
   public boolean isEnemyFailed() {
@@ -95,10 +88,9 @@ public class BouncerGame extends Game {
 
 
   /**
-   * An example of a method - replace this comment with your own
+   * Method which analyses if you don't get a goal.
    *
-   * @param  y  a sample parameter for a method
-   * @return    the sum of x and y
+   * @return    if you fails. You don't catch ball.
    */
 
   public boolean isYouFailed() {
@@ -109,8 +101,10 @@ public class BouncerGame extends Game {
   /**
    * An example of a method - replace this comment with your own
    *
-   * @param  y  a sample parameter for a method
-   * @return    the sum of x and y
+   * @param  left  a sample parameter for a method
+   * @param  right  a sample parameter for a method
+   * @param  player  a sample parameter for a method
+   * @param  intensity  a sample parameter for a method
    */
 
   public void move(boolean left, boolean right, BouncerPlayer player, double intensity) {
@@ -126,10 +120,10 @@ public class BouncerGame extends Game {
 
 
   /**
-   * An example of a method - replace this comment with your own
+   * Key event, which is triggered by special keys. These keys can manipulate with bouncers.
    *
-   * @param  y  a sample parameter for a method
-   * @return    the sum of x and y
+   * @param  key  used key
+   * @param  pressed  if button is pressed
    */
 
   public void onKeyEvent(KeyCode key, boolean pressed) {
@@ -147,10 +141,8 @@ public class BouncerGame extends Game {
 
 
   /**
-   * An example of a method - replace this comment with your own
+   * Resets a ball into its standard position
    *
-   * @param  y  a sample parameter for a method
-   * @return    the sum of x and y
    */
 
   public void resetBall() {
@@ -163,10 +155,8 @@ public class BouncerGame extends Game {
 
 
   /**
-   * An example of a method - replace this comment with your own
+   * Ticking of the ball
    *
-   * @param  y  a sample parameter for a method
-   * @return    the sum of x and y
    */
 
   public void tick() {
