@@ -16,34 +16,39 @@ public class FourInARowEntity {
     this.rows = rows;
     this.columns = columns;
     this.numberInRowToWin = numberInRowToWin;
-    mapOfPlayers = new int[columns + 1][rows + 1];
+    this.mapOfPlayers = new int[columns + 1][rows + 1];
     setNullToAMapValues(mapOfPlayers, this.rows, this.columns);
   }
 
   private boolean analyseOfWinningMove(int row, int column, int playerNumber) {
+    row=row-1;
+    column=column-1;
+
     int pointsObtainedInARow = 0;
     int pointsObtainedInAColumn = 0;
     int toLeft, toRight, toDown;
 
+    System.out.println("HERE "+mapOfPlayers[column][row]);
     if (mapOfPlayers[column][row] == playerNumber) {
       pointsObtainedInAColumn = pointsObtainedInARow = 1;
     }
 
-    toLeft = row - 1;
-    toRight = row + 1;
-    toDown = column - 1;
+    toLeft = column - 1;
+    toRight = column + 1;
+    toDown = row- 1;
 
-    while (toLeft >= 0 && mapOfPlayers[column][toLeft] == playerNumber) {
+
+    while (toLeft >= 0 && mapOfPlayers[toLeft][row] == playerNumber) {
       pointsObtainedInARow = pointsObtainedInARow + 1;
       toLeft = toLeft - 1;
     }
 
-    while (toRight < columns && mapOfPlayers[column][toRight] == playerNumber) {
+    while (toRight < columns && toRight>=0 && mapOfPlayers[toRight][row] == playerNumber) {
       pointsObtainedInARow = pointsObtainedInARow + 1;
       toRight = toRight + 1;
     }
 
-    while (toDown >= 0 && mapOfPlayers[toDown][row] == playerNumber) {
+    while (toDown >= 0 && mapOfPlayers[column][toDown] == playerNumber) {
       pointsObtainedInAColumn = pointsObtainedInAColumn + 1;
       toDown = toDown - 1;
     }
@@ -65,15 +70,27 @@ public class FourInARowEntity {
   }
 
   public void setNullToAMapValues(int[][] mapOfPlayers, int rowsOfMap, int columnsOfMap) {
-    for (int i = 0; i < columnsOfMap; i = i + 1) {
-      for (int j = 0; j < rowsOfMap; j = j + 1) {
+   for (int i = 0; i < columnsOfMap; i = i + 1) {
+     for (int j = 0; j < rowsOfMap; j = j + 1) {
         mapOfPlayers[i][j] = 0;
       }
     }
   }
 
+  private void printTable() {
+    for (int i = 0; i < columns; i = i + 1) {
+      for (int j = 0; j < rows; j = j + 1) {
+        System.out.print(mapOfPlayers[i][j] +" ");
+      }
+      System.out.println();
+    }
+  }
+
+
   public void setPlayerNumberToAMap(FourInARowPlayer playerOnTheMove, int row, int column) {
+    row=row-1;
+    column=column-1;
     int playerNumber = playerOnTheMove.getPlayingNumber();
-    mapOfPlayers[column][row] = playerNumber;
+    this.mapOfPlayers[column][row] = playerNumber;
   }
 }
