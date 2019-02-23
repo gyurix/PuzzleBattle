@@ -25,7 +25,6 @@ public class BallBouncerScreen extends AbstractScreen {
    * Background is set and all components are added into Pane
    * Movement of the ball is simulated here too.
    */
-
   public BallBouncerScreen(Stage stage, BouncerGame game) {
     super(stage);
     this.game = game;
@@ -40,7 +39,6 @@ public class BallBouncerScreen extends AbstractScreen {
    *
    * @return height of the map
    */
-
   @Override
   public double getHeight() {
     return game.getMapSize().getY();
