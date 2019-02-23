@@ -44,7 +44,8 @@ public class ClientLauncher extends Application {
     lang = new LangFile(english, "sk");
     lang.msg("started", "name", "Puzzle Battle Client", "version", "1.0");
 
-    new MainScreen(stage,new SettingsForScreens()).show();
+    new LoginScreen(stage).show();
+    //new MainScreen(stage,new SettingsForScreens()).show();
     //loginScreen= new LoginScreen(stage);
     //new BallBouncerScreen(stage, new BouncerGame(null, new BouncerGameSettings())).show();
     //new FourInARowScreen(stage, new FourInARowGame(null, new FourInARowGameSettings())).show();

@@ -10,6 +10,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import org.puzzlebattle.client.screen.MainScreen;
+import org.puzzlebattle.client.screen.SettingsForScreens;
 
 public class WinningDialog extends Stage {
 
@@ -23,8 +25,10 @@ public class WinningDialog extends Stage {
   private Scene scene;
   private VBox verticalBox;
   private Label winner;
+  private Stage primaryStage;
 
-  public WinningDialog(FourInARowScreen fourInARowScreen, FourInARowPlayer winningPlayer) {
+  public WinningDialog(FourInARowScreen fourInARowScreen, FourInARowPlayer winningPlayer,Stage primaryStage) {
+    this.primaryStage =primaryStage;
     prepareLayouts(fourInARowScreen);
     scene = new Scene(border, fourInARowScreen.getWidth(), fourInARowScreen.getHeight());
     applySettingsToStage(winningPlayer);
@@ -48,6 +52,7 @@ public class WinningDialog extends Stage {
     closeButton.setMaxWidth(Double.MAX_VALUE);
 
     closeButton.setOnAction(e -> onClose());
+    returnToMenu.setOnAction(e->createMainMenu());
     newGame.setOnAction(e -> startNewGame(fourInARowScreen));
   }
 
@@ -56,6 +61,12 @@ public class WinningDialog extends Stage {
     winner.setMaxWidth(Double.MAX_VALUE);
     f = new Font("Arial", 55);
     winner.setFont(f);
+  }
+
+  private void createMainMenu(){
+    this.close();
+    primaryStage.close();
+    new MainScreen(new Stage(),new SettingsForScreens()).show();
   }
 
   public double getWinningDialogHeight() {

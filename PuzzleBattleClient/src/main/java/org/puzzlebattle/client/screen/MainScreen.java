@@ -70,7 +70,6 @@ public class MainScreen extends AbstractScreen {
   }
 
   public void show(){
-    System.out.println("here");
     stage.setScene(mainScene);
     stage.setTitle("Main menu");
     stage.setOnCloseRequest(e->stage.close());
@@ -80,7 +79,6 @@ public class MainScreen extends AbstractScreen {
   private void prepareSceneAndGridPane() {
     gridPane = new GridPane();
     separator = new Separator();
-    //gridPane.getChildren().addAll(vBoxBallBouncerGame,vBoxFourInARowGame);
     gridPane.setHgap(50);
     gridPane.setVgap(20);
     separator.setOrientation(Orientation.VERTICAL);
@@ -125,14 +123,14 @@ public class MainScreen extends AbstractScreen {
   }
 
   private void prepareLayoutFourInARow() {
-    vBoxFourInARowGame = new VBox(5);
+    vBoxFourInARowGame = new VBox(settingsForScreens.getSpacingForVBox());
     vBoxFourInARowGame.setMaxWidth(Double.MAX_VALUE);
     vBoxFourInARowGame.setMaxHeight(Double.MAX_VALUE);
     vBoxFourInARowGame.getChildren().addAll(labelFourInARow,startFourInARowGame,viewBestPlayersFourInARow);
   }
 
   private void prepareLayoutsBallBouncer() {
-    vBoxBallBouncerGame = new VBox(5);
+    vBoxBallBouncerGame = new VBox(settingsForScreens.getSpacingForVBox());
     vBoxBallBouncerGame.setMaxWidth(Double.MAX_VALUE);
     vBoxBallBouncerGame.setMaxHeight(Double.MAX_VALUE);
     vBoxBallBouncerGame.getChildren().addAll(labelBallBouncer,startBallBouncerGame,viewBestPlayersBallBouncer);
@@ -141,14 +139,14 @@ public class MainScreen extends AbstractScreen {
   private void prepareEscapeButtons() {
     reLoginButton = new Button("Re login");
     reLoginButton.setMaxWidth(Double.MAX_VALUE);
-    reLoginButton.setOnAction(e->relogin());
+    reLoginButton.setOnAction(e->reLogin());
     closeMainScreen = new Button("Close");
     closeMainScreen.setMaxWidth(Double.MAX_VALUE);
     closeMainScreen.setOnAction(e->stage.close());
   }
 
   private void prepareEscaneLayout(){
-    hEscapeBox = new HBox(10);
+    hEscapeBox = new HBox(settingsForScreens.getSpacingForVBox());
     hEscapeBox.getChildren().addAll(reLoginButton,closeMainScreen);
   }
 
@@ -156,7 +154,7 @@ public class MainScreen extends AbstractScreen {
     startBallBouncerGame = new Button("Launch Ball Bouncer game.");
     startBallBouncerGame.setMaxWidth(Double.MAX_VALUE);
     startBallBouncerGame.setOnAction(
-              e->new BallBouncerScreen(new Stage(), new BouncerGame(null, new BouncerGameSettings())).show());
+              e->launchBallBouncer());
 
     viewBestPlayersBallBouncer = new Button("View best Ball Bouncer Players");
     viewBestPlayersBallBouncer.setMaxWidth(Double.MAX_VALUE);
@@ -167,15 +165,26 @@ public class MainScreen extends AbstractScreen {
     startFourInARowGame = new Button("Launch Four in a row game");
     startFourInARowGame.setMaxWidth(Double.MAX_VALUE);
     startFourInARowGame.setOnAction(
-              e->new FourInARowScreen(new Stage(), new FourInARowGame(null, new FourInARowGameSettings())).show());
+              e->launchFourInARow());
 
     viewBestPlayersFourInARow = new Button("View best Four In A Row Players");
     viewBestPlayersFourInARow.setMaxWidth(Double.MAX_VALUE);
     viewBestPlayersFourInARow.setOnAction(e->System.out.println("Not completed functionality"));
   }
 
-  private void relogin(){
+  private void reLogin(){
+      stage.close();
+      new LoginScreen(stage).show();
+  }
 
+  private void launchBallBouncer(){
+    super.getStage().close();
+    new BallBouncerScreen(new Stage(), new BouncerGame(null, new BouncerGameSettings())).show();
+  }
+
+  private void launchFourInARow(){
+    super.getStage().close();
+    new FourInARowScreen(new Stage(), new FourInARowGame(null, new FourInARowGameSettings())).show();
   }
 
   private void prepareImageBallBouncer() {
