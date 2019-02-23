@@ -90,7 +90,7 @@ public class WinningDialog extends Stage {
   }
 
   private void tryToAddImage() {
-    String imageURL = "file:///C:\\Users\\perdek\\IdeaProjects\\PuzzleBattle\\oldChap.png";
+    String imageURL = "pictures/oldChap.png";
     image = new Image(imageURL);
     img1 = new ImageView();
     img1.setImage(image);

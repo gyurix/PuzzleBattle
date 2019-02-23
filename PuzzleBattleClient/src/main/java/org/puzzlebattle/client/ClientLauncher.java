@@ -5,6 +5,9 @@ import javafx.stage.Stage;
 import org.puzzlebattle.client.games.fourinarow.FourInARowGame;
 import org.puzzlebattle.client.games.fourinarow.FourInARowGameSettings;
 import org.puzzlebattle.client.games.fourinarow.FourInARowScreen;
+import org.puzzlebattle.client.screen.LoginScreen;
+import org.puzzlebattle.client.screen.MainScreen;
+import org.puzzlebattle.client.screen.SettingsForScreens;
 import org.puzzlebattle.core.utils.LangFile;
 
 /**
@@ -16,7 +19,7 @@ import org.puzzlebattle.core.utils.LangFile;
 
 public class ClientLauncher extends Application {
   public static LangFile lang;
-
+  private LoginScreen loginScreen;
 
   /**
    * Method where application starts
@@ -40,8 +43,11 @@ public class ClientLauncher extends Application {
     LangFile english = new LangFile("en");
     lang = new LangFile(english, "sk");
     lang.msg("started", "name", "Puzzle Battle Client", "version", "1.0");
+
+    new MainScreen(stage,new SettingsForScreens()).show();
+    //loginScreen= new LoginScreen(stage);
     //new BallBouncerScreen(stage, new BouncerGame(null, new BouncerGameSettings())).show();
-    new FourInARowScreen(stage, new FourInARowGame(null, new FourInARowGameSettings())).show();
+    //new FourInARowScreen(stage, new FourInARowGame(null, new FourInARowGameSettings())).show();
 
   }
 }
