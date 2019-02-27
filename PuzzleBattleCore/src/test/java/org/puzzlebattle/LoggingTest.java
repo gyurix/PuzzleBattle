@@ -2,10 +2,7 @@ package org.puzzlebattle;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.BeforeEach;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 
 import static org.puzzlebattle.core.utils.Logging.*;
@@ -14,24 +11,10 @@ import static org.puzzlebattle.core.utils.Logging.*;
  * Tester class for the Logging system
  */
 public class LoggingTest {
-  private ByteArrayOutputStream err;
-
-  public String getErr() {
-    try {
-      return err.toString("UTF-8");
-    } catch (UnsupportedEncodingException e) {
-      throw new RuntimeException(e);
-    }
-  }
-
-  @BeforeEach
-  public void redirectOutput() {
-    err = new ByteArrayOutputStream();
-    System.setErr(new PrintStream(err));
-  }
+  private String out;
 
   @Before
-  public void setLoggerFormat() {
+  public void init() {
     System.setProperty("java.util.logging.SimpleFormatter.format", "{%3$s} [%2$s] [%4$s]: %5$s");
   }
 
