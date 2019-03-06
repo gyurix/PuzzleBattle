@@ -2,12 +2,7 @@ package org.puzzlebattle.client;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
-import org.puzzlebattle.client.games.fourinarow.FourInARowGame;
-import org.puzzlebattle.client.games.fourinarow.FourInARowGameSettings;
-import org.puzzlebattle.client.games.fourinarow.FourInARowScreen;
 import org.puzzlebattle.client.screen.LoginScreen;
-import org.puzzlebattle.client.screen.MainScreen;
-import org.puzzlebattle.client.screen.SettingsForScreens;
 import org.puzzlebattle.core.utils.LangFile;
 
 /**
@@ -22,11 +17,10 @@ public class ClientLauncher extends Application {
   private LoginScreen loginScreen;
 
   /**
-   * Method where application starts
+   * The applications main entry point
    *
-   * @param args arguments, which can be set before start of program
+   * @param args - Starting arguments of the program, currently unused
    */
-
   public static void main(String[] args) {
     Application.launch();
   }
