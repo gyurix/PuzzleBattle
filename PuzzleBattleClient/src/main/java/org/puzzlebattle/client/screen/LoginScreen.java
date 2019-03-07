@@ -34,8 +34,7 @@ public class LoginScreen extends AbstractScreen {
   private Button registerButton;
   private HBox registerPanel;
   private Scene sceneLogin;
-  private Label separatorLeft;
-  private Label separatorRight;
+  private Label separatorLeft, separatorRight;
   private Stage stage;
 
   /**
@@ -97,12 +96,12 @@ public class LoginScreen extends AbstractScreen {
 
   private void prepareLoginLabel() {
     loginLabel = new Label("Login");
-    loginLabel.setFont(Font.font("Arial", FontWeight.BOLD, FontPosture.ITALIC, 25));
+    loginLabel.setFont(super.getDefaultFont());
   }
 
   private void prepareLoginPanel() {
     loginPanel = new VBox(10);
-    loginPanel.setPadding(new Insets(50, 100, 50, 100));
+    loginPanel.setPadding(super.createDefaultInsets());
 
     loginPanel.getChildren().addAll(loginLabel, loginTextField, loginPasswordRegion,
             passwordLabel, passwordField, loginButtonRegion, confirmButton);
@@ -110,7 +109,7 @@ public class LoginScreen extends AbstractScreen {
 
   private void preparePasswordLabel() {
     passwordLabel = new Label("Password");
-    passwordLabel.setFont(Font.font("Arial", FontWeight.BOLD, FontPosture.ITALIC, 25));
+    passwordLabel.setFont(super.getDefaultFont());
   }
 
   private void prepareRegions() {
@@ -125,7 +124,7 @@ public class LoginScreen extends AbstractScreen {
   private void prepareRegisterButton() {
     registerButton = new Button("Register");
     registerButton.setMinWidth(200);
-    registerButton.setOnAction(e -> new RegisterScreen(stage));
+    registerButton.setOnAction(e -> new RegisterScreen(stage).show());
   }
 
   private void prepareScreenAndPane(Stage stage) {

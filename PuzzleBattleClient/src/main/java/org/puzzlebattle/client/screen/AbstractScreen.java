@@ -2,8 +2,12 @@ package org.puzzlebattle.client.screen;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import lombok.Getter;
@@ -124,5 +128,13 @@ public abstract class AbstractScreen {
     stage.setScene(scene);
     stage.show();
     stage.setOnCloseRequest(e -> onCloseHandler());
+  }
+
+  protected Font getDefaultFont() {
+    return Font.font("Arial", FontWeight.BOLD, FontPosture.ITALIC, 25);
+  }
+
+  protected Insets createDefaultInsets(){
+    return new Insets(50, 100, 50, 100);
   }
 }
