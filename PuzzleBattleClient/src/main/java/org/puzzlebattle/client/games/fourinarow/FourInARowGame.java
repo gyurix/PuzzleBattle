@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 
 /**
- * Write a description of class SkladPonuka here.
+ *
  *
  * @author (Jakub Perdek)
  * @version (1.0)

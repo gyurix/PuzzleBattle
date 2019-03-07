@@ -1,6 +1,7 @@
 package org.puzzlebattle.client.games.fourinarow;
 
 
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -49,7 +50,7 @@ public class PanelGrid extends Pane {
 
   public PanelGrid(double X, double Y, double width, double height, FourInARowScreen fourInARowScreen) {
     createGrids(this, rows, columns, width, height, Color.YELLOW, Color.GREEN);
-    createLabels(this, initialSpace / 2, spaceFromTop, width, columns, fourInARowScreen);
+    createLabels(this, initialSpace / 2, spaceFromTop, width, height, columns, fourInARowScreen);
   }
 
   /**
@@ -144,12 +145,15 @@ public class PanelGrid extends Pane {
    * @param numberOfWindows number of windows in the row
    */
 
-  private void createLabels(Pane panel, double positionX, double positionY, double widthOfWindow, int numberOfWindows, FourInARowScreen fourInARowScreen) {
+  private void createLabels(Pane panel, double positionX, double positionY, double widthOfWindow, double heightOfWindow, int numberOfWindows, FourInARowScreen fourInARowScreen) {
     this.distanceOfColumns = countRowSpace(numberOfWindows, widthOfWindow) - 1;
 
     for (int number = 1; number <= numberOfWindows; number = number + 1) {
       Label label = createLabel(positionX + number * distanceOfColumns + number * thicknessOfRows,
               positionY, Integer.toString(number));
+      label.setMinHeight(heightOfWindow);
+      label.setMinWidth(distanceOfColumns);
+      label.setAlignment(Pos.TOP_CENTER);
       label.setOnMouseClicked(e -> handleLabel(e, fourInARowScreen));
       panel.getChildren().add(label);
     }
