@@ -168,11 +168,9 @@ public class RegisterScreen extends AbstractScreen {
     String password = passwordField.getText();
     String passwordConfirm = confirmPasswordField.getText();
     Alert passwdsAreNotSame;
-    System.out.println("here");
 
     if(!password.equals(passwordConfirm))
     {
-      System.out.println("here");
       passwdsAreNotSame= new Alert(Alert.AlertType.ERROR);
       passwdsAreNotSame.setTitle("Not same passwords");
       passwdsAreNotSame.setContentText("Type your password and confirm password again!");
@@ -180,5 +178,6 @@ public class RegisterScreen extends AbstractScreen {
       return;
     }
 
+    new AdditionalInformationScreen(stage).show();
   }
 }
