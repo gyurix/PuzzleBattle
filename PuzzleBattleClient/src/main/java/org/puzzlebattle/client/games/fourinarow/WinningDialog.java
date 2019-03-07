@@ -21,14 +21,14 @@ public class WinningDialog extends Stage {
   private Image image;
   private ImageView img1;
   private Button newGame;
+  private Stage primaryStage;
   private Button returnToMenu;
   private Scene scene;
   private VBox verticalBox;
   private Label winner;
-  private Stage primaryStage;
 
-  public WinningDialog(FourInARowScreen fourInARowScreen, FourInARowPlayer winningPlayer,Stage primaryStage) {
-    this.primaryStage =primaryStage;
+  public WinningDialog(FourInARowScreen fourInARowScreen, FourInARowPlayer winningPlayer, Stage primaryStage) {
+    this.primaryStage = primaryStage;
     prepareLayouts(fourInARowScreen);
     scene = new Scene(border, fourInARowScreen.getWidth(), fourInARowScreen.getHeight());
     applySettingsToStage(winningPlayer);
@@ -52,7 +52,7 @@ public class WinningDialog extends Stage {
     closeButton.setMaxWidth(Double.MAX_VALUE);
 
     closeButton.setOnAction(e -> onClose());
-    returnToMenu.setOnAction(e->createMainMenu());
+    returnToMenu.setOnAction(e -> createMainMenu());
     newGame.setOnAction(e -> startNewGame(fourInARowScreen));
   }
 
@@ -63,10 +63,10 @@ public class WinningDialog extends Stage {
     winner.setFont(f);
   }
 
-  private void createMainMenu(){
+  private void createMainMenu() {
     this.close();
     primaryStage.close();
-    new MainScreen(new Stage(),new SettingsForScreens()).show();
+    new MainScreen(new Stage(), new SettingsForScreens()).show();
   }
 
   public double getWinningDialogHeight() {

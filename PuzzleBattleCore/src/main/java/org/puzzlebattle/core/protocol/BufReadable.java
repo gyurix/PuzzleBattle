@@ -16,7 +16,7 @@ public interface BufReadable {
   /**
    * Method for reading from buffer
    *
-   * @param  buf byte buffer for reading
+   * @param buf byte buffer for reading
    */
 
   void read(ByteBuf buf);

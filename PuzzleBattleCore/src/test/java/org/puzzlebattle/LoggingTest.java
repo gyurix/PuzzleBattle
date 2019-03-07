@@ -3,8 +3,6 @@ package org.puzzlebattle;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.UnsupportedEncodingException;
-
 import static org.puzzlebattle.core.utils.Logging.*;
 
 /**

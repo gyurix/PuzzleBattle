@@ -65,27 +65,6 @@ public class PanelGrid extends Pane {
   }
 
   /**
-   * Method which creates labels, to mark columns.
-   *
-   * @param panel           panel where labels should be positioned
-   * @param positionX       position X where grid starts, X coordinate
-   * @param positionY       position Y where grid starts, Y coordinate
-   * @param widthOfWindow   width of whole window
-   * @param numberOfWindows number of windows in the row
-   */
-
-  private void createLabels(Pane panel, double positionX, double positionY, double widthOfWindow, int numberOfWindows, FourInARowScreen fourInARowScreen) {
-    this.distanceOfColumns = countRowSpace(numberOfWindows, widthOfWindow) - 1;
-
-    for (int number = 1; number <= numberOfWindows; number = number + 1) {
-      Label label = createLabel(positionX + number * distanceOfColumns + number * thicknessOfRows,
-              positionY, Integer.toString(number));
-      label.setOnMouseClicked(e -> handleLabel(e, fourInARowScreen));
-      panel.getChildren().add(label);
-    }
-  }
-
-  /**
    * Count column space from width of whole grid. From the whole space is thickness of rectangles given away,
    * and then divided by number of columns.
    *
@@ -156,14 +135,24 @@ public class PanelGrid extends Pane {
   }
 
   /**
-   * Method which calculates distance, where coin will take
+   * Method which creates labels, to mark columns.
    *
-   * @param requestedColumn column where coin should fall
-   * @return location of Y coordinate, where coin should fall
+   * @param panel           panel where labels should be positioned
+   * @param positionX       position X where grid starts, X coordinate
+   * @param positionY       position Y where grid starts, Y coordinate
+   * @param widthOfWindow   width of whole window
+   * @param numberOfWindows number of windows in the row
    */
 
-  public double getColumnX(int requestedColumn) {
-    return initialSpace / 2 + requestedColumn * (distanceOfColumns + thicknessOfRows) + 4;
+  private void createLabels(Pane panel, double positionX, double positionY, double widthOfWindow, int numberOfWindows, FourInARowScreen fourInARowScreen) {
+    this.distanceOfColumns = countRowSpace(numberOfWindows, widthOfWindow) - 1;
+
+    for (int number = 1; number <= numberOfWindows; number = number + 1) {
+      Label label = createLabel(positionX + number * distanceOfColumns + number * thicknessOfRows,
+              positionY, Integer.toString(number));
+      label.setOnMouseClicked(e -> handleLabel(e, fourInARowScreen));
+      panel.getChildren().add(label);
+    }
   }
 
   /**
@@ -183,6 +172,17 @@ public class PanelGrid extends Pane {
     rect.setFill(color);
     rect.setStroke(color);
     return rect;
+  }
+
+  /**
+   * Method which calculates distance, where coin will take
+   *
+   * @param requestedColumn column where coin should fall
+   * @return location of Y coordinate, where coin should fall
+   */
+
+  public double getColumnX(int requestedColumn) {
+    return initialSpace / 2 + requestedColumn * (distanceOfColumns + thicknessOfRows) + 4;
   }
 
   /**

@@ -16,7 +16,7 @@ public abstract class AbstractInPacket {
   /**
    * Method for reading from buffer
    *
-   * @param  buf byte buffer for reading
+   * @param buf byte buffer for reading
    */
 
   public abstract void read(ByteBuf buf);

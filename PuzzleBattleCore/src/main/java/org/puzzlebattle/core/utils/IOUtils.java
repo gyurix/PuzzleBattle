@@ -18,8 +18,8 @@ public class IOUtils {
   /**
    * File to string, if can't convert, then returns null
    *
-   * @param  fileName  name of the file
-   * @return    string in UTF8
+   * @param fileName name of the file
+   * @return string in UTF8
    */
 
   public static String fileToString(String fileName) {
@@ -36,8 +36,8 @@ public class IOUtils {
   /**
    * Reads and transloads stream
    *
-   * @param  is  input stream
-   * @return    byte buffer
+   * @param is input stream
+   * @return byte buffer
    */
 
   public static byte[] readStreamFully(InputStream is) {
@@ -50,7 +50,7 @@ public class IOUtils {
   /**
    * Saving resources
    *
-   * @param  names  list of names
+   * @param names list of names
    */
 
   public static void saveResources(String... names) {
@@ -70,8 +70,8 @@ public class IOUtils {
   /**
    * Transloads of the stream
    *
-   * @param  is  input stream
-   * @param  os output stream
+   * @param is input stream
+   * @param os output stream
    */
 
   public static void transloadStream(InputStream is, OutputStream os) {

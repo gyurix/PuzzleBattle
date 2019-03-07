@@ -72,7 +72,7 @@ public class EncryptionUtils {
   /**
    * Method which generates EAS key
    *
-   * @return   EAS key
+   * @return EAS key
    */
 
   public static Key generateAES() {
@@ -83,7 +83,7 @@ public class EncryptionUtils {
   /**
    * Method which generate IV
    *
-   * @return    Iv parameter spec
+   * @return Iv parameter spec
    */
 
   public static IvParameterSpec generateIV() {
@@ -96,7 +96,7 @@ public class EncryptionUtils {
   /**
    * Key pair will be generated
    *
-   * @return    generated key pair
+   * @return generated key pair
    */
 
   public static KeyPair generateRSA() {
@@ -107,8 +107,8 @@ public class EncryptionUtils {
   /**
    * Conversion to EAS key
    *
-   * @param  key  data which represents key in buffer
-   * @return    the sum of x and y
+   * @param key data which represents key in buffer
+   * @return the sum of x and y
    */
 
   public static Key toAESKey(byte[] key) {
@@ -119,8 +119,8 @@ public class EncryptionUtils {
   /**
    * A conversion to Iv
    *
-   * @param  data  data in buffer
-   * @return    IV parameter spec
+   * @param data data in buffer
+   * @return IV parameter spec
    */
 
   public static IvParameterSpec toIV(byte[] data) {
@@ -131,8 +131,8 @@ public class EncryptionUtils {
   /**
    * In this method RSA public key will be generated from buffer
    *
-   * @param  key  buffer with decoded key
-   * @return    RSA public key
+   * @param key buffer with decoded key
+   * @return RSA public key
    */
 
   public static PublicKey toRSAPublicKey(byte[] key) {
@@ -146,8 +146,8 @@ public class EncryptionUtils {
   /**
    * Decryption of EAS
    *
-   * @param  data data in buffer
-   * @return    decrypted EAS, byte buffer
+   * @param data data in buffer
+   * @return decrypted EAS, byte buffer
    */
 
   public byte[] decryptAES(byte[] data) {
@@ -169,8 +169,8 @@ public class EncryptionUtils {
   /**
    * Decryption of RSA
    *
-   * @param  data data in buffer
-   * @return    decrypted RSA, byte buffer, if any error- null
+   * @param data data in buffer
+   * @return decrypted RSA, byte buffer, if any error- null
    */
 
   public byte[] decryptRSA(byte[] data) {
@@ -187,8 +187,8 @@ public class EncryptionUtils {
   /**
    * Encryption of EAS
    *
-   * @param  data  data in buffer
-   * @return    encrypted EAS, byte buffer
+   * @param data data in buffer
+   * @return encrypted EAS, byte buffer
    */
 
   public byte[] encryptAES(byte[] data) {
@@ -209,8 +209,8 @@ public class EncryptionUtils {
   /**
    * An example of a method - replace this comment with your own
    *
-   * @param  data data in buffer
-   * @return    encrypted RSA, byte buffer
+   * @param data data in buffer
+   * @return encrypted RSA, byte buffer
    */
 
   public byte[] encryptRSA(byte[] data) {

@@ -16,7 +16,7 @@ public interface BufWritable {
   /**
    * Method for writing into buffer
    *
-   * @param  buf buffer where data will be written
+   * @param buf buffer where data will be written
    */
 
   void write(ByteBuf buf);

@@ -42,9 +42,9 @@ public class LangFile {
   /**
    * Get
    *
-   * @param  key  key
-   * @param  vars  list of variables
-   * @return    string from variables
+   * @param key  key
+   * @param vars list of variables
+   * @return string from variables
    */
 
   public String get(String key, Object... vars) {
@@ -63,7 +63,7 @@ public class LangFile {
   /**
    * Loading objects using Json
    *
-   * @param  json  json to load objects
+   * @param json json to load objects
    */
 
   private void load(JsonObject json) {
@@ -79,8 +79,8 @@ public class LangFile {
   /**
    * Loading values using a key
    *
-   * @param  key  key
-   * @param  json  json to load objects
+   * @param key  key
+   * @param json json to load objects
    */
 
   private void load(String key, JsonObject json) {
@@ -96,8 +96,8 @@ public class LangFile {
   /**
    * Prints a message
    *
-   * @param  key  key
-   * @param  vars list of variables
+   * @param key  key
+   * @param vars list of variables
    */
 
   public void msg(String key, Object... vars) {

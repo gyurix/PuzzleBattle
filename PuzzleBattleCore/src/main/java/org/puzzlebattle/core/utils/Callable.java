@@ -12,7 +12,6 @@ public interface Callable<T> {
 
   /**
    * Call
-   *
    */
 
   T call();
