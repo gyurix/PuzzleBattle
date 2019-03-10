@@ -24,6 +24,7 @@ public class PlayerProfileScreen extends AbstractScreen{
   private Label name, surname;
   private Label age;
   private Label dateOfBirth;
+  private Label email;
   private ImageView selfPhoto;
   private VBox basicInformation;
   private VBox informationVBox;
@@ -87,6 +88,9 @@ public class PlayerProfileScreen extends AbstractScreen{
     dateOfBirth = new Label("date of birth");
     dateOfBirth.setMaxWidth(Double.MAX_VALUE);
     dateOfBirth.setFont(prepareFontForLabels());
+    email= new Label("email");
+    email.setMaxWidth(Double.MAX_VALUE);
+    email.setFont(prepareFontForLabels());
   }
 
   private void prepareButtonsAndPhoto(){
@@ -143,11 +147,43 @@ public class PlayerProfileScreen extends AbstractScreen{
     informationVBox = new VBox(10);
     informationVBox.setMaxWidth(Double.MAX_VALUE);
     informationVBox.setPadding(new Insets(25,10,25,10));
-    informationVBox.getChildren().addAll(name,surname,age,dateOfBirth);
+    informationVBox.getChildren().addAll(name,surname,age,dateOfBirth,email);
   }
 
   private void prepareScene(){
     scene= new Scene(grid,super.getWidth(),super.getHeight());
     stage.setScene(scene);
+  }
+
+  public void setLoadedImage(String imagePath){
+    System.out.println(imagePath);
+    photoImage= new Image(imagePath);
+    selfPhoto.setImage(photoImage);
+    selfPhoto.setFitWidth(PICTURE_WIDTH);
+    selfPhoto.setFitHeight(PICTURE_HEIGHT);
+  }
+
+  public void setLoadedName(String nameText){
+    name.setText("Name: "+nameText);
+  }
+
+  public void setLoadedSurname(String surnameText){
+    surname.setText("Surname: "+surnameText);
+  }
+
+  public void setLoadedAge(String ageText){
+    age.setText("Age: "+ageText);
+  }
+
+  public void setLoadedDateOfBirth(String dateOfBirthText){
+    dateOfBirth.setText("Date: "+dateOfBirthText);
+  }
+
+  public void setNickName(String nickNameText){
+    nickName.setText(nickNameText);
+  }
+
+  public void setEmail(String emailText){
+    email.setText(emailText);
   }
 }

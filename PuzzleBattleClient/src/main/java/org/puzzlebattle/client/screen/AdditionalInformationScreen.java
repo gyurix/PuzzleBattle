@@ -1,6 +1,7 @@
 package org.puzzlebattle.client.screen;
 
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -11,10 +12,15 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.stage.Stage;
+import java.io.File;
+import java.net.MalformedURLException;
+import java.util.Date;
 
 public class AdditionalInformationScreen extends AbstractScreen {
 
   private Scene scene1, scene2;
+  private String nickNameOfPlayer;
+  private String emailOfPlayer;
   private Button pageNextScene1, pagePreviousScene1;
   private Button pageNextScene2, pagePreviousScene2;
   private Region bottomLeftScene1, bottomLeftScene2;
@@ -38,10 +44,20 @@ public class AdditionalInformationScreen extends AbstractScreen {
   private Label rightSideLabelScene1, rightSideLabelScene2;
   private Stage stage;
   private PlayerProfileScreen playerProfile;
+  private String addYourName = "Add your name";
+  private String addYourSurname = "Add your surname";
+  private String addYourDateOfBirth = "Add your birth, in format 12. 11. 2016";
+  private String noImageLoaded = "No image loaded";
+  private String defaultImage = "faces/face1.png";
+  private File loadedImage;
+  private String loadedImagePath = defaultImage;
+  private String loadedName, loadedSurname, loadedAge, loadedDateOfBirth;
 
-  public AdditionalInformationScreen(Stage stage) {
+  public AdditionalInformationScreen(Stage stage,String nickName,String emailOfPlayer) {
     super(stage);
     this.stage=stage;
+    this.nickNameOfPlayer = nickName;
+    this.emailOfPlayer = emailOfPlayer;
     prepareComponents();
     prepareScenes();
     stage.setTitle("Additional information of player");
@@ -105,7 +121,7 @@ public class AdditionalInformationScreen extends AbstractScreen {
     addPhotoLabel = new Label("Your photo");
     addPhotoLabel.setFont(super.getDefaultFont());
     addPhotoLabel.setMaxWidth(Double.MAX_VALUE);
-    pathForPhotoLabel = new Label("No image is loaded");
+    pathForPhotoLabel = new Label(noImageLoaded);
     pathForPhotoLabel.setFont(Font.font("Courier", FontPosture.ITALIC, 15));
     pathForPhotoLabel.setMaxWidth(Double.MAX_VALUE);
   }
@@ -125,9 +141,9 @@ public class AdditionalInformationScreen extends AbstractScreen {
   }
 
   private void prepareTextFieldsForScene1() {
-    nameText = new TextField("Add your name");
-    surnameText = new TextField("Add your surname");
-    dateOfBirthText = new TextField("Add your birth");
+    nameText = new TextField(addYourName);
+    surnameText = new TextField(addYourSurname);
+    dateOfBirthText = new TextField(addYourDateOfBirth);
   }
 
   private void prepareLayoutsForScene1(){
@@ -203,10 +219,80 @@ public class AdditionalInformationScreen extends AbstractScreen {
     confirmScene2.setOnAction(e->prepareProfileScreen());
     loadPhoto = new Button("Load photo");
     loadPhoto.setMaxWidth(Double.MAX_VALUE);
+    loadPhoto.setOnAction(e->loadPhoto());
   }
 
   private void prepareProfileScreen(){
+    prepareBasicComponentsForProfileScreen();
+    prepareBasicSettingsForProfileScreen();
     playerProfile = new PlayerProfileScreen(new Stage());
+    updateInformation(playerProfile);
     playerProfile.show();
+  }
+
+  private void updateInformation(PlayerProfileScreen playerProfile){
+    playerProfile.setNickName(nickNameOfPlayer);
+    playerProfile.setEmail(emailOfPlayer);
+    playerProfile.setLoadedImage(loadedImagePath);
+    playerProfile.setLoadedName(loadedName);
+    playerProfile.setLoadedSurname(loadedSurname);
+    playerProfile.setLoadedAge(loadedAge);
+    playerProfile.setLoadedDateOfBirth(loadedDateOfBirth);
+  }
+
+  private void prepareBasicComponentsForProfileScreen(){
+      loadedName = nameText.getText();
+      loadedSurname = surnameText.getText();
+      Date a = new Date();
+      loadedDateOfBirth = dateOfBirthText.getText();
+      if(dateOfBirthText.getLength()==12) {
+        loadedAge = Integer.toString(2019 - getYear(loadedDateOfBirth));
+      }
+
+  }
+
+  private int getYear(String yearInFormat)
+  {
+    yearInFormat= yearInFormat.substring(8);
+    return Integer.parseInt(yearInFormat);
+  }
+
+  private void prepareBasicSettingsForProfileScreen(){
+    if(loadedImagePath.equals(noImageLoaded)){
+      loadedImagePath = "faces/face1.png";
+    }
+    if(loadedName.equals(addYourName)){
+      loadedName = "name";
+    }
+    if(loadedSurname.equals(addYourSurname)){
+      loadedSurname = "surname";
+    }
+    if(loadedDateOfBirth.equals(addYourDateOfBirth)){
+      loadedDateOfBirth = "date of birth";
+    }
+  }
+
+  private void loadPhoto(){
+    loadedImagePath = "faces/face1.png";
+    pathForPhotoLabel.setText(noImageLoaded);
+    FileScreen fileScreen = new FileScreen("Load your profile photo");
+    fileScreen.setPictureFilter();
+    loadedImage = fileScreen.showDialog();
+    pathForPhotoLabel.setText(loadedImage.getPath());
+    try {
+      loadedImagePath = loadedImage.toURI().toURL().toExternalForm();//getPath();
+    }
+    catch(MalformedURLException e)
+    {
+      e.printStackTrace();
+      displayAlert();
+    }
+  }
+
+  private void displayAlert(){
+    Alert alert = new Alert(Alert.AlertType.ERROR);
+    alert.setTitle("Image can't be loaded.");
+    alert.setContentText("Try to add another image or try to load image again.");
+    alert.showAndWait();
   }
 }

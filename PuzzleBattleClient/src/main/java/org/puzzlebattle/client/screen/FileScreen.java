@@ -9,7 +9,8 @@ public class FileScreen extends Stage {
   FileChooser chooseFile;
   File chosenFile;
 
-  public void FileScreen(String title) {
+  public FileScreen(String title){
+    super();
     chooseFile = new FileChooser();
     chooseFile.setInitialDirectory(new File(System.getProperty("user.home")));
     chooseFile.setTitle(title);

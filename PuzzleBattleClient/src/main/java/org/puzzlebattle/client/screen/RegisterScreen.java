@@ -178,6 +178,6 @@ public class RegisterScreen extends AbstractScreen {
       return;
     }
 
-    new AdditionalInformationScreen(stage).show();
+    new AdditionalInformationScreen(stage,nickName,email).show();
   }
 }
