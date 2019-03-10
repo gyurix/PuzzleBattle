@@ -280,7 +280,7 @@ public class AdditionalInformationScreen extends AbstractScreen {
     loadedImage = fileScreen.showDialog();
     pathForPhotoLabel.setText(loadedImage.getPath());
     try {
-      loadedImagePath = loadedImage.toURI().toURL().toExternalForm();//getPath();
+      loadedImagePath = loadedImage.toURI().toURL().toExternalForm();
     }
     catch(MalformedURLException e)
     {
