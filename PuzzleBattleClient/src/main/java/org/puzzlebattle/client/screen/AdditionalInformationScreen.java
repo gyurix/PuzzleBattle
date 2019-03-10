@@ -37,6 +37,7 @@ public class AdditionalInformationScreen extends AbstractScreen {
   private Label leftSideLabelScene1, leftSideLabelScene2;
   private Label rightSideLabelScene1, rightSideLabelScene2;
   private Stage stage;
+  private PlayerProfileScreen playerProfile;
 
   public AdditionalInformationScreen(Stage stage) {
     super(stage);
@@ -187,6 +188,7 @@ public class AdditionalInformationScreen extends AbstractScreen {
     pagePreviousScene1.setMinWidth(100);
     confirmScene1 = new Button("Confirm");
     confirmScene1.setMinWidth(200);
+    confirmScene1.setOnAction(e->prepareProfileScreen());
   }
 
   private void prepareButtonsForScene2(){
@@ -198,7 +200,13 @@ public class AdditionalInformationScreen extends AbstractScreen {
     pagePreviousScene2.setMinWidth(100);
     confirmScene2 = new Button("Confirm");
     confirmScene2.setMinWidth(200);
+    confirmScene2.setOnAction(e->prepareProfileScreen());
     loadPhoto = new Button("Load photo");
     loadPhoto.setMaxWidth(Double.MAX_VALUE);
+  }
+
+  private void prepareProfileScreen(){
+    playerProfile = new PlayerProfileScreen(new Stage());
+    playerProfile.show();
   }
 }
