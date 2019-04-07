@@ -14,6 +14,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import org.puzzlebattle.client.databaseTables.UserPuzzleBattle;
 import org.puzzlebattle.client.games.bouncer.BallBouncerScreen;
 import org.puzzlebattle.client.games.bouncer.BouncerGame;
 import org.puzzlebattle.client.games.bouncer.BouncerGameSettings;
@@ -53,15 +54,16 @@ public class MainScreen extends AbstractScreen {
   private Button viewBestPlayersBallBouncer;
   private Button viewBestPlayersFourInARow;
 
+  private UserPuzzleBattle user;
   /**
    * Constructor which creates main screen in the program.
    */
 
-  public MainScreen(Stage stage, SettingsForScreens settingsForScreens) {
+  public MainScreen(Stage stage, SettingsForScreens settingsForScreens, UserPuzzleBattle user) {
     super(stage);
     this.stage = stage;
     this.settingsForScreens = settingsForScreens;
-
+    this.user = user;
     prepareBallBouncerGameMenu();
     prepareFourInARowGameMenu();
     prepareEscapeButtons();
@@ -76,7 +78,7 @@ public class MainScreen extends AbstractScreen {
 
   private void launchFourInARow() {
     super.getStage().close();
-    new FourInARowScreen(new Stage(), new FourInARowGame(null, new FourInARowGameSettings())).show();
+    new FourInARowScreen(new Stage(), new FourInARowGame(null, new FourInARowGameSettings()),user).show();
   }
 
   private void prepareBallBouncerGameMenu() {

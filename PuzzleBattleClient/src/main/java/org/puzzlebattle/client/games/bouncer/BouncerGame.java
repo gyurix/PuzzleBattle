@@ -3,6 +3,7 @@ package org.puzzlebattle.client.games.bouncer;
 import javafx.geometry.Point2D;
 import javafx.scene.input.KeyCode;
 import lombok.Getter;
+import org.puzzlebattle.client.databaseTables.UserPuzzleBattle;
 import org.puzzlebattle.client.games.Game;
 
 import java.util.Random;
@@ -24,7 +25,6 @@ public class BouncerGame extends Game {
   private boolean right1, right2;
   private BouncerGameSettings settings;
   private BouncerPlayer you, enemy;
-
 
   /**
    * Constructor for objects of class SkladPonuka

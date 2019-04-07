@@ -13,6 +13,7 @@ import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
+import org.puzzlebattle.client.databaseTables.LoginRegisterUser;
 
 
 /**
@@ -177,7 +178,11 @@ public class RegisterScreen extends AbstractScreen {
       passwdsAreNotSame.showAndWait();
       return;
     }
-
-    new AdditionalInformationScreen(stage,nickName,email).show();
+    else
+    {
+      LoginRegisterUser.registerUser(nickName,email,password);
+    }
+    new AdditionalInformationScreen(new Stage(),nickName,email).show();
+    new LoginScreen(stage).show();
   }
 }

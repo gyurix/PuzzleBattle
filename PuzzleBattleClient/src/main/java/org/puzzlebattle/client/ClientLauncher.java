@@ -1,9 +1,21 @@
 package org.puzzlebattle.client;
 
+
 import javafx.application.Application;
 import javafx.stage.Stage;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
+import org.hibernate.tool.hbm2ddl.SchemaExport;
+import org.puzzlebattle.client.databaseTables.UserPuzzleBattle;
 import org.puzzlebattle.client.screen.LoginScreen;
 import org.puzzlebattle.core.utils.LangFile;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+
 
 /**
  * Write a description of class SkladPonuka here.

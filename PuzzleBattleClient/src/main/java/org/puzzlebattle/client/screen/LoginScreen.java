@@ -11,6 +11,8 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
+import org.puzzlebattle.client.databaseTables.LoginRegisterUser;
+import org.puzzlebattle.client.databaseTables.UserPuzzleBattle;
 
 
 /**
@@ -36,6 +38,8 @@ public class LoginScreen extends AbstractScreen {
   private Scene sceneLogin;
   private Label separatorLeft, separatorRight;
   private Stage stage;
+
+  private UserPuzzleBattle user;
 
   /**
    * Constructor which creates screen for log in
@@ -147,7 +151,9 @@ public class LoginScreen extends AbstractScreen {
     try {
       obtainedPassword = passwordField.getText();
       obtainedLogin = loginTextField.getText();
-      new MainScreen(stage, new SettingsForScreens()).show();
+      if((user = LoginRegisterUser.getRegisterUser(obtainedLogin,obtainedPassword))!=null) {
+        new MainScreen(stage, new SettingsForScreens(), user).show();
+      }
     } catch (Exception e) {
       e.printStackTrace();
     }

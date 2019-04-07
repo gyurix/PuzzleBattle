@@ -10,6 +10,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import org.puzzlebattle.client.databaseTables.UserPuzzleBattle;
 import org.puzzlebattle.client.screen.MainScreen;
 import org.puzzlebattle.client.screen.SettingsForScreens;
 
@@ -26,9 +27,12 @@ public class WinningDialog extends Stage {
   private Scene scene;
   private VBox verticalBox;
   private Label winner;
+  private UserPuzzleBattle user;
 
-  public WinningDialog(FourInARowScreen fourInARowScreen, FourInARowPlayer winningPlayer, Stage primaryStage) {
+  public WinningDialog(FourInARowScreen fourInARowScreen, FourInARowPlayer winningPlayer, Stage primaryStage, UserPuzzleBattle user) {
     this.primaryStage = primaryStage;
+    this.user = user;
+
     prepareLayouts(fourInARowScreen);
     scene = new Scene(border, fourInARowScreen.getWidth(), fourInARowScreen.getHeight());
     applySettingsToStage(winningPlayer);
@@ -66,7 +70,7 @@ public class WinningDialog extends Stage {
   private void createMainMenu() {
     this.close();
     primaryStage.close();
-    new MainScreen(new Stage(), new SettingsForScreens()).show();
+    new MainScreen(new Stage(), new SettingsForScreens(),user).show();
   }
 
   public double getWinningDialogHeight() {
@@ -97,7 +101,7 @@ public class WinningDialog extends Stage {
   private void startNewGame(FourInARowScreen fourInARowScreen) {
     this.close();
     fourInARowScreen.getStage().close();
-    new FourInARowScreen(fourInARowScreen.getStage(), new FourInARowGame(null, new FourInARowGameSettings())).show();
+    new FourInARowScreen(fourInARowScreen.getStage(), new FourInARowGame(null, new FourInARowGameSettings()),user).show();
   }
 
   private void tryToAddImage() {

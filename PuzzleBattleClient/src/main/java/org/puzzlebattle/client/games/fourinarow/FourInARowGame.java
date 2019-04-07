@@ -32,7 +32,6 @@ public class FourInARowGame extends Game {
   public FourInARowGame(Object serverConnection, FourInARowGameSettings settings) {
     super(serverConnection);
     this.settings = settings;
-
     FourInARowPlayer.nullNumberOfPlayers();
     you = new FourInARowPlayer(this, true, Color.RED);
     enemy = new FourInARowPlayer(this, false, Color.BLUE);
