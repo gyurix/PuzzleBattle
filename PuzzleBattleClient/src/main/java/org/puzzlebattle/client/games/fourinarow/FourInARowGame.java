@@ -5,8 +5,10 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import lombok.Getter;
 import org.puzzlebattle.client.games.Game;
+import org.puzzlebattle.core.utils.Logging;
 
 import java.util.ArrayList;
+
 
 
 /**
@@ -71,7 +73,7 @@ public class FourInARowGame extends Game {
 
   private boolean conditionsToMove(int column) {
     if (settings.getMaxColumns() >= column && fillingColumns[column] < settings.getMaxRows()) {
-      System.out.println(fillingColumns[column] + " <> " + settings.getMaxRows());
+      Logging.logInfo(fillingColumns[column] + " <> " + settings.getMaxRows());
       return true;
     } else
       return false;
@@ -134,7 +136,7 @@ public class FourInARowGame extends Game {
 
     playerOnTheMove.takeMove();
     number = playerOnTheMove.getPlayingNumber();
-    System.out.println("playing player: " + number);
+    Logging.logInfo("player on the move: " + number);
     numberOfPlayers = FourInARowPlayer.getNumberOfPlayers();
     if (number == numberOfPlayers)
       number = 1;

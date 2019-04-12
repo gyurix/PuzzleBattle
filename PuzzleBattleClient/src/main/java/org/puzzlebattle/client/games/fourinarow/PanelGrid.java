@@ -111,7 +111,6 @@ public class PanelGrid extends Pane {
     for (int i = 0; i < rows + 1; i = i + 1) {
       grid.add(createRectangle(initialSpace, i * rowSpace + initialSpace + columnSpace, height, thicknessOfRows, colorOfRows));
       panel.getChildren().add(grid.get(i));
-      System.out.println("0 " + i * rowSpace + "   " + thicknessOfRows + " " + height);
     }
 
     for (int i = 0; i < columns + 1; i = i + 1) {

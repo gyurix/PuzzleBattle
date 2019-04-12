@@ -68,7 +68,6 @@ public abstract class AbstractScreen {
    *
    * @return width of the screen, 640 by default
    */
-
   public double getWidth() {
     return 640;
   }
@@ -77,7 +76,6 @@ public abstract class AbstractScreen {
   /**
    * Method where is speciffied what to do after closing a window
    */
-
   public void onClose() {
   }
 
@@ -97,7 +95,6 @@ public abstract class AbstractScreen {
    *
    * @param scene scene which is used to register events
    */
-
   public void registerEvents(Scene scene) {
   }
 
@@ -108,7 +105,6 @@ public abstract class AbstractScreen {
    * @param task     thread which will be launched
    * @return created TimeLine
    */
-
   public Timeline scheduleAtFixedRate(long duration, Runnable task) {
     Timeline tl = new Timeline(new KeyFrame(Duration.millis(duration), e -> task.run()));
     tl.setCycleCount(Timeline.INDEFINITE);
@@ -130,10 +126,20 @@ public abstract class AbstractScreen {
     stage.setOnCloseRequest(e -> onCloseHandler());
   }
 
+  /**
+   * Default fon for every inherited screen
+   *
+   * @return
+   */
   protected Font getDefaultFont() {
     return Font.font("Arial", FontWeight.BOLD, FontPosture.ITALIC, 25);
   }
 
+  /**
+   * Default insets for any component used in inherited class
+   *
+   * @return inets with default values
+   */
   protected Insets createDefaultInsets(){
     return new Insets(50, 100, 50, 100);
   }

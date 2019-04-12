@@ -18,6 +18,7 @@ import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.query.Query;
 import org.puzzlebattle.client.databaseTables.UserPuzzleBattle;
+import org.puzzlebattle.core.utils.Logging;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -27,6 +28,9 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+/**
+ * Class for obtaining additional information from given forms, which are created here.
+ */
 public class AdditionalInformationScreen extends AbstractScreen {
 
   private Scene scene1, scene2;
@@ -66,6 +70,13 @@ public class AdditionalInformationScreen extends AbstractScreen {
   private UserPuzzleBattle loadedUser;
   private Date createdDate;
 
+  /**
+   * Constructor which prepares window with its basic components for obtaining additional information from them
+   *
+   * @param stage stage which is used to display window
+   * @param nickName nickname of user
+   * @param emailOfPlayer email of user
+   */
   public AdditionalInformationScreen(Stage stage,String nickName,String emailOfPlayer) {
     super(stage);
     this.stage=stage;
@@ -74,13 +85,20 @@ public class AdditionalInformationScreen extends AbstractScreen {
     prepareComponents();
     prepareScenes();
     stage.setTitle("Additional information of player");
+    Logging.logInfo("Additional information screen has been created, but no shown.");
   }
 
+  /**
+   * Showing additional information screen
+   */
   public void show(){
     stage.setScene(scene1);
     stage.show();
   }
 
+  /**
+   * Prepares components to obtain additional information
+   */
   private void prepareComponents() {
     prepareLabelsForScene1();
     prepareLabelsForScene2();
@@ -93,11 +111,19 @@ public class AdditionalInformationScreen extends AbstractScreen {
     prepareLayoutsForScene2();
   }
 
+  /**
+   * Prepare scenes used in additional information window
+   */
   private void prepareScenes(){
     scene1 = new Scene(borderScene1,super.getWidth(),super.getHeight());
     scene2 = new Scene(borderScene2,super.getWidth(),super.getHeight());
   }
 
+  /**
+   * Prepare components of scene 1, it includes used regions, and labels, text fields
+   * <br>
+   *  name, surname, dateOfBirth
+   */
   private void prepareRegionForScene1(){
     regionSurnameDateOfBirth = new Region();
     regionSurnameDateOfBirth.setMinHeight(10);
@@ -109,6 +135,9 @@ public class AdditionalInformationScreen extends AbstractScreen {
     leftConfirmScene1.setMinWidth(50);
   }
 
+  /**
+   * Regions for scene 2
+   */
   private void prepareRegionsForScene2(){
     bottomLeftScene2 = new Region();
     bottomLeftScene2.setMinWidth(100);
@@ -116,6 +145,9 @@ public class AdditionalInformationScreen extends AbstractScreen {
     leftConfirmScene2.setMinWidth(50);
   }
 
+  /**
+   * Labels for scene 1
+   */
   private void prepareLabelsForScene1() {
     prepareSideLabelsForScene1();
     addNameLabel = new Label("Your name");
@@ -129,6 +161,9 @@ public class AdditionalInformationScreen extends AbstractScreen {
     addDateOfBirth.setMaxWidth(Double.MAX_VALUE);
   }
 
+  /**
+   * Labels for scene 2
+   */
   private void prepareLabelsForScene2(){
     prepareSideLabelsForScene2();
     addPhotoLabel = new Label("Your photo");
@@ -139,6 +174,9 @@ public class AdditionalInformationScreen extends AbstractScreen {
     pathForPhotoLabel.setMaxWidth(Double.MAX_VALUE);
   }
 
+  /**
+   * Sides labels for scene 1.
+   */
   private void prepareSideLabelsForScene1(){
     leftSideLabelScene1 = new Label();
     leftSideLabelScene1.setMinWidth(50);
@@ -146,6 +184,9 @@ public class AdditionalInformationScreen extends AbstractScreen {
     rightSideLabelScene1.setMinWidth(50);
   }
 
+  /**
+   * Side labels for scene 2
+   */
   private void prepareSideLabelsForScene2(){
     leftSideLabelScene2 = new Label();
     leftSideLabelScene2.setMinWidth(50);
@@ -153,12 +194,18 @@ public class AdditionalInformationScreen extends AbstractScreen {
     rightSideLabelScene2.setMinWidth(50);
   }
 
+  /**
+   * Text fields for scene 1
+   */
   private void prepareTextFieldsForScene1() {
     nameText = new TextField(addYourName);
     surnameText = new TextField(addYourSurname);
     dateOfBirthText = new TextField(addYourDateOfBirth);
   }
 
+  /**
+   * Layouts for scene 1
+   */
   private void prepareLayoutsForScene1(){
     prepareMovingPageLayoutScene1();
     prepareMainComponentLayoutScene1();
@@ -170,18 +217,27 @@ public class AdditionalInformationScreen extends AbstractScreen {
     borderScene1.setRight(rightSideLabelScene1);
   }
 
+  /**
+   * Page layouts for scene 1
+   */
   private void prepareMovingPageLayoutScene1() {
     movePageScene1 = new HBox(10);
     movePageScene1.setMinHeight(50);
     movePageScene1.getChildren().addAll(leftConfirmScene1,confirmScene1, bottomLeftScene1, pageNextScene1, pagePreviousScene1);
   }
 
+  /**
+   * Page layouts for scene 2
+   */
   private void prepareMovingPageLayoutScene2(){
     movePageScene2 = new HBox(10);
     movePageScene2.setMinHeight(50);
     movePageScene2.getChildren().addAll(leftConfirmScene2,confirmScene2,bottomLeftScene2, pageNextScene2, pagePreviousScene2);
   }
 
+  /**
+   * Layouts for scene 2
+   */
   private void prepareLayoutsForScene2(){
     prepareMovingPageLayoutScene2();
     prepareMainComponentLayoutScene2();
@@ -193,6 +249,9 @@ public class AdditionalInformationScreen extends AbstractScreen {
     borderScene2.setRight(rightSideLabelScene2);
   }
 
+  /**
+   * Main component layout for scene 1
+   */
   private void prepareMainComponentLayoutScene1(){
     mainComponentsScene1 = new VBox(10);
     mainComponentsScene1.setMinWidth(super.getWidth()-200);
@@ -201,6 +260,9 @@ public class AdditionalInformationScreen extends AbstractScreen {
     mainComponentsScene1.setPadding(super.createDefaultInsets());
   }
 
+  /**
+   * Main components layout for scene 2
+   */
   private void prepareMainComponentLayoutScene2(){
     mainComponentsScene2 = new VBox(10);
     mainComponentsScene2.setMinWidth(super.getWidth()-200);
@@ -208,6 +270,9 @@ public class AdditionalInformationScreen extends AbstractScreen {
     mainComponentsScene2.setPadding(super.createDefaultInsets());
   }
 
+  /**
+   * Buttons for scene 1
+   */
   private void prepareButtonsForScene1(){
     pageNextScene1 = new Button("Next");
     pageNextScene1.setOnAction(e->stage.setScene(scene2));
@@ -220,6 +285,9 @@ public class AdditionalInformationScreen extends AbstractScreen {
     confirmScene1.setOnAction(e->prepareProfileScreen());
   }
 
+  /**
+   * Buttons for scene 2
+   */
   private void prepareButtonsForScene2(){
     pageNextScene2 = new Button("Next");
     pageNextScene2.setDisable(true);
@@ -235,8 +303,10 @@ public class AdditionalInformationScreen extends AbstractScreen {
     loadPhoto.setOnAction(e->loadPhoto());
   }
 
-  private void prepareProfileScreen()
-  {
+  /**
+   * Creation of profile screen with given data
+   */
+  private void prepareProfileScreen() {
     try {
       prepareBasicComponentsForProfileScreen();
       prepareBasicSettingsForProfileScreen();
@@ -246,14 +316,15 @@ public class AdditionalInformationScreen extends AbstractScreen {
       playerProfile.show();
       stage.close();
     }
-    catch(ParseException e)
-    {
-      e.printStackTrace();
+    catch(ParseException e) {
+      Logging.logWarning("Cannot convert string to date!",e);
     }
   }
 
-  private void updateInformationDatabase()
-  {
+  /**
+   * Updating information of database.
+   */
+  private void updateInformationDatabase() {
     SessionFactory sf = new Configuration().configure("/META-INF/hibernate.cfg.xml").buildSessionFactory();
     Session session = sf.openSession();
     Transaction t = session.beginTransaction();
@@ -270,8 +341,15 @@ public class AdditionalInformationScreen extends AbstractScreen {
     t.commit();
     session.close();
     sf.close();
+
+    Logging.logInfo("Information about user in database has been updated.");
   }
 
+  /**
+   * Updating information for player profile screen.
+   *
+   * @param playerProfile player's profile, not shown, window, where given information will be shown
+   */
   private void updateInformationPlayerProfileScreen(PlayerProfileScreen playerProfile){
     playerProfile.setNickName(nickNameOfPlayer);
     playerProfile.setEmail(emailOfPlayer);
@@ -282,40 +360,58 @@ public class AdditionalInformationScreen extends AbstractScreen {
     playerProfile.setLoadedDateOfBirth(loadedDateOfBirth);
   }
 
+  /**
+   *  Loading given components from text fields, and given conversions are used if necessary
+   */
   private void prepareBasicComponentsForProfileScreen() throws ParseException{
       int currentYear = Calendar.getInstance().get(Calendar.YEAR);
       loadedName = nameText.getText();
       loadedSurname = surnameText.getText();
-      Date a = new Date();
       loadedDateOfBirth = dateOfBirthText.getText();
       createdDate = convertStringToDate(loadedDateOfBirth);
       if(dateOfBirthText.getLength()==12) {
         loadedAge = Integer.toString(currentYear - getYear(loadedDateOfBirth));
       }
-
+      else {
+        Logging.logSevere("Bad length of given date of birth!");
+      }
   }
 
+  /**
+   * Abstracting string from year and its conversion to in
+   */
   private int getYear(String yearInFormat)
   {
     yearInFormat= yearInFormat.substring(8);
     return Integer.parseInt(yearInFormat);
   }
 
+  /**
+   * Preparing basic settings for profile screen, especially if one or more
+   * information haven.t been stored
+   */
   private void prepareBasicSettingsForProfileScreen(){
     if(loadedImagePath.equals(noImageLoaded)){
+      Logging.logInfo("Default image must be set!");
       loadedImagePath = "faces/face1.png";
     }
     if(loadedName.equals(addYourName)){
+      Logging.logInfo("No name has been found!");
       loadedName = "name";
     }
     if(loadedSurname.equals(addYourSurname)){
+      Logging.logInfo("No surname has been found!");
       loadedSurname = "surname";
     }
     if(loadedDateOfBirth.equals(addYourDateOfBirth)){
+      Logging.logInfo("No date of birth has been found!");
       loadedDateOfBirth = "date of birth";
     }
   }
 
+  /**
+   * Chosen photo is loaded here
+   */
   private void loadPhoto(){
     loadedImagePath = "faces/face1.png";
     pathForPhotoLabel.setText(noImageLoaded);
@@ -328,11 +424,14 @@ public class AdditionalInformationScreen extends AbstractScreen {
     }
     catch(MalformedURLException e)
     {
-      e.printStackTrace();
+      Logging.logSevere("Wrong url typed!",e);
       displayAlert();
     }
   }
 
+  /**
+   * Alert window which appears if image cant't be loaded
+   */
   private void displayAlert(){
     Alert alert = new Alert(Alert.AlertType.ERROR);
     alert.setTitle("Image can't be loaded.");
@@ -340,6 +439,15 @@ public class AdditionalInformationScreen extends AbstractScreen {
     alert.showAndWait();
   }
 
+  /**
+   * Convertion string date to sql date, for storing into database
+   *
+   * @param dateToConvert string representation of date which should be converted
+   *
+   * @return sql date prepared to be stored into database
+   *
+   * @throws ParseException if there is error while convertion
+   */
   public static Date convertStringToDate(String dateToConvert) throws ParseException
   {
     SimpleDateFormat simpleDateF = new SimpleDateFormat("dd. MM. yyyy");
@@ -348,6 +456,13 @@ public class AdditionalInformationScreen extends AbstractScreen {
     return sqlDate;
   }
 
+  /**
+   * Method which saves image to byte field for inserting it as component for database
+   *
+   * @param file file which should be inserted into database
+   *
+   * @return byte field containing loaded picture, if everything is ok during reading
+   */
   public byte[] saveImageToBytes(File file)
   {
     byte[] result = new byte[(int) file.length()];
@@ -357,7 +472,7 @@ public class AdditionalInformationScreen extends AbstractScreen {
       fileInputStream.read(result);
       fileInputStream.close();
     } catch (Exception e) {
-      e.printStackTrace();
+      Logging.logWarning("Cannot read selected image from file|",e);
     }
 
     return result;

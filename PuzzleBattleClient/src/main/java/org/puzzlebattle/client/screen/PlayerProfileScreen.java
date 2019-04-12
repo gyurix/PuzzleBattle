@@ -14,6 +14,7 @@ import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import javafx.scene.layout.GridPane;
+import org.puzzlebattle.core.utils.Logging;
 
 import java.util.Random;
 
@@ -45,6 +46,7 @@ public class PlayerProfileScreen extends AbstractScreen{
     this.stage = stage;
     prepareComponents();
     prepareScene();
+    Logging.logInfo("Player screen has been created.");
   }
 
   public void show() {
@@ -96,7 +98,6 @@ public class PlayerProfileScreen extends AbstractScreen{
   private void prepareButtonsAndPhoto(){
     Random r = new Random(10);
     int pictureNumber=  r.nextInt(10);
-    //pictureNumber+=1;
     photoImage= new Image("faces/face"+pictureNumber+".png");
     selfPhoto = new ImageView(photoImage);
     selfPhoto.setFitWidth(PICTURE_WIDTH);
@@ -104,7 +105,6 @@ public class PlayerProfileScreen extends AbstractScreen{
 
     returnButton = new Button("Return");
     returnButton.setMinWidth(100);
-    //returnButton.setOnAction(e->;);
   }
 
   private void prepareRegion(){

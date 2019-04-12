@@ -9,18 +9,16 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
-import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
-import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import org.puzzlebattle.client.databaseTables.LoginRegisterUser;
-import org.puzzlebattle.client.databaseTables.UserPuzzleBattle;
+import org.puzzlebattle.core.utils.Logging;
 
 
 /**
  * Class where screen will be registered
  *
- * @author (Jakub Perdek,Juraj Barath)
+ * @author (Jakub Perdek, Juraj Barath)
  * @version (1.0)
  */
 
@@ -56,6 +54,7 @@ public class RegisterScreen extends AbstractScreen {
     this.stage=stage;
     prepareComponents();
     registerScene = new Scene(border,super.getWidth(),super.getHeight()+ADDITIONAL_HEIGHT);
+    Logging.logInfo("Registration screen is created, but not shown.");
   }
 
   public void show() {
@@ -170,21 +169,27 @@ public class RegisterScreen extends AbstractScreen {
     String email = emailText.getText();
     String password = passwordField.getText();
     String passwordConfirm = confirmPasswordField.getText();
-    Alert passwdsAreNotSame;
 
     if(!password.equals(passwordConfirm))
     {
-      passwdsAreNotSame= new Alert(Alert.AlertType.ERROR);
-      passwdsAreNotSame.setTitle("Not same passwords");
-      passwdsAreNotSame.setContentText("Type your password and confirm password again!");
-      passwdsAreNotSame.showAndWait();
+      Logging.logWarning("Passwords aren't same!");
+      noSamePasswordsAlert();
       return;
     }
     else
     {
+      Logging.logInfo("Passwords are the same. Registration is completed!");
       LoginRegisterUser.registerUser(nickName,email,password);
     }
     new AdditionalInformationScreen(new Stage(),nickName,email).show();
     new LoginScreen(stage).show();
+  }
+
+  private void noSamePasswordsAlert() {
+    Alert passwdsAreNotSame;
+    passwdsAreNotSame= new Alert(Alert.AlertType.ERROR);
+    passwdsAreNotSame.setTitle("Not same passwords");
+    passwdsAreNotSame.setContentText("Type your password and confirm password again!");
+    passwdsAreNotSame.showAndWait();
   }
 }

@@ -4,6 +4,9 @@ import javafx.scene.paint.Color;
 import lombok.Data;
 
 @Data
+/**
+ * Class with settings for screens
+ */
 public class SettingsForScreens {
 
   private final int sizeOfTextBallBouncer = 45;
@@ -18,6 +21,9 @@ public class SettingsForScreens {
   private String typeCharBallBouncer = "Arial";
   private String typeCharFourInARow = "Arial";
 
+  /**
+   * Empty constructor which is used to make a few instances for many different games
+   */
   public SettingsForScreens() {
 
   }

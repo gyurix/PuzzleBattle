@@ -9,6 +9,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.puzzlebattle.client.databaseTables.UserPuzzleBattle;
 import org.puzzlebattle.client.screen.AbstractScreen;
+import org.puzzlebattle.core.utils.Logging;
 
 import java.util.ArrayList;
 
@@ -109,6 +110,7 @@ public class FourInARowScreen extends AbstractScreen {
     winningDialog.initModality(Modality.WINDOW_MODAL);
     winningDialog.initOwner(super.getStage());
     winningDialog.show();
+    Logging.logInfo("You are the winner!");
   }
 
   /**

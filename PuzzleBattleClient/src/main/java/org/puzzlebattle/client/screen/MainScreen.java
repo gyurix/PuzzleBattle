@@ -23,6 +23,7 @@ import org.puzzlebattle.client.games.bouncer.BouncerGameSettings;
 import org.puzzlebattle.client.games.fourinarow.FourInARowGame;
 import org.puzzlebattle.client.games.fourinarow.FourInARowGameSettings;
 import org.puzzlebattle.client.games.fourinarow.FourInARowScreen;
+import org.puzzlebattle.core.utils.Logging;
 
 import java.io.*;
 import java.text.DateFormat;
@@ -35,7 +36,6 @@ import java.util.Calendar;
  * @author (Jakub Perdek, Juraj Barath)
  * @version (1.0)
  */
-
 public class MainScreen extends AbstractScreen {
 
   Separator separator;
@@ -68,7 +68,6 @@ public class MainScreen extends AbstractScreen {
   /**
    * Constructor which creates main screen in the program.
    */
-
   public MainScreen(Stage stage, SettingsForScreens settingsForScreens, UserPuzzleBattle user) {
     super(stage);
     this.stage = stage;
@@ -79,18 +78,28 @@ public class MainScreen extends AbstractScreen {
     prepareEscapeButtons();
     prepareEscapeLayout();
     prepareSceneAndGridPane();
+    Logging.logInfo("Main scree has been created.");
   }
 
+  /**
+   * Launching Ball bouncer game
+   */
   private void launchBallBouncer() {
     super.getStage().close();
     new BallBouncerScreen(new Stage(), new BouncerGame(null, new BouncerGameSettings())).show();
   }
 
+  /**
+   * Launching Four in a row game
+   */
   private void launchFourInARow() {
     super.getStage().close();
     new FourInARowScreen(new Stage(), new FourInARowGame(null, new FourInARowGameSettings()),user).show();
   }
 
+  /**
+   * Prepare ball bouncer game menu, with all components which are made of
+   */
   private void prepareBallBouncerGameMenu() {
     prepareBallBouncerRegion();
     prepareLabelForBallBouncer();
@@ -99,18 +108,27 @@ public class MainScreen extends AbstractScreen {
     prepareImageBallBouncer();
   }
 
+  /**
+   * Prepare ball bounce
+   */
   private void prepareBallBouncerRegion()
   {
     regionBallBouncer =  new Region();
     regionBallBouncer.setMinHeight(10);
   }
 
+  /**
+   * Prepare four in a row region
+   */
   private void prepareFourInARowRegion()
   {
     regionFourInARow =  new Region();
     regionFourInARow.setMinHeight(10);
   }
 
+  /**
+   * Prepare buttons for ball bouncer
+   */
   private void prepareButtonsBallBouncer() {
     startBallBouncerGame = new Button("Launch Ball Bouncer game.");
     startBallBouncerGame.setMaxWidth(Double.MAX_VALUE);
@@ -122,6 +140,9 @@ public class MainScreen extends AbstractScreen {
     viewBestPlayersBallBouncer.setOnAction(e -> System.out.println("Not complete functionality"));
   }
 
+  /**
+   * Prepare buttons for Four in a row
+   */
   private void prepareButtonsFourInARow() {
     startFourInARowGame = new Button("Launch Four in a row game");
     startFourInARowGame.setMaxWidth(Double.MAX_VALUE);
@@ -133,11 +154,17 @@ public class MainScreen extends AbstractScreen {
     viewBestPlayersFourInARow.setOnAction(e -> System.out.println("Not completed functionality"));
   }
 
+  /**
+   * Prepare escape layout using horizontal layout
+   */
   private void prepareEscapeLayout() {
     hEscapeBox = new HBox(settingsForScreens.getSpacingForVBox());
     hEscapeBox.getChildren().addAll(reLoginButton, closeMainScreen,viewProfileButton);
   }
 
+  /**
+   * Preparing escape buttons, for example reLoginButton, closeMainScreen and viewProfileButton
+   */
   private void prepareEscapeButtons() {
     reLoginButton = new Button("Re login");
     reLoginButton.setMaxWidth(Double.MAX_VALUE);
@@ -150,6 +177,9 @@ public class MainScreen extends AbstractScreen {
     viewProfileButton.setOnAction(e->prepareProfileScreen());
   }
 
+  /**
+   * Preparing all components of Four in a row menu
+   */
   private void prepareFourInARowGameMenu() {
     prepareFourInARowRegion();
     prepareLabelForFourInARow();
@@ -158,6 +188,9 @@ public class MainScreen extends AbstractScreen {
     prepareImageFourInARow();
   }
 
+  /**
+   * Prepare image for ball bouncer
+   */
   private void prepareImageBallBouncer() {
     String imageURL = "pictures/BallBouncer.png";
     imageBallBouncer = new Image(imageURL);
@@ -168,6 +201,9 @@ public class MainScreen extends AbstractScreen {
     vBoxBallBouncerGame.getChildren().add(imageViewBallBouncer);
   }
 
+  /**
+   * Prepare image for four in a row game
+   */
   private void prepareImageFourInARow() {
     String imageURL = "pictures/FourInARow1.png";
     imageFourInARow = new Image(imageURL);
@@ -178,6 +214,9 @@ public class MainScreen extends AbstractScreen {
     vBoxFourInARowGame.getChildren().add(imageViewFourInARow);
   }
 
+  /**
+   * Prepare label for ball bouncer
+   */
   private void prepareLabelForBallBouncer() {
     labelBallBouncer = new Label("Ball Bouncer");
     fBallBouncer = new Font(settingsForScreens.getTypeCharBallBouncer(), settingsForScreens.getSizeOfTextBallBouncer());
@@ -186,6 +225,9 @@ public class MainScreen extends AbstractScreen {
     labelBallBouncer.setFont(fBallBouncer);
   }
 
+  /**
+   * Prepare label for four in a row
+   */
   private void prepareLabelForFourInARow() {
     labelFourInARow = new Label("Four In A Row");
     fFourInARow = new Font(settingsForScreens.getTypeCharFourInARow(), settingsForScreens.getSizeOfTextFourInARow());
@@ -194,6 +236,9 @@ public class MainScreen extends AbstractScreen {
     labelFourInARow.setFont(fFourInARow);
   }
 
+  /**
+   * Prepare horizontal layout for four in a row
+   */
   private void prepareLayoutFourInARow() {
     vBoxFourInARowGame = new VBox(settingsForScreens.getSpacingForVBox());
     vBoxFourInARowGame.setMaxWidth(Double.MAX_VALUE);
@@ -201,6 +246,9 @@ public class MainScreen extends AbstractScreen {
     vBoxFourInARowGame.getChildren().addAll(labelFourInARow,regionFourInARow, startFourInARowGame, viewBestPlayersFourInARow);
   }
 
+  /**
+   * Prepare vertical layout for ball bouncer
+   */
   private void prepareLayoutsBallBouncer() {
     vBoxBallBouncerGame = new VBox(settingsForScreens.getSpacingForVBox());
     vBoxBallBouncerGame.setMaxWidth(Double.MAX_VALUE);
@@ -208,6 +256,9 @@ public class MainScreen extends AbstractScreen {
     vBoxBallBouncerGame.getChildren().addAll(labelBallBouncer,regionBallBouncer, startBallBouncerGame, viewBestPlayersBallBouncer);
   }
 
+  /**
+   * Prepare scene and grid panel for
+   */
   private void prepareSceneAndGridPane() {
     gridPane = new GridPane();
     separator = new Separator();
@@ -223,11 +274,17 @@ public class MainScreen extends AbstractScreen {
     mainScene = new Scene(gridPane, super.getWidth(), super.getHeight());
   }
 
+  /**
+   * Re login for user, user will log off and main menu will be closed
+   */
   private void reLogin() {
     stage.close();
     new LoginScreen(stage).show();
   }
 
+  /**
+   * Showing of main screen
+   */
   public void show() {
     stage.setScene(mainScene);
     stage.setTitle("Main menu");
@@ -235,6 +292,9 @@ public class MainScreen extends AbstractScreen {
     stage.show();
   }
 
+  /**
+   * Preparation of profile screen, additional information about user will be loaded from database
+   */
   private void prepareProfileScreen() {
     playerProfileScreen = new PlayerProfileScreen(new Stage());
     UserPuzzleBattle userFromDatabase = LoginRegisterUser.getRegister(user.getNickName(),user.getPassword());
@@ -242,8 +302,18 @@ public class MainScreen extends AbstractScreen {
       updateInformationPlayerProfileScreen(playerProfileScreen, userFromDatabase);
       playerProfileScreen.show();
     }
+    else
+    {
+      Logging.logWarning("User data hasn't been obtained so far");
+    }
   }
 
+  /**
+   * Update information for player profile screen
+   *
+   * @param playerProfile player profile screen
+   * @param userFromDatabase user loaded width additional information from database using his nickname and password
+   */
   private void updateInformationPlayerProfileScreen(PlayerProfileScreen playerProfile,UserPuzzleBattle userFromDatabase){
 
     DateFormat df;
@@ -260,8 +330,9 @@ public class MainScreen extends AbstractScreen {
     }
     catch(IOException i)
     {
-      i.printStackTrace();
+      Logging.logWarning("Error while writing image", i);
     }
+
     playerProfile.setNickName(userFromDatabase.getNickName());
     playerProfile.setEmail(userFromDatabase.getEmail());
     if(userFromDatabase.getAvatar()!=null) {
@@ -269,6 +340,7 @@ public class MainScreen extends AbstractScreen {
     }
     else
     {
+      Logging.logFiner("no image is set, default will be applied");
       playerProfile.setLoadedImage("faces/face1.png");
     }
 
@@ -291,5 +363,7 @@ public class MainScreen extends AbstractScreen {
       playerProfile.setLoadedAge(String.valueOf((currentYear - year)));
       playerProfile.setLoadedDateOfBirth(convertedDate);
     }
+
+    Logging.logInfo("all available data have been added to profile from database");
   }
 }
