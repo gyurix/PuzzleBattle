@@ -14,6 +14,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import org.puzzlebattle.client.databaseTables.LoginRegisterUser;
+import org.puzzlebattle.client.databaseTables.UserPuzzleBattle;
 
 
 /**
@@ -45,6 +46,7 @@ public class RegisterScreen extends AbstractScreen {
   private Region regionNickEmail, regionEmailPassword, regionBetweenPassword;
   private Region regionUpConfirmButton;
   private static int ADDITIONAL_HEIGHT = 100;
+
   /**
    * Constructor which apply registering of the screen
    */

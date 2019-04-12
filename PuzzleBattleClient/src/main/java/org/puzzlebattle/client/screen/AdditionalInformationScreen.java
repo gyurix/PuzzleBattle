@@ -12,8 +12,19 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.stage.Stage;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
+import org.hibernate.query.Query;
+import org.puzzlebattle.client.databaseTables.UserPuzzleBattle;
+
 import java.io.File;
+import java.io.FileInputStream;
 import java.net.MalformedURLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 public class AdditionalInformationScreen extends AbstractScreen {
@@ -52,6 +63,8 @@ public class AdditionalInformationScreen extends AbstractScreen {
   private File loadedImage;
   private String loadedImagePath = defaultImage;
   private String loadedName, loadedSurname, loadedAge, loadedDateOfBirth;
+  private UserPuzzleBattle loadedUser;
+  private Date createdDate;
 
   public AdditionalInformationScreen(Stage stage,String nickName,String emailOfPlayer) {
     super(stage);
@@ -222,15 +235,44 @@ public class AdditionalInformationScreen extends AbstractScreen {
     loadPhoto.setOnAction(e->loadPhoto());
   }
 
-  private void prepareProfileScreen(){
-    prepareBasicComponentsForProfileScreen();
-    prepareBasicSettingsForProfileScreen();
-    playerProfile = new PlayerProfileScreen(new Stage());
-    updateInformation(playerProfile);
-    playerProfile.show();
+  private void prepareProfileScreen()
+  {
+    try {
+      prepareBasicComponentsForProfileScreen();
+      prepareBasicSettingsForProfileScreen();
+      playerProfile = new PlayerProfileScreen(new Stage());
+      updateInformationDatabase();
+      updateInformationPlayerProfileScreen(playerProfile);
+      playerProfile.show();
+      stage.close();
+    }
+    catch(ParseException e)
+    {
+      e.printStackTrace();
+    }
   }
 
-  private void updateInformation(PlayerProfileScreen playerProfile){
+  private void updateInformationDatabase()
+  {
+    SessionFactory sf = new Configuration().configure("/META-INF/hibernate.cfg.xml").buildSessionFactory();
+    Session session = sf.openSession();
+    Transaction t = session.beginTransaction();
+    String updateUser = "UPDATE UserPuzzleBattle SET name = ?3, surname = ?4,dateOfBirth = ?5, avatar = ?6 WHERE nickName=?1 AND email=?2";
+    Query query = session.createQuery(updateUser);
+    query.setParameter(1,nickNameOfPlayer);
+    query.setParameter(2,emailOfPlayer);
+    query.setParameter(3,loadedName);
+    query.setParameter(4,loadedSurname);
+    query.setParameter(5,createdDate);
+    query.setParameter(6,saveImageToBytes(loadedImage));
+
+    query.executeUpdate();
+    t.commit();
+    session.close();
+    sf.close();
+  }
+
+  private void updateInformationPlayerProfileScreen(PlayerProfileScreen playerProfile){
     playerProfile.setNickName(nickNameOfPlayer);
     playerProfile.setEmail(emailOfPlayer);
     playerProfile.setLoadedImage(loadedImagePath);
@@ -240,13 +282,15 @@ public class AdditionalInformationScreen extends AbstractScreen {
     playerProfile.setLoadedDateOfBirth(loadedDateOfBirth);
   }
 
-  private void prepareBasicComponentsForProfileScreen(){
+  private void prepareBasicComponentsForProfileScreen() throws ParseException{
+      int currentYear = Calendar.getInstance().get(Calendar.YEAR);
       loadedName = nameText.getText();
       loadedSurname = surnameText.getText();
       Date a = new Date();
       loadedDateOfBirth = dateOfBirthText.getText();
+      createdDate = convertStringToDate(loadedDateOfBirth);
       if(dateOfBirthText.getLength()==12) {
-        loadedAge = Integer.toString(2019 - getYear(loadedDateOfBirth));
+        loadedAge = Integer.toString(currentYear - getYear(loadedDateOfBirth));
       }
 
   }
@@ -294,5 +338,28 @@ public class AdditionalInformationScreen extends AbstractScreen {
     alert.setTitle("Image can't be loaded.");
     alert.setContentText("Try to add another image or try to load image again.");
     alert.showAndWait();
+  }
+
+  public static Date convertStringToDate(String dateToConvert) throws ParseException
+  {
+    SimpleDateFormat simpleDateF = new SimpleDateFormat("dd. MM. yyyy");
+    java.util.Date date =simpleDateF.parse(dateToConvert);
+    Date sqlDate = new Date(date.getTime());
+    return sqlDate;
+  }
+
+  public byte[] saveImageToBytes(File file)
+  {
+    byte[] result = new byte[(int) file.length()];
+
+    try {
+      FileInputStream fileInputStream = new FileInputStream(file);
+      fileInputStream.read(result);
+      fileInputStream.close();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+
+    return result;
   }
 }

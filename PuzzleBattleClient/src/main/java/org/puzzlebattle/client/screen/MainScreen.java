@@ -11,9 +11,11 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import org.puzzlebattle.client.databaseTables.LoginRegisterUser;
 import org.puzzlebattle.client.databaseTables.UserPuzzleBattle;
 import org.puzzlebattle.client.games.bouncer.BallBouncerScreen;
 import org.puzzlebattle.client.games.bouncer.BouncerGame;
@@ -21,6 +23,11 @@ import org.puzzlebattle.client.games.bouncer.BouncerGameSettings;
 import org.puzzlebattle.client.games.fourinarow.FourInARowGame;
 import org.puzzlebattle.client.games.fourinarow.FourInARowGameSettings;
 import org.puzzlebattle.client.games.fourinarow.FourInARowScreen;
+
+import java.io.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 /**
  * Main screen in the program. Probably games can be chosen here.
@@ -45,6 +52,7 @@ public class MainScreen extends AbstractScreen {
   private Label labelFourInARow;
   private Scene mainScene;
   private Button reLoginButton;
+  private Button viewProfileButton;
   private SettingsForScreens settingsForScreens;
   private Stage stage;
   private Button startBallBouncerGame;
@@ -53,8 +61,10 @@ public class MainScreen extends AbstractScreen {
   private VBox vBoxFourInARowGame;
   private Button viewBestPlayersBallBouncer;
   private Button viewBestPlayersFourInARow;
-
   private UserPuzzleBattle user;
+  private PlayerProfileScreen playerProfileScreen;
+  private Region regionFourInARow, regionBallBouncer;
+
   /**
    * Constructor which creates main screen in the program.
    */
@@ -67,7 +77,7 @@ public class MainScreen extends AbstractScreen {
     prepareBallBouncerGameMenu();
     prepareFourInARowGameMenu();
     prepareEscapeButtons();
-    prepareEscaneLayout();
+    prepareEscapeLayout();
     prepareSceneAndGridPane();
   }
 
@@ -82,11 +92,23 @@ public class MainScreen extends AbstractScreen {
   }
 
   private void prepareBallBouncerGameMenu() {
-
+    prepareBallBouncerRegion();
     prepareLabelForBallBouncer();
     prepareButtonsBallBouncer();
     prepareLayoutsBallBouncer();
     prepareImageBallBouncer();
+  }
+
+  private void prepareBallBouncerRegion()
+  {
+    regionBallBouncer =  new Region();
+    regionBallBouncer.setMinHeight(10);
+  }
+
+  private void prepareFourInARowRegion()
+  {
+    regionFourInARow =  new Region();
+    regionFourInARow.setMinHeight(10);
   }
 
   private void prepareButtonsBallBouncer() {
@@ -111,9 +133,9 @@ public class MainScreen extends AbstractScreen {
     viewBestPlayersFourInARow.setOnAction(e -> System.out.println("Not completed functionality"));
   }
 
-  private void prepareEscaneLayout() {
+  private void prepareEscapeLayout() {
     hEscapeBox = new HBox(settingsForScreens.getSpacingForVBox());
-    hEscapeBox.getChildren().addAll(reLoginButton, closeMainScreen);
+    hEscapeBox.getChildren().addAll(reLoginButton, closeMainScreen,viewProfileButton);
   }
 
   private void prepareEscapeButtons() {
@@ -123,9 +145,13 @@ public class MainScreen extends AbstractScreen {
     closeMainScreen = new Button("Close");
     closeMainScreen.setMaxWidth(Double.MAX_VALUE);
     closeMainScreen.setOnAction(e -> stage.close());
+    viewProfileButton = new Button("View profile");
+    viewProfileButton.setMaxWidth(Double.MAX_VALUE);
+    viewProfileButton.setOnAction(e->prepareProfileScreen());
   }
 
   private void prepareFourInARowGameMenu() {
+    prepareFourInARowRegion();
     prepareLabelForFourInARow();
     prepareButtonsFourInARow();
     prepareLayoutFourInARow();
@@ -172,20 +198,20 @@ public class MainScreen extends AbstractScreen {
     vBoxFourInARowGame = new VBox(settingsForScreens.getSpacingForVBox());
     vBoxFourInARowGame.setMaxWidth(Double.MAX_VALUE);
     vBoxFourInARowGame.setMaxHeight(Double.MAX_VALUE);
-    vBoxFourInARowGame.getChildren().addAll(labelFourInARow, startFourInARowGame, viewBestPlayersFourInARow);
+    vBoxFourInARowGame.getChildren().addAll(labelFourInARow,regionFourInARow, startFourInARowGame, viewBestPlayersFourInARow);
   }
 
   private void prepareLayoutsBallBouncer() {
     vBoxBallBouncerGame = new VBox(settingsForScreens.getSpacingForVBox());
     vBoxBallBouncerGame.setMaxWidth(Double.MAX_VALUE);
     vBoxBallBouncerGame.setMaxHeight(Double.MAX_VALUE);
-    vBoxBallBouncerGame.getChildren().addAll(labelBallBouncer, startBallBouncerGame, viewBestPlayersBallBouncer);
+    vBoxBallBouncerGame.getChildren().addAll(labelBallBouncer,regionBallBouncer, startBallBouncerGame, viewBestPlayersBallBouncer);
   }
 
   private void prepareSceneAndGridPane() {
     gridPane = new GridPane();
     separator = new Separator();
-    gridPane.setHgap(50);
+    gridPane.setHgap(20);
     gridPane.setVgap(20);
     separator.setOrientation(Orientation.VERTICAL);
     gridPane.setPadding(new Insets(10, 20, 10, 20));
@@ -207,5 +233,63 @@ public class MainScreen extends AbstractScreen {
     stage.setTitle("Main menu");
     stage.setOnCloseRequest(e -> stage.close());
     stage.show();
+  }
+
+  private void prepareProfileScreen() {
+    playerProfileScreen = new PlayerProfileScreen(new Stage());
+    UserPuzzleBattle userFromDatabase = LoginRegisterUser.getRegister(user.getNickName(),user.getPassword());
+    if(userFromDatabase!=null) {
+      updateInformationPlayerProfileScreen(playerProfileScreen, userFromDatabase);
+      playerProfileScreen.show();
+    }
+  }
+
+  private void updateInformationPlayerProfileScreen(PlayerProfileScreen playerProfile,UserPuzzleBattle userFromDatabase){
+
+    DateFormat df;
+    String convertedDate;
+    Calendar calendar;
+    int year, currentYear;
+    ByteArrayOutputStream b;
+    File imageFile = new File("PuzzleBattleClient/src/main/resources/pictures/avatar.bmp");
+    try {
+      FileOutputStream fos = new FileOutputStream(imageFile);
+      if(userFromDatabase.getAvatar()!=null)
+      fos.write(userFromDatabase.getAvatar());
+      fos.close();
+    }
+    catch(IOException i)
+    {
+      i.printStackTrace();
+    }
+    playerProfile.setNickName(userFromDatabase.getNickName());
+    playerProfile.setEmail(userFromDatabase.getEmail());
+    if(userFromDatabase.getAvatar()!=null) {
+      playerProfile.setLoadedImage("pictures/avatar.bmp");
+    }
+    else
+    {
+      playerProfile.setLoadedImage("faces/face1.png");
+    }
+
+    if(userFromDatabase.getName()!=null) {
+      playerProfile.setLoadedName(userFromDatabase.getName());
+    }
+
+    if(userFromDatabase.getSurname()!=null) {
+      playerProfile.setLoadedSurname(userFromDatabase.getSurname());
+    }
+
+    if(userFromDatabase.getDateOfBirth()!=null) {
+      df = new SimpleDateFormat("MM/dd/yyyy");
+      convertedDate = df.format(userFromDatabase.getDateOfBirth());
+      calendar = Calendar.getInstance();
+      calendar.setTime(userFromDatabase.getDateOfBirth());
+      year = calendar.get(Calendar.YEAR);
+      currentYear = Calendar.getInstance().get(Calendar.YEAR);
+
+      playerProfile.setLoadedAge(String.valueOf((currentYear - year)));
+      playerProfile.setLoadedDateOfBirth(convertedDate);
+    }
   }
 }

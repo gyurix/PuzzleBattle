@@ -1,17 +1,18 @@
 package org.puzzlebattle.client.databaseTables;
 
-import org.hibernate.annotations.GenericGenerator;
+import lombok.Data;
 
 import javax.persistence.*;
+import java.sql.Date;
 
 @Entity
 @Table(name = "userPuzzleBattle")
+@Data
 public class UserPuzzleBattle {
 
   @Id
   @GeneratedValue//(strategy=GenerationType.IDENTITY)
   private int id;
-
 
  // @Column(name = "nickName")
   private String nickName;
@@ -20,14 +21,20 @@ public class UserPuzzleBattle {
    private String email;
 
    private String password;
- // @Column(name = "firstName")
- // String firstName;
 
- // public int getId() {return id;}
+   private String name;
 
-  //public void setId(int id) {this.id = id;}
+   private String surname;
 
-  public String getNickName(){return nickName;}
+  @Transient
+  private int age;
+
+   private Date dateOfBirth;
+
+   @Lob
+   @Column(name="image")
+   private byte[] avatar;
+ /* public String getNickName(){return nickName;}
 
   public void setNickName(String nickName) {this.nickName= nickName;}
 
@@ -39,4 +46,6 @@ public class UserPuzzleBattle {
 
   public void setPassword(String password) {this.password=password;}
 
+  public
+  */
 }
