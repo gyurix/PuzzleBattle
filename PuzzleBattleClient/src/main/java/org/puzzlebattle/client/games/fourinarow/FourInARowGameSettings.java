@@ -4,6 +4,9 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.puzzlebattle.client.databaseTables.GameSettings;
+
+import javax.persistence.*;
 
 import static javafx.scene.input.KeyCode.*;
 
@@ -16,13 +19,22 @@ import static javafx.scene.input.KeyCode.*;
  * @version (1.0)
  */
 
+@Entity
 @AllArgsConstructor
 @Data
-public class FourInARowGameSettings {
+public class FourInARowGameSettings extends GameSettings {
 
+  public long getId() { return super.id; }
+  public int getGameType() { return super.gameType;}
+
+  public void setId(int idd) { super.id=idd; }
+  public void setGameType(int gameType) { super.gameType=gameType; }
+
+  @Transient
   private static KeyCode digit[] = new KeyCode[]{DIGIT0, DIGIT1, DIGIT2, DIGIT3, DIGIT4, DIGIT5, DIGIT6, DIGIT7, DIGIT8, DIGIT9};
+  @Transient
   private static KeyCode numpad[] = new KeyCode[]{NUMPAD0, NUMPAD1, NUMPAD2, NUMPAD3, NUMPAD4, NUMPAD5, NUMPAD6, NUMPAD7, NUMPAD8, NUMPAD9};
-
+  @Transient
   private Color backgroundColor = Color.GAINSBORO;
 
   private int maxColumns = 7;
@@ -36,7 +48,6 @@ public class FourInARowGameSettings {
 
   public FourInARowGameSettings() {
   }
-
 
   /**
    * Method which stores KeyCode representation of digits, which can be pressed on keyboard.

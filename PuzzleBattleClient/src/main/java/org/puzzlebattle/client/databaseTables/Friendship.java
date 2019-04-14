@@ -17,5 +17,5 @@ public class Friendship {
   private long player2;
 
   @ManyToOne
-  private Duration duration;
+  private DurationDate duration;
 }

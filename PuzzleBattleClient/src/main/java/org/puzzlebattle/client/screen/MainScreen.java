@@ -15,8 +15,7 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import org.puzzlebattle.client.databaseTables.LoginRegisterUser;
-import org.puzzlebattle.client.databaseTables.UserPuzzleBattle;
+import org.puzzlebattle.client.databaseTables.*;
 import org.puzzlebattle.client.games.bouncer.BallBouncerScreen;
 import org.puzzlebattle.client.games.bouncer.BouncerGame;
 import org.puzzlebattle.client.games.bouncer.BouncerGameSettings;
@@ -73,6 +72,9 @@ public class MainScreen extends AbstractScreen {
     this.stage = stage;
     this.settingsForScreens = settingsForScreens;
     this.user = user;
+
+    GameType.addGamesToDBIfTheyAreNot();
+
     prepareBallBouncerGameMenu();
     prepareFourInARowGameMenu();
     prepareEscapeButtons();
@@ -85,6 +87,8 @@ public class MainScreen extends AbstractScreen {
    * Launching Ball bouncer game
    */
   private void launchBallBouncer() {
+
+    addBallBouncerGameToDatabase(user,true);
     super.getStage().close();
     new BallBouncerScreen(new Stage(), new BouncerGame(null, new BouncerGameSettings())).show();
   }
@@ -93,8 +97,25 @@ public class MainScreen extends AbstractScreen {
    * Launching Four in a row game
    */
   private void launchFourInARow() {
+    addFourInARowGameToDatabase(user,true);
     super.getStage().close();
     new FourInARowScreen(new Stage(), new FourInARowGame(null, new FourInARowGameSettings()),user).show();
+  }
+
+  private void addFourInARowGameToDatabase(UserPuzzleBattle userPuzzleBattle,boolean test){
+    int gameType =GameType.getFourInARowGame().getId();
+    long gameSettingId = GameSettings.insertGameSettingsToDBIfTheyAreNotExistAndGetId(new FourInARowGameSettings());
+    GameSettings fourInARowGameSetting = new FourInARowGameSettings();
+    ((FourInARowGameSettings) fourInARowGameSetting).setGameType(gameType);
+    GameTable gameTable= GameTable.prepareGameTable(userPuzzleBattle,test,gameType,fourInARowGameSetting);
+  }
+
+  private void addBallBouncerGameToDatabase(UserPuzzleBattle userPuzzleBattle,boolean test) {
+    int gameType =GameType.getFourInARowGame().getId();
+    long gameSettingId = GameSettings.insertGameSettingsToDBIfTheyAreNotExistAndGetId(new BouncerGameSettings());
+    GameSettings bouncerGameSettings = new BouncerGameSettings();
+    ((BouncerGameSettings) bouncerGameSettings).setGameType( gameType);
+    GameTable gameTable= GameTable.prepareGameTable(userPuzzleBattle,test,gameType,bouncerGameSettings);
   }
 
   /**

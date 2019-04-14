@@ -11,8 +11,7 @@ import java.util.List;
 
 public class LoginRegisterUser {
 
-  public static void registerUser(String nickname,String email, String password)
-  {
+  public static void registerUser(String nickname,String email, String password) {
     SessionFactory sf = new Configuration().configure("/META-INF/hibernate.cfg.xml").buildSessionFactory();
     Session session = sf.openSession();
     Transaction t = session.beginTransaction();
@@ -28,8 +27,7 @@ public class LoginRegisterUser {
     sf.close();
   }
 
-  public static UserPuzzleBattle getRegisterUser(String nickName, String password)
-  {
+  public static UserPuzzleBattle getRegisterUser(String nickName, String password) {
     SessionFactory sf = new Configuration().configure("/META-INF/hibernate.cfg.xml").buildSessionFactory();
     Session session = sf.openSession();
     Transaction t = session.beginTransaction();
@@ -56,8 +54,7 @@ public class LoginRegisterUser {
     return null;
   }
 
-  public static UserPuzzleBattle getRegister(String nickName, String password)
-  {
+  public static UserPuzzleBattle getRegister(String nickName, String password) {
     SessionFactory sf = new Configuration().configure("/META-INF/hibernate.cfg.xml").buildSessionFactory();
     Session session = sf.openSession();
     Transaction t = session.beginTransaction();
@@ -79,8 +76,7 @@ public class LoginRegisterUser {
     return registeredUser;
   }
 
-  private static boolean verifyPassword(String password,String cryptedPassword)
-  {
+  private static boolean verifyPassword(String password,String cryptedPassword) {
     return BCrypt.checkpw(password, cryptedPassword);
   }
 

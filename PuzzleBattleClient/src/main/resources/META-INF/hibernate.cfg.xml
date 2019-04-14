@@ -30,5 +30,14 @@
         <property name="hibernate.hbm2ddl.auto">update</property>
 
         <mapping class="org.puzzlebattle.client.databaseTables.UserPuzzleBattle" />
+        <mapping class="org.puzzlebattle.client.databaseTables.GameType" />
+        <mapping class="org.puzzlebattle.client.games.bouncer.BouncerGameSettings" />
+        <mapping class="org.puzzlebattle.client.games.fourinarow.FourInARowGameSettings" />
+        <mapping class="org.puzzlebattle.client.databaseTables.GamePlayer" />
+        <mapping class="org.puzzlebattle.client.databaseTables.GameSettings" />
+        <mapping class="org.puzzlebattle.client.databaseTables.GameTable" />
+        <mapping class="org.puzzlebattle.client.databaseTables.Friendship" />
+        <mapping class="org.puzzlebattle.client.databaseTables.DurationDate" />
+
     </session-factory>
 </hibernate-configuration>
