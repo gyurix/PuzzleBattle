@@ -57,6 +57,7 @@ public class GameType {
     query.setParameter(1,gameName);
     List<GameType> list=  query.list();
     if(list.size()>0) {
+      System.out.println("TTTTTUUUU");
       gameType = list.get(0);
 
     }
@@ -67,9 +68,9 @@ public class GameType {
   }
 
   public static void addGamesToDBIfTheyAreNot(){
-    insertGameIntoDatabase("Ball bouncer game",
+    addGameIfNotExist("Ball bouncer game",
             "Game where two players try to hit ball and don't let cross it behind them.");
-    insertGameIntoDatabase("Four in a row game",
+    addGameIfNotExist("Four in a row game",
             "Players try to have some coins in a row or column, who is fast is winner!");
   }
 

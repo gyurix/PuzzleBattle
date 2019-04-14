@@ -80,7 +80,7 @@ public class MainScreen extends AbstractScreen {
     prepareEscapeButtons();
     prepareEscapeLayout();
     prepareSceneAndGridPane();
-    Logging.logInfo("Main scree has been created.");
+    Logging.logInfo("Main scene has been created.");
   }
 
   /**

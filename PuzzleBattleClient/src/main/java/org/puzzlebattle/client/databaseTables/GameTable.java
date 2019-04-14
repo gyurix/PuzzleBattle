@@ -7,13 +7,8 @@ import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
 import javax.persistence.*;
-import javax.print.attribute.standard.DateTimeAtProcessing;
-import java.sql.Date;
 import java.sql.Timestamp;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.Calendar;
-import java.util.Timer;
+
 
 @Entity
 @Table(name = "game")
