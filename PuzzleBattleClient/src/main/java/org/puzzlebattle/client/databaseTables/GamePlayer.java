@@ -10,6 +10,13 @@ import org.hibernate.query.Query;
 import javax.persistence.*;
 import java.util.List;
 
+
+/**
+ * Player who plays certain type of game and collecting score while playing
+ *
+ * @author Jakub Perdek
+ * @version 1.0
+ */
 @Entity
 @Table(name = "gamePlayer")
 @Data
@@ -26,10 +33,20 @@ public class GamePlayer {
   private int score = 0;
   private int gameType;
 
+  /**
+   *
+   * @param score
+   */
   public void setScore(int score){
     this.score = this.score + score;
   }
 
+  /**
+   *
+   * @param userPuzzleBattle
+   * @param gameTypeForNewUser
+   * @return
+   */
   public static GamePlayer createGamePlayerFromUserIfNotExist(UserPuzzleBattle userPuzzleBattle,int gameTypeForNewUser){
     GamePlayer foundGamePlayer;
     if((foundGamePlayer= findGamePlayerInDB(LoginRegisterUser.getRegister(userPuzzleBattle.getNickName(),userPuzzleBattle.getPassword()),gameTypeForNewUser))==null) {
@@ -46,6 +63,10 @@ public class GamePlayer {
     }
   }
 
+  /**
+   *
+   * @param gamePlayer
+   */
   private static void insertGamePlayerToDB(GamePlayer gamePlayer){
     SessionFactory sf = new Configuration().configure("/META-INF/hibernate.cfg.xml").buildSessionFactory();
     Session session = sf.openSession();
@@ -58,6 +79,12 @@ public class GamePlayer {
     sf.close();
   }
 
+  /**
+   *
+   * @param userPuzzleBattle
+   * @param gameTypeOfUser
+   * @return
+   */
   public static GamePlayer findGamePlayerInDB(UserPuzzleBattle userPuzzleBattle,int gameTypeOfUser){
     SessionFactory sf = new Configuration().configure("/META-INF/hibernate.cfg.xml").buildSessionFactory();
     Session session = sf.openSession();
@@ -80,6 +107,11 @@ public class GamePlayer {
     return gamePlayer;
   }
 
+  /**
+   *
+   * @param gameType
+   * @return
+   */
   public static GamePlayer createVirtualPlayerForTest(int gameType){
 
     GamePlayer virtualGamePlayer = new GamePlayer();

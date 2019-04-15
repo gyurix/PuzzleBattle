@@ -10,13 +10,19 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 
 
+/**
+ * Table which represents one game between two players. Every game contains settings, result and interval
+ *
+ * @author Jakub Perdek
+ * @version 1.0
+ */
 @Entity
 @Table(name = "game")
 @Data
 public class GameTable {
 
   @Id
-  @GeneratedValue//(strategy=GenerationType.IDENTITY)
+  @GeneratedValue
   private long id;
 
 
@@ -38,6 +44,15 @@ public class GameTable {
 
   private Winner winner= Winner.DRAW;
 
+  /**
+   * Preparation of game table between two users-players, players will be specified, other attributes used to create this record about played game
+   *
+   * @param userPuzzleBattle user of puzzle battle game, player of the game will be obtained
+   * @param test true if it is only test
+   * @param gameType type of certain game
+   * @param gameSettings settings for certain game, game type
+   * @return
+   */
   public static GameTable prepareGameTable(UserPuzzleBattle userPuzzleBattle,boolean test,int gameType,GameSettings gameSettings){
     GamePlayer player1;
     GamePlayer player2;
@@ -59,27 +74,38 @@ public class GameTable {
     gameTable.setDuration(new DurationDate());
     gameTable.getDuration().setStartDate(new Timestamp(System.currentTimeMillis()));
     insertGameTableIntoDatabase(gameTable);
-    //gameTable.getDuration().setStart(Calendar.getInstance().getTime().getTime());
     return gameTable;
   }
 
-  public static GameTable createTheSameGameFromOlderGame(GameTable gameTable){
+  /**
+   * Creates equal game entity with the same players, but new duration will be set
+   *
+   * @param gameTable type of the game, from which the equal game entity should be created
+   * @param newGameSettings game settings for certain game type
+   * @return
+   */
+  public static GameTable createTheSameGameFromOlderGame(GameTable gameTable,GameSettings newGameSettings){
     GameTable newGameTable = new GameTable();
     newGameTable.setPlayer1(gameTable.getPlayer1());
     newGameTable.setPlayer2(gameTable.getPlayer2());
-    newGameTable.setGameSettings(gameTable.getGameSettings());
+    newGameTable.setGameSettings(newGameSettings);
     newGameTable.setDuration(new DurationDate());
     gameTable.getDuration().setStartDate(new Timestamp(System.currentTimeMillis()));
-    insertGameTableIntoDatabase(gameTable);
+    insertGameTableIntoDatabase(newGameTable);
     return newGameTable;
   }
 
+  /**
+   * Update of game table in database, usually after end of the game to store result and end date,...
+   *
+   * @param gameTable game table entity which should be updated
+   */
   public static void updateGameTableInDB(GameTable gameTable){
     SessionFactory sf = new Configuration().configure("/META-INF/hibernate.cfg.xml").buildSessionFactory();
     Session session = sf.openSession();
     Transaction t = session.beginTransaction();
-    System.out.println("SAAAAAAAAAAAAAAAKRAAAAAAAAAAAAKRA "+gameTable.getPlayer1().getGameType() +" "+gameTable.getPlayer1().getId()+" "+gameTable.getPlayer1().getScore());
-    System.out.println("SAAAAAAAAAAAAAAAKRAAAAAAAAAAAAKRA "+gameTable.getPlayer2().getGameType() +" "+gameTable.getPlayer2().getId()+" "+gameTable.getPlayer2().getScore());
+    //System.out.println("SAAAAAAAAAAAAAAAKRAAAAAAAAAAAAKRA "+gameTable.getPlayer1().getGameType() +" "+gameTable.getPlayer1().getId()+" "+gameTable.getPlayer1().getScore());
+    //System.out.println("SAAAAAAAAAAAAAAAKRAAAAAAAAAAAAKRA "+gameTable.getPlayer2().getGameType() +" "+gameTable.getPlayer2().getId()+" "+gameTable.getPlayer2().getScore());
     session.update(gameTable.getPlayer1());
     session.update(gameTable.getPlayer2());
     session.update(gameTable);
@@ -88,6 +114,11 @@ public class GameTable {
     sf.close();
   }
 
+  /**
+   * Insertion of game entity into database
+   *
+   * @param gameTable created game table with appropriate attributes which should be stored only
+   */
   private static void insertGameTableIntoDatabase(GameTable gameTable){
     SessionFactory sf = new Configuration().configure("/META-INF/hibernate.cfg.xml").buildSessionFactory();
     Session session = sf.openSession();

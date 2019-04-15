@@ -13,7 +13,12 @@ import javax.persistence.*;
 import java.util.List;
 
 
-
+/**
+ * Abstract class for storing game settings
+ *
+ * @author Jakub Perdek
+ * @version 1.0
+ */
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public abstract class GameSettings {
@@ -29,6 +34,11 @@ public abstract class GameSettings {
   protected abstract void setId(int id);
   protected abstract void setGameType(int gameType);
 
+  /**
+   *
+   * @param gameSettings
+   * @return
+   */
   public static long insertGameSettingsToDBIfTheyAreNotExistAndGetId(GameSettings gameSettings){
     if(gameSettings  instanceof FourInARowGameSettings) {
       FourInARowGameSettings fourInARowGameSettings = (FourInARowGameSettings) gameSettings;
@@ -45,6 +55,12 @@ public abstract class GameSettings {
     }
   }
 
+  /**
+   *
+   * @param gameSettings
+   * @param gameTypeId
+   * @return
+   */
   private static long storeGameSettingsIfNotExistAndReturnId(GameSettings gameSettings, int gameTypeId){
     long gameSettingsId;
     if((gameSettingsId= findGameSettings(gameTypeId))==0){
@@ -57,27 +73,26 @@ public abstract class GameSettings {
 
   }
 
+  /**
+   *
+   * @param gameSettings
+   * @param gameTypeId
+   */
   private static void insertGameSettingsIntoDB(GameSettings gameSettings,int gameTypeId) {
     SessionFactory sf = new Configuration().configure("/META-INF/hibernate.cfg.xml").buildSessionFactory();
     Session session = sf.openSession();
     Transaction t = session.beginTransaction();
     session.persist(gameSettings);
-    /*if(gameSettings  instanceof FourInARowGameSettings) {
-      FourInARowGameSettings fourInARowGameSettings = (FourInARowGameSettings) gameSettings;
-      fourInARowGameSettings.setGameType(gameTypeId);
-      session.persist(fourInARowGameSettings);
-    }
-    else if(gameSettings instanceof BouncerGameSettings){
-     BouncerGameSettings bouncerGameSettings = (BouncerGameSettings) gameSettings;
-     bouncerGameSettings.setGameType(gameTypeId);
-      session.persist(bouncerGameSettings);
-    }
-    */
     t.commit();
     session.close();
     sf.close();
   }
 
+  /**
+   *
+   * @param gameTypeId
+   * @return
+   */
   private static long findGameSettings(int gameTypeId) {
     SessionFactory sf = new Configuration().configure("/META-INF/hibernate.cfg.xml").buildSessionFactory();
     Session session = sf.openSession();

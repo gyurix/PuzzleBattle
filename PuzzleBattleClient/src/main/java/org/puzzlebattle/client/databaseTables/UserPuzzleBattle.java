@@ -5,26 +5,34 @@ import lombok.Data;
 import javax.persistence.*;
 import java.sql.Date;
 
+
+/**
+ * Table which stores data about user, his nickName and email address
+ * Other additional information can be added, as name, surname, date of birth and avatar.
+ *
+ * @author Jakub Perdek
+ * @version 1.0
+ */
 @Entity
 @Table(name = "userPuzzleBattle")
 @Data
 public class UserPuzzleBattle {
 
   @Id
-  @GeneratedValue//(strategy=GenerationType.IDENTITY)
+  @GeneratedValue
   private int id;
 
- // @Column(name = "nickName")
+  @Column(unique = true)
   private String nickName;
 
- // @Column(name = "email")
-   private String email;
+  @Column(unique = true)
+  private String email;
 
-   private String password;
+  private String password;
 
-   private String name;
+  private String name;
 
-   private String surname;
+  private String surname;
 
   @Transient
   private int age;

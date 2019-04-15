@@ -12,8 +12,21 @@ import org.puzzlebattle.client.screen.UserGameAttributes;
 
 import java.util.List;
 
+/**
+ * Class contains methods for log in, password verification, inserting and updating user
+ *
+ * @author Jakub Perdek
+ * @version 1.0
+ */
 public class LoginRegisterUser {
 
+  /**
+   * Creates new user and saves information about him to database
+   *
+   * @param nickname nickName of user
+   * @param email email of user
+   * @param password password of user, non-hashed
+   */
   public static void registerUser(String nickname,String email, String password) {
     SessionFactory sf = new Configuration().configure("/META-INF/hibernate.cfg.xml").buildSessionFactory();
     Session session = sf.openSession();
@@ -30,6 +43,13 @@ public class LoginRegisterUser {
     sf.close();
   }
 
+  /**
+   * Returns user according his nickname and verifies stored hashed password with non-hashed once
+   *
+   * @param nickName nickName of user
+   * @param password password of user, non-hashed
+   * @return user or null if user was not found or passwords are not equal
+   */
   public static UserPuzzleBattle getRegisterUser(String nickName, String password) {
     SessionFactory sf = new Configuration().configure("/META-INF/hibernate.cfg.xml").buildSessionFactory();
     Session session = sf.openSession();
@@ -57,6 +77,14 @@ public class LoginRegisterUser {
     return null;
   }
 
+  /**
+   * Method which obtains registered user from database using hashed form of password,
+   * if passwords are not equal as strings null will be returned
+   *
+   * @param nickName nickName of user
+   * @param password password of user, hashed
+   * @return registered user, stored in database
+   */
   public static UserPuzzleBattle getRegister(String nickName, String password) {
     SessionFactory sf = new Configuration().configure("/META-INF/hibernate.cfg.xml").buildSessionFactory();
     Session session = sf.openSession();
@@ -79,16 +107,34 @@ public class LoginRegisterUser {
     return registeredUser;
   }
 
+  /**
+   * Verification of non-hashed password with hashed password, usually obtained from  database
+   *
+   * @param password non-hashed password, plain password
+   * @param cryptedPassword hashed password
+   * @return true, if passwords are the same, otherwise false
+   */
   private static boolean verifyPassword(String password,String cryptedPassword) {
     return BCrypt.checkpw(password, cryptedPassword);
   }
 
+  /**
+   * Method which hashes password and returns its hash form
+   *
+   * @param password which should be hashed
+   * @return hashed password
+   */
   private static String hashPassword(String password)
   {
     return BCrypt.hashpw(password, BCrypt.gensalt());
   }
 
-
+  /**
+   * Method which returns best players suitable to be stored in table
+   *
+   * @param maxPlayers maximum best players which should be displayed
+   * @return list of best players
+   */
   public static ObservableList<UserGameAttributes> getBestPlayers(int maxPlayers) {
     SessionFactory sf = new Configuration().configure("/META-INF/hibernate.cfg.xml").buildSessionFactory();
     Session session = sf.openSession();
@@ -103,8 +149,6 @@ public class LoginRegisterUser {
     for(Object[] object: list){
       if(object[0]!=null) {
         userGameAttributes.add(new UserGameAttributes(((UserPuzzleBattle)object[0]).getNickName(),((int) object[1])));
-        //System.out.println(((UserPuzzleBattle) objekt[0]).getNickName());
-        //System.out.println((int) objekt[1]);
       }
     }
 

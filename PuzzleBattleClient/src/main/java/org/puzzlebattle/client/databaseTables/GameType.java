@@ -12,6 +12,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.util.List;
 
+/**
+ * Type of game. Type of the game is created only once and reference to certain settings is added
+ * players can be specified because of it too
+ *
+ * @author Jakub Perdek
+ * @version 1.0
+ */
 @Entity
 @Data
 public class GameType {
@@ -24,6 +31,11 @@ public class GameType {
 
   private String description;
 
+  /**
+   *
+   * @param gameName
+   * @param description
+   */
   private static void addGameIfNotExist(String gameName,String description){
     GameType isInTable = getGameType(gameName);
     if(isInTable==null) {
@@ -31,6 +43,11 @@ public class GameType {
     }
   }
 
+  /**
+   *
+   * @param gameName
+   * @param description
+   */
   private static void insertGameIntoDatabase(String gameName,String description){
     SessionFactory sf = new Configuration().configure("/META-INF/hibernate.cfg.xml").buildSessionFactory();
     Session session = sf.openSession();
@@ -46,6 +63,11 @@ public class GameType {
     sf.close();
   }
 
+  /**
+   *
+   * @param gameName
+   * @return
+   */
   public static GameType getGameType(String gameName){
     SessionFactory sf = new Configuration().configure("/META-INF/hibernate.cfg.xml").buildSessionFactory();
     Session session = sf.openSession();
@@ -65,6 +87,9 @@ public class GameType {
     return gameType;
   }
 
+  /**
+   *
+   */
   public static void addGamesToDBIfTheyAreNot(){
     addGameIfNotExist("Ball bouncer game",
             "Game where two players try to hit ball and don't let cross it behind them.");
@@ -72,10 +97,18 @@ public class GameType {
             "Players try to have some coins in a row or column, who is fast is winner!");
   }
 
+  /**
+   *
+   * @return
+   */
   public static GameType getBallBouncerGame(){
     return getGameType("Ball bouncer game");
   }
 
+  /**
+   *
+   * @return
+   */
   public static GameType getFourInARowGame(){
     return getGameType("Four in a row game");
   }

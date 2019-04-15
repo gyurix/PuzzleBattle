@@ -4,6 +4,13 @@ import lombok.Data;
 
 import javax.persistence.*;
 
+
+/**
+ * Table witch characterise friendship  between two players
+ *
+ * @author Jakub Perdek
+ * @version 1.0
+ */
 @Entity
 @Table(name = "friendship")
 @Data
@@ -13,8 +20,8 @@ public class Friendship {
   @GeneratedValue
   private long id;
 
-  private long player1;
-  private long player2;
+  private GamePlayer player1;
+  private GamePlayer player2;
 
   @ManyToOne
   private DurationDate duration;

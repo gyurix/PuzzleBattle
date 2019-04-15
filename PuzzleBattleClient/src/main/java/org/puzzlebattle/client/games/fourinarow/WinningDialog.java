@@ -128,8 +128,8 @@ public class WinningDialog extends Stage {
   private void startNewGame(FourInARowScreen fourInARowScreen) {
     this.close();
     fourInARowScreen.getStage().close();
-    GameTable newGameTable = GameTable.createTheSameGameFromOlderGame(gameTable);
-    new FourInARowScreen(fourInARowScreen.getStage(), new FourInARowGame(null, new FourInARowGameSettings()),user,newGameTable).show();
+    GameTable newGameTable = GameTable.createTheSameGameFromOlderGame(gameTable,new FourInARowGameSettings());
+    new FourInARowScreen(fourInARowScreen.getStage(), new FourInARowGame(null, (FourInARowGameSettings) newGameTable.getGameSettings()),user,newGameTable).show();
   }
 
   private void tryToAddImage() {
