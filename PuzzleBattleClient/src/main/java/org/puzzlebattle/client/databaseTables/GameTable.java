@@ -32,7 +32,11 @@ public class GameTable {
   @ManyToOne(cascade = {CascadeType.ALL})
   private GameSettings gameSettings;
 
-  //private enum  winner[]= {"P1","P2","DRAW"};
+  public enum Winner {
+    P1,P2,DRAW
+  }
+
+  private Winner winner= Winner.DRAW;
 
   public static GameTable prepareGameTable(UserPuzzleBattle userPuzzleBattle,boolean test,int gameType,GameSettings gameSettings){
     GamePlayer player1;
@@ -59,6 +63,30 @@ public class GameTable {
     return gameTable;
   }
 
+  public static GameTable createTheSameGameFromOlderGame(GameTable gameTable){
+    GameTable newGameTable = new GameTable();
+    newGameTable.setPlayer1(gameTable.getPlayer1());
+    newGameTable.setPlayer2(gameTable.getPlayer2());
+    newGameTable.setGameSettings(gameTable.getGameSettings());
+    newGameTable.setDuration(new DurationDate());
+    gameTable.getDuration().setStartDate(new Timestamp(System.currentTimeMillis()));
+    insertGameTableIntoDatabase(gameTable);
+    return newGameTable;
+  }
+
+  public static void updateGameTableInDB(GameTable gameTable){
+    SessionFactory sf = new Configuration().configure("/META-INF/hibernate.cfg.xml").buildSessionFactory();
+    Session session = sf.openSession();
+    Transaction t = session.beginTransaction();
+    System.out.println("SAAAAAAAAAAAAAAAKRAAAAAAAAAAAAKRA "+gameTable.getPlayer1().getGameType() +" "+gameTable.getPlayer1().getId()+" "+gameTable.getPlayer1().getScore());
+    System.out.println("SAAAAAAAAAAAAAAAKRAAAAAAAAAAAAKRA "+gameTable.getPlayer2().getGameType() +" "+gameTable.getPlayer2().getId()+" "+gameTable.getPlayer2().getScore());
+    session.update(gameTable.getPlayer1());
+    session.update(gameTable.getPlayer2());
+    session.update(gameTable);
+    t.commit();
+    session.close();
+    sf.close();
+  }
 
   private static void insertGameTableIntoDatabase(GameTable gameTable){
     SessionFactory sf = new Configuration().configure("/META-INF/hibernate.cfg.xml").buildSessionFactory();

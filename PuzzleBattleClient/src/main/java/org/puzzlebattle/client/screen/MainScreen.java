@@ -97,17 +97,18 @@ public class MainScreen extends AbstractScreen {
    * Launching Four in a row game
    */
   private void launchFourInARow() {
-    addFourInARowGameToDatabase(user,true);
+    GameTable gameTable= addFourInARowGameToDatabase(user,true);
     super.getStage().close();
-    new FourInARowScreen(new Stage(), new FourInARowGame(null, new FourInARowGameSettings()),user).show();
+    new FourInARowScreen(new Stage(), new FourInARowGame(null, new FourInARowGameSettings()),user,gameTable).show();
   }
 
-  private void addFourInARowGameToDatabase(UserPuzzleBattle userPuzzleBattle,boolean test){
+  private GameTable addFourInARowGameToDatabase(UserPuzzleBattle userPuzzleBattle,boolean test){
     int gameType =GameType.getFourInARowGame().getId();
     long gameSettingId = GameSettings.insertGameSettingsToDBIfTheyAreNotExistAndGetId(new FourInARowGameSettings());
     GameSettings fourInARowGameSetting = new FourInARowGameSettings();
     ((FourInARowGameSettings) fourInARowGameSetting).setGameType(gameType);
     GameTable gameTable= GameTable.prepareGameTable(userPuzzleBattle,test,gameType,fourInARowGameSetting);
+    return gameTable;
   }
 
   private void addBallBouncerGameToDatabase(UserPuzzleBattle userPuzzleBattle,boolean test) {

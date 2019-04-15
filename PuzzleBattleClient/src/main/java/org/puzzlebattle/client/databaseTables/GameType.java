@@ -57,9 +57,7 @@ public class GameType {
     query.setParameter(1,gameName);
     List<GameType> list=  query.list();
     if(list.size()>0) {
-      System.out.println("TTTTTUUUU");
       gameType = list.get(0);
-
     }
     t.commit();
     session.close();

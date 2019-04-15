@@ -20,8 +20,12 @@ public class GamePlayer {
   private long id;
 
   private long player;
-  private int score;
+  private int score = 0;
   private int gameType;
+
+  public void setScore(int score){
+    this.score = this.score + score;
+  }
 
   public static GamePlayer createGamePlayerFromUserIfNotExist(UserPuzzleBattle userPuzzleBattle,int gameTypeForNewUser){
     GamePlayer foundGamePlayer;
