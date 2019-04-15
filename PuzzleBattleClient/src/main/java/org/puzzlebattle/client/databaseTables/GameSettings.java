@@ -1,6 +1,6 @@
 package org.puzzlebattle.client.databaseTables;
 
-import com.sun.org.glassfish.gmbal.InheritedAttribute;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -10,7 +10,6 @@ import org.puzzlebattle.client.games.bouncer.BouncerGameSettings;
 import org.puzzlebattle.client.games.fourinarow.FourInARowGameSettings;
 
 import javax.persistence.*;
-import java.lang.annotation.Inherited;
 import java.util.List;
 
 

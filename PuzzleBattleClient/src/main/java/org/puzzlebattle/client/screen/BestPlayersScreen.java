@@ -1,5 +1,7 @@
 package org.puzzlebattle.client.screen;
 
+import javafx.geometry.Orientation;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
 import javafx.scene.control.TableColumn;
@@ -7,6 +9,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import org.puzzlebattle.client.databaseTables.LoginRegisterUser;
 
 public class BestPlayersScreen extends AbstractScreen{
 
@@ -21,23 +24,41 @@ public class BestPlayersScreen extends AbstractScreen{
   private Label ballBouncerLabel;
   private SettingsForScreens settingsForScreens;
   private Font fFourInARow, fBallBouncer;
+  private Stage stage;
+  private Scene sceneBestPlayers;
 
   public BestPlayersScreen(Stage stage,SettingsForScreens settingsForScreens) {
     super(stage);
+    this.stage= stage;
     this.settingsForScreens = settingsForScreens;
     fourInARowGameTable = new BestPlayersTable();
+    fourInARowGameTable.setMaxHeight(Double.MAX_VALUE);
+    fourInARowGameTable.setMaxWidth(Double.MAX_VALUE);
     ballBouncerGameTable = new BestPlayersTable();
+    ballBouncerGameTable.setMaxWidth(Double.MAX_VALUE);
+    ballBouncerGameTable.setMaxHeight(Double.MAX_VALUE);
     prepareComponentsForBestPlayerTable();
     loadDataAndFillTablesFromDatabase();
   }
 
-  private void loadDataAndFillTablesFromDatabase(){
+  public void show() {
+    stage.setScene(sceneBestPlayers);
+    stage.setTitle("Best players.");
+    stage.setOnCloseRequest(e -> stage.close());
+    stage.sizeToScene();
+    stage.show();
+  }
 
+  private void loadDataAndFillTablesFromDatabase(){
+    //LoginRegisterUser.getBestPlayers(10)
+    fourInARowGameTable.setItems(LoginRegisterUser.getBestPlayers(10));
   }
 
   private void prepareComponentsForBestPlayerTable() {
     prepareGameLabels();
     prepareLayoutsForBestPlayer();
+    setComponentsToLayouts();
+    sceneBestPlayers = new Scene(wholeScreen,super.getWidth()+50,super.getHeight());
   }
 
   private void prepareGameLabels(){
@@ -75,7 +96,7 @@ public class BestPlayersScreen extends AbstractScreen{
   private void setComponentsToLayouts() {
     ballBouncerGameLayout.getChildren().setAll(ballBouncerLabel,ballBouncerGameTable);
     fourInARowGameLayout.getChildren().setAll(fourInARowLabel,fourInARowGameTable);
-    wholeScreen.getChildren().setAll(ballBouncerGameLayout,gameSeparator,fourInARowGameTable);
+    wholeScreen.getChildren().setAll(ballBouncerGameLayout,gameSeparator,fourInARowGameLayout);
   }
 
   private void prepareWholeLayout(){
@@ -91,6 +112,7 @@ public class BestPlayersScreen extends AbstractScreen{
     gameSeparator = new Separator();
     gameSeparator.setMinWidth(50);
     gameSeparator.setMinHeight(super.getHeight());
+    gameSeparator.setOrientation(Orientation.VERTICAL);
 
     fourInARowGameLayout = new VBox(10);
     fourInARowGameLayout.setMinWidth(super.getWidth()/2-25);

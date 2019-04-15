@@ -159,7 +159,7 @@ public class MainScreen extends AbstractScreen {
 
     viewBestPlayersBallBouncer = new Button("View best Ball Bouncer Players");
     viewBestPlayersBallBouncer.setMaxWidth(Double.MAX_VALUE);
-    viewBestPlayersBallBouncer.setOnAction(e -> System.out.println("Not complete functionality"));
+    viewBestPlayersBallBouncer.setOnAction(e -> viewBestPlayers());
   }
 
   /**
@@ -173,9 +173,13 @@ public class MainScreen extends AbstractScreen {
 
     viewBestPlayersFourInARow = new Button("View best Four In A Row Players");
     viewBestPlayersFourInARow.setMaxWidth(Double.MAX_VALUE);
-    viewBestPlayersFourInARow.setOnAction(e -> System.out.println("Not completed functionality"));
+    viewBestPlayersFourInARow.setOnAction(e -> viewBestPlayers());
   }
 
+  private void viewBestPlayers(){
+    BestPlayersScreen bestPlayersScreen = new BestPlayersScreen(new Stage(),settingsForScreens);
+    bestPlayersScreen.show();
+  }
   /**
    * Prepare escape layout using horizontal layout
    */
