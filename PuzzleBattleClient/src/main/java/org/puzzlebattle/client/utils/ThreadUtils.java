@@ -1,0 +1,21 @@
+package org.puzzlebattle.client.utils;
+
+import javafx.application.Platform;
+import lombok.Getter;
+import org.puzzlebattle.core.utils.ErrorAcceptedRunnable;
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+public class ThreadUtils {
+  @Getter
+  private static final ExecutorService executor = Executors.newCachedThreadPool();
+
+  public static void async(ErrorAcceptedRunnable runnable) {
+    executor.submit(runnable.toRunnable());
+  }
+
+  public static void ui(ErrorAcceptedRunnable runnable) {
+    Platform.runLater(runnable.toRunnable());
+  }
+}
