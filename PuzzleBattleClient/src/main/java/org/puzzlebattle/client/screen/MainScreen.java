@@ -3,6 +3,7 @@ package org.puzzlebattle.client.screen;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.VPos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -79,6 +80,7 @@ public class MainScreen extends AbstractScreen {
 
     prepareBallBouncerGameMenu();
     prepareFourInARowGameMenu();
+
     prepareEscapeButtons();
     prepareEscapeLayout();
     prepareSceneAndGridPane();
@@ -121,15 +123,12 @@ public class MainScreen extends AbstractScreen {
     new FourInARowScreen(new Stage(), new FourInARowGame(null, new FourInARowGameSettings()), user, gameTable).show();
   }
 
-  /**
-   * Prepare ball bouncer game menu, with all components which are made of
-   */
-  private void prepareBallBouncerGameMenu() {
-    prepareBallBouncerRegion();
-    prepareLabelForBallBouncer();
-    prepareButtonsBallBouncer();
-    prepareLayoutsBallBouncer();
-    prepareImageBallBouncer();
+  private VBox createVBox(Node... elements) {
+    VBox vBox = new VBox(settingsForScreens.getSpacingForVBox());
+    vBox.setMaxWidth(Double.MAX_VALUE);
+    vBox.setMaxHeight(Double.MAX_VALUE);
+    vBox.getChildren().addAll(elements);
+    return vBox;
   }
 
   /**
@@ -202,7 +201,6 @@ public class MainScreen extends AbstractScreen {
     prepareFourInARowRegion();
     prepareLabelForFourInARow();
     prepareButtonsFourInARow();
-    prepareLayoutFourInARow();
     prepareImageFourInARow();
   }
 
@@ -268,23 +266,14 @@ public class MainScreen extends AbstractScreen {
   }
 
   /**
-   * Prepare horizontal layout for four in a row
+   * Prepare ball bouncer game menu, with all components which are made of
    */
-  private void prepareLayoutFourInARow() {
-    vBoxFourInARowGame = new VBox(settingsForScreens.getSpacingForVBox());
-    vBoxFourInARowGame.setMaxWidth(Double.MAX_VALUE);
-    vBoxFourInARowGame.setMaxHeight(Double.MAX_VALUE);
-    vBoxFourInARowGame.getChildren().addAll(labelFourInARow, regionFourInARow, startFourInARowGame, viewBestPlayersFourInARow);
-  }
-
-  /**
-   * Prepare vertical layout for ball bouncer
-   */
-  private void prepareLayoutsBallBouncer() {
-    vBoxBallBouncerGame = new VBox(settingsForScreens.getSpacingForVBox());
-    vBoxBallBouncerGame.setMaxWidth(Double.MAX_VALUE);
-    vBoxBallBouncerGame.setMaxHeight(Double.MAX_VALUE);
-    vBoxBallBouncerGame.getChildren().addAll(labelBallBouncer, regionBallBouncer, startBallBouncerGame, viewBestPlayersBallBouncer);
+  private void prepareBallBouncerGameMenu() {
+    prepareBallBouncerRegion();
+    prepareLabelForBallBouncer();
+    prepareButtonsBallBouncer();
+    vBoxFourInARowGame = createVBox(labelFourInARow, regionFourInARow, startFourInARowGame, viewBestPlayersFourInARow);
+    vBoxBallBouncerGame = createVBox(labelBallBouncer, regionBallBouncer, startBallBouncerGame, viewBestPlayersBallBouncer);
   }
 
   /**

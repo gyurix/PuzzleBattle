@@ -4,6 +4,7 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
@@ -13,6 +14,8 @@ import javafx.util.Duration;
 import lombok.Getter;
 
 import java.util.ArrayList;
+
+import static org.puzzlebattle.core.utils.LangFile.lang;
 
 
 /**
@@ -35,7 +38,6 @@ public abstract class AbstractScreen {
   /**
    * Screen where panel for repainting objects is created, then stage is used
    */
-
   public AbstractScreen(Stage stage) {
     this.stage = stage;
     pane = new Pane();
@@ -136,5 +138,12 @@ public abstract class AbstractScreen {
     stage.setScene(scene);
     stage.show();
     stage.setOnCloseRequest(e -> onCloseHandler());
+  }
+
+  public void showAlert(Alert.AlertType type, String key, Object... args) {
+    Alert alert = new Alert(type);
+    alert.setTitle(lang.get(key + ".title", args));
+    alert.setContentText(lang.get(key + ".text", args));
+    alert.showAndWait();
   }
 }

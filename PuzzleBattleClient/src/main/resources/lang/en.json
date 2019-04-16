@@ -6,6 +6,14 @@
   "login": {
     "username": "Username",
     "usernameText": "Put your login here!",
+    "loggingIn": {
+      "title": "Logging in...",
+      "text": "Logging in, please wait..."
+    },
+    "incorrect": {
+      "title": "Incorrect login credentials",
+      "text": "The entered username and password combination is incorrect."
+    },
     "password": "Password"
   }
 }

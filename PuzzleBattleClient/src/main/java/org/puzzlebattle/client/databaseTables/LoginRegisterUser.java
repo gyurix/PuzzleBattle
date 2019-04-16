@@ -9,8 +9,10 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.query.Query;
 import org.mindrot.jbcrypt.BCrypt;
 import org.puzzlebattle.client.screen.UserGameAttributes;
+import org.puzzlebattle.client.utils.ThreadUtils;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 /**
  * Class contains methods for log in, password verification, inserting and updating user
@@ -80,38 +82,6 @@ public class LoginRegisterUser {
   }
 
   /**
-   * Returns user according his nickname and verifies stored hashed password with non-hashed once
-   *
-   * @param nickName nickName of user
-   * @param password password of user, non-hashed
-   * @return user or null if user was not found or passwords are not equal
-   */
-  public static UserPuzzleBattle getRegisterUser(String nickName, String password) {
-    SessionFactory sf = new Configuration().configure("/META-INF/hibernate.cfg.xml").buildSessionFactory();
-    Session session = sf.openSession();
-    Transaction t = session.beginTransaction();
-    UserPuzzleBattle registeredUser = null;
-
-    String hql = "FROM UserPuzzleBattle WHERE nickName=?1";
-    Query query = session.createQuery(hql);
-    query.setParameter(1, nickName);
-    List<UserPuzzleBattle> list = query.list();
-    if (list.size() > 0) {
-      registeredUser = list.get(0);
-      if (verifyPassword(password, registeredUser.getPassword())) {
-        t.commit();
-        session.close();
-        sf.close();
-        return registeredUser;
-      }
-    }
-    t.commit();
-    session.close();
-    sf.close();
-    return null;
-  }
-
-  /**
    * Method which hashes password and returns its hash form
    *
    * @param password which should be hashed
@@ -153,5 +123,32 @@ public class LoginRegisterUser {
    */
   private static boolean verifyPassword(String password, String cryptedPassword) {
     return BCrypt.checkpw(password, cryptedPassword);
+  }
+
+  /**
+   * Returns user according his nickname and verifies stored hashed password with non-hashed once
+   *
+   * @param nickName nickName of user
+   * @param password password of user, non-hashed
+   * @return user or null if user was not found or passwords are not equal
+   */
+  public static void withRegisterUser(String nickName, String password, Consumer<UserPuzzleBattle> resultHandler) {
+    ThreadUtils.async(() -> {
+      SessionFactory sf = new Configuration().configure("/META-INF/hibernate.cfg.xml").buildSessionFactory();
+      try (Session session = sf.openSession()) {
+        String hql = "FROM UserPuzzleBattle WHERE nickName=?1";
+        Query<UserPuzzleBattle> query = session.createQuery(hql, UserPuzzleBattle.class);
+        query.setParameter(1, nickName);
+        List<UserPuzzleBattle> list = query.list();
+        if (list.size() > 0) {
+          UserPuzzleBattle registeredUser = list.get(0);
+          if (verifyPassword(password, registeredUser.getPassword())) {
+            ThreadUtils.ui(() -> resultHandler.accept(registeredUser));
+            return;
+          }
+        }
+        ThreadUtils.ui(() -> resultHandler.accept(null));
+      }
+    });
   }
 }

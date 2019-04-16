@@ -1,5 +1,6 @@
 package org.puzzlebattle.client.screen;
 
+import javafx.event.Event;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -9,9 +10,11 @@ import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import org.puzzlebattle.client.databaseTables.LoginRegisterUser;
 import org.puzzlebattle.client.databaseTables.UserPuzzleBattle;
-import org.puzzlebattle.core.utils.Logging;
 
+import static javafx.scene.control.Alert.AlertType.ERROR;
+import static javafx.scene.control.Alert.AlertType.INFORMATION;
 import static org.puzzlebattle.core.utils.LangFile.lang;
+import static org.puzzlebattle.core.utils.Logging.logInfo;
 
 
 /**
@@ -22,18 +25,16 @@ import static org.puzzlebattle.core.utils.LangFile.lang;
  */
 public class LoginScreen extends AbstractScreen {
 
-  private BorderPane borderPane;
   private Button confirmButton;
   private Region loginButtonRegion, loginPasswordRegion, registerRegion;
   private Label loginLabel;
   private VBox loginPanel;
   private TextField loginTextField;
-  private String obtainedPassword, obtainedLogin;
   private PasswordField passwordField;
   private Label passwordLabel;
+  private String pwd, login;
   private Button registerButton;
   private HBox registerPanel;
-  private Scene sceneLogin;
   private Label separatorLeft, separatorRight;
 
   private UserPuzzleBattle user;
@@ -45,7 +46,7 @@ public class LoginScreen extends AbstractScreen {
     super(stage);
     createComponentsForLoginScreen();
     prepareScreenAndPane(stage);
-    Logging.logInfo("Login screen created.");
+    logInfo("Login screen created.");
   }
 
   /**
@@ -66,17 +67,47 @@ public class LoginScreen extends AbstractScreen {
     return label;
   }
 
+  @Override
+  public String getTitle() {
+    return "Login to the Puzzle Battle";
+  }
+
+  @Override
+  public void registerEvents(Scene scene) {
+    registerButton.setOnAction(e -> new RegisterScreen(stage).show());
+    loginTextField.setOnAction(this::login);
+    passwordField.setOnAction(this::login);
+  }
+
+  /**
+   * Verification of login is done here
+   */
+  private void login(Event event) {
+    pwd = passwordField.getText();
+    login = loginTextField.getText();
+    logInfo("Logging in...", "login", login);
+    LoginRegisterUser.withRegisterUser(login, pwd, (user) -> {
+      logInfo("Login result", "user", user);
+      if (user == null)
+        showAlert(ERROR, "login.incorrect");
+      else
+        new MainScreen(stage, new SettingsForScreens(), user).show();
+    });
+    showAlert(INFORMATION, "login.loggingIn");
+  }
+
   /**
    * Preparing border panel as main panel to situate other components on it
    */
   private void prepareBorderPanel() {
 
-    borderPane = new BorderPane();
+    BorderPane pane = new BorderPane();
 
-    borderPane.setCenter(loginPanel);
-    borderPane.setBottom(registerPanel);
-    borderPane.setLeft(separatorLeft);
-    borderPane.setRight(separatorRight);
+    pane.setCenter(loginPanel);
+    pane.setBottom(registerPanel);
+    pane.setLeft(separatorLeft);
+    pane.setRight(separatorRight);
+    this.pane = pane;
   }
 
   /**
@@ -88,17 +119,8 @@ public class LoginScreen extends AbstractScreen {
     passwordLabel = createLabel("login.password");
     passwordField = new PasswordField();
 
-    prepareConfirmButton();
+    prepareLoginButton();
     prepareRegisterButton();
-  }
-
-  /**
-   * Method which prepares confirm button
-   */
-  private void prepareConfirmButton() {
-    confirmButton = new Button("Login");
-    confirmButton.setMaxWidth(Double.MAX_VALUE);
-    confirmButton.setOnAction(e -> verifyLogin());
   }
 
   /**
@@ -111,6 +133,15 @@ public class LoginScreen extends AbstractScreen {
     separatorRight.setMaxHeight(Double.MAX_VALUE);
     separatorLeft.setMinWidth(50);
     separatorRight.setMinWidth(50);
+  }
+
+  /**
+   * Method which prepares confirm button
+   */
+  private void prepareLoginButton() {
+    confirmButton = new Button("Login");
+    confirmButton.setMaxWidth(Double.MAX_VALUE);
+    confirmButton.setOnAction(this::login);
   }
 
   /**
@@ -129,7 +160,7 @@ public class LoginScreen extends AbstractScreen {
    */
   private void preparePasswordLabel() {
     passwordLabel = new Label("Password");
-    passwordLabel.setFont(super.getDefaultFont());
+    passwordLabel.setFont(getDefaultFont());
   }
 
   /**
@@ -150,7 +181,6 @@ public class LoginScreen extends AbstractScreen {
   private void prepareRegisterButton() {
     registerButton = new Button("Register");
     registerButton.setMinWidth(200);
-    registerButton.setOnAction(e -> new RegisterScreen(stage).show());
   }
 
   /**
@@ -161,35 +191,5 @@ public class LoginScreen extends AbstractScreen {
   private void prepareScreenAndPane(Stage stage) {
     prepareLoginPanel();
     prepareBorderPanel();
-
-    sceneLogin = new Scene(borderPane, super.getWidth(), super.getHeight());
-    stage.setScene(sceneLogin);
-  }
-
-  /**
-   * Showing of login window
-   */
-  public void show() {
-    stage.setScene(sceneLogin);
-    stage.setTitle("Login to the Puzzle Battle.");
-    stage.setOnCloseRequest(e -> stage.close());
-    stage.sizeToScene();
-    stage.show();
-  }
-
-  /**
-   * Verification of login is done here
-   */
-  private void verifyLogin() {
-    try {
-      obtainedPassword = passwordField.getText();
-      obtainedLogin = loginTextField.getText();
-      if ((user = LoginRegisterUser.getRegisterUser(obtainedLogin, obtainedPassword)) != null) {
-        Logging.logInfo("User successfully authenticated!");
-        new MainScreen(stage, new SettingsForScreens(), user).show();
-      }
-    } catch (Exception e) {
-      Logging.logWarning("Authentication failed|", e);
-    }
   }
 }
