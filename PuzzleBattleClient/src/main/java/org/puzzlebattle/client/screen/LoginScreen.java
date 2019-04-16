@@ -37,8 +37,6 @@ public class LoginScreen extends AbstractScreen {
   private HBox registerPanel;
   private Label separatorLeft, separatorRight;
 
-  private UserPuzzleBattle user;
-
   /**
    * Constructor which creates screen for log in
    */

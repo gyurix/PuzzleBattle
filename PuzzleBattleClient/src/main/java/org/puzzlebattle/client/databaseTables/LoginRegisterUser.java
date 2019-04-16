@@ -31,7 +31,6 @@ public class LoginRegisterUser {
   public static ObservableList<UserGameAttributes> getBestPlayers(int maxPlayers) {
     SessionFactory sf = new Configuration().configure("/META-INF/hibernate.cfg.xml").buildSessionFactory();
     Session session = sf.openSession();
-    Transaction t = session.beginTransaction();
 
     String hql = "SELECT  u, g.score FROM GamePlayer g LEFT JOIN UserPuzzleBattle u ON u.id = g.player ORDER BY g.score DESC";
     Query query = session.createQuery(hql);
@@ -45,7 +44,6 @@ public class LoginRegisterUser {
       }
     }
 
-    t.commit();
     session.close();
     sf.close();
 
@@ -63,7 +61,6 @@ public class LoginRegisterUser {
   public static UserPuzzleBattle getRegister(String nickName, String password) {
     SessionFactory sf = new Configuration().configure("/META-INF/hibernate.cfg.xml").buildSessionFactory();
     Session session = sf.openSession();
-    Transaction t = session.beginTransaction();
     UserPuzzleBattle registeredUser = null;
 
     String hql = "FROM UserPuzzleBattle WHERE nickName=?1 AND password= ?2";
@@ -75,7 +72,6 @@ public class LoginRegisterUser {
       registeredUser = list.get(0);
     }
 
-    t.commit();
     session.close();
     sf.close();
     return registeredUser;

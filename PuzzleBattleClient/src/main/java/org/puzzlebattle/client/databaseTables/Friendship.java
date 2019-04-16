@@ -43,7 +43,6 @@ public class Friendship {
   public static ObservableList<UserGameAttributes> loadFriends(UserPuzzleBattle user) {
     SessionFactory sf = new Configuration().configure("/META-INF/hibernate.cfg.xml").buildSessionFactory();
     Session session = sf.openSession();
-    Transaction t = session.beginTransaction();
     SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     ObservableList<UserGameAttributes> friends = FXCollections.observableArrayList();
     List<Object[]> list;
@@ -70,8 +69,6 @@ public class Friendship {
       }
     }
 
-
-    t.commit();
     session.close();
     sf.close();
     return friends;

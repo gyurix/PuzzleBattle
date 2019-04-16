@@ -12,8 +12,8 @@ import java.io.File;
  */
 public class FileScreen extends Stage {
 
-  FileChooser chooseFile;
-  File chosenFile;
+  private FileChooser chooseFile;
+  private File chosenFile;
 
   /**
    * Constructor for file screen, initialization is made here for file chooser

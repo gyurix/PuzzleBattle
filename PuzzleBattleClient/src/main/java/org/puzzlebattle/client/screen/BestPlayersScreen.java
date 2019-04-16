@@ -23,13 +23,11 @@ public class BestPlayersScreen extends AbstractScreen {
   private Separator gameSeparator;
   private Scene sceneBestPlayers;
   private SettingsForScreens settingsForScreens;
-  private Stage stage;
   private TableColumn userScore;
   private HBox wholeScreen;
 
   public BestPlayersScreen(Stage stage, SettingsForScreens settingsForScreens) {
     super(stage);
-    this.stage = stage;
     this.settingsForScreens = settingsForScreens;
     fourInARowGameTable = new BestPlayersTable();
     fourInARowGameTable.setMaxHeight(Double.MAX_VALUE);
@@ -60,7 +58,6 @@ public class BestPlayersScreen extends AbstractScreen {
     prepareGameLabels();
     prepareLayoutsForBestPlayer();
     setComponentsToLayouts();
-    sceneBestPlayers = new Scene(wholeScreen, super.getWidth() + 50, super.getHeight());
   }
 
   /**
@@ -102,19 +99,12 @@ public class BestPlayersScreen extends AbstractScreen {
   private void prepareWholeLayout() {
     wholeScreen = new HBox(10);
     wholeScreen.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+    this.pane = wholeScreen;
   }
 
   private void setComponentsToLayouts() {
     ballBouncerGameLayout.getChildren().setAll(ballBouncerLabel, ballBouncerGameTable);
     fourInARowGameLayout.getChildren().setAll(fourInARowLabel, fourInARowGameTable);
     wholeScreen.getChildren().setAll(ballBouncerGameLayout, gameSeparator, fourInARowGameLayout);
-  }
-
-  public void show() {
-    stage.setScene(sceneBestPlayers);
-    stage.setTitle("Best players.");
-    stage.setOnCloseRequest(e -> stage.close());
-    stage.sizeToScene();
-    stage.show();
   }
 }

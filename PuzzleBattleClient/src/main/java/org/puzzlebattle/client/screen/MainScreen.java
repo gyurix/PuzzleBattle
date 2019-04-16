@@ -201,6 +201,7 @@ public class MainScreen extends AbstractScreen {
     prepareFourInARowRegion();
     prepareLabelForFourInARow();
     prepareButtonsFourInARow();
+    vBoxFourInARowGame = createVBox(labelFourInARow, regionFourInARow, startFourInARowGame, viewBestPlayersFourInARow);
     prepareImageFourInARow();
   }
 
@@ -272,8 +273,8 @@ public class MainScreen extends AbstractScreen {
     prepareBallBouncerRegion();
     prepareLabelForBallBouncer();
     prepareButtonsBallBouncer();
-    vBoxFourInARowGame = createVBox(labelFourInARow, regionFourInARow, startFourInARowGame, viewBestPlayersFourInARow);
     vBoxBallBouncerGame = createVBox(labelBallBouncer, regionBallBouncer, startBallBouncerGame, viewBestPlayersBallBouncer);
+    prepareImageBallBouncer();
   }
 
   /**

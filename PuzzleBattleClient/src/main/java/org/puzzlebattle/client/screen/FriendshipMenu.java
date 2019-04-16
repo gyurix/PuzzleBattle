@@ -5,6 +5,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -19,24 +20,17 @@ public class FriendshipMenu extends AbstractScreen {
   private final String findUserText = "Find user";
   private final String friendsText = "Friends";
   private Label actualFriends;
-  private Button actualFriendsOnly;
-  private Button findFriend;
-  private FriendshipTable foundUsers;
-  private FriendshipTable friendshipTable;
+  private Button actualFriendsOnly, findFriend, searchButton;
+  private FriendshipTable foundUsers, friendshipTable;
   private Region horizontalForButtonRegion;
-  private VBox menuButtons;
-  private Scene sceneForFriendship;
-  private Button searchButton;
-  private Stage stage;
-  private VBox tableContent;
-  private UserPuzzleBattle user;
+  private VBox tableContent, menuButtons;
   private HBox wholeScreen;
+  private UserPuzzleBattle user;
 
 
   public FriendshipMenu(Stage stage, UserPuzzleBattle user) {
     super(stage);
     this.user = user;
-    this.stage = stage;
     prepareComponentsForFriendshipMenu();
   }
 
@@ -59,17 +53,20 @@ public class FriendshipMenu extends AbstractScreen {
     friendshipTable.setItems(Friendship.loadFriends(user));
   }
 
+  private Button createButton(String text){
+    Button button = new Button(text);
+    button.setMaxWidth(Double.MAX_VALUE);
+    return button;
+  }
+
   private void prepareButtons() {
-    findFriend = new Button(findUserText);
-    findFriend.setMaxWidth(Double.MAX_VALUE);
+    findFriend = createButton(findUserText);
     findFriend.setOnAction(e -> findUser());
 
-    actualFriendsOnly = new Button(actualFriendsOnlyText);
-    actualFriendsOnly.setMaxWidth(Double.MAX_VALUE);
+    actualFriendsOnly = createButton(actualFriendsOnlyText);
     actualFriendsOnly.setOnAction(e -> prepareToFilterFriends());
 
-    searchButton = new Button("Search");
-    searchButton.setMaxWidth(Double.MAX_VALUE);
+    searchButton = createButton("Search");
     searchButton.setOnAction(e -> prepareSearchCriteria());
   }
 
@@ -78,7 +75,6 @@ public class FriendshipMenu extends AbstractScreen {
     prepareRegions();
     prepareTables();
     prepareLayouts();
-    sceneForFriendship = new Scene(wholeScreen, super.getWidth(), super.getHeight());
   }
 
   private void prepareFriendshipLayout() {
@@ -129,13 +125,7 @@ public class FriendshipMenu extends AbstractScreen {
     wholeScreen.setMinSize(super.getWidth(), super.getHeight());
     wholeScreen.setPadding(new Insets(10, 10, 10, 10));
     wholeScreen.getChildren().addAll(tableContent, menuButtons);
+    this.pane = wholeScreen;
   }
 
-  public void show() {
-    stage.setScene(sceneForFriendship);
-    stage.setTitle("Friendship table");
-    stage.setOnCloseRequest(e -> stage.close());
-    stage.sizeToScene();
-    stage.show();
-  }
 }
