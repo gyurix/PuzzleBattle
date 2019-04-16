@@ -2,5 +2,10 @@
   "started": "Started <name> v <version>",
   "end": {
     "finished": "Finished <name> v <version>"
+  },
+  "login": {
+    "username": "Username",
+    "usernameText": "Put your login here!",
+    "password": "Password"
   }
 }

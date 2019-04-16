@@ -7,10 +7,10 @@
 
         <properties>
             <property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>
-            <property name="hibernate.connection.url" value="jdbc:postgresql://localhost:5432/puzzleBattle"/>
+            <property name="hibernate.connection.url" value="jdbc:postgresql://142.93.101.191:5432/vava"/>
             <property name="hibernate.connection.autocommit" value="false"/>
-            <property name="hibernate.connection.username" value="postgres"/>
-            <property name="hibernate.connection.password" value="perdek"/>
+            <property name="hibernate.connection.username" value="vava"/>
+            <property name="hibernate.connection.password" value="ACQnS4id7v88i97g"/>
             <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL95Dialect"/>
             <property name="hibernate.connection.CharSet" value="utf8"/>
             <property name="hibernate.connection.characterEncoding" value="utf8"/>

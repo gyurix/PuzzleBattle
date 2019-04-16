@@ -13,7 +13,6 @@ import org.puzzlebattle.core.utils.LangFile;
  * @version (1.0)
  */
 public class ClientLauncher extends Application {
-  public static LangFile lang;
   private LoginScreen loginScreen;
 
   /**
@@ -35,8 +34,8 @@ public class ClientLauncher extends Application {
 
   public void start(Stage stage) {
     LangFile english = new LangFile("en");
-    lang = new LangFile(english, "sk");
-    lang.msg("started", "name", "Puzzle Battle Client", "version", "1.0");
+    LangFile.lang = new LangFile(english, "sk");
+    LangFile.lang.msg("started", "name", "Puzzle Battle Client", "version", "1.0");
 
     new LoginScreen(stage).show();
   }

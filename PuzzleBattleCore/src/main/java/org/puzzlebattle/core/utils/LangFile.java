@@ -11,8 +11,8 @@ import java.util.HashMap;
  * @author (Juraj Barath)
  * @version (1.0)
  */
-
 public class LangFile {
+  public static LangFile lang;
   private HashMap<String, String> mapping = new HashMap<String, String>();
   private LangFile parent;
 
@@ -20,7 +20,6 @@ public class LangFile {
   /**
    * Language file
    */
-
   public LangFile(String language) {
     String fileName = "lang/" + language + ".json";
     IOUtils.saveResources(fileName);
@@ -32,7 +31,6 @@ public class LangFile {
   /**
    * Language file, additionally parent can be specified
    */
-
   public LangFile(LangFile parent, String language) {
     this(language);
     this.parent = parent;
@@ -46,7 +44,6 @@ public class LangFile {
    * @param vars list of variables
    * @return string from variables
    */
-
   public String get(String key, Object... vars) {
     String value = mapping.get(key);
 
@@ -65,7 +62,6 @@ public class LangFile {
    *
    * @param json json to load objects
    */
-
   private void load(JsonObject json) {
     json.entrySet().forEach((e) -> {
       if (e.getValue() instanceof JsonObject)
@@ -82,7 +78,6 @@ public class LangFile {
    * @param key  key
    * @param json json to load objects
    */
-
   private void load(String key, JsonObject json) {
     json.entrySet().forEach(e -> {
       if (e.getValue() instanceof JsonObject)
@@ -99,7 +94,6 @@ public class LangFile {
    * @param key  key
    * @param vars list of variables
    */
-
   public void msg(String key, Object... vars) {
     System.out.println(get(key, vars));
   }

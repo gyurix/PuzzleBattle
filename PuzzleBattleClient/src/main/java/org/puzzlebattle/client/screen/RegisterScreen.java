@@ -24,43 +24,72 @@ import org.puzzlebattle.core.utils.Logging;
 
 public class RegisterScreen extends AbstractScreen {
 
-  private Label nickLabel;
-  private Label passwordLabel;
-  private Label passwordConfLabel;
-  private Label emailLabel;
-  private Label leftLabel;
-  private Label rightLabel;
-  private PasswordField passwordField;
-  private PasswordField confirmPasswordField;
-  private TextField nickText;
-  private TextField emailText;
   private Button confirmButton;
-  private BorderPane border;
-  private VBox registerComponents;
-  private Scene registerScene;
-  private Stage stage;
-  private Separator leftSeparator, rightSeparator;
+  private PasswordField confirmPasswordField, passwordField;
+  private Label emailLabel, nickLabel, passwordConfLabel, leftLabel, passwordLabel, rightLabel;
   private HBox leftHBox, rightHBox;
-  private Region regionNickEmail, regionEmailPassword, regionBetweenPassword;
-  private Region regionUpConfirmButton;
-  private static int ADDITIONAL_HEIGHT = 100;
+  private Separator leftSeparator, rightSeparator;
+  private TextField nickField, emailField;
+  private Region regionNickEmail, regionEmailPassword, regionBetweenPassword, regionUpConfirmButton;
+  private VBox registerComponents;
 
   /**
    * Constructor which apply registering of the screen
    */
-
   RegisterScreen(Stage stage) {
     super(stage);
-    this.stage=stage;
     prepareComponents();
-    registerScene = new Scene(border,super.getWidth(),super.getHeight()+ADDITIONAL_HEIGHT);
+    stage.setResizable(false);
     Logging.logInfo("Registration screen is created, but not shown.");
   }
 
-  public void show() {
-    stage.setScene(registerScene);
-    stage.setTitle("Register Puzzle Battle");
-    stage.show();
+  private Label createLabel(String text) {
+    Label label = new Label(text);
+    label.setMaxWidth(Double.MAX_VALUE);
+    label.setFont(getDefaultFont());
+    return label;
+  }
+
+  private Region createRegion(double height) {
+    Region region = new Region();
+    region.setMinHeight(height);
+    return region;
+  }
+
+  private Label createSpecialSideLabel(String text, Pos pos, ContentDisplay contentDisplay, int top, int bottom) {
+    Label label = new Label(text);
+    label.setFont(specialFontForSideLabels());
+    label.setWrapText(true);
+    label.setAlignment(pos);
+    label.setContentDisplay(contentDisplay);
+    label.setPrefWidth(50);
+    label.setPadding(new Insets(top, 10, bottom, 20));
+    return label;
+  }
+
+  @Override
+  public double getHeight() {
+    return 615;
+  }
+
+  @Override
+  public String getTitle() {
+    return "Register Puzzle Battle";
+  }
+
+  @Override
+  public void registerEvents(Scene scene) {
+    confirmPasswordField.setOnAction((e) -> register());
+    passwordField.setOnAction((e) -> register());
+    nickField.setOnAction((e) -> register());
+    emailField.setOnAction((e) -> register());
+  }
+
+  private void noSamePasswordsAlert() {
+    Alert alert = new Alert(Alert.AlertType.ERROR);
+    alert.setTitle("Not same passwords");
+    alert.setContentText("Type your password and confirm password again!");
+    alert.showAndWait();
   }
 
   private void prepareComponents() {
@@ -73,70 +102,41 @@ public class RegisterScreen extends AbstractScreen {
     prepareMainLayout();
   }
 
-  private void prepareLayoutForRegisterComponents() {
-    registerComponents = new VBox(10);
-    registerComponents.setMinWidth(super.getWidth()-200);
-    registerComponents.setPadding(super.createDefaultInsets());
-    registerComponents.getChildren().addAll(nickLabel,nickText,regionNickEmail, emailLabel,emailText,
-            regionEmailPassword,passwordLabel,passwordField,regionBetweenPassword, passwordConfLabel,
-            confirmPasswordField,regionUpConfirmButton,confirmButton);
-  }
-
-  private void prepareLabelsWithUserInf() {
-    nickLabel = new Label("Your nick");
-    nickLabel.setMaxWidth(Double.MAX_VALUE);
-    nickLabel.setFont(super.getDefaultFont());
-    passwordLabel= new Label("Your password");
-    passwordLabel.setMaxWidth(Double.MAX_VALUE);
-    passwordLabel.setFont(super.getDefaultFont());
-    passwordConfLabel = new Label("Confirm password");
-    passwordConfLabel.setMaxWidth(Double.MAX_VALUE);
-    passwordConfLabel.setFont(super.getDefaultFont());
-    emailLabel = new Label("Yout email");
-    emailLabel.setMinWidth(Double.MAX_VALUE);
-    emailLabel.setFont(super.getDefaultFont());
-  }
-
-  private void prepareTextAndPasswordFields() {
-    nickText = new TextField("Add your nick");
-    emailText = new TextField("Add your email");
-    passwordField = new PasswordField();
-    confirmPasswordField = new PasswordField();
-  }
-
-  private void prepareRegions() {
-    regionBetweenPassword = new Region();
-    regionBetweenPassword.setMinHeight(10);
-    regionEmailPassword = new Region();
-    regionEmailPassword.setMinHeight(10);
-    regionNickEmail = new Region();
-    regionNickEmail.setMinHeight(10);
-    regionUpConfirmButton = new Region();
-    regionUpConfirmButton.setMinHeight(50);
-  }
-
   private void prepareConfirmButton() {
     confirmButton = new Button("Register");
     confirmButton.setMaxWidth(Double.MAX_VALUE);
-    confirmButton.setOnAction(e->obtainData());
+    confirmButton.setOnAction(e -> register());
   }
 
-  private void prepareSpecialSideLabels() {
-    leftLabel = new Label("PUZZLE");
-    leftLabel.setFont(specialFontForSideLabels());
-    leftLabel.setWrapText(true);
-    leftLabel.setAlignment(Pos.CENTER_RIGHT);
-    leftLabel.setContentDisplay(ContentDisplay.TOP);
-    leftLabel.setPrefWidth(50);
-    leftLabel.setPadding(new Insets(10,10,100,20));
+  private void prepareLabelsWithUserInf() {
+    nickLabel = createLabel("Your nick");
+    passwordLabel = createLabel("Your password");
+    passwordConfLabel = createLabel("Confirm password");
+    emailLabel = createLabel("Your email");
+  }
 
-    rightLabel = new Label("BATTLE");
-    rightLabel.setFont(specialFontForSideLabels());
-    rightLabel.setWrapText(true);
-    rightLabel.setAlignment(Pos.BOTTOM_RIGHT);
-    rightLabel.setPrefWidth(50);
-    rightLabel.setContentDisplay(ContentDisplay.BOTTOM);
-    rightLabel.setPadding(new Insets(100,10,20,20));
+  private void prepareLayoutForRegisterComponents() {
+    registerComponents = new VBox(10);
+    registerComponents.setMinWidth(super.getWidth() - 200);
+    registerComponents.setPadding(super.createDefaultInsets());
+    registerComponents.getChildren().addAll(nickLabel, nickField, regionNickEmail, emailLabel, emailField,
+            regionEmailPassword, passwordLabel, passwordField, regionBetweenPassword, passwordConfLabel,
+            confirmPasswordField, regionUpConfirmButton, confirmButton);
+  }
+
+  private void prepareMainLayout() {
+    BorderPane pane = new BorderPane();
+    pane.setLeft(leftHBox);
+    pane.setRight(rightHBox);
+    pane.setCenter(registerComponents);
+    this.pane = pane;
+  }
+
+  private void prepareRegions() {
+    regionBetweenPassword = createRegion(10);
+    regionEmailPassword = createRegion(10);
+    regionNickEmail = createRegion(10);
+    regionUpConfirmButton = createRegion(50);
   }
 
   private void prepareSpecialSideComponents() {
@@ -146,50 +146,43 @@ public class RegisterScreen extends AbstractScreen {
     rightSeparator = new Separator();
 
     leftHBox = new HBox();
-    leftHBox.getChildren().addAll(leftSeparator,leftLabel);
+    leftHBox.getChildren().addAll(leftSeparator, leftLabel);
 
     rightHBox = new HBox();
-    rightHBox.getChildren().addAll(rightSeparator,rightLabel);
+    rightHBox.getChildren().addAll(rightSeparator, rightLabel);
+  }
+
+  private void prepareSpecialSideLabels() {
+    leftLabel = createSpecialSideLabel("PUZZLE", Pos.CENTER_RIGHT, ContentDisplay.TOP, 10, 100);
+    rightLabel = createSpecialSideLabel("BATTLE", Pos.BOTTOM_RIGHT, ContentDisplay.BOTTOM, 100, 20);
+  }
+
+  private void prepareTextAndPasswordFields() {
+    nickField = new TextField("Add your nick");
+    emailField = new TextField("Add your email");
+    passwordField = new PasswordField();
+    confirmPasswordField = new PasswordField();
+  }
+
+  private void register() {
+    String nickName = nickField.getText();
+    String email = emailField.getText();
+    String password = passwordField.getText();
+    String passwordConfirm = confirmPasswordField.getText();
+
+    if (!password.equals(passwordConfirm)) {
+      Logging.logWarning("Passwords aren't same!");
+      noSamePasswordsAlert();
+      return;
+    } else {
+      Logging.logInfo("Passwords are the same. Registration is completed!");
+      LoginRegisterUser.registerUser(nickName, email, password);
+    }
+    new AdditionalInformationScreen(new Stage(), nickName, email).show();
+    new LoginScreen(getStage()).show();
   }
 
   private Font specialFontForSideLabels() {
     return Font.font("Lithograph", FontWeight.BOLD, 55);
-  }
-
-  private void prepareMainLayout() {
-    border = new BorderPane();
-    border.setLeft(leftHBox);
-    border.setRight(rightHBox);
-    border.setCenter(registerComponents);
-  }
-
-  private void obtainData()
-  {
-    String nickName = nickText.getText();
-    String email = emailText.getText();
-    String password = passwordField.getText();
-    String passwordConfirm = confirmPasswordField.getText();
-
-    if(!password.equals(passwordConfirm))
-    {
-      Logging.logWarning("Passwords aren't same!");
-      noSamePasswordsAlert();
-      return;
-    }
-    else
-    {
-      Logging.logInfo("Passwords are the same. Registration is completed!");
-      LoginRegisterUser.registerUser(nickName,email,password);
-    }
-    new AdditionalInformationScreen(new Stage(),nickName,email).show();
-    new LoginScreen(stage).show();
-  }
-
-  private void noSamePasswordsAlert() {
-    Alert passwdsAreNotSame;
-    passwdsAreNotSame= new Alert(Alert.AlertType.ERROR);
-    passwdsAreNotSame.setTitle("Not same passwords");
-    passwdsAreNotSame.setContentText("Type your password and confirm password again!");
-    passwdsAreNotSame.showAndWait();
   }
 }

@@ -6,7 +6,7 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.stage.Stage;
 import org.puzzlebattle.client.screen.AbstractScreen;
 
-import static org.puzzlebattle.client.ClientLauncher.lang;
+import static org.puzzlebattle.core.utils.LangFile.lang;
 
 
 /**

@@ -1,5 +1,10 @@
 {
   "end": {
     "finished": "Skoncil <name> v <version>"
+  },
+  "login": {
+    "username": "Prihlasovacie meno",
+    "usernameText": "Tu napis prihl. meno",
+    "password": "Heslo"
   }
 }

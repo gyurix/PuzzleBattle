@@ -11,6 +11,8 @@ import org.puzzlebattle.client.databaseTables.LoginRegisterUser;
 import org.puzzlebattle.client.databaseTables.UserPuzzleBattle;
 import org.puzzlebattle.core.utils.Logging;
 
+import static org.puzzlebattle.core.utils.LangFile.lang;
+
 
 /**
  * Dialog, screen, where user logs in his/her account to play games.
@@ -33,7 +35,6 @@ public class LoginScreen extends AbstractScreen {
   private HBox registerPanel;
   private Scene sceneLogin;
   private Label separatorLeft, separatorRight;
-  private Stage stage;
 
   private UserPuzzleBattle user;
 
@@ -42,7 +43,6 @@ public class LoginScreen extends AbstractScreen {
    */
   public LoginScreen(Stage stage) {
     super(stage);
-    this.stage = stage;
     createComponentsForLoginScreen();
     prepareScreenAndPane(stage);
     Logging.logInfo("Login screen created.");
@@ -58,6 +58,12 @@ public class LoginScreen extends AbstractScreen {
     registerPanel = new HBox(0);
     HBox.setHgrow(registerRegion, Priority.ALWAYS);
     registerPanel.getChildren().addAll(registerRegion, registerButton);
+  }
+
+  private Label createLabel(String key) {
+    Label label = new Label(lang.get(key));
+    label.setFont(getDefaultFont());
+    return label;
   }
 
   /**
@@ -77,10 +83,9 @@ public class LoginScreen extends AbstractScreen {
    * Preparing buttons and labels for login screen
    */
   private void prepareButtonsAndLabels() {
-
-    prepareLoginLabel();
-    loginTextField = new TextField("Put your login here!");
-    preparePasswordLabel();
+    loginLabel = createLabel("login.username");
+    loginTextField = new TextField(lang.get("login.usernameText"));
+    passwordLabel = createLabel("login.password");
     passwordField = new PasswordField();
 
     prepareConfirmButton();
@@ -106,14 +111,6 @@ public class LoginScreen extends AbstractScreen {
     separatorRight.setMaxHeight(Double.MAX_VALUE);
     separatorLeft.setMinWidth(50);
     separatorRight.setMinWidth(50);
-  }
-
-  /**
-   * Prepare login label
-   */
-  private void prepareLoginLabel() {
-    loginLabel = new Label("Login");
-    loginLabel.setFont(super.getDefaultFont());
   }
 
   /**
@@ -187,12 +184,12 @@ public class LoginScreen extends AbstractScreen {
     try {
       obtainedPassword = passwordField.getText();
       obtainedLogin = loginTextField.getText();
-      if((user = LoginRegisterUser.getRegisterUser(obtainedLogin,obtainedPassword))!=null) {
+      if ((user = LoginRegisterUser.getRegisterUser(obtainedLogin, obtainedPassword)) != null) {
         Logging.logInfo("User successfully authenticated!");
         new MainScreen(stage, new SettingsForScreens(), user).show();
       }
     } catch (Exception e) {
-        Logging.logWarning("Authentication failed|",e);
+      Logging.logWarning("Authentication failed|", e);
     }
   }
 }

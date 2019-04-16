@@ -14,7 +14,7 @@ import org.puzzlebattle.core.utils.Logging;
 
 import java.util.ArrayList;
 
-import static org.puzzlebattle.client.ClientLauncher.lang;
+import static org.puzzlebattle.core.utils.LangFile.lang;
 
 
 /**

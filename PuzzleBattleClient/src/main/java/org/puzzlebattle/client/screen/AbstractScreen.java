@@ -30,7 +30,7 @@ public abstract class AbstractScreen {
 
   private ArrayList<Timeline> scheduledTasks = new ArrayList<>();
   @Getter
-  private Stage stage;
+  protected Stage stage;
 
 
   /**
