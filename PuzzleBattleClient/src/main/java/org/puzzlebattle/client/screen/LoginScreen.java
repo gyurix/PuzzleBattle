@@ -121,16 +121,19 @@ public class LoginScreen extends AbstractScreen {
     prepareRegisterButton();
   }
 
+  private Label createLabel(String text,double minWidth){
+    Label label = new Label(text);
+    label.setMaxHeight(Double.MAX_VALUE);
+    label.setMinWidth(minWidth);
+    return label;
+  }
+
   /**
    * Prepare effect separators
    */
   private void prepareEffectSeparators() {
-    separatorLeft = new Label();
-    separatorRight = new Label();
-    separatorRight.setMaxHeight(Double.MAX_VALUE);
-    separatorRight.setMaxHeight(Double.MAX_VALUE);
-    separatorLeft.setMinWidth(50);
-    separatorRight.setMinWidth(50);
+    separatorLeft = createLabel("",50);
+    separatorRight = createLabel("",50);
   }
 
   /**
@@ -161,14 +164,17 @@ public class LoginScreen extends AbstractScreen {
     passwordLabel.setFont(getDefaultFont());
   }
 
+  private Region createRegion(double minHeight){
+    Region region = new Region();
+    region.setMinHeight(minHeight);
+    return region;
+  }
   /**
    * Prepare regions
    */
   private void prepareRegions() {
-    loginButtonRegion = new Region();
-    loginPasswordRegion = new Region();
-    loginButtonRegion.setMinHeight(100);
-    loginPasswordRegion.setMinHeight(10);
+    loginButtonRegion = createRegion(100);
+    loginPasswordRegion = createRegion(10);
     registerRegion = new Region();
     registerRegion.setMaxWidth(Double.MAX_VALUE);
   }

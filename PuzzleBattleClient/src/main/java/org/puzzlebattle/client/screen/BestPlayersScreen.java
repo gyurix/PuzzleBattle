@@ -1,10 +1,8 @@
 package org.puzzlebattle.client.screen;
 
 import javafx.geometry.Orientation;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
-import javafx.scene.control.TableColumn;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -13,30 +11,30 @@ import org.puzzlebattle.client.databaseTables.LoginRegisterUser;
 
 public class BestPlayersScreen extends AbstractScreen {
 
-  private VBox ballBouncerGameLayout;
   private BestPlayersTable ballBouncerGameTable;
-  private Label ballBouncerLabel;
   private Font fFourInARow, fBallBouncer;
-  private VBox fourInARowGameLayout;
-  private BestPlayersTable fourInARowGameTable;
-  private Label fourInARowLabel;
-  private Separator gameSeparator;
-  private Scene sceneBestPlayers;
-  private SettingsForScreens settingsForScreens;
-  private TableColumn userScore;
+  private VBox fourInARowGameLayout, ballBouncerGameLayout;
   private HBox wholeScreen;
+  private BestPlayersTable fourInARowGameTable;
+  private Label fourInARowLabel, ballBouncerLabel;
+  private Separator gameSeparator;
+  private SettingsForScreens settingsForScreens;
 
   public BestPlayersScreen(Stage stage, SettingsForScreens settingsForScreens) {
     super(stage);
     this.settingsForScreens = settingsForScreens;
+    createTables();
+    prepareComponentsForBestPlayerTable();
+    loadDataAndFillTablesFromDatabase();
+  }
+
+  private void createTables(){
     fourInARowGameTable = new BestPlayersTable();
     fourInARowGameTable.setMaxHeight(Double.MAX_VALUE);
     fourInARowGameTable.setMaxWidth(Double.MAX_VALUE);
     ballBouncerGameTable = new BestPlayersTable();
     ballBouncerGameTable.setMaxWidth(Double.MAX_VALUE);
     ballBouncerGameTable.setMaxHeight(Double.MAX_VALUE);
-    prepareComponentsForBestPlayerTable();
-    loadDataAndFillTablesFromDatabase();
   }
 
   private void loadDataAndFillTablesFromDatabase() {
@@ -76,19 +74,22 @@ public class BestPlayersScreen extends AbstractScreen {
     prepareBallBouncerGameLabel();
   }
 
+  private VBox createVBox(int spacing, double minWidth, double maxHeight){
+    VBox vBox = new VBox(spacing);
+    vBox.setMinWidth(minWidth);
+    vBox.setMaxHeight(maxHeight);
+    return vBox;
+  }
+
   private void prepareGameLayoutsAndSeparators() {
-    ballBouncerGameLayout = new VBox(10);
-    ballBouncerGameLayout.setMinWidth(super.getWidth() / 2 - 25);
-    ballBouncerGameLayout.setMinHeight(super.getHeight());
+    ballBouncerGameLayout = createVBox(10,super.getWidth() / 2 - 25, super.getHeight());
 
     gameSeparator = new Separator();
     gameSeparator.setMinWidth(50);
     gameSeparator.setMinHeight(super.getHeight());
     gameSeparator.setOrientation(Orientation.VERTICAL);
 
-    fourInARowGameLayout = new VBox(10);
-    fourInARowGameLayout.setMinWidth(super.getWidth() / 2 - 25);
-    fourInARowGameLayout.setMinHeight(super.getHeight());
+    fourInARowGameLayout = createVBox(10,super.getWidth() / 2 - 25,super.getHeight());
   }
 
   private void prepareLayoutsForBestPlayer() {

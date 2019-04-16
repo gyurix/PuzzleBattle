@@ -19,7 +19,7 @@ public class DurationDate {
 
   private Timestamp endDate;
   @Id
-  @GeneratedValue//(strategy=GenerationType.IDENTITY)
+  @GeneratedValue
   private long id;
   private Timestamp startDate;
 }

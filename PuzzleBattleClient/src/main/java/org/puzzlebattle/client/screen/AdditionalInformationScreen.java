@@ -50,19 +50,18 @@ public class AdditionalInformationScreen extends AbstractScreen {
   private Button loadPhoto;
   private File loadedImage;
   private String loadedImagePath = defaultImage, loadedName, loadedSurname, loadedAge, loadedDateOfBirth;
+  private UserPuzzleBattle loadedUser;
   private VBox mainComponentsScene1, mainComponentsScene2;
   private HBox movePageScene1, movePageScene2;
   private TextField nameText;
   private String nickNameOfPlayer;
   private String noImageLoaded = "No image loaded";
   private Button pageNextScene1, pagePreviousScene1, pageNextScene2, pagePreviousScene2;
-  private Label pathForPhotoLabel;
   private PlayerProfileScreen playerProfile;
   private Region regionNameSurname, regionSurnameDateOfBirth;
-  private Label rightSideLabelScene1, rightSideLabelScene2;
+  private Label rightSideLabelScene1, rightSideLabelScene2, pathForPhotoLabel;
   private Scene scene1, scene2;
   private TextField surnameText;
-  private Stage stage;
 
   /**
    * Constructor which prepares window with its basic components for obtaining additional information from them
@@ -73,7 +72,6 @@ public class AdditionalInformationScreen extends AbstractScreen {
    */
   public AdditionalInformationScreen(Stage stage, String nickName, String emailOfPlayer) {
     super(stage);
-    this.stage=stage;
     this.nickNameOfPlayer = nickName;
     this.emailOfPlayer = emailOfPlayer;
     prepareComponents();
@@ -271,10 +269,10 @@ public class AdditionalInformationScreen extends AbstractScreen {
     borderScene2 = createBorderPane(movePageScene2,mainComponentsScene2,leftSideLabelScene2,rightSideLabelScene2);
   }
 
-  private VBox createVBoxDefaultPadding(int spacing, double minWidth,Node ... args){
+  private VBox createVBox(int spacing, double minWidth,Node ... args){
     VBox vBox = new VBox(spacing);
     vBox.setMinWidth(minWidth);
-    vBox.getChildren().addAll();
+    vBox.getChildren().addAll(args);
     vBox.setPadding(super.createDefaultInsets());
     return vBox;
   }
@@ -283,7 +281,7 @@ public class AdditionalInformationScreen extends AbstractScreen {
    * Main component layout for scene 1
    */
   private void prepareMainComponentLayoutScene1() {
-    mainComponentsScene1 = createVBoxDefaultPadding(10,super.getWidth() - 200,addNameLabel, nameText, regionNameSurname, addSurnameLabel, surnameText, regionSurnameDateOfBirth,
+    mainComponentsScene1 = createVBox(10,super.getWidth() - 200,addNameLabel, nameText, regionNameSurname, addSurnameLabel, surnameText, regionSurnameDateOfBirth,
             addDateOfBirth, dateOfBirthText);
   }
 
@@ -291,28 +289,26 @@ public class AdditionalInformationScreen extends AbstractScreen {
    * Main components layout for scene 2
    */
   private void prepareMainComponentLayoutScene2() {
-    mainComponentsScene2 = createVBoxDefaultPadding(10,super.getWidth() - 200,addPhotoLabel, pathForPhotoLabel, loadPhoto);
+    mainComponentsScene2 = createVBox(10,super.getWidth() - 200,addPhotoLabel, pathForPhotoLabel, loadPhoto);
   }
 
 
-  private HBox createHBox(int spacing,double minHeight,Node ... args){
-    HBox hBox = new HBox(spacing);
-    hBox.setMinHeight(minHeight);
-    hBox.getChildren().addAll(leftConfirmScene1, confirmScene1, bottomLeftScene1, pageNextScene1, pagePreviousScene1);
-    return hBox;
-  }
   /**
    * Page layouts for scene 1
    */
   private void prepareMovingPageLayoutScene1() {
-    movePageScene1 = createHBox(10,50,leftConfirmScene1, confirmScene1, bottomLeftScene1, pageNextScene1, pagePreviousScene1);
+    movePageScene1 = new HBox(10);
+    movePageScene1.setMinHeight(50);
+    movePageScene1.getChildren().addAll(leftConfirmScene1, confirmScene1, bottomLeftScene1, pageNextScene1, pagePreviousScene1);
   }
 
   /**
    * Page layouts for scene 2
    */
   private void prepareMovingPageLayoutScene2() {
-    movePageScene2 = createHBox(10,50,leftConfirmScene2, confirmScene2, bottomLeftScene2, pageNextScene2, pagePreviousScene2);
+    movePageScene2 = new HBox(10);
+    movePageScene2.setMinHeight(50);
+    movePageScene2.getChildren().addAll(leftConfirmScene2, confirmScene2, bottomLeftScene2, pageNextScene2, pagePreviousScene2);
   }
 
   /**
@@ -363,7 +359,6 @@ public class AdditionalInformationScreen extends AbstractScreen {
    */
   private void prepareScenes() {
     scene1 = new Scene(borderScene1, super.getWidth(), super.getHeight());
-    this.pane=borderScene1;
     scene2 = new Scene(borderScene2, super.getWidth(), super.getHeight());
   }
 
@@ -422,6 +417,7 @@ public class AdditionalInformationScreen extends AbstractScreen {
    */
   public void show() {
     stage.setScene(scene1);
+    System.out.println("SHOWN!!!");
     stage.show();
   }
 

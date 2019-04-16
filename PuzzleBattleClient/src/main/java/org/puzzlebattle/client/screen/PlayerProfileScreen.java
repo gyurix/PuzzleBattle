@@ -22,30 +22,25 @@ public class PlayerProfileScreen extends AbstractScreen {
 
   private static int PICTURE_HEIGHT = 350;
   private static int PICTURE_WIDTH = 300;
-  private Label age;
-  private VBox basicInformation;
   private Region betweenInformationCompHeading;
-  private Label dateOfBirth;
-  private Label email;
+  private Label dateOfBirth, email, informationLabel, name, surname,nickName,age;
   private GridPane grid;
   private HBox informationInside;
-  private Label informationLabel;
+  private VBox basicInformation, informationVBox;
   private Region informationOnRight;
-  private VBox informationVBox;
-  private Label name, surname;
-  private Label nickName;
   private Image photoImage;
-  private Button returnButton;
-  private Scene scene;
   private ImageView selfPhoto;
-  private Stage stage;
+  private Button returnButton;
 
   public PlayerProfileScreen(Stage stage) {
     super(stage);
-    this.stage = stage;
     prepareComponents();
-    prepareScene();
+    this.pane =grid;
     Logging.logInfo("Player screen has been created.");
+  }
+
+  public String getTitle(){
+    return "Player profile";
   }
 
   private void prepareButtonsAndPhoto() {
@@ -82,22 +77,19 @@ public class PlayerProfileScreen extends AbstractScreen {
     informationInside.getChildren().addAll(informationOnRight, informationVBox);
   }
 
+  private Label createLabel(String text,Font font){
+    Label label = new Label(text);
+    label.setMaxWidth(Double.MAX_VALUE);
+    label.setFont(font);
+    return label;
+  }
+
   private void prepareInformationLabels() {
-    name = new Label("name");
-    name.setMaxWidth(Double.MAX_VALUE);
-    name.setFont(prepareFontForLabels());
-    surname = new Label("surname");
-    surname.setMaxWidth(Double.MAX_VALUE);
-    surname.setFont(prepareFontForLabels());
-    age = new Label("age");
-    age.setMaxWidth(Double.MAX_VALUE);
-    age.setFont(prepareFontForLabels());
-    dateOfBirth = new Label("date of birth");
-    dateOfBirth.setMaxWidth(Double.MAX_VALUE);
-    dateOfBirth.setFont(prepareFontForLabels());
-    email = new Label("email");
-    email.setMaxWidth(Double.MAX_VALUE);
-    email.setFont(prepareFontForLabels());
+    name = createLabel("name",prepareFontForLabels());
+    surname = createLabel("surname",prepareFontForLabels());
+    age = createLabel("age",prepareFontForLabels());
+    dateOfBirth = createLabel("date of birth",prepareFontForLabels());
+    email = createLabel("email",prepareFontForLabels());
   }
 
   private void prepareLayoutWithInformationComponents() {
@@ -113,28 +105,22 @@ public class PlayerProfileScreen extends AbstractScreen {
     grid.add(nickName, 0, 0);
     grid.add(selfPhoto, 1, 1);
     grid.add(basicInformation, 0, 1);
-
   }
 
   private void prepareMainLabels() {
-    nickName = new Label("Profile Nick name");
-    nickName.setMaxWidth(Double.MAX_VALUE);
-    nickName.setFont(prepareFontForMainLabels());
-    informationLabel = new Label("Profile information");
-    informationLabel.setMaxWidth(Double.MAX_VALUE);
-    informationLabel.setFont(prepareFontForMainLabels());
+    nickName = createLabel("Profile Nick name",prepareFontForMainLabels());
+    informationLabel = createLabel("Profile information",prepareFontForMainLabels());
+  }
+
+  private Region createRegion(double minHeight){
+    Region region = new Region();
+    region.setMinHeight(minHeight);
+    return region;
   }
 
   private void prepareRegion() {
-    betweenInformationCompHeading = new Region();
-    betweenInformationCompHeading.setMinHeight(20);
-    informationOnRight = new Region();
-    informationOnRight.setMinWidth(25);
-  }
-
-  private void prepareScene() {
-    scene = new Scene(grid, super.getWidth(), super.getHeight());
-    stage.setScene(scene);
+    betweenInformationCompHeading = createRegion(20);
+    informationOnRight = createRegion(25);
   }
 
   private void prepareVerticalForHeading() {
@@ -183,10 +169,4 @@ public class PlayerProfileScreen extends AbstractScreen {
     nickName.setText(nickNameText);
   }
 
-  public void show() {
-    stage.setTitle("Player profile");
-    stage.setOnCloseRequest(e -> stage.close());
-    stage.sizeToScene();
-    stage.show();
-  }
 }

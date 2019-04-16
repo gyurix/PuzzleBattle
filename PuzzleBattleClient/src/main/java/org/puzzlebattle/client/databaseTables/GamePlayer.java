@@ -40,7 +40,6 @@ public class GamePlayer {
     GamePlayer foundGamePlayer;
     if ((foundGamePlayer = findGamePlayerInDB(LoginRegisterUser.getRegister(userPuzzleBattle.getNickName(), userPuzzleBattle.getPassword()), gameTypeForNewUser)) == null) {
       GamePlayer newGamePlayer = new GamePlayer();
-      // newGamePlayer.setPlayer(LoginRegisterUser.getRegister(userPuzzleBattle.getNickName(), userPuzzleBattle.getPassword()).getId());
       newGamePlayer.setPlayer(LoginRegisterUser.getRegister(userPuzzleBattle.getNickName(), userPuzzleBattle.getPassword()));
       newGamePlayer.setScore(0);
       newGamePlayer.setGameType(gameTypeForNewUser);

@@ -35,7 +35,6 @@ public abstract class GameSettings {
   private static long findGameSettings(int gameTypeId) {
     SessionFactory sf = new Configuration().configure("/META-INF/hibernate.cfg.xml").buildSessionFactory();
     Session session = sf.openSession();
-    Transaction t = session.beginTransaction();
     GameSettings gameSettings = null;
 
     String hql = "FROM GameSettings WHERE gameType= ?1";
@@ -45,7 +44,6 @@ public abstract class GameSettings {
     if (list.size() > 0) {
       gameSettings = list.get(0);
     }
-    t.commit();
     session.close();
     sf.close();
     if (gameSettings != null) {

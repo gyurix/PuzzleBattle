@@ -1,6 +1,7 @@
 package org.puzzlebattle.client.screen;
 
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -19,7 +20,6 @@ public class FriendshipMenu extends AbstractScreen {
   private final String allFriendsText = "All friends";
   private final String findUserText = "Find user";
   private final String friendsText = "Friends";
-  private Label actualFriends;
   private Button actualFriendsOnly, findFriend, searchButton;
   private FriendshipTable foundUsers, friendshipTable;
   private Region horizontalForButtonRegion;
@@ -77,11 +77,16 @@ public class FriendshipMenu extends AbstractScreen {
     prepareLayouts();
   }
 
+  private VBox createVBoxLayout(int spacing, double minWidth, Node... args){
+    VBox vBox = new VBox(spacing);
+    vBox.setMinWidth(minWidth);
+    vBox.setMaxHeight(Double.MAX_VALUE);
+    vBox.getChildren().addAll(args);
+    return vBox;
+  }
+
   private void prepareFriendshipLayout() {
-    menuButtons = new VBox(10);
-    menuButtons.setMinWidth(150);
-    menuButtons.setMaxHeight(Double.MAX_VALUE);
-    menuButtons.getChildren().addAll(findFriend, actualFriendsOnly);
+    menuButtons = createVBoxLayout(10,150,findFriend, actualFriendsOnly);
   }
 
   private void prepareLayouts() {
@@ -91,10 +96,7 @@ public class FriendshipMenu extends AbstractScreen {
   }
 
   private void prepareMenuLayout() {
-    tableContent = new VBox(10);
-    tableContent.setMinWidth(super.getWidth() - 200);
-    tableContent.setMaxHeight(Double.MAX_VALUE);
-    tableContent.getChildren().add(friendshipTable);
+    tableContent = createVBoxLayout(10,super.getWidth() - 200,friendshipTable);
   }
 
   private void prepareRegions() {

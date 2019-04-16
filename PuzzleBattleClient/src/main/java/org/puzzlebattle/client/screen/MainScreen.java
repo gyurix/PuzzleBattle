@@ -38,34 +38,23 @@ import java.util.Calendar;
  */
 public class MainScreen extends AbstractScreen {
 
-  private Button closeMainScreen;
-  private Font fBallBouncer;
-  private Font fFourInARow;
+  private Font fBallBouncer, fFourInARow;
   private FriendshipMenu friendshipMenu;
-  private Button friendshipMenuButton;
   private GridPane gridPane;
   private HBox hEscapeBox;
-  private Image imageBallBouncer;
-  private Image imageFourInARow;
-  private ImageView imageViewBallBouncer;
-  private ImageView imageViewFourInARow;
-  private Label labelBallBouncer;
-  private Label labelFourInARow;
+  private VBox vBoxBallBouncerGame, vBoxFourInARowGame;
+  private Image imageBallBouncer, imageFourInARow;
+  private ImageView imageViewBallBouncer, imageViewFourInARow;
+  private Label labelBallBouncer, labelFourInARow;
   private Scene mainScene;
   private PlayerProfileScreen playerProfileScreen;
-  private Button reLoginButton;
   private Region regionFourInARow, regionBallBouncer;
   private Separator separator;
   private SettingsForScreens settingsForScreens;
   private Stage stage;
-  private Button startBallBouncerGame;
-  private Button startFourInARowGame;
   private UserPuzzleBattle user;
-  private VBox vBoxBallBouncerGame;
-  private VBox vBoxFourInARowGame;
-  private Button viewBestPlayersBallBouncer;
-  private Button viewBestPlayersFourInARow;
-  private Button viewProfileButton;
+  private Button viewBestPlayersBallBouncer, viewBestPlayersFourInARow, viewProfileButton;
+  private Button reLoginButton, friendshipMenuButton,closeMainScreen,startBallBouncerGame, startFourInARowGame;
 
   /**
    * Constructor which creates main screen in the program.
@@ -139,17 +128,19 @@ public class MainScreen extends AbstractScreen {
     regionBallBouncer.setMinHeight(10);
   }
 
+  private Button createButton(String text){
+    Button button = new Button(text);
+    button.setMaxWidth(Double.MAX_VALUE);
+    return button;
+  }
   /**
    * Prepare buttons for ball bouncer
    */
   private void prepareButtonsBallBouncer() {
-    startBallBouncerGame = new Button("Launch Ball Bouncer game.");
-    startBallBouncerGame.setMaxWidth(Double.MAX_VALUE);
-    startBallBouncerGame.setOnAction(
-            e -> launchBallBouncer());
+    startBallBouncerGame = createButton("Launch Ball Bouncer game.");
+    startBallBouncerGame.setOnAction(e -> launchBallBouncer());
 
-    viewBestPlayersBallBouncer = new Button("View best Ball Bouncer Players");
-    viewBestPlayersBallBouncer.setMaxWidth(Double.MAX_VALUE);
+    viewBestPlayersBallBouncer = createButton("View best Ball Bouncer Players");
     viewBestPlayersBallBouncer.setOnAction(e -> viewBestPlayers());
   }
 
@@ -157,13 +148,10 @@ public class MainScreen extends AbstractScreen {
    * Prepare buttons for Four in a row
    */
   private void prepareButtonsFourInARow() {
-    startFourInARowGame = new Button("Launch Four in a row game");
-    startFourInARowGame.setMaxWidth(Double.MAX_VALUE);
-    startFourInARowGame.setOnAction(
-            e -> launchFourInARow());
+    startFourInARowGame = createButton("Launch Four in a row game");
+    startFourInARowGame.setOnAction(e -> launchFourInARow());
 
-    viewBestPlayersFourInARow = new Button("View best Four In A Row Players");
-    viewBestPlayersFourInARow.setMaxWidth(Double.MAX_VALUE);
+    viewBestPlayersFourInARow = createButton("View best Four In A Row Players");
     viewBestPlayersFourInARow.setOnAction(e -> viewBestPlayers());
   }
 
@@ -171,17 +159,13 @@ public class MainScreen extends AbstractScreen {
    * Preparing escape buttons, for example reLoginButton, closeMainScreen and viewProfileButton
    */
   private void prepareEscapeButtons() {
-    reLoginButton = new Button("Re login");
-    reLoginButton.setMaxWidth(Double.MAX_VALUE);
+    reLoginButton = createButton("Re login");
     reLoginButton.setOnAction(e -> reLogin());
-    closeMainScreen = new Button("Close");
-    closeMainScreen.setMaxWidth(Double.MAX_VALUE);
+    closeMainScreen = createButton("Close");
     closeMainScreen.setOnAction(e -> stage.close());
-    viewProfileButton = new Button("View profile");
-    viewProfileButton.setMaxWidth(Double.MAX_VALUE);
+    viewProfileButton = createButton("View profile");
     viewProfileButton.setOnAction(e -> prepareProfileScreen());
-    friendshipMenuButton = new Button("Friendship menu");
-    friendshipMenuButton.setMaxWidth(Double.MAX_VALUE);
+    friendshipMenuButton = createButton("Friendship menu");
     friendshipMenuButton.setOnAction(e -> prepareFriendshipMenu());
   }
 
@@ -301,8 +285,6 @@ public class MainScreen extends AbstractScreen {
     gridPane.setVgap(20);
     ColumnConstraints column1 = new ColumnConstraints();
     column1.setPercentWidth(50);
-    //ColumnConstraints column2 = new ColumnConstraints();
-    //column2.setPercentWidth(50);
     gridPane.getColumnConstraints().addAll(column1);
     separator.setOrientation(Orientation.VERTICAL);
     gridPane.setPadding(new Insets(10, 20, 10, 20));
