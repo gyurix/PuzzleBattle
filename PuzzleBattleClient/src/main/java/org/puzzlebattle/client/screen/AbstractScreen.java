@@ -26,11 +26,10 @@ import java.util.ArrayList;
 public abstract class AbstractScreen {
 
   protected Pane pane;
-  private Scene scene;
-
-  private ArrayList<Timeline> scheduledTasks = new ArrayList<>();
   @Getter
   protected Stage stage;
+  private Scene scene;
+  private ArrayList<Timeline> scheduledTasks = new ArrayList<>();
 
 
   /**
@@ -42,6 +41,23 @@ public abstract class AbstractScreen {
     pane = new Pane();
   }
 
+  /**
+   * Default insets for any component used in inherited class
+   *
+   * @return inets with default values
+   */
+  protected Insets createDefaultInsets() {
+    return new Insets(50, 100, 50, 100);
+  }
+
+  /**
+   * Default fon for every inherited screen
+   *
+   * @return
+   */
+  protected Font getDefaultFont() {
+    return Font.font("Arial", FontWeight.BOLD, FontPosture.ITALIC, 25);
+  }
 
   /**
    * Method which returns height of the screen
@@ -52,7 +68,6 @@ public abstract class AbstractScreen {
     return 480;
   }
 
-
   /**
    * Method which returns title of the screen
    *
@@ -61,7 +76,6 @@ public abstract class AbstractScreen {
   public String getTitle() {
     return "Puzzle Battle - " + getClass().getSimpleName().replace("Screen", "");
   }
-
 
   /**
    * Method which returns width of the screen
@@ -72,13 +86,11 @@ public abstract class AbstractScreen {
     return 640;
   }
 
-
   /**
    * Method where is speciffied what to do after closing a window
    */
   public void onClose() {
   }
-
 
   /**
    * In this method is specified what to do before closing a window.
@@ -124,23 +136,5 @@ public abstract class AbstractScreen {
     stage.setScene(scene);
     stage.show();
     stage.setOnCloseRequest(e -> onCloseHandler());
-  }
-
-  /**
-   * Default fon for every inherited screen
-   *
-   * @return
-   */
-  protected Font getDefaultFont() {
-    return Font.font("Arial", FontWeight.BOLD, FontPosture.ITALIC, 25);
-  }
-
-  /**
-   * Default insets for any component used in inherited class
-   *
-   * @return inets with default values
-   */
-  protected Insets createDefaultInsets(){
-    return new Insets(50, 100, 50, 100);
   }
 }

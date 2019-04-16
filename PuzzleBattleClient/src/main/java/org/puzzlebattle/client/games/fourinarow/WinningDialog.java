@@ -22,47 +22,25 @@ public class WinningDialog extends Stage {
   private BorderPane border;
   private Button closeButton;
   private Font f;
+  private GameTable gameTable;
   private Image image;
   private ImageView img1;
   private Button newGame;
   private Stage primaryStage;
   private Button returnToMenu;
   private Scene scene;
+  private UserPuzzleBattle user;
   private VBox verticalBox;
   private Label winner;
-  private GameTable gameTable;
-  private UserPuzzleBattle user;
 
-  public WinningDialog(FourInARowScreen fourInARowScreen, FourInARowPlayer winningPlayer, Stage primaryStage,UserPuzzleBattle user, GameTable gameTable) {
+  public WinningDialog(FourInARowScreen fourInARowScreen, FourInARowPlayer winningPlayer, Stage primaryStage, UserPuzzleBattle user, GameTable gameTable) {
     this.primaryStage = primaryStage;
     this.gameTable = gameTable;
-    this.user= user;
-    saveWinnerToDatabase(winningPlayer,gameTable,false);
+    this.user = user;
+    saveWinnerToDatabase(winningPlayer, gameTable, false);
     prepareLayouts(fourInARowScreen);
     scene = new Scene(border, fourInARowScreen.getWidth(), fourInARowScreen.getHeight());
     applySettingsToStage(winningPlayer);
-  }
-
-  private void saveWinnerToDatabase(FourInARowPlayer winningPlayer,GameTable gameTable,boolean draw){
-
-    System.out.println("WINING NUMBER "+winningPlayer.getPlayingNumber());
-    gameTable.getDuration().setEndDate(new Timestamp(System.currentTimeMillis()));
-    if(draw){
-      gameTable.setWinner(GameTable.Winner.DRAW);
-      gameTable.getPlayer1().setScore(10);
-      gameTable.getPlayer2().setScore(10);
-    }
-    else if(winningPlayer.getPlayingNumber()==1){
-      gameTable.setWinner(GameTable.Winner.P1);
-      gameTable.getPlayer1().setScore(100);
-      gameTable.getPlayer2().setScore(0);
-    }
-    else{
-      gameTable.setWinner(GameTable.Winner.P2);
-      gameTable.getPlayer1().setScore(0);
-      gameTable.getPlayer2().setScore(100);
-    }
-    GameTable.updateGameTableInDB(gameTable);
   }
 
   private void applySettingsToStage(FourInARowPlayer winningPlayer) {
@@ -72,7 +50,6 @@ public class WinningDialog extends Stage {
     this.setOnCloseRequest(e -> onClose());
     this.sizeToScene();
   }
-
 
   private void createAndPrepareButtons(FourInARowScreen fourInARowScreen) {
     newGame = new Button("New game");
@@ -97,7 +74,7 @@ public class WinningDialog extends Stage {
   private void createMainMenu() {
     this.close();
     primaryStage.close();
-    new MainScreen(new Stage(), new SettingsForScreens(),user).show();
+    new MainScreen(new Stage(), new SettingsForScreens(), user).show();
   }
 
   public double getWinningDialogHeight() {
@@ -125,11 +102,31 @@ public class WinningDialog extends Stage {
     border.setTop(winner);
   }
 
+  private void saveWinnerToDatabase(FourInARowPlayer winningPlayer, GameTable gameTable, boolean draw) {
+
+    System.out.println("WINING NUMBER " + winningPlayer.getPlayingNumber());
+    gameTable.getDuration().setEndDate(new Timestamp(System.currentTimeMillis()));
+    if (draw) {
+      gameTable.setWinner(GameTable.Winner.DRAW);
+      gameTable.getPlayer1().setScore(10);
+      gameTable.getPlayer2().setScore(10);
+    } else if (winningPlayer.getPlayingNumber() == 1) {
+      gameTable.setWinner(GameTable.Winner.P1);
+      gameTable.getPlayer1().setScore(100);
+      gameTable.getPlayer2().setScore(0);
+    } else {
+      gameTable.setWinner(GameTable.Winner.P2);
+      gameTable.getPlayer1().setScore(0);
+      gameTable.getPlayer2().setScore(100);
+    }
+    GameTable.updateGameTableInDB(gameTable);
+  }
+
   private void startNewGame(FourInARowScreen fourInARowScreen) {
     this.close();
     fourInARowScreen.getStage().close();
-    GameTable newGameTable = GameTable.createTheSameGameFromOlderGame(gameTable,new FourInARowGameSettings());
-    new FourInARowScreen(fourInARowScreen.getStage(), new FourInARowGame(null, (FourInARowGameSettings) newGameTable.getGameSettings()),user,newGameTable).show();
+    GameTable newGameTable = GameTable.createTheSameGameFromOlderGame(gameTable, new FourInARowGameSettings());
+    new FourInARowScreen(fourInARowScreen.getStage(), new FourInARowGame(null, (FourInARowGameSettings) newGameTable.getGameSettings()), user, newGameTable).show();
   }
 
   private void tryToAddImage() {

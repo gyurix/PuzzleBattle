@@ -1,18 +1,9 @@
 package org.puzzlebattle.client.databaseTables;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import lombok.Data;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
-import org.hibernate.cfg.Configuration;
-import org.hibernate.query.Query;
-import org.puzzlebattle.client.screen.UserGameAttributes;
 
 import javax.persistence.*;
 import java.sql.Date;
-import java.util.List;
 
 
 /**
@@ -27,29 +18,21 @@ import java.util.List;
 @Data
 public class UserPuzzleBattle {
 
+  @Transient
+  private int age;
+  @Lob
+  @Column(name = "image")
+  private byte[] avatar;
+  private Date dateOfBirth;
+  @Column(unique = true)
+  private String email;
   @Id
   @GeneratedValue
   private int id;
-
+  private String name;
   @Column(unique = true)
   private String nickName;
-
-  @Column(unique = true)
-  private String email;
-
   private String password;
-
-  private String name;
-
   private String surname;
-
-  @Transient
-  private int age;
-
-   private Date dateOfBirth;
-
-   @Lob
-   @Column(name="image")
-   private byte[] avatar;
 
 }

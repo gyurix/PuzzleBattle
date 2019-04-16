@@ -27,28 +27,25 @@ import java.util.List;
 @Data
 public class Friendship {
 
+  @ManyToOne
+  @JoinColumn
+  private DurationDate duration;
   @Id
   @GeneratedValue
   private long id;
-
   @ManyToOne
   @JoinColumn
   private UserPuzzleBattle player1;
-
   @ManyToOne
   @JoinColumn
   private UserPuzzleBattle player2;
 
-  @ManyToOne
-  @JoinColumn
-  private DurationDate duration;
-
-  public static ObservableList<UserGameAttributes> loadFriends(UserPuzzleBattle user){
+  public static ObservableList<UserGameAttributes> loadFriends(UserPuzzleBattle user) {
     SessionFactory sf = new Configuration().configure("/META-INF/hibernate.cfg.xml").buildSessionFactory();
     Session session = sf.openSession();
     Transaction t = session.beginTransaction();
     SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    ObservableList<UserGameAttributes> friends= FXCollections.observableArrayList();
+    ObservableList<UserGameAttributes> friends = FXCollections.observableArrayList();
     List<Object[]> list;
 
     String hql = "FROM Friendship g LEFT JOIN UserPuzzleBattle u ON u.id = g.player1 " +
@@ -56,9 +53,9 @@ public class Friendship {
     Query query = session.createQuery(hql);
     list = null;
     list = query.list();
-    for(Object[] object: list){
-      if(object[0]!=null) {
-        friends.add(new UserGameAttributes(((UserPuzzleBattle)object[0]).getNickName(),((int) object[1]),(f.format((Timestamp) object[1])),(f.format((Timestamp) object[1]))));
+    for (Object[] object : list) {
+      if (object[0] != null) {
+        friends.add(new UserGameAttributes(((UserPuzzleBattle) object[0]).getNickName(), ((int) object[1]), (f.format((Timestamp) object[1])), (f.format((Timestamp) object[1]))));
       }
     }
 
@@ -67,9 +64,9 @@ public class Friendship {
     query = session.createQuery(hql);
     list = null;
     list = query.list();
-    for(Object[] object: list){
-      if(object[0]!=null) {
-        friends.add(new UserGameAttributes(((UserPuzzleBattle)object[0]).getNickName(),((int) object[1]),(f.format((Timestamp) object[1])),(f.format((Timestamp) object[1]))));
+    for (Object[] object : list) {
+      if (object[0] != null) {
+        friends.add(new UserGameAttributes(((UserPuzzleBattle) object[0]).getNickName(), ((int) object[1]), (f.format((Timestamp) object[1])), (f.format((Timestamp) object[1]))));
       }
     }
 

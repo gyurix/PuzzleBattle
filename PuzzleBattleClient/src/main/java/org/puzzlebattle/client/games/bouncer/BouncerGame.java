@@ -3,7 +3,6 @@ package org.puzzlebattle.client.games.bouncer;
 import javafx.geometry.Point2D;
 import javafx.scene.input.KeyCode;
 import lombok.Getter;
-import org.puzzlebattle.client.databaseTables.UserPuzzleBattle;
 import org.puzzlebattle.client.games.Game;
 
 import java.util.Random;

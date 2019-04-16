@@ -23,73 +23,12 @@ import java.util.List;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public abstract class GameSettings {
 
+  protected int gameType;
   @Id
   @GeneratedValue
   protected long id;
 
-  protected int gameType;
-
-  protected abstract long getId();
-  protected abstract int getGameType();
-  protected abstract void setId(int id);
-  protected abstract void setGameType(int gameType);
-
   /**
-   *
-   * @param gameSettings
-   * @return
-   */
-  public static long insertGameSettingsToDBIfTheyAreNotExistAndGetId(GameSettings gameSettings){
-    if(gameSettings  instanceof FourInARowGameSettings) {
-      FourInARowGameSettings fourInARowGameSettings = (FourInARowGameSettings) gameSettings;
-      fourInARowGameSettings.setGameType(GameType.getFourInARowGame().getId());
-      return storeGameSettingsIfNotExistAndReturnId(fourInARowGameSettings,GameType.getFourInARowGame().getId());
-    }
-    else if(gameSettings instanceof BouncerGameSettings){
-      BouncerGameSettings bouncerGameSettings = (BouncerGameSettings) gameSettings;
-      bouncerGameSettings.setGameType(GameType.getBallBouncerGame().getId());
-      return storeGameSettingsIfNotExistAndReturnId(bouncerGameSettings,GameType.getBallBouncerGame().getId());
-    }
-    else {
-      return 0;
-    }
-  }
-
-  /**
-   *
-   * @param gameSettings
-   * @param gameTypeId
-   * @return
-   */
-  private static long storeGameSettingsIfNotExistAndReturnId(GameSettings gameSettings, int gameTypeId){
-    long gameSettingsId;
-    if((gameSettingsId= findGameSettings(gameTypeId))==0){
-        insertGameSettingsIntoDB(gameSettings,gameTypeId);
-        return findGameSettings(gameTypeId);
-    }
-    else{
-      return gameSettingsId;
-    }
-
-  }
-
-  /**
-   *
-   * @param gameSettings
-   * @param gameTypeId
-   */
-  private static void insertGameSettingsIntoDB(GameSettings gameSettings,int gameTypeId) {
-    SessionFactory sf = new Configuration().configure("/META-INF/hibernate.cfg.xml").buildSessionFactory();
-    Session session = sf.openSession();
-    Transaction t = session.beginTransaction();
-    session.persist(gameSettings);
-    t.commit();
-    session.close();
-    sf.close();
-  }
-
-  /**
-   *
    * @param gameTypeId
    * @return
    */
@@ -109,11 +48,66 @@ public abstract class GameSettings {
     t.commit();
     session.close();
     sf.close();
-    if(gameSettings!=null) {
+    if (gameSettings != null) {
       return gameSettings.getId();
-    }
-    else{
+    } else {
       return 0;
     }
   }
+
+  /**
+   * @param gameSettings
+   * @param gameTypeId
+   */
+  private static void insertGameSettingsIntoDB(GameSettings gameSettings, int gameTypeId) {
+    SessionFactory sf = new Configuration().configure("/META-INF/hibernate.cfg.xml").buildSessionFactory();
+    Session session = sf.openSession();
+    Transaction t = session.beginTransaction();
+    session.persist(gameSettings);
+    t.commit();
+    session.close();
+    sf.close();
+  }
+
+  /**
+   * @param gameSettings
+   * @return
+   */
+  public static long insertGameSettingsToDBIfTheyAreNotExistAndGetId(GameSettings gameSettings) {
+    if (gameSettings instanceof FourInARowGameSettings) {
+      FourInARowGameSettings fourInARowGameSettings = (FourInARowGameSettings) gameSettings;
+      fourInARowGameSettings.setGameType(GameType.getFourInARowGame().getId());
+      return storeGameSettingsIfNotExistAndReturnId(fourInARowGameSettings, GameType.getFourInARowGame().getId());
+    } else if (gameSettings instanceof BouncerGameSettings) {
+      BouncerGameSettings bouncerGameSettings = (BouncerGameSettings) gameSettings;
+      bouncerGameSettings.setGameType(GameType.getBallBouncerGame().getId());
+      return storeGameSettingsIfNotExistAndReturnId(bouncerGameSettings, GameType.getBallBouncerGame().getId());
+    } else {
+      return 0;
+    }
+  }
+
+  /**
+   * @param gameSettings
+   * @param gameTypeId
+   * @return
+   */
+  private static long storeGameSettingsIfNotExistAndReturnId(GameSettings gameSettings, int gameTypeId) {
+    long gameSettingsId;
+    if ((gameSettingsId = findGameSettings(gameTypeId)) == 0) {
+      insertGameSettingsIntoDB(gameSettings, gameTypeId);
+      return findGameSettings(gameTypeId);
+    } else {
+      return gameSettingsId;
+    }
+
+  }
+
+  protected abstract int getGameType();
+
+  protected abstract void setGameType(int gameType);
+
+  protected abstract long getId();
+
+  protected abstract void setId(int id);
 }

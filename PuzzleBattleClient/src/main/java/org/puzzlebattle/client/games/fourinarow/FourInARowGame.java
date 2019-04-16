@@ -10,10 +10,7 @@ import org.puzzlebattle.core.utils.Logging;
 import java.util.ArrayList;
 
 
-
 /**
- *
- *
  * @author (Jakub Perdek)
  * @version (1.0)
  */

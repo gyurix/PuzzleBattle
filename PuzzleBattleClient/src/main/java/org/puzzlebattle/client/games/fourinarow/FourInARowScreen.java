@@ -29,8 +29,8 @@ public class FourInARowScreen extends AbstractScreen {
   private double coinRadius;
   private ArrayList<Coin> coins = new ArrayList<Coin>();
   private FourInARowGame game;
-  private Point2D mapSize = new Point2D(400, 400);
   private GameTable gameTable;
+  private Point2D mapSize = new Point2D(400, 400);
   private UserPuzzleBattle user;
 
   /**
@@ -41,7 +41,7 @@ public class FourInARowScreen extends AbstractScreen {
     super(stage);
     this.game = game;
     this.user = user;
-    this.gameTable= gameTable;
+    this.gameTable = gameTable;
     pane = new PanelGrid(0, 0, mapSize.getX(), mapSize.getY(), this);
     pane.setBackground(new Background(new BackgroundFill(game.getSettings().getBackgroundColor(), null, null)));
     coinRadius = getPane().getDistanceOfColumns() * 0.4f;
@@ -109,7 +109,7 @@ public class FourInARowScreen extends AbstractScreen {
   }
 
   public void showWinnerScreen(FourInARowPlayer playerOnTheMove) {
-    WinningDialog winningDialog = new WinningDialog(this, playerOnTheMove, super.getStage(),user,gameTable);
+    WinningDialog winningDialog = new WinningDialog(this, playerOnTheMove, super.getStage(), user, gameTable);
     winningDialog.initModality(Modality.WINDOW_MODAL);
     winningDialog.initOwner(super.getStage());
     winningDialog.show();

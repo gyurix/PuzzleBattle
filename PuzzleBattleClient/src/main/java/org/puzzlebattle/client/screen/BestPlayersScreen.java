@@ -11,25 +11,25 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import org.puzzlebattle.client.databaseTables.LoginRegisterUser;
 
-public class BestPlayersScreen extends AbstractScreen{
+public class BestPlayersScreen extends AbstractScreen {
 
-  private BestPlayersTable fourInARowGameTable;
+  private VBox ballBouncerGameLayout;
   private BestPlayersTable ballBouncerGameTable;
+  private Label ballBouncerLabel;
+  private Font fFourInARow, fBallBouncer;
+  private VBox fourInARowGameLayout;
+  private BestPlayersTable fourInARowGameTable;
+  private Label fourInARowLabel;
+  private Separator gameSeparator;
+  private Scene sceneBestPlayers;
+  private SettingsForScreens settingsForScreens;
+  private Stage stage;
   private TableColumn userScore;
   private HBox wholeScreen;
-  private VBox ballBouncerGameLayout;
-  private VBox fourInARowGameLayout;
-  private Separator gameSeparator;
-  private Label fourInARowLabel;
-  private Label ballBouncerLabel;
-  private SettingsForScreens settingsForScreens;
-  private Font fFourInARow, fBallBouncer;
-  private Stage stage;
-  private Scene sceneBestPlayers;
 
-  public BestPlayersScreen(Stage stage,SettingsForScreens settingsForScreens) {
+  public BestPlayersScreen(Stage stage, SettingsForScreens settingsForScreens) {
     super(stage);
-    this.stage= stage;
+    this.stage = stage;
     this.settingsForScreens = settingsForScreens;
     fourInARowGameTable = new BestPlayersTable();
     fourInARowGameTable.setMaxHeight(Double.MAX_VALUE);
@@ -41,39 +41,8 @@ public class BestPlayersScreen extends AbstractScreen{
     loadDataAndFillTablesFromDatabase();
   }
 
-  public void show() {
-    stage.setScene(sceneBestPlayers);
-    stage.setTitle("Best players.");
-    stage.setOnCloseRequest(e -> stage.close());
-    stage.sizeToScene();
-    stage.show();
-  }
-
-  private void loadDataAndFillTablesFromDatabase(){
+  private void loadDataAndFillTablesFromDatabase() {
     fourInARowGameTable.setItems(LoginRegisterUser.getBestPlayers(10));
-  }
-
-  private void prepareComponentsForBestPlayerTable() {
-    prepareGameLabels();
-    prepareLayoutsForBestPlayer();
-    setComponentsToLayouts();
-    sceneBestPlayers = new Scene(wholeScreen,super.getWidth()+50,super.getHeight());
-  }
-
-  private void prepareGameLabels(){
-    prepareFourInARowGameLabel();
-    prepareBallBouncerGameLabel();
-  }
-
-  /**
-   * Prepare label for four in a row
-   */
-  private void prepareFourInARowGameLabel(){
-    fourInARowLabel = new Label("Four In A Row");
-    fFourInARow = new Font(settingsForScreens.getTypeCharFourInARow(), settingsForScreens.getSizeOfTextFourInARow());
-    fourInARowLabel.setTextFill(settingsForScreens.getColorFourInARowLabel());
-    fourInARowLabel.setWrapText(true);
-    fourInARowLabel.setFont(fFourInARow);
   }
 
   /**
@@ -87,25 +56,32 @@ public class BestPlayersScreen extends AbstractScreen{
     ballBouncerLabel.setFont(fBallBouncer);
   }
 
-  private void prepareLayoutsForBestPlayer() {
-    prepareGameLayoutsAndSeparators();
-    prepareWholeLayout();
+  private void prepareComponentsForBestPlayerTable() {
+    prepareGameLabels();
+    prepareLayoutsForBestPlayer();
+    setComponentsToLayouts();
+    sceneBestPlayers = new Scene(wholeScreen, super.getWidth() + 50, super.getHeight());
   }
 
-  private void setComponentsToLayouts() {
-    ballBouncerGameLayout.getChildren().setAll(ballBouncerLabel,ballBouncerGameTable);
-    fourInARowGameLayout.getChildren().setAll(fourInARowLabel,fourInARowGameTable);
-    wholeScreen.getChildren().setAll(ballBouncerGameLayout,gameSeparator,fourInARowGameLayout);
+  /**
+   * Prepare label for four in a row
+   */
+  private void prepareFourInARowGameLabel() {
+    fourInARowLabel = new Label("Four In A Row");
+    fFourInARow = new Font(settingsForScreens.getTypeCharFourInARow(), settingsForScreens.getSizeOfTextFourInARow());
+    fourInARowLabel.setTextFill(settingsForScreens.getColorFourInARowLabel());
+    fourInARowLabel.setWrapText(true);
+    fourInARowLabel.setFont(fFourInARow);
   }
 
-  private void prepareWholeLayout(){
-    wholeScreen = new HBox(10);
-    wholeScreen.setMaxSize(Double.MAX_VALUE,Double.MAX_VALUE);
+  private void prepareGameLabels() {
+    prepareFourInARowGameLabel();
+    prepareBallBouncerGameLabel();
   }
 
-  private void prepareGameLayoutsAndSeparators(){
+  private void prepareGameLayoutsAndSeparators() {
     ballBouncerGameLayout = new VBox(10);
-    ballBouncerGameLayout.setMinWidth(super.getWidth()/2-25);
+    ballBouncerGameLayout.setMinWidth(super.getWidth() / 2 - 25);
     ballBouncerGameLayout.setMinHeight(super.getHeight());
 
     gameSeparator = new Separator();
@@ -114,7 +90,31 @@ public class BestPlayersScreen extends AbstractScreen{
     gameSeparator.setOrientation(Orientation.VERTICAL);
 
     fourInARowGameLayout = new VBox(10);
-    fourInARowGameLayout.setMinWidth(super.getWidth()/2-25);
+    fourInARowGameLayout.setMinWidth(super.getWidth() / 2 - 25);
     fourInARowGameLayout.setMinHeight(super.getHeight());
+  }
+
+  private void prepareLayoutsForBestPlayer() {
+    prepareGameLayoutsAndSeparators();
+    prepareWholeLayout();
+  }
+
+  private void prepareWholeLayout() {
+    wholeScreen = new HBox(10);
+    wholeScreen.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+  }
+
+  private void setComponentsToLayouts() {
+    ballBouncerGameLayout.getChildren().setAll(ballBouncerLabel, ballBouncerGameTable);
+    fourInARowGameLayout.getChildren().setAll(fourInARowLabel, fourInARowGameTable);
+    wholeScreen.getChildren().setAll(ballBouncerGameLayout, gameSeparator, fourInARowGameLayout);
+  }
+
+  public void show() {
+    stage.setScene(sceneBestPlayers);
+    stage.setTitle("Best players.");
+    stage.setOnCloseRequest(e -> stage.close());
+    stage.sizeToScene();
+    stage.show();
   }
 }

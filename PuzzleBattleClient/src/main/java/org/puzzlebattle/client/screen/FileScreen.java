@@ -1,6 +1,6 @@
 package org.puzzlebattle.client.screen;
 
-import  javafx.stage.FileChooser;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.puzzlebattle.core.utils.Logging;
 
@@ -20,12 +20,30 @@ public class FileScreen extends Stage {
    *
    * @param title title for file chooser
    */
-  public FileScreen(String title){
+  public FileScreen(String title) {
     super();
     chooseFile = new FileChooser();
     chooseFile.setInitialDirectory(new File(System.getProperty("user.home")));
     chooseFile.setTitle(title);
     Logging.logInfo("File screen for choosing avater has been created.");
+  }
+
+  /**
+   * Initial directory, from which is search applied can be changed with this method
+   *
+   * @param path path of initial directory, from which searching will be applied
+   */
+  public void changeInitialDirectory(String path) {
+    chooseFile.setInitialDirectory(new File(path));
+  }
+
+  /**
+   * Method which can set one or few filters for searching files
+   *
+   * @param args filters for searching
+   */
+  public void setFilter(FileChooser.ExtensionFilter... args) {
+    chooseFile.getExtensionFilters().addAll(args);
   }
 
   /**
@@ -38,25 +56,6 @@ public class FileScreen extends Stage {
             new FileChooser.ExtensionFilter("GIF", "*.gif"),
             new FileChooser.ExtensionFilter("JPEG", "*.jpeg")
     );
-  }
-
-  /**
-   * Method which can set one or few filters for searching files
-   *
-   * @param args filters for searching
-   */
-  public void setFilter(FileChooser.ExtensionFilter ... args) {
-    chooseFile.getExtensionFilters().addAll(args);
-  }
-
-
-  /**
-   * Initial directory, from which is search applied can be changed with this method
-   *
-   * @param path path of initial directory, from which searching will be applied
-   */
-  public void changeInitialDirectory(String path) {
-    chooseFile.setInitialDirectory(new File(path));
   }
 
   /**

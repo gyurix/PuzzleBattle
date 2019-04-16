@@ -6,7 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.puzzlebattle.client.databaseTables.GameSettings;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Transient;
 
 import static javafx.scene.input.KeyCode.*;
 
@@ -24,24 +25,15 @@ import static javafx.scene.input.KeyCode.*;
 @Data
 public class FourInARowGameSettings extends GameSettings {
 
-  public long getId() { return super.id; }
-  public int getGameType() { return super.gameType;}
-
-  public void setId(int idd) { super.id=idd; }
-  public void setGameType(int gameType) { super.gameType=gameType; }
-
   @Transient
   private static KeyCode digit[] = new KeyCode[]{DIGIT0, DIGIT1, DIGIT2, DIGIT3, DIGIT4, DIGIT5, DIGIT6, DIGIT7, DIGIT8, DIGIT9};
   @Transient
   private static KeyCode numpad[] = new KeyCode[]{NUMPAD0, NUMPAD1, NUMPAD2, NUMPAD3, NUMPAD4, NUMPAD5, NUMPAD6, NUMPAD7, NUMPAD8, NUMPAD9};
   @Transient
   private Color backgroundColor = Color.GAINSBORO;
-
   private int maxColumns = 7;
   private int maxInTheRow = 5;
   private int maxRows = 6;
-
-
   /**
    * Empty constructor for applying Four in a row game settings
    */
@@ -60,7 +52,6 @@ public class FourInARowGameSettings extends GameSettings {
     return (x < 10) ? digit[x] : null;
   }
 
-
   /**
    * Method which stores KeyCode representation of numpads, which can be pressed on keyboard.
    *
@@ -70,5 +61,21 @@ public class FourInARowGameSettings extends GameSettings {
 
   public static KeyCode getNumpad(int x) {
     return (x < 10) ? numpad[x] : null;
+  }
+
+  public int getGameType() {
+    return super.gameType;
+  }
+
+  public void setGameType(int gameType) {
+    super.gameType = gameType;
+  }
+
+  public long getId() {
+    return super.id;
+  }
+
+  public void setId(int idd) {
+    super.id = idd;
   }
 }

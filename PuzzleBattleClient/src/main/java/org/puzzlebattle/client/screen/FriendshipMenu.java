@@ -12,120 +12,108 @@ import org.puzzlebattle.client.databaseTables.Friendship;
 import org.puzzlebattle.client.databaseTables.LoginRegisterUser;
 import org.puzzlebattle.client.databaseTables.UserPuzzleBattle;
 
-public class FriendshipMenu extends AbstractScreen{
+public class FriendshipMenu extends AbstractScreen {
 
-  private Label actualFriends;
-  private Button findFriend;
-  private Button actualFriendsOnly;
-  private Button searchButton;
-  private VBox menuButtons;
-  private VBox tableContent;
-  private HBox wholeScreen;
   private final String actualFriendsOnlyText = "Actual friends only";
   private final String allFriendsText = "All friends";
   private final String findUserText = "Find user";
-  private final String  friendsText = "Friends";
+  private final String friendsText = "Friends";
+  private Label actualFriends;
+  private Button actualFriendsOnly;
+  private Button findFriend;
   private FriendshipTable foundUsers;
   private FriendshipTable friendshipTable;
-  private Scene sceneForFriendship;
-  private Stage stage;
-  private UserPuzzleBattle user;
   private Region horizontalForButtonRegion;
+  private VBox menuButtons;
+  private Scene sceneForFriendship;
+  private Button searchButton;
+  private Stage stage;
+  private VBox tableContent;
+  private UserPuzzleBattle user;
+  private HBox wholeScreen;
 
 
-  public FriendshipMenu(Stage stage, UserPuzzleBattle user)
-  {
+  public FriendshipMenu(Stage stage, UserPuzzleBattle user) {
     super(stage);
     this.user = user;
-    this.stage= stage;
+    this.stage = stage;
     prepareComponentsForFriendshipMenu();
   }
 
-  public void show() {
-    stage.setScene(sceneForFriendship);
-    stage.setTitle("Friendship table");
-    stage.setOnCloseRequest(e -> stage.close());
-    stage.sizeToScene();
-    stage.show();
+  private void findUser() {
+    if (findFriend.getText().equals(findUserText)) {
+      findFriend.setText(friendsText);
+      foundUsers.setItems(LoginRegisterUser.getBestPlayers(10));
+      tableContent.getChildren().remove(friendshipTable);
+      tableContent.getChildren().add(foundUsers);
+      menuButtons.getChildren().addAll(horizontalForButtonRegion, searchButton);
+    } else {
+      findFriend.setText(findUserText);
+      tableContent.getChildren().remove(foundUsers);
+      tableContent.getChildren().add(friendshipTable);
+      menuButtons.getChildren().removeAll(horizontalForButtonRegion, searchButton);
+    }
   }
 
-  private void prepareComponentsForFriendshipMenu(){
+  private void loadDataAndFillTableFromDatabase() {
+    friendshipTable.setItems(Friendship.loadFriends(user));
+  }
+
+  private void prepareButtons() {
+    findFriend = new Button(findUserText);
+    findFriend.setMaxWidth(Double.MAX_VALUE);
+    findFriend.setOnAction(e -> findUser());
+
+    actualFriendsOnly = new Button(actualFriendsOnlyText);
+    actualFriendsOnly.setMaxWidth(Double.MAX_VALUE);
+    actualFriendsOnly.setOnAction(e -> prepareToFilterFriends());
+
+    searchButton = new Button("Search");
+    searchButton.setMaxWidth(Double.MAX_VALUE);
+    searchButton.setOnAction(e -> prepareSearchCriteria());
+  }
+
+  private void prepareComponentsForFriendshipMenu() {
     prepareButtons();
     prepareRegions();
     prepareTables();
     prepareLayouts();
-    sceneForFriendship = new Scene(wholeScreen,super.getWidth(),super.getHeight());
+    sceneForFriendship = new Scene(wholeScreen, super.getWidth(), super.getHeight());
   }
 
-  private void prepareRegions(){
-    horizontalForButtonRegion = new Region();
-    horizontalForButtonRegion.setMinWidth(350);
-  }
-  private void prepareTables(){
-    friendshipTable = new FriendshipTable("startTimestamp","endTimeStamp");
-    friendshipTable.setSizeForAllColumns(150);
-    foundUsers = new FriendshipTable("score");
+  private void prepareFriendshipLayout() {
+    menuButtons = new VBox(10);
+    menuButtons.setMinWidth(150);
+    menuButtons.setMaxHeight(Double.MAX_VALUE);
+    menuButtons.getChildren().addAll(findFriend, actualFriendsOnly);
   }
 
-  private void loadDataAndFillTableFromDatabase(){
-    friendshipTable.setItems(Friendship.loadFriends(user));
-  }
-
-  private void prepareButtons(){
-    findFriend = new Button(findUserText);
-    findFriend.setMaxWidth(Double.MAX_VALUE);
-    findFriend.setOnAction(e->findUser());
-
-    actualFriendsOnly = new Button(actualFriendsOnlyText);
-    actualFriendsOnly.setMaxWidth(Double.MAX_VALUE);
-    actualFriendsOnly.setOnAction(e->prepareToFilterFriends());
-
-    searchButton = new Button("Search");
-    searchButton.setMaxWidth(Double.MAX_VALUE);
-    searchButton.setOnAction(e->prepareSearchCriteria());
-  }
-
-  private void prepareLayouts(){
+  private void prepareLayouts() {
     prepareFriendshipLayout();
     prepareMenuLayout();
     prepareWholeScreen();
   }
 
-  private void prepareFriendshipLayout(){
-    menuButtons =new VBox(10);
-    menuButtons.setMinWidth(150);
-    menuButtons.setMaxHeight(Double.MAX_VALUE);
-    menuButtons.getChildren().addAll(findFriend,actualFriendsOnly);
-  }
-
-  private void prepareMenuLayout(){
+  private void prepareMenuLayout() {
     tableContent = new VBox(10);
-    tableContent.setMinWidth(super.getWidth()-200);
+    tableContent.setMinWidth(super.getWidth() - 200);
     tableContent.setMaxHeight(Double.MAX_VALUE);
     tableContent.getChildren().add(friendshipTable);
   }
 
-  private void prepareWholeScreen(){
-    wholeScreen = new HBox(10);
-    wholeScreen.setMinSize(super.getWidth(),super.getHeight());
-    wholeScreen.setPadding(new Insets(10,10,10,10));
-    wholeScreen.getChildren().addAll(tableContent,menuButtons);
+  private void prepareRegions() {
+    horizontalForButtonRegion = new Region();
+    horizontalForButtonRegion.setMinWidth(350);
   }
 
-  private void findUser(){
-    if(findFriend.getText().equals(findUserText)) {
-      findFriend.setText(friendsText);
-      foundUsers.setItems(LoginRegisterUser.getBestPlayers(10));
-      tableContent.getChildren().remove(friendshipTable);
-      tableContent.getChildren().add(foundUsers);
-      menuButtons.getChildren().addAll(horizontalForButtonRegion,searchButton);
-    }
-    else {
-      findFriend.setText(findUserText);
-      tableContent.getChildren().remove(foundUsers);
-      tableContent.getChildren().add(friendshipTable);
-      menuButtons.getChildren().removeAll(horizontalForButtonRegion,searchButton);
-    }
+  private void prepareSearchCriteria() {
+
+  }
+
+  private void prepareTables() {
+    friendshipTable = new FriendshipTable("startTimestamp", "endTimeStamp");
+    friendshipTable.setSizeForAllColumns(150);
+    foundUsers = new FriendshipTable("score");
   }
 
   private void prepareToFilterFriends() {
@@ -136,7 +124,18 @@ public class FriendshipMenu extends AbstractScreen{
     }
   }
 
-  private void prepareSearchCriteria(){
+  private void prepareWholeScreen() {
+    wholeScreen = new HBox(10);
+    wholeScreen.setMinSize(super.getWidth(), super.getHeight());
+    wholeScreen.setPadding(new Insets(10, 10, 10, 10));
+    wholeScreen.getChildren().addAll(tableContent, menuButtons);
+  }
 
+  public void show() {
+    stage.setScene(sceneForFriendship);
+    stage.setTitle("Friendship table");
+    stage.setOnCloseRequest(e -> stage.close());
+    stage.sizeToScene();
+    stage.show();
   }
 }

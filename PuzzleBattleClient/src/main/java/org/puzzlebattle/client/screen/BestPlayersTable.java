@@ -11,7 +11,7 @@ public class BestPlayersTable extends PlayerHierarchyTable {
   public BestPlayersTable() {
     userScore = new TableColumn("User score");
     userScore.setMinWidth(super.MIN_WIDTH_FOR_COLUMN);
-    userScore.setCellValueFactory(new PropertyValueFactory<UserGameAttributes,Integer>("score"));
+    userScore.setCellValueFactory(new PropertyValueFactory<UserGameAttributes, Integer>("score"));
     this.getColumns().addAll(userScore);
   }
 }

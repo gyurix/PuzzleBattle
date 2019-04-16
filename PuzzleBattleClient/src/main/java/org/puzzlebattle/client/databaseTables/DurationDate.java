@@ -2,7 +2,9 @@ package org.puzzlebattle.client.databaseTables;
 
 import lombok.Data;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import java.sql.Timestamp;
 
 /**
@@ -15,11 +17,9 @@ import java.sql.Timestamp;
 @Data
 public class DurationDate {
 
+  private Timestamp endDate;
   @Id
   @GeneratedValue//(strategy=GenerationType.IDENTITY)
   private long id;
-
   private Timestamp startDate;
-
-  private Timestamp endDate;
 }

@@ -5,7 +5,7 @@ import org.puzzlebattle.client.games.bouncer.BouncerGameSettings;
 import java.util.HashMap;
 
 public class Config {
-  public static String lang = "en";
   public static HashMap<String, BouncerGameSettings> ballBouncerGameTemplates;
   public static HashMap<String, BouncerGameSettings> fourInARowGameT;
+  public static String lang = "en";
 }
