@@ -50,7 +50,6 @@ public class BestPlayersScreen extends AbstractScreen{
   }
 
   private void loadDataAndFillTablesFromDatabase(){
-    //LoginRegisterUser.getBestPlayers(10)
     fourInARowGameTable.setItems(LoginRegisterUser.getBestPlayers(10));
   }
 

@@ -9,10 +9,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Region;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import org.puzzlebattle.client.databaseTables.*;
@@ -37,7 +34,7 @@ import java.util.Calendar;
  */
 public class MainScreen extends AbstractScreen {
 
-  Separator separator;
+  private Separator separator;
   private Button closeMainScreen;
   private Font fBallBouncer;
   private Font fFourInARow;
@@ -60,9 +57,11 @@ public class MainScreen extends AbstractScreen {
   private VBox vBoxFourInARowGame;
   private Button viewBestPlayersBallBouncer;
   private Button viewBestPlayersFourInARow;
+  private Button friendshipMenuButton;
   private UserPuzzleBattle user;
   private PlayerProfileScreen playerProfileScreen;
   private Region regionFourInARow, regionBallBouncer;
+  private FriendshipMenu friendshipMenu;
 
   /**
    * Constructor which creates main screen in the program.
@@ -185,7 +184,8 @@ public class MainScreen extends AbstractScreen {
    */
   private void prepareEscapeLayout() {
     hEscapeBox = new HBox(settingsForScreens.getSpacingForVBox());
-    hEscapeBox.getChildren().addAll(reLoginButton, closeMainScreen,viewProfileButton);
+    hEscapeBox.setMinWidth(super.getWidth());
+    hEscapeBox.getChildren().addAll(reLoginButton, closeMainScreen,viewProfileButton,friendshipMenuButton);
   }
 
   /**
@@ -201,6 +201,9 @@ public class MainScreen extends AbstractScreen {
     viewProfileButton = new Button("View profile");
     viewProfileButton.setMaxWidth(Double.MAX_VALUE);
     viewProfileButton.setOnAction(e->prepareProfileScreen());
+    friendshipMenuButton = new Button("Friendship menu");
+    friendshipMenuButton.setMaxWidth(Double.MAX_VALUE);
+    friendshipMenuButton.setOnAction(e->prepareFriendshipMenu());
   }
 
   /**
@@ -290,14 +293,19 @@ public class MainScreen extends AbstractScreen {
     separator = new Separator();
     gridPane.setHgap(20);
     gridPane.setVgap(20);
+    ColumnConstraints column1 = new ColumnConstraints();
+    column1.setPercentWidth(50);
+    //ColumnConstraints column2 = new ColumnConstraints();
+    //column2.setPercentWidth(50);
+    gridPane.getColumnConstraints().addAll(column1);
     separator.setOrientation(Orientation.VERTICAL);
     gridPane.setPadding(new Insets(10, 20, 10, 20));
     gridPane.add(vBoxBallBouncerGame, 0, 1);
     gridPane.add(separator, 1, 1);
     gridPane.add(vBoxFourInARowGame, 2, 1);
-    GridPane.setValignment(hEscapeBox, VPos.BOTTOM);
+    gridPane.setValignment(hEscapeBox, VPos.BOTTOM);
     gridPane.add(hEscapeBox, 0, 3);
-    mainScene = new Scene(gridPane, super.getWidth(), super.getHeight());
+    mainScene = new Scene(gridPane, super.getWidth(), super.getHeight()+20);
   }
 
   /**
@@ -391,5 +399,10 @@ public class MainScreen extends AbstractScreen {
     }
 
     Logging.logInfo("all available data have been added to profile from database");
+  }
+
+  private void prepareFriendshipMenu(){
+    friendshipMenu = new FriendshipMenu(new Stage(),user);
+    friendshipMenu.show();
   }
 }
