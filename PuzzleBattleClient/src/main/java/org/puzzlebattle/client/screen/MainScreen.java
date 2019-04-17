@@ -4,7 +4,6 @@ import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
@@ -30,6 +29,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import static org.puzzlebattle.core.utils.LangFile.lang;
+
 /**
  * Main screen in the program. Probably games can be chosen here.
  *
@@ -46,12 +47,10 @@ public class MainScreen extends AbstractScreen {
   private Image imageBallBouncer, imageFourInARow;
   private ImageView imageViewBallBouncer, imageViewFourInARow;
   private Label labelBallBouncer, labelFourInARow;
-  private Scene mainScene;
   private PlayerProfileScreen playerProfileScreen;
   private Region regionFourInARow, regionBallBouncer;
   private Separator separator;
   private SettingsForScreens settingsForScreens;
-  private Stage stage;
   private UserPuzzleBattle user;
   private Button viewBestPlayersBallBouncer, viewBestPlayersFourInARow, viewProfileButton;
   private Button reLoginButton, friendshipMenuButton,closeMainScreen,startBallBouncerGame, startFourInARowGame;
@@ -61,7 +60,6 @@ public class MainScreen extends AbstractScreen {
    */
   public MainScreen(Stage stage, SettingsForScreens settingsForScreens, UserPuzzleBattle user) {
     super(stage);
-    this.stage = stage;
     this.settingsForScreens = settingsForScreens;
     this.user = user;
 
@@ -133,14 +131,15 @@ public class MainScreen extends AbstractScreen {
     button.setMaxWidth(Double.MAX_VALUE);
     return button;
   }
+
   /**
    * Prepare buttons for ball bouncer
    */
   private void prepareButtonsBallBouncer() {
-    startBallBouncerGame = createButton("Launch Ball Bouncer game.");
+    startBallBouncerGame = createButton(lang.get("mainScreen.ballBouncer.launchBallBouncerGame"));
     startBallBouncerGame.setOnAction(e -> launchBallBouncer());
 
-    viewBestPlayersBallBouncer = createButton("View best Ball Bouncer Players");
+    viewBestPlayersBallBouncer = createButton(lang.get("mainScreen.ballBouncer.viewBestBallBouncerPlayers"));
     viewBestPlayersBallBouncer.setOnAction(e -> viewBestPlayers());
   }
 
@@ -148,10 +147,10 @@ public class MainScreen extends AbstractScreen {
    * Prepare buttons for Four in a row
    */
   private void prepareButtonsFourInARow() {
-    startFourInARowGame = createButton("Launch Four in a row game");
+    startFourInARowGame = createButton(lang.get("mainScreen.fourInARow.launchFourInARowGame"));
     startFourInARowGame.setOnAction(e -> launchFourInARow());
 
-    viewBestPlayersFourInARow = createButton("View best Four In A Row Players");
+    viewBestPlayersFourInARow = createButton(lang.get("mainScreen.fourInARow.viewBestFourInARowPlayers"));
     viewBestPlayersFourInARow.setOnAction(e -> viewBestPlayers());
   }
 
@@ -159,13 +158,13 @@ public class MainScreen extends AbstractScreen {
    * Preparing escape buttons, for example reLoginButton, closeMainScreen and viewProfileButton
    */
   private void prepareEscapeButtons() {
-    reLoginButton = createButton("Re login");
+    reLoginButton = createButton(lang.get("mainScreen.menu.reLogin"));
     reLoginButton.setOnAction(e -> reLogin());
-    closeMainScreen = createButton("Close");
+    closeMainScreen = createButton(lang.get("mainScreen.menu.close"));
     closeMainScreen.setOnAction(e -> stage.close());
-    viewProfileButton = createButton("View profile");
+    viewProfileButton = createButton(lang.get("mainScreen.menu.viewProfile"));
     viewProfileButton.setOnAction(e -> prepareProfileScreen());
-    friendshipMenuButton = createButton("Friendship menu");
+    friendshipMenuButton = createButton(lang.get("mainScreen.menu.friendshipMenu"));
     friendshipMenuButton.setOnAction(e -> prepareFriendshipMenu());
   }
 
@@ -232,7 +231,7 @@ public class MainScreen extends AbstractScreen {
    * Prepare label for ball bouncer
    */
   private void prepareLabelForBallBouncer() {
-    labelBallBouncer = new Label("Ball Bouncer");
+    labelBallBouncer = new Label(lang.get("mainScreen.ballBouncer.ballBouncerLabel"));
     fBallBouncer = new Font(settingsForScreens.getTypeCharBallBouncer(), settingsForScreens.getSizeOfTextBallBouncer());
     labelBallBouncer.setTextFill(settingsForScreens.getColorBallBouncerLabel());
     labelBallBouncer.setWrapText(true);
@@ -243,7 +242,7 @@ public class MainScreen extends AbstractScreen {
    * Prepare label for four in a row
    */
   private void prepareLabelForFourInARow() {
-    labelFourInARow = new Label("Four In A Row");
+    labelFourInARow = new Label(lang.get("mainScreen.fourInARow.fourInARowLabel"));
     fFourInARow = new Font(settingsForScreens.getTypeCharFourInARow(), settingsForScreens.getSizeOfTextFourInARow());
     labelFourInARow.setTextFill(settingsForScreens.getColorFourInARowLabel());
     labelFourInARow.setWrapText(true);
@@ -293,25 +292,15 @@ public class MainScreen extends AbstractScreen {
     gridPane.add(vBoxFourInARowGame, 2, 1);
     gridPane.setValignment(hEscapeBox, VPos.BOTTOM);
     gridPane.add(hEscapeBox, 0, 3);
-    mainScene = new Scene(gridPane, super.getWidth(), super.getHeight() + 20);
+    this.pane=gridPane;
   }
 
   /**
    * Re login for user, user will log off and main menu will be closed
    */
   private void reLogin() {
-    stage.close();
-    new LoginScreen(stage).show();
-  }
-
-  /**
-   * Showing of main screen
-   */
-  public void show() {
-    stage.setScene(mainScene);
-    stage.setTitle("Main menu");
-    stage.setOnCloseRequest(e -> stage.close());
-    stage.show();
+    getStage().close();
+    new LoginScreen(getStage()).show();
   }
 
   /**
