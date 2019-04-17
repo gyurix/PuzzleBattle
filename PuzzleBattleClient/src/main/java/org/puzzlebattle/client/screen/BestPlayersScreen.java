@@ -47,7 +47,7 @@ public class BestPlayersScreen extends AbstractScreen {
    * Prepare horizontal layout for four in a row
    */
   private void prepareBallBouncerGameLabel() {
-    ballBouncerLabel = new Label("mainScreen.ballBouncer.ballBouncerLabel");
+    ballBouncerLabel = new Label(lang.get("mainScreen.ballBouncer.ballBouncerLabel"));
     fBallBouncer = new Font(settingsForScreens.getTypeCharBallBouncer(), settingsForScreens.getSizeOfTextBallBouncer());
     ballBouncerLabel.setTextFill(settingsForScreens.getColorBallBouncerLabel());
     ballBouncerLabel.setWrapText(true);
@@ -64,7 +64,7 @@ public class BestPlayersScreen extends AbstractScreen {
    * Prepare label for four in a row
    */
   private void prepareFourInARowGameLabel() {
-    fourInARowLabel = new Label("mainScreen.fourInARow.fourInARowLabel");
+    fourInARowLabel = new Label(lang.get("mainScreen.fourInARow.fourInARowLabel"));
     fFourInARow = new Font(settingsForScreens.getTypeCharFourInARow(), settingsForScreens.getSizeOfTextFourInARow());
     fourInARowLabel.setTextFill(settingsForScreens.getColorFourInARowLabel());
     fourInARowLabel.setWrapText(true);

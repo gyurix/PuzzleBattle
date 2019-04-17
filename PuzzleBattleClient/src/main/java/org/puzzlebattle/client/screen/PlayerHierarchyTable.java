@@ -5,6 +5,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
+import static org.puzzlebattle.core.utils.LangFile.lang;
+
 public class PlayerHierarchyTable extends TableView<UserGameAttributes> {
 
   protected static final int MIN_WIDTH_FOR_COLUMN = 150;
@@ -16,7 +18,7 @@ public class PlayerHierarchyTable extends TableView<UserGameAttributes> {
 
   public PlayerHierarchyTable(double width, double height) {
     this.setMinSize(width, height);
-    userName = new TableColumn("NickName");
+    userName = new TableColumn(lang.get("columns.nickName"));
     userName.setMinWidth(MIN_WIDTH_FOR_COLUMN);
     userName.setCellValueFactory(new PropertyValueFactory<UserGameAttributes, String>("nickName"));
     this.getColumns().addAll(userName);

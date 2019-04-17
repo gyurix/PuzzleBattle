@@ -18,6 +18,8 @@ import org.puzzlebattle.core.utils.Logging;
 
 import java.util.Random;
 
+import static org.puzzlebattle.core.utils.LangFile.lang;
+
 public class PlayerProfileScreen extends AbstractScreen {
 
   private static int PICTURE_HEIGHT = 350;
@@ -40,7 +42,7 @@ public class PlayerProfileScreen extends AbstractScreen {
   }
 
   public String getTitle(){
-    return "Player profile";
+    return lang.get("playerProfile.title");
   }
 
   private void prepareButtonsAndPhoto() {
@@ -51,7 +53,7 @@ public class PlayerProfileScreen extends AbstractScreen {
     selfPhoto.setFitWidth(PICTURE_WIDTH);
     selfPhoto.setFitHeight(PICTURE_HEIGHT);
 
-    returnButton = new Button("Return");
+    returnButton = new Button(lang.get("login.return"));
     returnButton.setMinWidth(100);
   }
 
@@ -85,11 +87,11 @@ public class PlayerProfileScreen extends AbstractScreen {
   }
 
   private void prepareInformationLabels() {
-    name = createLabel("name",prepareFontForLabels());
-    surname = createLabel("surname",prepareFontForLabels());
-    age = createLabel("age",prepareFontForLabels());
-    dateOfBirth = createLabel("date of birth",prepareFontForLabels());
-    email = createLabel("email",prepareFontForLabels());
+    name = createLabel(lang.get("playerProfile.name"),prepareFontForLabels());
+    surname = createLabel(lang.get("playerProfile.surname"),prepareFontForLabels());
+    age = createLabel(lang.get("playerProfile.age"),prepareFontForLabels());
+    dateOfBirth = createLabel(lang.get("playerProfile.dateOfBirth"),prepareFontForLabels());
+    email = createLabel(lang.get("playerProfile.email"),prepareFontForLabels());
   }
 
   private void prepareLayoutWithInformationComponents() {
@@ -108,8 +110,8 @@ public class PlayerProfileScreen extends AbstractScreen {
   }
 
   private void prepareMainLabels() {
-    nickName = createLabel("Profile Nick name",prepareFontForMainLabels());
-    informationLabel = createLabel("Profile information",prepareFontForMainLabels());
+    nickName = createLabel(lang.get("playerProfile.labels.profileNickName"),prepareFontForMainLabels());
+    informationLabel = createLabel(lang.get("playerProfile.labels.profileInformation"),prepareFontForMainLabels());
   }
 
   private Region createRegion(double minHeight){
@@ -142,11 +144,11 @@ public class PlayerProfileScreen extends AbstractScreen {
   }
 
   public void setLoadedAge(String ageText) {
-    age.setText("Age: " + ageText);
+    age.setText(lang.get("playerProfile.set.age") + ageText);
   }
 
   public void setLoadedDateOfBirth(String dateOfBirthText) {
-    dateOfBirth.setText("Date: " + dateOfBirthText);
+    dateOfBirth.setText(lang.get("playerProfile.set.date") + dateOfBirthText);
   }
 
   public void setLoadedImage(String imagePath) {
@@ -158,11 +160,11 @@ public class PlayerProfileScreen extends AbstractScreen {
   }
 
   public void setLoadedName(String nameText) {
-    name.setText("Name: " + nameText);
+    name.setText(lang.get("playerProfile.set.name") + nameText);
   }
 
   public void setLoadedSurname(String surnameText) {
-    surname.setText("Surname: " + surnameText);
+    surname.setText(lang.get("playerProfile.set.surname") + surnameText);
   }
 
   public void setNickName(String nickNameText) {
