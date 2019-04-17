@@ -9,7 +9,6 @@ import io.netty.buffer.ByteBuf;
  * @author (Juraj Barath)
  * @version (1.0)
  */
-
 public interface BufWritable {
 
 
@@ -18,6 +17,5 @@ public interface BufWritable {
    *
    * @param buf buffer where data will be written
    */
-
   void write(ByteBuf buf);
 }

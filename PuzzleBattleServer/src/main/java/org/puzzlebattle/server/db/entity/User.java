@@ -25,8 +25,8 @@ public class User extends Identificable implements BufReadable {
     email = readString(buf).trim().toLowerCase();
     login = readString(buf);
     pwdHash = hash(readString(buf), SHA_256);
-    firstName = readString(buf);
-    lastName = readString(buf);
+    firstName = "";
+    lastName = "";
     avatar = "https://www.gravatar.com/avatar/" + hash(email, MD5);
     lastLogin = System.currentTimeMillis();
     registered = System.currentTimeMillis();

@@ -70,6 +70,11 @@ public class ByteBufUtils {
     buf.writeBytes(bytes);
   }
 
+  public static void writePoint(ByteBuf buf, Point2D point) {
+    buf.writeInt((int) point.getX());
+    buf.writeInt((int) point.getY());
+  }
+
 
   /**
    * Writes the given short String (up to 255 characters) to the given ByteBuf in a format of
