@@ -9,6 +9,8 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import org.puzzlebattle.client.databaseTables.LoginRegisterUser;
 
+import static org.puzzlebattle.core.utils.LangFile.lang;
+
 public class BestPlayersScreen extends AbstractScreen {
 
   private BestPlayersTable ballBouncerGameTable;
@@ -45,7 +47,7 @@ public class BestPlayersScreen extends AbstractScreen {
    * Prepare horizontal layout for four in a row
    */
   private void prepareBallBouncerGameLabel() {
-    ballBouncerLabel = new Label("Ball Bouncer");
+    ballBouncerLabel = new Label("mainScreen.ballBouncer.ballBouncerLabel");
     fBallBouncer = new Font(settingsForScreens.getTypeCharBallBouncer(), settingsForScreens.getSizeOfTextBallBouncer());
     ballBouncerLabel.setTextFill(settingsForScreens.getColorBallBouncerLabel());
     ballBouncerLabel.setWrapText(true);
@@ -62,7 +64,7 @@ public class BestPlayersScreen extends AbstractScreen {
    * Prepare label for four in a row
    */
   private void prepareFourInARowGameLabel() {
-    fourInARowLabel = new Label("Four In A Row");
+    fourInARowLabel = new Label("mainScreen.fourInARow.fourInARowLabel");
     fFourInARow = new Font(settingsForScreens.getTypeCharFourInARow(), settingsForScreens.getSizeOfTextFourInARow());
     fourInARowLabel.setTextFill(settingsForScreens.getColorFourInARowLabel());
     fourInARowLabel.setWrapText(true);

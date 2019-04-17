@@ -2,11 +2,8 @@ package org.puzzlebattle.client.screen;
 
 import javafx.geometry.Insets;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -14,12 +11,14 @@ import org.puzzlebattle.client.databaseTables.Friendship;
 import org.puzzlebattle.client.databaseTables.LoginRegisterUser;
 import org.puzzlebattle.client.databaseTables.UserPuzzleBattle;
 
+import static org.puzzlebattle.core.utils.LangFile.lang;
+
 public class FriendshipMenu extends AbstractScreen {
 
-  private final String actualFriendsOnlyText = "Actual friends only";
-  private final String allFriendsText = "All friends";
-  private final String findUserText = "Find user";
-  private final String friendsText = "Friends";
+  private final String actualFriendsOnlyText = lang.get("friendship.actualFriendsOnly");
+  private final String allFriendsText = lang.get("friendship.allFriends");
+  private final String findUserText = lang.get("friendship.findUser");
+  private final String friendsText = lang.get("friendship.friends");
   private Button actualFriendsOnly, findFriend, searchButton;
   private FriendshipTable foundUsers, friendshipTable;
   private Region horizontalForButtonRegion;
@@ -66,7 +65,7 @@ public class FriendshipMenu extends AbstractScreen {
     actualFriendsOnly = createButton(actualFriendsOnlyText);
     actualFriendsOnly.setOnAction(e -> prepareToFilterFriends());
 
-    searchButton = createButton("Search");
+    searchButton = createButton(lang.get("friendship.search"));
     searchButton.setOnAction(e -> prepareSearchCriteria());
   }
 
