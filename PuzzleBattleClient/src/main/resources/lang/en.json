@@ -14,6 +14,88 @@
       "title": "Incorrect login credentials",
       "text": "The entered username and password combination is incorrect."
     },
-    "password": "Password"
+    "password": "Password",
+    "register": "Register",
+    "return": "return"
+  },
+  "mainScreen": {
+    "title": "Main menu",
+    "ballBouncer": {
+      "ballBouncerLabel": "Ball Bouncer",
+      "launchBallBouncerGame": "Launch Ball Bouncer game.",
+      "viewBestBallBouncerPlayers": "View best Ball Bouncer Players"
+    },
+    "fourInARow": {
+      "fourInARowLabel": "Four In A Row",
+      "launchFourInARowGame": "Launch Four in a row game",
+      "viewBestFourInARowPlayers": "View best Four In A Row Players"
+    },
+    "menu": {
+      "reLogin": "Re-login",
+      "close": "Close",
+      "viewProfile": "View profile",
+      "friendshipMenu": "Friendship menu."
+    }
+  },
+  "friendship": {
+    "allFriends": "All friends",
+    "findUser": "Find user",
+    "friends": "Friends",
+    "actualFriendsOnly": "Actual friends only",
+    "search": "search"
+  },
+  "columns": {
+    "userScore": "User score",
+    "nickName": "NickName"
+},
+  "playerProfile": {
+    "title": "Player profile",
+    "age": "age",
+    "name": "name",
+    "surname": "surname",
+    "dateOfBirth": "date of birth",
+    "email": "email",
+    "labels":{
+      "profileNickName": "Profile Nick name",
+      "profileInformation": "Profile information"
+    },
+    "set": {
+      "age": "Age: ",
+      "name": "Name: ",
+      "surname": "Surname: ",
+      "dateOfBirth": "Date: ",
+      "email": "Email: "
+    }
+  },
+  "additionalInformation": {
+    "title": "Additional information of player",
+    "fileScreenTitle": "Load your profile photo",
+    "imageError": {
+      "errorImage": "Image can't be loaded.",
+      "content": "Try to add another image or try to load image again."
+    },
+    "set": {
+      "dateOfBirth": "Add your birth, in format 12. 11. 2016",
+      "addYourName": "Add your name",
+      "addYourSurname": "Add your surname",
+      "noImageLoaded": "No image loaded"
+    },
+    "defaultSet":{
+      "name": "name",
+      "surname": "surname",
+      "dateOfBirth": "date of birth"
+    },
+    "buttons": {
+      "next": "next",
+      "previous": "previous",
+      "confirm": "confirm",
+      "loadPhoto": "load photo"
+    },
+    "labels": {
+      "yourName": "Your name",
+      "yourSurname": "Your surname",
+      "yourBirth": "Your birth",
+      "yourPhoto": "Your photo"
+    }
   }
 }
