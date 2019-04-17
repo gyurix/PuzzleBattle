@@ -5,7 +5,6 @@ import javafx.collections.ObservableList;
 import lombok.Data;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.query.Query;
 import org.puzzlebattle.client.screen.UserGameAttributes;

@@ -2,10 +2,10 @@ package org.puzzlebattle.client.databaseTables;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import java.sql.Timestamp;
+        import javax.persistence.Entity;
+        import javax.persistence.GeneratedValue;
+        import javax.persistence.Id;
+        import java.sql.Timestamp;
 
 /**
  * Interval between starting and ending of game or friendship between two players
@@ -17,9 +17,10 @@ import java.sql.Timestamp;
 @Data
 public class DurationDate {
 
-  private Timestamp endDate;
   @Id
   @GeneratedValue
   private long id;
+
   private Timestamp startDate;
+  private Timestamp endDate;
 }
