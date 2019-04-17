@@ -29,15 +29,17 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import static org.puzzlebattle.core.utils.LangFile.lang;
+
 /**
  * Class for obtaining additional information from given forms, which are created here.
  */
 public class AdditionalInformationScreen extends AbstractScreen {
 
   private Label addDateOfBirth, addNameLabel, addPhotoLabel, addSurnameLabel;
-  private String addYourDateOfBirth = "Add your birth, in format 12. 11. 2016";
-  private String addYourName = "Add your name";
-  private String addYourSurname = "Add your surname";
+  private String addYourDateOfBirth = lang.get("additionalInformation.set.dateOfBirth");
+  private String addYourName = lang.get("additionalInformation.set.addYourName");
+  private String addYourSurname = lang.get("additionalInformation.set.addYourSurname");
   private BorderPane borderScene1, borderScene2;
   private Region bottomLeftScene1, bottomLeftScene2;
   private Button confirmScene1, confirmScene2;
@@ -55,7 +57,7 @@ public class AdditionalInformationScreen extends AbstractScreen {
   private HBox movePageScene1, movePageScene2;
   private TextField nameText;
   private String nickNameOfPlayer;
-  private String noImageLoaded = "No image loaded";
+  private String noImageLoaded = lang.get("additionalInformation.set.noImageLoaded");
   private Button pageNextScene1, pagePreviousScene1, pageNextScene2, pagePreviousScene2;
   private PlayerProfileScreen playerProfile;
   private Region regionNameSurname, regionSurnameDateOfBirth;
@@ -76,7 +78,7 @@ public class AdditionalInformationScreen extends AbstractScreen {
     this.emailOfPlayer = emailOfPlayer;
     prepareComponents();
     prepareScenes();
-    stage.setTitle("Additional information of player");
+    stage.setTitle(lang.get("additionalInformation.title"));
     Logging.logInfo("Additional information screen has been created, but no shown.");
   }
 
@@ -99,8 +101,8 @@ public class AdditionalInformationScreen extends AbstractScreen {
    */
   private void displayAlert() {
     Alert alert = new Alert(Alert.AlertType.ERROR);
-    alert.setTitle("Image can't be loaded.");
-    alert.setContentText("Try to add another image or try to load image again.");
+    alert.setTitle(lang.get("additionalInformation.imageError.errorImage"));
+    alert.setContentText(lang.get("additionalInformation.imageError.content"));
     alert.showAndWait();
   }
 
@@ -118,7 +120,7 @@ public class AdditionalInformationScreen extends AbstractScreen {
   private void loadPhoto() {
     loadedImagePath = "faces/face1.png";
     pathForPhotoLabel.setText(noImageLoaded);
-    FileScreen fileScreen = new FileScreen("Load your profile photo");
+    FileScreen fileScreen = new FileScreen(lang.get("additionalInformation.fileScreenTitle"));
     fileScreen.setPictureFilter();
     loadedImage = fileScreen.showDialog();
     pathForPhotoLabel.setText(loadedImage.getPath());
@@ -157,15 +159,15 @@ public class AdditionalInformationScreen extends AbstractScreen {
     }
     if (loadedName.equals(addYourName)) {
       Logging.logInfo("No name has been found!");
-      loadedName = "name";
+      loadedName = lang.get("additionalInformation.defaultSet.name");
     }
     if (loadedSurname.equals(addYourSurname)) {
       Logging.logInfo("No surname has been found!");
-      loadedSurname = "surname";
+      loadedSurname = lang.get("additionalInformation.defaultSet.surname");
     }
     if (loadedDateOfBirth.equals(addYourDateOfBirth)) {
       Logging.logInfo("No date of birth has been found!");
-      loadedDateOfBirth = "date of birth";
+      loadedDateOfBirth = lang.get("additionalInformation.defaultSet.dateOfBirth");
     }
   }
 
@@ -173,11 +175,11 @@ public class AdditionalInformationScreen extends AbstractScreen {
    * Buttons for scene 1
    */
   private void prepareButtonsForScene1() {
-    pageNextScene1 = createButton("Next",100);
+    pageNextScene1 = createButton(lang.get("additionalInformation.button.next"),100);
     pageNextScene1.setOnAction(e -> stage.setScene(scene2));
-    pagePreviousScene1 = createButton("Previous",100);
+    pagePreviousScene1 = createButton(lang.get("additionalInformation.button.previous"),100);
     pagePreviousScene1.setDisable(true);
-    confirmScene1 = createButton("Confirm",200);
+    confirmScene1 = createButton(lang.get("additionalInformation.button.confirm"),200);
     confirmScene1.setOnAction(e -> prepareProfileScreen());
   }
 
@@ -190,13 +192,13 @@ public class AdditionalInformationScreen extends AbstractScreen {
    * Buttons for scene 2
    */
   private void prepareButtonsForScene2() {
-    pageNextScene2 = createButton("Next",100);
+    pageNextScene2 = createButton(lang.get("additionalInformation.button.next"),100);
     pageNextScene2.setDisable(true);
-    pagePreviousScene2 = createButton("Previous",100);
+    pagePreviousScene2 = createButton(lang.get("additionalInformation.button.previous"),100);
     pagePreviousScene2.setOnAction(e -> stage.setScene(scene1));
-    confirmScene2 = createButton("Confirm",200);
+    confirmScene2 = createButton(lang.get("additionalInformation.button.confirm"),200);
     confirmScene2.setOnAction(e -> prepareProfileScreen());
-    loadPhoto = new Button("Load photo");
+    loadPhoto = new Button(lang.get("additionalInformation.button.loadPhoto"));
     loadPhoto.setMaxWidth(Double.MAX_VALUE);
     loadPhoto.setOnAction(e -> loadPhoto());
   }
@@ -228,9 +230,9 @@ public class AdditionalInformationScreen extends AbstractScreen {
    */
   private void prepareLabelsForScene1() {
     prepareSideLabelsForScene1();
-    addNameLabel = createLabel("Your name",super.getDefaultFont());
-    addSurnameLabel = createLabel("Your surname",super.getDefaultFont());
-    addDateOfBirth = createLabel("Your birth",super.getDefaultFont());
+    addNameLabel = createLabel(lang.get("additionalInformation.labels.yourName"),super.getDefaultFont());
+    addSurnameLabel = createLabel(lang.get("additionalInformation.labels.yourName"),super.getDefaultFont());
+    addDateOfBirth = createLabel(lang.get("additionalInformation.labels.yourBirth"),super.getDefaultFont());
   }
 
   /**
@@ -238,8 +240,8 @@ public class AdditionalInformationScreen extends AbstractScreen {
    */
   private void prepareLabelsForScene2() {
     prepareSideLabelsForScene2();
-    addPhotoLabel = createLabel("Your photo",super.getDefaultFont());
-    pathForPhotoLabel = createLabel("Your photo",Font.font("Courier", FontPosture.ITALIC, 15));
+    addPhotoLabel = createLabel(lang.get("additionalInformation.labels.yourPhoto"),super.getDefaultFont());
+    pathForPhotoLabel = createLabel(lang.get("additionalInformation.labels.yourPhoto"),Font.font("Courier", FontPosture.ITALIC, 15));
   }
 
   private BorderPane createBorderPane(Node bottom, Node center, Node left, Node right){
@@ -417,7 +419,6 @@ public class AdditionalInformationScreen extends AbstractScreen {
    */
   public void show() {
     stage.setScene(scene1);
-    System.out.println("SHOWN!!!");
     stage.show();
   }
 
