@@ -26,5 +26,25 @@ public interface ClientInPacketHandler {
     unexpected(packet);
   }
 
+  default void handle(ClientInAdditionalInformation packet) {
+    unexpected(packet);
+  }
+
+  default void handle(ClientInLoadFriends packet) {
+    unexpected(packet);
+  }
+
+  default void handle(ClientInEndGame packet) {
+    unexpected(packet);
+  }
+
+  default void handle(ClientInFindFriend packet) {
+    unexpected(packet);
+  }
+
+  default void handle(ClientInGamePlayer packet) {
+    unexpected(packet);
+  }
+
   void unexpected(ClientInPacket packet);
 }

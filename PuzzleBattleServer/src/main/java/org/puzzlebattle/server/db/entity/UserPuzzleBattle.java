@@ -48,10 +48,9 @@ public class UserPuzzleBattle extends Identificable implements BufReadable {
   public void read(ByteBuf buf) {
     email = readString(buf).trim().toLowerCase();
     nickName = readString(buf);
-    password = hash(readString(buf), SHA_256);
+    password = hash(readString(buf), SHA_256); //ja mam Bcrypt, jednoduche porovnanie,...
     name = "";
-    surname = "";
-    avatar = buf.array();//"https://www.gravatar.com/avatar/" + hash(email, MD5);
+    surname = "";//"https://www.gravatar.com/avatar/" + hash(email, MD5);
     lastLogin = new Timestamp(System.currentTimeMillis());
     registered = new Timestamp(System.currentTimeMillis());
   }
