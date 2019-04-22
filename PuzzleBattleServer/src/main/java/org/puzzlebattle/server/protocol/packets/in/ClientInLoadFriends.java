@@ -5,7 +5,7 @@ import lombok.Data;
 import org.puzzlebattle.core.protocol.ByteBufUtils;
 
 @Data
-public class ClientInLoadFriends extends ClientInPacket{
+public class ClientInLoadFriends extends ClientInPacket {
   private String password;
   private String username;
 

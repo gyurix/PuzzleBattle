@@ -7,10 +7,10 @@ import org.puzzlebattle.server.db.entity.GamePlayer;
 
 @Data
 public class ClientInGamePlayer extends ClientInPacket {
+  private GamePlayer gamePlayer;
+  private int gameTypeForNewUser;
   private String password;
   private String username;
-  private int gameTypeForNewUser;
-  private GamePlayer gamePlayer;
 
   public void handle(ClientInPacketHandler handler) {
     handler.handle(this);

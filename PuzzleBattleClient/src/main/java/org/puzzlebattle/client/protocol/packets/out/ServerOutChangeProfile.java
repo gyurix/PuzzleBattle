@@ -9,10 +9,10 @@ import static org.puzzlebattle.core.protocol.ByteBufUtils.writeString;
 @AllArgsConstructor
 @Data
 public class ServerOutChangeProfile extends ServerOutPacket {
+  private byte[] avatar;
+  private String dateOfBirth;
   private String name;
   private String surname;
-  private String dateOfBirth;
-  private byte[] avatar;
 
   @Override
   public void write(ByteBuf buf) {

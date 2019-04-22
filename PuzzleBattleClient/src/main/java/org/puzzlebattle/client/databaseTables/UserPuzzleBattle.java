@@ -2,7 +2,6 @@ package org.puzzlebattle.client.databaseTables;
 
 import lombok.Data;
 
-import javax.persistence.*;
 import java.sql.Date;
 
 

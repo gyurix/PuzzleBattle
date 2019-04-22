@@ -26,6 +26,7 @@ public class FourInARowGameSettings extends GameSettings {
   private int maxColumns = 7;
   private int maxInTheRow = 5;
   private int maxRows = 6;
+
   /**
    * Empty constructor for applying Four in a row game settings
    */

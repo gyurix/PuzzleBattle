@@ -23,14 +23,28 @@ public class FriendshipMenu extends AbstractScreen {
   private FriendshipTable foundUsers, friendshipTable;
   private Region horizontalForButtonRegion;
   private VBox tableContent, menuButtons;
-  private HBox wholeScreen;
   private UserPuzzleBattle user;
+  private HBox wholeScreen;
 
 
   public FriendshipMenu(Stage stage, UserPuzzleBattle user) {
     super(stage);
     this.user = user;
     prepareComponentsForFriendshipMenu();
+  }
+
+  private Button createButton(String text) {
+    Button button = new Button(text);
+    button.setMaxWidth(Double.MAX_VALUE);
+    return button;
+  }
+
+  private VBox createVBoxLayout(int spacing, double minWidth, Node... args) {
+    VBox vBox = new VBox(spacing);
+    vBox.setMinWidth(minWidth);
+    vBox.setMaxHeight(Double.MAX_VALUE);
+    vBox.getChildren().addAll(args);
+    return vBox;
   }
 
   private void findUser() {
@@ -52,12 +66,6 @@ public class FriendshipMenu extends AbstractScreen {
     friendshipTable.setItems(Friendship.loadFriends(user));
   }
 
-  private Button createButton(String text){
-    Button button = new Button(text);
-    button.setMaxWidth(Double.MAX_VALUE);
-    return button;
-  }
-
   private void prepareButtons() {
     findFriend = createButton(findUserText);
     findFriend.setOnAction(e -> findUser());
@@ -76,16 +84,8 @@ public class FriendshipMenu extends AbstractScreen {
     prepareLayouts();
   }
 
-  private VBox createVBoxLayout(int spacing, double minWidth, Node... args){
-    VBox vBox = new VBox(spacing);
-    vBox.setMinWidth(minWidth);
-    vBox.setMaxHeight(Double.MAX_VALUE);
-    vBox.getChildren().addAll(args);
-    return vBox;
-  }
-
   private void prepareFriendshipLayout() {
-    menuButtons = createVBoxLayout(10,150,findFriend, actualFriendsOnly);
+    menuButtons = createVBoxLayout(10, 150, findFriend, actualFriendsOnly);
   }
 
   private void prepareLayouts() {
@@ -95,7 +95,7 @@ public class FriendshipMenu extends AbstractScreen {
   }
 
   private void prepareMenuLayout() {
-    tableContent = createVBoxLayout(10,super.getWidth() - 200,friendshipTable);
+    tableContent = createVBoxLayout(10, super.getWidth() - 200, friendshipTable);
   }
 
   private void prepareRegions() {

@@ -5,12 +5,12 @@ import lombok.Data;
 import org.puzzlebattle.core.protocol.ByteBufUtils;
 
 @Data
-public class ClientInFindFriend extends ClientInPacket{
+public class ClientInFindFriend extends ClientInPacket {
+  private int age;
+  private String name;
   private String nickName;
   private int score;
-  private String name;
   private String surname;
-  private int age;
 
   public void handle(ClientInPacketHandler handler) {
     handler.handle(this);

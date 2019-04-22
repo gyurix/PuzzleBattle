@@ -9,7 +9,6 @@ import org.hibernate.query.Query;
 import org.puzzlebattle.client.games.bouncer.BouncerGameSettings;
 import org.puzzlebattle.client.games.fourinarow.FourInARowGameSettings;
 
-import javax.persistence.*;
 import java.util.List;
 
 

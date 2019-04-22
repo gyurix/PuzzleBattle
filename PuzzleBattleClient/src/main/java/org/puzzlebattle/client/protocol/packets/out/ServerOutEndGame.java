@@ -9,9 +9,9 @@ import static org.puzzlebattle.core.protocol.ByteBufUtils.writeString;
 @AllArgsConstructor
 @Data
 public class ServerOutEndGame extends ServerOutPacket {
+  private int gameTypeForNewUser;
   private String userName;
   private String userPassword;
-  private int gameTypeForNewUser;
 
   @Override
   public void write(ByteBuf buf) {

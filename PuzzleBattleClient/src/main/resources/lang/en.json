@@ -47,7 +47,7 @@
   "columns": {
     "userScore": "User score",
     "nickName": "NickName"
-},
+  },
   "playerProfile": {
     "title": "Player profile",
     "age": "age",
@@ -55,7 +55,7 @@
     "surname": "surname",
     "dateOfBirth": "date of birth",
     "email": "email",
-    "labels":{
+    "labels": {
       "profileNickName": "Profile Nick name",
       "profileInformation": "Profile information"
     },
@@ -80,7 +80,7 @@
       "addYourSurname": "Add your surname",
       "noImageLoaded": "No image loaded"
     },
-    "defaultSet":{
+    "defaultSet": {
       "name": "name",
       "surname": "surname",
       "dateOfBirth": "date of birth"

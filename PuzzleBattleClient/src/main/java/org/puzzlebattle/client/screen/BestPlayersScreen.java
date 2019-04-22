@@ -16,11 +16,11 @@ public class BestPlayersScreen extends AbstractScreen {
   private BestPlayersTable ballBouncerGameTable;
   private Font fFourInARow, fBallBouncer;
   private VBox fourInARowGameLayout, ballBouncerGameLayout;
-  private HBox wholeScreen;
   private BestPlayersTable fourInARowGameTable;
   private Label fourInARowLabel, ballBouncerLabel;
   private Separator gameSeparator;
   private SettingsForScreens settingsForScreens;
+  private HBox wholeScreen;
 
   public BestPlayersScreen(Stage stage, SettingsForScreens settingsForScreens) {
     super(stage);
@@ -30,13 +30,20 @@ public class BestPlayersScreen extends AbstractScreen {
     loadDataAndFillTablesFromDatabase();
   }
 
-  private void createTables(){
+  private void createTables() {
     fourInARowGameTable = new BestPlayersTable();
     fourInARowGameTable.setMaxHeight(Double.MAX_VALUE);
     fourInARowGameTable.setMaxWidth(Double.MAX_VALUE);
     ballBouncerGameTable = new BestPlayersTable();
     ballBouncerGameTable.setMaxWidth(Double.MAX_VALUE);
     ballBouncerGameTable.setMaxHeight(Double.MAX_VALUE);
+  }
+
+  private VBox createVBox(int spacing, double minWidth, double maxHeight) {
+    VBox vBox = new VBox(spacing);
+    vBox.setMinWidth(minWidth);
+    vBox.setMaxHeight(maxHeight);
+    return vBox;
   }
 
   private void loadDataAndFillTablesFromDatabase() {
@@ -76,22 +83,15 @@ public class BestPlayersScreen extends AbstractScreen {
     prepareBallBouncerGameLabel();
   }
 
-  private VBox createVBox(int spacing, double minWidth, double maxHeight){
-    VBox vBox = new VBox(spacing);
-    vBox.setMinWidth(minWidth);
-    vBox.setMaxHeight(maxHeight);
-    return vBox;
-  }
-
   private void prepareGameLayoutsAndSeparators() {
-    ballBouncerGameLayout = createVBox(10,super.getWidth() / 2 - 25, super.getHeight());
+    ballBouncerGameLayout = createVBox(10, super.getWidth() / 2 - 25, super.getHeight());
 
     gameSeparator = new Separator();
     gameSeparator.setMinWidth(50);
     gameSeparator.setMinHeight(super.getHeight());
     gameSeparator.setOrientation(Orientation.VERTICAL);
 
-    fourInARowGameLayout = createVBox(10,super.getWidth() / 2 - 25,super.getHeight());
+    fourInARowGameLayout = createVBox(10, super.getWidth() / 2 - 25, super.getHeight());
   }
 
   private void prepareLayoutsForBestPlayer() {

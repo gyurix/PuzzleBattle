@@ -7,9 +7,8 @@ import org.puzzlebattle.core.protocol.ByteBufUtils;
 
 @Data
 public class ClientInChangeProfile extends ClientInPacket {
-  private String name, surname, dateOfBirth;
   private byte[] avatar;
-
+  private String name, surname, dateOfBirth;
 
   public void handle(ClientInPacketHandler handler) {
     handler.handle(this);

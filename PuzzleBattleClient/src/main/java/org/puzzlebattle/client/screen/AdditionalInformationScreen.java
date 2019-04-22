@@ -96,6 +96,48 @@ public class AdditionalInformationScreen extends AbstractScreen {
     return sqlDate;
   }
 
+  private BorderPane createBorderPane(Node bottom, Node center, Node left, Node right) {
+    BorderPane border = new BorderPane();
+    border.setBottom(bottom);
+    border.setCenter(center);
+    border.setLeft(left);
+    border.setRight(right);
+    return border;
+  }
+
+  private Button createButton(String text, int minWidth) {
+    Button button = new Button(text);
+    button.setMinWidth(minWidth);
+    return button;
+  }
+
+  private Label createLabel(String text, Font font) {
+    Label label = new Label(text);
+    label.setMaxWidth(Double.MAX_VALUE);
+    label.setFont(font);
+    return label;
+  }
+
+  private Label createLabel(int minWidth) {
+    Label label = new Label();
+    label.setMinWidth(minWidth);
+    return label;
+  }
+
+  private Region createRegion(int minWidth) {
+    Region region = new Region();
+    region.setMinWidth(minWidth);
+    return region;
+  }
+
+  private VBox createVBox(int spacing, double minWidth, Node... args) {
+    VBox vBox = new VBox(spacing);
+    vBox.setMinWidth(minWidth);
+    vBox.getChildren().addAll(args);
+    vBox.setPadding(super.createDefaultInsets());
+    return vBox;
+  }
+
   /**
    * Alert window which appears if image cant't be loaded
    */
@@ -175,28 +217,23 @@ public class AdditionalInformationScreen extends AbstractScreen {
    * Buttons for scene 1
    */
   private void prepareButtonsForScene1() {
-    pageNextScene1 = createButton(lang.get("additionalInformation.button.next"),100);
+    pageNextScene1 = createButton(lang.get("additionalInformation.button.next"), 100);
     pageNextScene1.setOnAction(e -> stage.setScene(scene2));
-    pagePreviousScene1 = createButton(lang.get("additionalInformation.button.previous"),100);
+    pagePreviousScene1 = createButton(lang.get("additionalInformation.button.previous"), 100);
     pagePreviousScene1.setDisable(true);
-    confirmScene1 = createButton(lang.get("additionalInformation.button.confirm"),200);
+    confirmScene1 = createButton(lang.get("additionalInformation.button.confirm"), 200);
     confirmScene1.setOnAction(e -> prepareProfileScreen());
   }
 
-  private Button createButton(String text, int minWidth){
-    Button button = new Button(text);
-    button.setMinWidth(minWidth);
-    return button;
-  }
   /**
    * Buttons for scene 2
    */
   private void prepareButtonsForScene2() {
-    pageNextScene2 = createButton(lang.get("additionalInformation.button.next"),100);
+    pageNextScene2 = createButton(lang.get("additionalInformation.button.next"), 100);
     pageNextScene2.setDisable(true);
-    pagePreviousScene2 = createButton(lang.get("additionalInformation.button.previous"),100);
+    pagePreviousScene2 = createButton(lang.get("additionalInformation.button.previous"), 100);
     pagePreviousScene2.setOnAction(e -> stage.setScene(scene1));
-    confirmScene2 = createButton(lang.get("additionalInformation.button.confirm"),200);
+    confirmScene2 = createButton(lang.get("additionalInformation.button.confirm"), 200);
     confirmScene2.setOnAction(e -> prepareProfileScreen());
     loadPhoto = new Button(lang.get("additionalInformation.button.loadPhoto"));
     loadPhoto.setMaxWidth(Double.MAX_VALUE);
@@ -218,21 +255,14 @@ public class AdditionalInformationScreen extends AbstractScreen {
     prepareLayoutsForScene2();
   }
 
-  private Label createLabel(String text,Font font){
-    Label label = new Label(text);
-    label.setMaxWidth(Double.MAX_VALUE);
-    label.setFont(font);
-    return label;
-  }
-
   /**
    * Labels for scene 1
    */
   private void prepareLabelsForScene1() {
     prepareSideLabelsForScene1();
-    addNameLabel = createLabel(lang.get("additionalInformation.labels.yourName"),super.getDefaultFont());
-    addSurnameLabel = createLabel(lang.get("additionalInformation.labels.yourName"),super.getDefaultFont());
-    addDateOfBirth = createLabel(lang.get("additionalInformation.labels.yourBirth"),super.getDefaultFont());
+    addNameLabel = createLabel(lang.get("additionalInformation.labels.yourName"), super.getDefaultFont());
+    addSurnameLabel = createLabel(lang.get("additionalInformation.labels.yourName"), super.getDefaultFont());
+    addDateOfBirth = createLabel(lang.get("additionalInformation.labels.yourBirth"), super.getDefaultFont());
   }
 
   /**
@@ -240,17 +270,8 @@ public class AdditionalInformationScreen extends AbstractScreen {
    */
   private void prepareLabelsForScene2() {
     prepareSideLabelsForScene2();
-    addPhotoLabel = createLabel(lang.get("additionalInformation.labels.yourPhoto"),super.getDefaultFont());
-    pathForPhotoLabel = createLabel(lang.get("additionalInformation.labels.yourPhoto"),Font.font("Courier", FontPosture.ITALIC, 15));
-  }
-
-  private BorderPane createBorderPane(Node bottom, Node center, Node left, Node right){
-    BorderPane border = new BorderPane();
-    border.setBottom(bottom);
-    border.setCenter(center);
-    border.setLeft(left);
-    border.setRight(right);
-    return border;
+    addPhotoLabel = createLabel(lang.get("additionalInformation.labels.yourPhoto"), super.getDefaultFont());
+    pathForPhotoLabel = createLabel(lang.get("additionalInformation.labels.yourPhoto"), Font.font("Courier", FontPosture.ITALIC, 15));
   }
 
   /**
@@ -259,7 +280,7 @@ public class AdditionalInformationScreen extends AbstractScreen {
   private void prepareLayoutsForScene1() {
     prepareMovingPageLayoutScene1();
     prepareMainComponentLayoutScene1();
-    borderScene1 = createBorderPane(movePageScene1,mainComponentsScene1,leftSideLabelScene1,rightSideLabelScene1);
+    borderScene1 = createBorderPane(movePageScene1, mainComponentsScene1, leftSideLabelScene1, rightSideLabelScene1);
   }
 
   /**
@@ -268,22 +289,14 @@ public class AdditionalInformationScreen extends AbstractScreen {
   private void prepareLayoutsForScene2() {
     prepareMovingPageLayoutScene2();
     prepareMainComponentLayoutScene2();
-    borderScene2 = createBorderPane(movePageScene2,mainComponentsScene2,leftSideLabelScene2,rightSideLabelScene2);
-  }
-
-  private VBox createVBox(int spacing, double minWidth,Node ... args){
-    VBox vBox = new VBox(spacing);
-    vBox.setMinWidth(minWidth);
-    vBox.getChildren().addAll(args);
-    vBox.setPadding(super.createDefaultInsets());
-    return vBox;
+    borderScene2 = createBorderPane(movePageScene2, mainComponentsScene2, leftSideLabelScene2, rightSideLabelScene2);
   }
 
   /**
    * Main component layout for scene 1
    */
   private void prepareMainComponentLayoutScene1() {
-    mainComponentsScene1 = createVBox(10,super.getWidth() - 200,addNameLabel, nameText, regionNameSurname, addSurnameLabel, surnameText, regionSurnameDateOfBirth,
+    mainComponentsScene1 = createVBox(10, super.getWidth() - 200, addNameLabel, nameText, regionNameSurname, addSurnameLabel, surnameText, regionSurnameDateOfBirth,
             addDateOfBirth, dateOfBirthText);
   }
 
@@ -291,9 +304,8 @@ public class AdditionalInformationScreen extends AbstractScreen {
    * Main components layout for scene 2
    */
   private void prepareMainComponentLayoutScene2() {
-    mainComponentsScene2 = createVBox(10,super.getWidth() - 200,addPhotoLabel, pathForPhotoLabel, loadPhoto);
+    mainComponentsScene2 = createVBox(10, super.getWidth() - 200, addPhotoLabel, pathForPhotoLabel, loadPhoto);
   }
-
 
   /**
    * Page layouts for scene 1
@@ -330,12 +342,6 @@ public class AdditionalInformationScreen extends AbstractScreen {
     }
   }
 
-  private Region createRegion(int minWidth){
-    Region region = new Region();
-    region.setMinWidth(minWidth);
-    return region;
-  }
-
   /**
    * Prepare components of scene 1, it includes used regions, and labels, text fields
    * <br>
@@ -364,11 +370,6 @@ public class AdditionalInformationScreen extends AbstractScreen {
     scene2 = new Scene(borderScene2, super.getWidth(), super.getHeight());
   }
 
-  private Label createLabel(int minWidth){
-    Label label =new Label();
-    label.setMinWidth(minWidth);
-    return label;
-  }
   /**
    * Sides labels for scene 1.
    */

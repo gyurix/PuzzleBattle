@@ -43,17 +43,17 @@ public class MainScreen extends AbstractScreen {
   private FriendshipMenu friendshipMenu;
   private GridPane gridPane;
   private HBox hEscapeBox;
-  private VBox vBoxBallBouncerGame, vBoxFourInARowGame;
   private Image imageBallBouncer, imageFourInARow;
   private ImageView imageViewBallBouncer, imageViewFourInARow;
   private Label labelBallBouncer, labelFourInARow;
   private PlayerProfileScreen playerProfileScreen;
+  private Button reLoginButton, friendshipMenuButton, closeMainScreen, startBallBouncerGame, startFourInARowGame;
   private Region regionFourInARow, regionBallBouncer;
   private Separator separator;
   private SettingsForScreens settingsForScreens;
   private UserPuzzleBattle user;
+  private VBox vBoxBallBouncerGame, vBoxFourInARowGame;
   private Button viewBestPlayersBallBouncer, viewBestPlayersFourInARow, viewProfileButton;
-  private Button reLoginButton, friendshipMenuButton,closeMainScreen,startBallBouncerGame, startFourInARowGame;
 
   /**
    * Constructor which creates main screen in the program.
@@ -91,6 +91,20 @@ public class MainScreen extends AbstractScreen {
     return gameTable;
   }
 
+  private Button createButton(String text) {
+    Button button = new Button(text);
+    button.setMaxWidth(Double.MAX_VALUE);
+    return button;
+  }
+
+  private VBox createVBox(Node... elements) {
+    VBox vBox = new VBox(settingsForScreens.getSpacingForVBox());
+    vBox.setMaxWidth(Double.MAX_VALUE);
+    vBox.setMaxHeight(Double.MAX_VALUE);
+    vBox.getChildren().addAll(elements);
+    return vBox;
+  }
+
   /**
    * Launching Ball bouncer game
    */
@@ -110,12 +124,15 @@ public class MainScreen extends AbstractScreen {
     new FourInARowScreen(new Stage(), new FourInARowGame(null, new FourInARowGameSettings()), user, gameTable).show();
   }
 
-  private VBox createVBox(Node... elements) {
-    VBox vBox = new VBox(settingsForScreens.getSpacingForVBox());
-    vBox.setMaxWidth(Double.MAX_VALUE);
-    vBox.setMaxHeight(Double.MAX_VALUE);
-    vBox.getChildren().addAll(elements);
-    return vBox;
+  /**
+   * Prepare ball bouncer game menu, with all components which are made of
+   */
+  private void prepareBallBouncerGameMenu() {
+    prepareBallBouncerRegion();
+    prepareLabelForBallBouncer();
+    prepareButtonsBallBouncer();
+    vBoxBallBouncerGame = createVBox(labelBallBouncer, regionBallBouncer, startBallBouncerGame, viewBestPlayersBallBouncer);
+    prepareImageBallBouncer();
   }
 
   /**
@@ -124,12 +141,6 @@ public class MainScreen extends AbstractScreen {
   private void prepareBallBouncerRegion() {
     regionBallBouncer = new Region();
     regionBallBouncer.setMinHeight(10);
-  }
-
-  private Button createButton(String text){
-    Button button = new Button(text);
-    button.setMaxWidth(Double.MAX_VALUE);
-    return button;
   }
 
   /**
@@ -250,17 +261,6 @@ public class MainScreen extends AbstractScreen {
   }
 
   /**
-   * Prepare ball bouncer game menu, with all components which are made of
-   */
-  private void prepareBallBouncerGameMenu() {
-    prepareBallBouncerRegion();
-    prepareLabelForBallBouncer();
-    prepareButtonsBallBouncer();
-    vBoxBallBouncerGame = createVBox(labelBallBouncer, regionBallBouncer, startBallBouncerGame, viewBestPlayersBallBouncer);
-    prepareImageBallBouncer();
-  }
-
-  /**
    * Preparation of profile screen, additional information about user will be loaded from database
    */
   private void prepareProfileScreen() {
@@ -292,7 +292,7 @@ public class MainScreen extends AbstractScreen {
     gridPane.add(vBoxFourInARowGame, 2, 1);
     gridPane.setValignment(hEscapeBox, VPos.BOTTOM);
     gridPane.add(hEscapeBox, 0, 3);
-    this.pane=gridPane;
+    this.pane = gridPane;
   }
 
   /**

@@ -9,7 +9,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import org.puzzlebattle.client.databaseTables.LoginRegisterUser;
-import org.puzzlebattle.client.databaseTables.UserPuzzleBattle;
 
 import static javafx.scene.control.Alert.AlertType.ERROR;
 import static javafx.scene.control.Alert.AlertType.INFORMATION;
@@ -63,6 +62,19 @@ public class LoginScreen extends AbstractScreen {
     Label label = new Label(lang.get(key));
     label.setFont(getDefaultFont());
     return label;
+  }
+
+  private Label createLabel(String text, double minWidth) {
+    Label label = new Label(text);
+    label.setMaxHeight(Double.MAX_VALUE);
+    label.setMinWidth(minWidth);
+    return label;
+  }
+
+  private Region createRegion(double minHeight) {
+    Region region = new Region();
+    region.setMinHeight(minHeight);
+    return region;
   }
 
   @Override
@@ -121,19 +133,12 @@ public class LoginScreen extends AbstractScreen {
     prepareRegisterButton();
   }
 
-  private Label createLabel(String text,double minWidth){
-    Label label = new Label(text);
-    label.setMaxHeight(Double.MAX_VALUE);
-    label.setMinWidth(minWidth);
-    return label;
-  }
-
   /**
    * Prepare effect separators
    */
   private void prepareEffectSeparators() {
-    separatorLeft = createLabel("",50);
-    separatorRight = createLabel("",50);
+    separatorLeft = createLabel("", 50);
+    separatorRight = createLabel("", 50);
   }
 
   /**
@@ -164,11 +169,6 @@ public class LoginScreen extends AbstractScreen {
     passwordLabel.setFont(getDefaultFont());
   }
 
-  private Region createRegion(double minHeight){
-    Region region = new Region();
-    region.setMinHeight(minHeight);
-    return region;
-  }
   /**
    * Prepare regions
    */

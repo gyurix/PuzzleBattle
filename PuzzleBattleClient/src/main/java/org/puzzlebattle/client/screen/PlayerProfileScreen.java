@@ -1,7 +1,6 @@
 package org.puzzlebattle.client.screen;
 
 import javafx.geometry.Insets;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -24,24 +23,37 @@ public class PlayerProfileScreen extends AbstractScreen {
 
   private static int PICTURE_HEIGHT = 350;
   private static int PICTURE_WIDTH = 300;
+  private VBox basicInformation, informationVBox;
   private Region betweenInformationCompHeading;
-  private Label dateOfBirth, email, informationLabel, name, surname,nickName,age;
+  private Label dateOfBirth, email, informationLabel, name, surname, nickName, age;
   private GridPane grid;
   private HBox informationInside;
-  private VBox basicInformation, informationVBox;
   private Region informationOnRight;
   private Image photoImage;
-  private ImageView selfPhoto;
   private Button returnButton;
+  private ImageView selfPhoto;
 
   public PlayerProfileScreen(Stage stage) {
     super(stage);
     prepareComponents();
-    this.pane =grid;
+    this.pane = grid;
     Logging.logInfo("Player screen has been created.");
   }
 
-  public String getTitle(){
+  private Label createLabel(String text, Font font) {
+    Label label = new Label(text);
+    label.setMaxWidth(Double.MAX_VALUE);
+    label.setFont(font);
+    return label;
+  }
+
+  private Region createRegion(double minHeight) {
+    Region region = new Region();
+    region.setMinHeight(minHeight);
+    return region;
+  }
+
+  public String getTitle() {
     return lang.get("playerProfile.title");
   }
 
@@ -79,19 +91,12 @@ public class PlayerProfileScreen extends AbstractScreen {
     informationInside.getChildren().addAll(informationOnRight, informationVBox);
   }
 
-  private Label createLabel(String text,Font font){
-    Label label = new Label(text);
-    label.setMaxWidth(Double.MAX_VALUE);
-    label.setFont(font);
-    return label;
-  }
-
   private void prepareInformationLabels() {
-    name = createLabel(lang.get("playerProfile.name"),prepareFontForLabels());
-    surname = createLabel(lang.get("playerProfile.surname"),prepareFontForLabels());
-    age = createLabel(lang.get("playerProfile.age"),prepareFontForLabels());
-    dateOfBirth = createLabel(lang.get("playerProfile.dateOfBirth"),prepareFontForLabels());
-    email = createLabel(lang.get("playerProfile.email"),prepareFontForLabels());
+    name = createLabel(lang.get("playerProfile.name"), prepareFontForLabels());
+    surname = createLabel(lang.get("playerProfile.surname"), prepareFontForLabels());
+    age = createLabel(lang.get("playerProfile.age"), prepareFontForLabels());
+    dateOfBirth = createLabel(lang.get("playerProfile.dateOfBirth"), prepareFontForLabels());
+    email = createLabel(lang.get("playerProfile.email"), prepareFontForLabels());
   }
 
   private void prepareLayoutWithInformationComponents() {
@@ -110,14 +115,8 @@ public class PlayerProfileScreen extends AbstractScreen {
   }
 
   private void prepareMainLabels() {
-    nickName = createLabel(lang.get("playerProfile.labels.profileNickName"),prepareFontForMainLabels());
-    informationLabel = createLabel(lang.get("playerProfile.labels.profileInformation"),prepareFontForMainLabels());
-  }
-
-  private Region createRegion(double minHeight){
-    Region region = new Region();
-    region.setMinHeight(minHeight);
-    return region;
+    nickName = createLabel(lang.get("playerProfile.labels.profileNickName"), prepareFontForMainLabels());
+    informationLabel = createLabel(lang.get("playerProfile.labels.profileInformation"), prepareFontForMainLabels());
   }
 
   private void prepareRegion() {

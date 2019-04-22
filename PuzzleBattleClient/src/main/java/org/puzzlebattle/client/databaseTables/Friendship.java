@@ -9,7 +9,6 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.query.Query;
 import org.puzzlebattle.client.screen.UserGameAttributes;
 
-import javax.persistence.*;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.List;

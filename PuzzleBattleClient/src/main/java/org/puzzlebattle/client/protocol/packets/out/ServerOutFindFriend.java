@@ -8,19 +8,19 @@ import static org.puzzlebattle.core.protocol.ByteBufUtils.writeString;
 
 @AllArgsConstructor
 @Data
-public class ServerOutFindFriend extends ServerOutPacket{
+public class ServerOutFindFriend extends ServerOutPacket {
+  private int age;
+  private String name;
   private String nickName;
   private int score;
-  private String name;
   private String surname;
-  private int age;
 
   @Override
   public void write(ByteBuf buf) {
     writeString(buf, nickName);
     buf.writeInt(score);
-    writeString(buf,name);
-    writeString(buf,surname);
+    writeString(buf, name);
+    writeString(buf, surname);
     buf.writeInt(age);
   }
 

@@ -35,14 +35,13 @@ public class UserPuzzleBattle extends AbstractEntity implements BufReadable {
   @Id
   @GeneratedValue
   private int id;
+  private Timestamp lastLogin;
   private String name;
   @Column(unique = true)
   private String nickName;
   private String password;
-  private String surname;
-  private Timestamp lastLogin;
   private Timestamp registered;
-
+  private String surname;
 
   public void read(ByteBuf buf) {
     email = readString(buf).trim().toLowerCase();

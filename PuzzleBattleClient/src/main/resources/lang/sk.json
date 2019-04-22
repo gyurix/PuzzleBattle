@@ -52,7 +52,7 @@
     "surname": "priezvisko",
     "dateOfBirth": "datum narodenia",
     "email": "email",
-    "labels":{
+    "labels": {
       "profileNickName": "Profilova prezyvka",
       "profileInformation": "Informacie o profile"
     },
@@ -77,7 +77,7 @@
       "addYourSurname": "Zadaj svoje priezvisko",
       "noImageLoaded": "Ziadny vlozeny obrazok"
     },
-    "defaultSet":{
+    "defaultSet": {
       "name": "meno",
       "surname": "priezvisko",
       "dateOfBirth": "datum narodenia"
