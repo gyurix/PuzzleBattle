@@ -6,9 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.puzzlebattle.client.databaseTables.GameSettings;
 
-import javax.persistence.Entity;
-import javax.persistence.Transient;
-
 import static javafx.scene.input.KeyCode.*;
 
 
@@ -20,16 +17,11 @@ import static javafx.scene.input.KeyCode.*;
  * @version (1.0)
  */
 
-@Entity
 @AllArgsConstructor
 @Data
 public class FourInARowGameSettings extends GameSettings {
-
-  @Transient
   private static KeyCode digit[] = new KeyCode[]{DIGIT0, DIGIT1, DIGIT2, DIGIT3, DIGIT4, DIGIT5, DIGIT6, DIGIT7, DIGIT8, DIGIT9};
-  @Transient
   private static KeyCode numpad[] = new KeyCode[]{NUMPAD0, NUMPAD1, NUMPAD2, NUMPAD3, NUMPAD4, NUMPAD5, NUMPAD6, NUMPAD7, NUMPAD8, NUMPAD9};
-  @Transient
   private Color backgroundColor = Color.GAINSBORO;
   private int maxColumns = 7;
   private int maxInTheRow = 5;

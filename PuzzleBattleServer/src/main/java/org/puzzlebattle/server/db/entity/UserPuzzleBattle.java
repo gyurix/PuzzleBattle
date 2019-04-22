@@ -9,7 +9,6 @@ import java.sql.Date;
 import java.sql.Timestamp;
 
 import static org.puzzlebattle.core.protocol.ByteBufUtils.readString;
-import static org.puzzlebattle.core.utils.HashUtils.HashType.MD5;
 import static org.puzzlebattle.core.utils.HashUtils.HashType.SHA_256;
 import static org.puzzlebattle.core.utils.HashUtils.hash;
 
@@ -23,7 +22,7 @@ import static org.puzzlebattle.core.utils.HashUtils.hash;
 @Entity
 @Table(name = "userPuzzleBattle")
 @Data
-public class UserPuzzleBattle extends Identificable implements BufReadable {
+public class UserPuzzleBattle extends AbstractEntity implements BufReadable {
 
   @Transient
   private int age;

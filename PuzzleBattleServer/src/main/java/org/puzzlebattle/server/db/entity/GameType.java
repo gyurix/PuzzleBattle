@@ -46,7 +46,7 @@ public class GameType {
    */
   public static void addGamesToDBIfTheyAreNot() {
     addGameIfNotExist("Ball bouncer game",
-            "Game where two players try to hit ball and don't let cross it behind them.");
+            "GameResult where two players try to hit ball and don't let cross it behind them.");
     addGameIfNotExist("Four in a row game",
             "Players try to have some coins in a row or column, who is fast is winner!");
   }

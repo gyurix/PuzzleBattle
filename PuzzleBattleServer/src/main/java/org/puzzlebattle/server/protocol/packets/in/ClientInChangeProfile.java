@@ -6,7 +6,7 @@ import lombok.Data;
 import org.puzzlebattle.core.protocol.ByteBufUtils;
 
 @Data
-public class ClientInAdditionalInformation extends ClientInPacket {
+public class ClientInChangeProfile extends ClientInPacket {
   private String name, surname, dateOfBirth;
   private byte[] avatar;
 
@@ -19,6 +19,6 @@ public class ClientInAdditionalInformation extends ClientInPacket {
     name = ByteBufUtils.readString(buf);
     surname = ByteBufUtils.readString(buf);
     dateOfBirth = ByteBufUtils.readString(buf);
-    avatar = buf.array();
+    avatar = ByteBufUtils.readBytes4(buf);
   }
 }

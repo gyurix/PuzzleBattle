@@ -8,7 +8,7 @@ import static org.puzzlebattle.core.protocol.ByteBufUtils.writeString;
 
 @AllArgsConstructor
 @Data
-public class ServerOutAdditionalInformation extends ServerOutPacket {
+public class ServerOutChangeProfile extends ServerOutPacket {
   private String name;
   private String surname;
   private String dateOfBirth;

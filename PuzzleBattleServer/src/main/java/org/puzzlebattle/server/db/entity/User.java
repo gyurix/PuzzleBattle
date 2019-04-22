@@ -11,7 +11,7 @@ import static org.puzzlebattle.core.utils.HashUtils.HashType.SHA_256;
 import static org.puzzlebattle.core.utils.HashUtils.hash;
 
 @Entity
-public class User extends Identificable implements BufReadable {
+public class User extends AbstractEntity implements BufReadable {
   private String avatar;
   private String email;
   private String firstName;

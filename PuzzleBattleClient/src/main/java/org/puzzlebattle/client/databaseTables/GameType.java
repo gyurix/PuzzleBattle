@@ -7,7 +7,6 @@ import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.query.Query;
 
-import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.util.List;
@@ -19,7 +18,6 @@ import java.util.List;
  * @author Jakub Perdek
  * @version 1.0
  */
-@Entity
 @Data
 public class GameType {
 
@@ -92,17 +90,6 @@ public class GameType {
    * @param description
    */
   private static void insertGameIntoDatabase(String gameName, String description) {
-    SessionFactory sf = new Configuration().configure("/META-INF/hibernate.cfg.xml").buildSessionFactory();
-    Session session = sf.openSession();
-    Transaction t = session.beginTransaction();
-    GameType gameType = new GameType();
 
-    gameType.setName(gameName);
-    gameType.setDescription(description);
-
-    session.persist(gameType);
-    t.commit();
-    session.close();
-    sf.close();
   }
 }

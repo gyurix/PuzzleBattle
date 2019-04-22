@@ -14,6 +14,8 @@ import org.puzzlebattle.client.utils.ThreadUtils;
 import java.util.List;
 import java.util.function.Consumer;
 
+import static org.puzzlebattle.core.utils.Logging.logInfo;
+
 /**
  * Class contains methods for log in, password verification, inserting and updating user
  *
@@ -130,12 +132,16 @@ public class LoginRegisterUser {
    */
   public static void withRegisterUser(String nickName, String password, Consumer<UserPuzzleBattle> resultHandler) {
     ThreadUtils.async(() -> {
+      logInfo("withRegisterUser", "nick", nickName, "password", password.length(), "resultHandler", resultHandler);
       SessionFactory sf = new Configuration().configure("/META-INF/hibernate.cfg.xml").buildSessionFactory();
+      logInfo("Created sessionFactory");
       try (Session session = sf.openSession()) {
+        logInfo("Opened session");
         String hql = "FROM UserPuzzleBattle WHERE nickName=?1";
         Query<UserPuzzleBattle> query = session.createQuery(hql, UserPuzzleBattle.class);
         query.setParameter(1, nickName);
         List<UserPuzzleBattle> list = query.list();
+        logInfo("Executed query");
         if (list.size() > 0) {
           UserPuzzleBattle registeredUser = list.get(0);
           if (verifyPassword(password, registeredUser.getPassword())) {

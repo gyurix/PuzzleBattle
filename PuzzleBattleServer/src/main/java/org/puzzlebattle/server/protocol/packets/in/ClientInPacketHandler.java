@@ -26,7 +26,7 @@ public interface ClientInPacketHandler {
     unexpected(packet);
   }
 
-  default void handle(ClientInAdditionalInformation packet) {
+  default void handle(ClientInChangeProfile packet) {
     unexpected(packet);
   }
 

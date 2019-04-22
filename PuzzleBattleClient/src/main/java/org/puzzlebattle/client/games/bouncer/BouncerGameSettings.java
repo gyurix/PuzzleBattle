@@ -5,10 +5,6 @@ import javafx.scene.paint.Color;
 import lombok.Data;
 import org.puzzlebattle.client.databaseTables.GameSettings;
 
-import javax.persistence.Entity;
-import javax.persistence.Transient;
-
-
 /**
  * Setting for a ball bouncer game are stored here. Settings for both players, you and enemy are created
  * here too. Special values which contain are ready for use.
@@ -16,18 +12,13 @@ import javax.persistence.Transient;
  * @author (Juraj Barath, Jakub Perdek)
  * @version (1.0)
  */
-@Entity
 @Data
 public class BouncerGameSettings extends GameSettings {
 
-  @Transient
   private Color backgroundColor = Color.BLACK;
   private double bouncerArcRadius = 15;
-  @Transient
   private Color bouncerBallColor = Color.BLUE;
-  @Transient
   private BouncerPlayerSettings enemy = new BouncerPlayerSettings(Color.RED, Color.INDIANRED, KeyCode.A, KeyCode.D, 4.5);
-  @Transient
   private BouncerPlayerSettings you = new BouncerPlayerSettings(Color.GREEN, Color.GREEN, KeyCode.LEFT, KeyCode.RIGHT, 4.5);
 
   public int getGameType() {

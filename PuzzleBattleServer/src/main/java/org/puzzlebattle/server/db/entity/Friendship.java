@@ -16,9 +16,9 @@ import java.util.List;
 
 
 /**
- * Table witch characterise friendship  between two players
+ * Friendship between two players
  *
- * @author Jakub Perdek
+ * @author Jakub Perdek, Juraj Barath
  * @version 1.0
  */
 @Entity

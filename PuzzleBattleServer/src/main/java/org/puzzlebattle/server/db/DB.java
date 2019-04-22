@@ -1,16 +1,31 @@
 package org.puzzlebattle.server.db;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+import org.puzzlebattle.core.utils.ErrorAcceptedConsumer;
+import org.puzzlebattle.server.ThreadUtils;
 
-public class DB {
-  EntityManager em;
-  EntityManagerFactory emf;
+import java.util.HashMap;
 
-  public DB() {
-    emf = Persistence.createEntityManagerFactory("main-db");
-    EntityManager em = emf.createEntityManager();
-    em.getTransaction().begin();
+public enum DB {
+  INSTANCE;
+  private SessionFactory sessionFactory;
+  private HashMap<Thread, Session> sessions = new HashMap<>();
+
+  DB() {
+    sessionFactory = new Configuration().configure("/META-INF/hibernate.cfg.xml").buildSessionFactory();
+  }
+
+  private void shutdown() {
+    sessionFactory.close();
+  }
+
+  public void withSession(ErrorAcceptedConsumer<Session> sessionConsumer) {
+    ThreadUtils.async(() -> {
+      Thread t = Thread.currentThread();
+      Session s = sessions.computeIfAbsent(t, thread -> sessionFactory.openSession());
+      sessionConsumer.accept(s);
+    });
   }
 }

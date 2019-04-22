@@ -2,6 +2,7 @@ package org.puzzlebattle.server.protocol.packets.in;
 
 import io.netty.buffer.ByteBuf;
 import lombok.Data;
+import org.puzzlebattle.core.protocol.ByteBufUtils;
 
 @Data
 public class ClientInEncryption extends ClientInPacket {
@@ -12,8 +13,6 @@ public class ClientInEncryption extends ClientInPacket {
   }
 
   public void read(ByteBuf buf) {
-    int len = buf.readUnsignedShort();
-    key = new byte[len];
-    buf.readBytes(key);
+    key = ByteBufUtils.readBytes2(buf);
   }
 }
