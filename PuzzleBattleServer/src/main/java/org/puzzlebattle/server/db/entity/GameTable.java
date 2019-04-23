@@ -71,18 +71,18 @@ public class GameTable {
   /**
    * Preparation of game table between two users-players, players will be specified, other attributes used to create this record about played game
    *
-   * @param userPuzzleBattle user of puzzle battle game, player of the game will be obtained
+   * @param user user of puzzle battle game, player of the game will be obtained
    * @param test             true if it is only test
    * @param gameType         type of certain game
    * @param gameSettings     settings for certain game, game type
    * @return
    */
-  public static GameTable prepareGameTable(UserPuzzleBattle userPuzzleBattle, boolean test, int gameType, GameSettings gameSettings) {
+  public static GameTable prepareGameTable(User user, boolean test, int gameType, GameSettings gameSettings) {
     GamePlayer player1;
     GamePlayer player2;
     GameTable gameTable;
 
-    player1 = GamePlayer.createGamePlayerFromUserIfNotExist(userPuzzleBattle, gameType);
+    player1 = GamePlayer.createGamePlayerFromUserIfNotExist(user, gameType);
     if (test) {
       player2 = GamePlayer.createVirtualPlayerForTest(gameType);
     } else {

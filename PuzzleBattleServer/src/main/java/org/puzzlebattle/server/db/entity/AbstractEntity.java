@@ -1,6 +1,8 @@
 package org.puzzlebattle.server.db.entity;
 
 import org.hibernate.Transaction;
+import org.puzzlebattle.core.utils.ErrorAcceptedConsumer;
+import org.puzzlebattle.core.utils.Logging;
 import org.puzzlebattle.server.db.DB;
 
 import javax.persistence.Column;
@@ -15,11 +17,18 @@ class AbstractEntity {
   @Column
   private int id;
 
-  public void persist() {
+  public void persist(ErrorAcceptedConsumer<Boolean> resultHandler) {
     DB.INSTANCE.withSession((s) -> {
-      Transaction t = s.beginTransaction();
-      s.persist(this);
-      t.commit();
+      try {
+        Transaction t = s.beginTransaction();
+        s.persist(this);
+        t.commit();
+        s.flush();
+        resultHandler.accept(true);
+      } catch (Throwable e) {
+        Logging.logSevere("Failed to save entity to database.", "entity", this, "error", e);
+        resultHandler.accept(false);
+      }
     });
   }
 

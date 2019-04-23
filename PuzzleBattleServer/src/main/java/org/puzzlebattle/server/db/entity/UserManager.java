@@ -4,11 +4,13 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.query.Query;
 import org.mindrot.jbcrypt.BCrypt;
+import org.puzzlebattle.core.utils.ErrorAcceptedConsumer;
+import org.puzzlebattle.core.utils.Logging;
 import org.puzzlebattle.server.ThreadUtils;
+import org.puzzlebattle.server.db.DB;
 import org.puzzlebattle.server.db.UserGameAttributes;
 
 import java.util.List;
@@ -20,7 +22,33 @@ import java.util.function.Consumer;
  * @author Jakub Perdek
  * @version 1.0
  */
-public class LoginRegisterUser {
+public class UserManager {
+
+  /**
+   * Method which obtains registered user from database using hashed form of password,
+   * if passwords are not equal as strings null will be returned
+   *
+   * @param nickName nickName of user
+   * @return registered user, stored in database
+   */
+  public static void findUser(String nickName, ErrorAcceptedConsumer<User> resultHandler) {
+    DB.INSTANCE.withSession((s) -> {
+      try {
+        String hql = "FROM User WHERE nickName=?1";
+        Query<User> query = s.createQuery(hql);
+        query.setParameter(1, nickName);
+        List<User> list = query.list();
+        if (list.size() > 0) {
+          User registeredUser = list.get(0);
+          resultHandler.accept(registeredUser);
+          return;
+        }
+      } catch (Throwable e) {
+        Logging.logSevere("Error on finding registered user.", "nick", nickName, "error", e);
+      }
+      resultHandler.accept(null);
+    });
+  }
 
   /**
    * Method which returns best players suitable to be stored in table
@@ -32,7 +60,7 @@ public class LoginRegisterUser {
     SessionFactory sf = new Configuration().configure("/META-INF/hibernate.cfg.xml").buildSessionFactory();
     Session session = sf.openSession();
 
-    String hql = "SELECT  u, g.score FROM GamePlayer g LEFT JOIN UserPuzzleBattle u ON u.id = g.player ORDER BY g.score DESC";
+    String hql = "SELECT  u, g.score FROM GamePlayer g LEFT JOIN User u ON u.id = g.player ORDER BY g.score DESC";
     Query query = session.createQuery(hql);
     query.setMaxResults(maxPlayers);
     List<Object[]> list = null;
@@ -40,7 +68,7 @@ public class LoginRegisterUser {
     ObservableList<UserGameAttributes> userGameAttributes = FXCollections.observableArrayList();
     for (Object[] object : list) {
       if (object[0] != null) {
-        userGameAttributes.add(new UserGameAttributes(((UserPuzzleBattle) object[0]).getNickName(), ((int) object[1])));
+        userGameAttributes.add(new UserGameAttributes(((User) object[0]).getNickName(), ((int) object[1])));
       }
     }
 
@@ -51,63 +79,31 @@ public class LoginRegisterUser {
   }
 
   /**
-   * Method which obtains registered user from database using hashed form of password,
-   * if passwords are not equal as strings null will be returned
-   *
-   * @param nickName nickName of user
-   * @param password password of user, hashed
-   * @return registered user, stored in database
-   */
-  public static UserPuzzleBattle getRegister(String nickName, String password) {
-    SessionFactory sf = new Configuration().configure("/META-INF/hibernate.cfg.xml").buildSessionFactory();
-    Session session = sf.openSession();
-    UserPuzzleBattle registeredUser = null;
-
-    String hql = "FROM UserPuzzleBattle WHERE nickName=?1 AND password= ?2";
-    Query query = session.createQuery(hql);
-    query.setParameter(1, nickName);
-    query.setParameter(2, password);
-    List<UserPuzzleBattle> list = query.list();
-    if (list.size() > 0) {
-      registeredUser = list.get(0);
-    }
-
-    session.close();
-    sf.close();
-    return registeredUser;
-  }
-
-  /**
    * Method which hashes password and returns its hash form
    *
    * @param password which should be hashed
    * @return hashed password
    */
-  private static String hashPassword(String password) {
+  public static String hashPassword(String password) {
     return BCrypt.hashpw(password, BCrypt.gensalt());
   }
 
   /**
-   * Creates new user and saves information about him to database
+   * Registers a new user
    *
-   * @param nickname nickName of user
-   * @param email    email of user
-   * @param password password of user, non-hashed
+   * @param user          - The registrable user
+   * @param resultHandler - Result handler, getting the registered user, stored in database
+   *                      or null if the registration process failed, because there is a user with the same nick
+   *                      in the database already
    */
-  public static void registerUser(String nickname, String email, String password) {
-    SessionFactory sf = new Configuration().configure("/META-INF/hibernate.cfg.xml").buildSessionFactory();
-    Session session = sf.openSession();
-    Transaction t = session.beginTransaction();
-    UserPuzzleBattle newUser = new UserPuzzleBattle();
-
-    newUser.setNickName(nickname);
-    newUser.setEmail(email);
-    newUser.setPassword(hashPassword(password));
-    session.persist(newUser);
-
-    t.commit();
-    session.close();
-    sf.close();
+  public static void registerUser(User user, ErrorAcceptedConsumer<User> resultHandler) {
+    findUser(user.getNickName(), (r) -> {
+      if (r != null) {
+        resultHandler.accept(null);
+        return;
+      }
+      user.persist((r2) -> resultHandler.accept(r2 ? user : null));
+    });
   }
 
   /**
@@ -128,16 +124,16 @@ public class LoginRegisterUser {
    * @param password password of user, non-hashed
    * @return user or null if user was not found or passwords are not equal
    */
-  public static void withRegisterUser(String nickName, String password, Consumer<UserPuzzleBattle> resultHandler) {
+  public static void withRegisterUser(String nickName, String password, Consumer<User> resultHandler) {
     ThreadUtils.async(() -> {
       SessionFactory sf = new Configuration().configure("/META-INF/hibernate.cfg.xml").buildSessionFactory();
       try (Session session = sf.openSession()) {
-        String hql = "FROM UserPuzzleBattle WHERE nickName=?1";
-        Query<UserPuzzleBattle> query = session.createQuery(hql, UserPuzzleBattle.class);
+        String hql = "FROM User WHERE nickName=?1";
+        Query<User> query = session.createQuery(hql, User.class);
         query.setParameter(1, nickName);
-        List<UserPuzzleBattle> list = query.list();
+        List<User> list = query.list();
         if (list.size() > 0) {
-          UserPuzzleBattle registeredUser = list.get(0);
+          User registeredUser = list.get(0);
           if (verifyPassword(password, registeredUser.getPassword())) {
             ThreadUtils.ui(() -> resultHandler.accept(registeredUser));
             return;
@@ -146,5 +142,7 @@ public class LoginRegisterUser {
         ThreadUtils.ui(() -> resultHandler.accept(null));
       }
     });
+
+
   }
 }

@@ -12,6 +12,7 @@ public class Client {
   private ClientHandler handler;
   private EncryptionUtils keyUtils = new EncryptionUtils();
   private Server server;
+  @Setter
   private User user;
 
   public Client(Server server) {

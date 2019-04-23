@@ -2,6 +2,7 @@ package org.puzzlebattle.server.db;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.SharedSessionContract;
 import org.hibernate.cfg.Configuration;
 import org.puzzlebattle.core.utils.ErrorAcceptedConsumer;
 import org.puzzlebattle.server.ThreadUtils;
@@ -18,6 +19,7 @@ public enum DB {
   }
 
   private void shutdown() {
+    sessions.values().forEach(SharedSessionContract::close);
     sessionFactory.close();
   }
 

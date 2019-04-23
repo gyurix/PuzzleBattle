@@ -13,11 +13,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.stage.Stage;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
-import org.hibernate.cfg.Configuration;
-import org.hibernate.query.Query;
 import org.puzzlebattle.client.databaseTables.UserPuzzleBattle;
 import org.puzzlebattle.core.utils.Logging;
 
@@ -426,26 +421,7 @@ public class AdditionalInformationScreen extends AbstractScreen {
   /**
    * Updating information of database.
    */
-  private void updateInformationDatabase() {
-    SessionFactory sf = new Configuration().configure("/META-INF/hibernate.cfg.xml").buildSessionFactory();
-    Session session = sf.openSession();
-    Transaction t = session.beginTransaction();
-    String updateUser = "UPDATE UserPuzzleBattle SET name = ?3, surname = ?4,dateOfBirth = ?5, avatar = ?6 WHERE nickName=?1 AND email=?2";
-    Query query = session.createQuery(updateUser);
-    query.setParameter(1, nickNameOfPlayer);
-    query.setParameter(2, emailOfPlayer);
-    query.setParameter(3, loadedName);
-    query.setParameter(4, loadedSurname);
-    query.setParameter(5, createdDate);
-    query.setParameter(6, saveImageToBytes(loadedImage));
 
-    query.executeUpdate();
-    t.commit();
-    session.close();
-    sf.close();
-
-    Logging.logInfo("Information about user in database has been updated.");
-  }
 
   /**
    * Updating information for player profile screen.

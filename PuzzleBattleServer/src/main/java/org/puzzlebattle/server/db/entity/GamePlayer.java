@@ -28,23 +28,23 @@ public class GamePlayer {
   private long id;
   @ManyToOne
   @JoinColumn
-  private UserPuzzleBattle player;
+  private User player;
   private int score = 0;
 
   /**
-   * @param userPuzzleBattle
+   * @param user
    * @param gameTypeForNewUser
    * @return
    */
-  public static GamePlayer createGamePlayerFromUserIfNotExist(UserPuzzleBattle userPuzzleBattle, int gameTypeForNewUser) {
+  public static GamePlayer createGamePlayerFromUserIfNotExist(User user, int gameTypeForNewUser) {
     GamePlayer foundGamePlayer;
-    if ((foundGamePlayer = findGamePlayerInDB(LoginRegisterUser.getRegister(userPuzzleBattle.getNickName(), userPuzzleBattle.getPassword()), gameTypeForNewUser)) == null) {
+    if ((foundGamePlayer = findGamePlayerInDB(UserManager.findUser(user.getNickName(), user.getPassword()), gameTypeForNewUser)) == null) {
       GamePlayer newGamePlayer = new GamePlayer();
-      newGamePlayer.setPlayer(LoginRegisterUser.getRegister(userPuzzleBattle.getNickName(), userPuzzleBattle.getPassword()));
+      newGamePlayer.setPlayer(UserManager.findUser(user.getNickName(), user.getPassword()));
       newGamePlayer.setScore(0);
       newGamePlayer.setGameType(gameTypeForNewUser);
       insertGamePlayerToDB(newGamePlayer);
-      return findGamePlayerInDB(LoginRegisterUser.getRegister(userPuzzleBattle.getNickName(), userPuzzleBattle.getPassword()), gameTypeForNewUser);
+      return findGamePlayerInDB(UserManager.findUser(user.getNickName(), user.getPassword()), gameTypeForNewUser);
     } else {
       return foundGamePlayer;
     }
@@ -65,11 +65,11 @@ public class GamePlayer {
   }
 
   /**
-   * @param userPuzzleBattle
+   * @param user
    * @param gameTypeOfUser
    * @return
    */
-  public static GamePlayer findGamePlayerInDB(UserPuzzleBattle userPuzzleBattle, int gameTypeOfUser) {
+  public static GamePlayer findGamePlayerInDB(User user, int gameTypeOfUser) {
     SessionFactory sf = new Configuration().configure("/META-INF/hibernate.cfg.xml").buildSessionFactory();
     Session session = sf.openSession();
     Transaction t = session.beginTransaction();
@@ -77,7 +77,7 @@ public class GamePlayer {
 
     String hql = "FROM GamePlayer WHERE player=?1 AND gameType= ?2";
     Query query = session.createQuery(hql);
-    query.setParameter(1, userPuzzleBattle);
+    query.setParameter(1, user);
     query.setParameter(2, gameTypeOfUser);
     List<GamePlayer> list = query.list();
     if (list.size() > 0) {
