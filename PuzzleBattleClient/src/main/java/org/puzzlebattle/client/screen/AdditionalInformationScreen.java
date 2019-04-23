@@ -419,11 +419,6 @@ public class AdditionalInformationScreen extends AbstractScreen {
   }
 
   /**
-   * Updating information of database.
-   */
-
-
-  /**
    * Updating information for player profile screen.
    *
    * @param playerProfile player's profile, not shown, window, where given information will be shown

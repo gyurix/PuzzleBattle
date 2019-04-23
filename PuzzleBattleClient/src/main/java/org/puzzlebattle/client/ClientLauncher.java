@@ -27,7 +27,7 @@ public class ClientLauncher extends Application {
 
   /**
    * Basic settings as language, name of the game, version will be applied.
-   * This is client program launcher. Here client application strats.
+   * This is server program launcher. Here server application strats.
    *
    * @param stage the first stage which will be displayed
    */
