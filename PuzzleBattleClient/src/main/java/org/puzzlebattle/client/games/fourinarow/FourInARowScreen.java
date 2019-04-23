@@ -7,8 +7,7 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import org.puzzlebattle.client.databaseTables.GameTable;
-import org.puzzlebattle.client.databaseTables.UserPuzzleBattle;
+import org.puzzlebattle.client.games.UserPuzzleBattle;
 import org.puzzlebattle.client.screen.AbstractScreen;
 import org.puzzlebattle.core.utils.Logging;
 
@@ -29,7 +28,7 @@ public class FourInARowScreen extends AbstractScreen {
   private double coinRadius;
   private ArrayList<Coin> coins = new ArrayList<Coin>();
   private FourInARowGame game;
-  private GameTable gameTable;
+ // private GameTable gameTable;
   private Point2D mapSize = new Point2D(400, 400);
   private UserPuzzleBattle user;
 
@@ -37,11 +36,11 @@ public class FourInARowScreen extends AbstractScreen {
    * Constructor for objects of class SkladPonuka
    */
 
-  public FourInARowScreen(Stage stage, FourInARowGame game, UserPuzzleBattle user, GameTable gameTable) {
+  public FourInARowScreen(Stage stage, FourInARowGame game, UserPuzzleBattle user) {
     super(stage);
     this.game = game;
     this.user = user;
-    this.gameTable = gameTable;
+    //this.gameTable = gameTable;
     pane = new PanelGrid(0, 0, mapSize.getX(), mapSize.getY(), this);
     pane.setBackground(new Background(new BackgroundFill(game.getSettings().getBackgroundColor(), null, null)));
     coinRadius = getPane().getDistanceOfColumns() * 0.4f;
@@ -109,7 +108,7 @@ public class FourInARowScreen extends AbstractScreen {
   }
 
   public void showWinnerScreen(FourInARowPlayer playerOnTheMove) {
-    WinningDialog winningDialog = new WinningDialog(this, playerOnTheMove, super.getStage(), user, gameTable);
+    WinningDialog winningDialog = new WinningDialog(this, playerOnTheMove, super.getStage(), user);
     winningDialog.initModality(Modality.WINDOW_MODAL);
     winningDialog.initOwner(super.getStage());
     winningDialog.show();

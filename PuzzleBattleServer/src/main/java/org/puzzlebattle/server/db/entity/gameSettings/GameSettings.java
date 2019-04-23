@@ -1,4 +1,4 @@
-package org.puzzlebattle.server.db.entity;
+package org.puzzlebattle.server.db.entity.gameSettings;
 
 
 import org.hibernate.Session;

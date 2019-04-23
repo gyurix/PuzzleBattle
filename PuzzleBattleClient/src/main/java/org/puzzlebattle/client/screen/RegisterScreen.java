@@ -11,7 +11,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
-import org.puzzlebattle.client.databaseTables.LoginRegisterUser;
+import org.puzzlebattle.client.protocol.Server;
+import org.puzzlebattle.client.protocol.packets.out.ServerOutRegister;
 import org.puzzlebattle.core.utils.Logging;
 
 
@@ -176,7 +177,9 @@ public class RegisterScreen extends AbstractScreen {
       return;
     } else {
       Logging.logInfo("Passwords are the same. Registration is completed!");
-      LoginRegisterUser.registerUser(nickName, email, password);
+      ServerOutRegister sor = new ServerOutRegister(email, password,nickName);
+      new Server().sendPacket(sor);
+      //LoginRegisterUser.registerUser(nickName, email, password);
     }
     new AdditionalInformationScreen(new Stage(), nickName, email).show();
     new LoginScreen(getStage()).show();

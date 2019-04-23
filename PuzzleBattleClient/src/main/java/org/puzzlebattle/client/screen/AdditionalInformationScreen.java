@@ -13,7 +13,9 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.stage.Stage;
-import org.puzzlebattle.client.databaseTables.UserPuzzleBattle;
+import org.puzzlebattle.client.games.UserPuzzleBattle;
+import org.puzzlebattle.client.protocol.Server;
+import org.puzzlebattle.client.protocol.packets.out.ServerOutChangeProfile;
 import org.puzzlebattle.core.utils.Logging;
 
 import java.io.File;
@@ -337,6 +339,11 @@ public class AdditionalInformationScreen extends AbstractScreen {
     }
   }
 
+  private void updateInformationDatabase()
+  {
+    ServerOutChangeProfile changeProfile = new ServerOutChangeProfile(saveImageToBytes(loadedImage),loadedDateOfBirth,loadedName,loadedSurname);
+    new Server().sendPacket(changeProfile);
+  }
   /**
    * Prepare components of scene 1, it includes used regions, and labels, text fields
    * <br>

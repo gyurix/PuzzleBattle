@@ -12,13 +12,17 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import org.puzzlebattle.client.databaseTables.*;
+import org.puzzlebattle.client.games.UserPuzzleBattle;
 import org.puzzlebattle.client.games.bouncer.BallBouncerScreen;
 import org.puzzlebattle.client.games.bouncer.BouncerGame;
 import org.puzzlebattle.client.games.bouncer.BouncerGameSettings;
 import org.puzzlebattle.client.games.fourinarow.FourInARowGame;
 import org.puzzlebattle.client.games.fourinarow.FourInARowGameSettings;
 import org.puzzlebattle.client.games.fourinarow.FourInARowScreen;
+import org.puzzlebattle.client.protocol.Server;
+import org.puzzlebattle.client.protocol.packets.out.ServerOutLogin;
+import org.puzzlebattle.client.protocol.packets.out.startGame.ServerOutLaunchBallBouncer;
+import org.puzzlebattle.client.protocol.packets.out.startGame.ServerOutLaunchFourInARow;
 import org.puzzlebattle.core.utils.Logging;
 
 import java.io.ByteArrayOutputStream;
@@ -63,8 +67,6 @@ public class MainScreen extends AbstractScreen {
     this.settingsForScreens = settingsForScreens;
     this.user = user;
 
-    GameType.addGamesToDBIfTheyAreNot();
-
     prepareBallBouncerGameMenu();
     prepareFourInARowGameMenu();
 
@@ -72,23 +74,6 @@ public class MainScreen extends AbstractScreen {
     prepareEscapeLayout();
     prepareSceneAndGridPane();
     Logging.logInfo("Main scene has been created.");
-  }
-
-  private void addBallBouncerGameToDatabase(UserPuzzleBattle userPuzzleBattle, boolean test) {
-    int gameType = GameType.getFourInARowGame().getId();
-    long gameSettingId = GameSettings.insertGameSettingsToDBIfTheyAreNotExistAndGetId(new BouncerGameSettings());
-    GameSettings bouncerGameSettings = new BouncerGameSettings();
-    ((BouncerGameSettings) bouncerGameSettings).setGameType(gameType);
-    GameTable gameTable = GameTable.prepareGameTable(userPuzzleBattle, test, gameType, bouncerGameSettings);
-  }
-
-  private GameTable addFourInARowGameToDatabase(UserPuzzleBattle userPuzzleBattle, boolean test) {
-    int gameType = GameType.getFourInARowGame().getId();
-    long gameSettingId = GameSettings.insertGameSettingsToDBIfTheyAreNotExistAndGetId(new FourInARowGameSettings());
-    GameSettings fourInARowGameSetting = new FourInARowGameSettings();
-    ((FourInARowGameSettings) fourInARowGameSetting).setGameType(gameType);
-    GameTable gameTable = GameTable.prepareGameTable(userPuzzleBattle, test, gameType, fourInARowGameSetting);
-    return gameTable;
   }
 
   private Button createButton(String text) {
@@ -110,7 +95,9 @@ public class MainScreen extends AbstractScreen {
    */
   private void launchBallBouncer() {
 
-    addBallBouncerGameToDatabase(user, true);
+    ServerOutLaunchBallBouncer launchBallBouncer = new ServerOutLaunchBallBouncer(user.getUserName(),user.getPassword());
+    new Server().sendPacket(launchBallBouncer);
+    //addBallBouncerGameToDatabase(user, true);
     super.getStage().close();
     new BallBouncerScreen(new Stage(), new BouncerGame(null, new BouncerGameSettings())).show();
   }
@@ -119,9 +106,11 @@ public class MainScreen extends AbstractScreen {
    * Launching Four in a row game
    */
   private void launchFourInARow() {
-    GameTable gameTable = addFourInARowGameToDatabase(user, true);
+    ServerOutLaunchFourInARow launchBallBouncer = new ServerOutLaunchFourInARow(user.getUserName(),user.getPassword());
+    new Server().sendPacket(launchBallBouncer);
+    //GameTable gameTable = addFourInARowGameToDatabase(user, true);
     super.getStage().close();
-    new FourInARowScreen(new Stage(), new FourInARowGame(null, new FourInARowGameSettings()), user, gameTable).show();
+    new FourInARowScreen(new Stage(), new FourInARowGame(null, new FourInARowGameSettings()), user).show();
   }
 
   /**
@@ -265,7 +254,10 @@ public class MainScreen extends AbstractScreen {
    */
   private void prepareProfileScreen() {
     playerProfileScreen = new PlayerProfileScreen(new Stage());
-    UserPuzzleBattle userFromDatabase = LoginRegisterUser.getRegister(user.getNickName(), user.getPassword());
+    ServerOutLogin login = new ServerOutLogin(user.getPassword(),user.getUserName());
+    new Server().sendPacket(login);
+    UserPuzzleBattle userFromDatabase = null;
+    //GET userFromDB
     if (userFromDatabase != null) {
       updateInformationPlayerProfileScreen(playerProfileScreen, userFromDatabase);
       playerProfileScreen.show();

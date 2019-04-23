@@ -8,7 +8,9 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
-import org.puzzlebattle.client.databaseTables.LoginRegisterUser;
+import org.puzzlebattle.client.games.UserPuzzleBattle;
+import org.puzzlebattle.client.protocol.Server;
+import org.puzzlebattle.client.protocol.packets.out.ServerOutLogin;
 
 import static javafx.scene.control.Alert.AlertType.ERROR;
 import static javafx.scene.control.Alert.AlertType.INFORMATION;
@@ -95,15 +97,18 @@ public class LoginScreen extends AbstractScreen {
   private void login(Event event) {
     pwd = passwordField.getText();
     login = loginTextField.getText();
+    UserPuzzleBattle user = new UserPuzzleBattle(login,pwd);
     logInfo("Logging in...", "login", login);
-    LoginRegisterUser.withRegisterUser(login, pwd, (user) -> {
-      logInfo("Login result", "user", user);
-      if (user == null)
-        showAlert(ERROR, "login.incorrect");
-      else
-        new MainScreen(stage, new SettingsForScreens(), user).show();
-    });
-    showAlert(INFORMATION, "login.loggingIn");
+    ServerOutLogin serverLogin = new ServerOutLogin(user.getUserName(),user.getPassword());
+    new Server().sendPacket(serverLogin);
+    user=null;
+    //GET PACKET
+    if (user == null) {
+      showAlert(ERROR, "login.incorrect");
+    } else {
+      new MainScreen(stage, new SettingsForScreens(), user).show();
+      showAlert(INFORMATION, "login.loggingIn");
+    }
   }
 
   /**

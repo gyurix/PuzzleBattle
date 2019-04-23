@@ -1,5 +1,6 @@
 package org.puzzlebattle.client.screen;
 
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -7,9 +8,10 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import org.puzzlebattle.client.databaseTables.Friendship;
-import org.puzzlebattle.client.databaseTables.LoginRegisterUser;
-import org.puzzlebattle.client.databaseTables.UserPuzzleBattle;
+import org.puzzlebattle.client.games.UserPuzzleBattle;
+import org.puzzlebattle.client.protocol.Server;
+import org.puzzlebattle.client.protocol.packets.out.ServerOutBestPlayersRequest;
+import org.puzzlebattle.client.protocol.packets.out.ServerOutLoadFriends;
 
 import static org.puzzlebattle.core.utils.LangFile.lang;
 
@@ -50,7 +52,7 @@ public class FriendshipMenu extends AbstractScreen {
   private void findUser() {
     if (findFriend.getText().equals(findUserText)) {
       findFriend.setText(friendsText);
-      foundUsers.setItems(LoginRegisterUser.getBestPlayers(10));
+      foundUsers.setItems(loadBestFriends());
       tableContent.getChildren().remove(friendshipTable);
       tableContent.getChildren().add(foundUsers);
       menuButtons.getChildren().addAll(horizontalForButtonRegion, searchButton);
@@ -62,8 +64,17 @@ public class FriendshipMenu extends AbstractScreen {
     }
   }
 
+  private ObservableList<UserGameAttributes> loadBestFriends()
+  {
+    ServerOutBestPlayersRequest bestPlayers = new ServerOutBestPlayersRequest(user.getUserName(),user.getPassword());
+    new Server().sendPacket(bestPlayers);
+    //RECEIVED FRIENDS
+    return null;
+  }
+
   private void loadDataAndFillTableFromDatabase() {
-    friendshipTable.setItems(Friendship.loadFriends(user));
+    ServerOutLoadFriends loadFriends  = new ServerOutLoadFriends(user.getUserName(),user.getPassword());
+    new Server().sendPacket(loadFriends);
   }
 
   private void prepareButtons() {

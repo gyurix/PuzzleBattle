@@ -9,7 +9,7 @@ public class UserGameAttributes {
   private String nickName;
   private Integer score;
   private String startTimestamp;
-
+/*
   public UserGameAttributes(String nickName, int score) {
     System.out.println(nickName + " " + score);
     this.score = score;
@@ -23,4 +23,5 @@ public class UserGameAttributes {
     this.startTimestamp = startTimestamp;
     this.endTimestamp = endTimestamp;
   }
+  */
 }
