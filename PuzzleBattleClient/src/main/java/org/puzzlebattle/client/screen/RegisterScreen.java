@@ -15,7 +15,7 @@ import org.puzzlebattle.client.protocol.Server;
 import org.puzzlebattle.client.protocol.packets.in.ServerInRegisterSuccessful;
 import org.puzzlebattle.client.protocol.packets.out.ServerOutRegister;
 import org.puzzlebattle.core.utils.Logging;
-
+import static org.puzzlebattle.core.utils.LangFile.lang;
 
 /**
  * Class where screen will be registered
@@ -107,7 +107,7 @@ public class RegisterScreen extends AbstractScreen {
    */
   @Override
   public String getTitle() {
-    return "Register Puzzle Battle";
+    return lang.get("register.title");
   }
 
   /**
@@ -128,8 +128,8 @@ public class RegisterScreen extends AbstractScreen {
    */
   private void noSamePasswordsAlert() {
     Alert alert = new Alert(Alert.AlertType.ERROR);
-    alert.setTitle("Not same passwords");
-    alert.setContentText("Type your password and confirm password again!");
+    alert.setTitle(lang.get("register.noSamePassword.title"));
+    alert.setContentText("register.noSamePassword.text");
     alert.showAndWait();
   }
 
@@ -150,7 +150,7 @@ public class RegisterScreen extends AbstractScreen {
    * Prepares confirm button
    */
   private void prepareConfirmButton() {
-    confirmButton = new Button("Register");
+    confirmButton = new Button(lang.get("register.buttonNames.confirmButton"));
     confirmButton.setMaxWidth(Double.MAX_VALUE);
     confirmButton.setOnAction(e -> register());
   }
@@ -159,10 +159,10 @@ public class RegisterScreen extends AbstractScreen {
    * Prepares labels with user information
    */
   private void prepareLabelsWithUserInf() {
-    nickLabel = createLabel("Your nick");
-    passwordLabel = createLabel("Your password");
-    passwordConfLabel = createLabel("Confirm password");
-    emailLabel = createLabel("Your email");
+    nickLabel = createLabel(lang.get("register.labelNames.nickLabel"));
+    passwordLabel = createLabel(lang.get("register.labelNames.passwordLabel"));
+    passwordConfLabel = createLabel(lang.get("register.labelNames.confirmPassword"));
+    emailLabel = createLabel(lang.get("register.labelNames.emailLabel"));
   }
 
   /**
@@ -226,8 +226,8 @@ public class RegisterScreen extends AbstractScreen {
    * Prepares text fields and password fields with specific name for them
    */
   private void prepareTextAndPasswordFields() {
-    nickField = new TextField("Add your nick");
-    emailField = new TextField("Add your email");
+    nickField = new TextField(lang.get("register.textFieldsContent.nickField"));
+    emailField = new TextField(lang.get("register.textFieldsContent.emailField"));
     passwordField = new PasswordField();
     confirmPasswordField = new PasswordField();
   }
@@ -264,8 +264,8 @@ public class RegisterScreen extends AbstractScreen {
    */
   private void registrationFailedAlert() {
     Alert alert = new Alert(Alert.AlertType.ERROR);
-    alert.setTitle("Registration failed");
-    alert.setContentText("Registration failed! Please Register again!");
+    alert.setTitle(lang.get("register.registrationFailed.title"));
+    alert.setContentText(lang.get("register.registrationFailed.text"));
     alert.showAndWait();
   }
 
