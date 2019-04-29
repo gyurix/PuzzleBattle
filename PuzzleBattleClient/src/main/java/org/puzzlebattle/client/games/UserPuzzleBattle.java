@@ -1,9 +1,11 @@
 package org.puzzlebattle.client.games;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 
 @AllArgsConstructor
+@Builder
 @Data
 public class UserPuzzleBattle {
   private int age = 0;

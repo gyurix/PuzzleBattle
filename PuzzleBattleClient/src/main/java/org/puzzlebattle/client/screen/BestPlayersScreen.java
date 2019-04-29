@@ -77,7 +77,8 @@ public class BestPlayersScreen extends AbstractScreen {
    * @param user - user who will view table with best players
    */
   private void loadDataAndFillTablesFromDatabase(UserPuzzleBattle user) {
-    ServerOutBestPlayersRequest serverOutBestPlayersRequest = new ServerOutBestPlayersRequest(user.getUserName(), user.getPassword(), 10);
+    ServerOutBestPlayersRequest serverOutBestPlayersRequest =
+            new ServerOutBestPlayersRequest(10, user.getUserName(), user.getPassword());
     new Server().sendPacket(serverOutBestPlayersRequest);
     ServerInBestPlayers bestPlayers = new ServerInBestPlayers();
     fourInARowGameTable.setItems(bestPlayers.getUserGameAttributes());

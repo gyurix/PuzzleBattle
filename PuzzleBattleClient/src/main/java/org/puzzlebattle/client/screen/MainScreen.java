@@ -258,7 +258,7 @@ public class MainScreen extends AbstractScreen {
     new Server().sendPacket(login);
 
     ServerInChangeProfile serverInChangeProfile = new ServerInChangeProfile();
-    UserPuzzleBattle userFromDatabase = serverInChangeProfile.getUserPuzzleBattle();
+    UserPuzzleBattle userFromDatabase = serverInChangeProfile.getProfile();
 
     if (userFromDatabase != null) {
       updateInformationPlayerProfileScreen(playerProfileScreen, userFromDatabase);
