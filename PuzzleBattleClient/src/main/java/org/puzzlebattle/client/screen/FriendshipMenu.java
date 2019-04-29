@@ -83,7 +83,7 @@ public class FriendshipMenu extends AbstractScreen {
    * Loads best users to fill table with no specified users for starting friendship
    */
   private ObservableList<UserGameAttributes> loadBestFriends() {
-    ServerOutBestPlayersRequest bestPlayers = new ServerOutBestPlayersRequest(user.getUserName(), user.getPassword(), 10);
+    ServerOutBestPlayersRequest bestPlayers = new ServerOutBestPlayersRequest(10,user.getUserName(), user.getPassword());
     new Server().sendPacket(bestPlayers);
     ServerInBestPlayers bestPlayersReceinved = new ServerInBestPlayers();
     return bestPlayersReceinved.getUserGameAttributes();

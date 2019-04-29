@@ -26,7 +26,7 @@ public class ServerInChangeProfile extends ServerInPacket {
     int age = buf.readInt();
     byte[] bytes = ByteBufUtils.readBytes(buf);
 
-    userPuzzleBattle = new UserPuzzleBattle(nickName, password, age, bytes, dateOfBirth, email, name, surname);
+    userPuzzleBattle = new UserPuzzleBattle(age, bytes,nickName, password, dateOfBirth, email, name, surname);
 
   }
 }
