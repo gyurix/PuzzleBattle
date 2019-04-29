@@ -294,7 +294,7 @@ public class MainScreen extends AbstractScreen {
    */
   private void reLogin() {
     getStage().close();
-    new LoginScreen(getStage()).show();
+    new LoginScreen(getStage(),new LanguageSelector(getStage(),100,25)).show();
   }
 
   /*

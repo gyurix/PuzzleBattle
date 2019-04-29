@@ -38,12 +38,14 @@ public class LoginScreen extends AbstractScreen {
   private Button registerButton;
   private HBox registerPanel;
   private Label separatorLeft, separatorRight;
+  private LanguageSelector languageSelector;
 
   /**
    * Constructor which creates screen for log in
    */
-  public LoginScreen(Stage stage) {
+  public LoginScreen(Stage stage,LanguageSelector languageSelector) {
     super(stage);
+    this.languageSelector = languageSelector;
     createComponentsForLoginScreen();
     prepareScreenAndPane(stage);
     logInfo("Login screen created.");
@@ -148,6 +150,7 @@ public class LoginScreen extends AbstractScreen {
 
     BorderPane pane = new BorderPane();
 
+    pane.setTop(languageSelector);
     pane.setCenter(loginPanel);
     pane.setBottom(registerPanel);
     pane.setLeft(separatorLeft);
@@ -208,7 +211,7 @@ public class LoginScreen extends AbstractScreen {
    * Prepare regions
    */
   private void prepareRegions() {
-    loginButtonRegion = createRegion(100);
+    loginButtonRegion = createRegion(80);
     loginPasswordRegion = createRegion(10);
     registerRegion = new Region();
     registerRegion.setMaxWidth(Double.MAX_VALUE);

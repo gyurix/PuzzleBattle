@@ -256,7 +256,7 @@ public class RegisterScreen extends AbstractScreen {
       }
     }
     new AdditionalInformationScreen(new Stage(), nickName, email).show();
-    new LoginScreen(getStage()).show();
+    new LoginScreen(getStage(),new LanguageSelector(getStage(),100,25)).show();
   }
 
   /**

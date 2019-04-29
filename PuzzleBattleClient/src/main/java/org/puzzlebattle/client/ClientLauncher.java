@@ -3,6 +3,7 @@ package org.puzzlebattle.client;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
+import org.puzzlebattle.client.screen.LanguageSelector;
 import org.puzzlebattle.client.screen.LoginScreen;
 import org.puzzlebattle.core.utils.LangFile;
 
@@ -31,12 +32,10 @@ public class ClientLauncher extends Application {
    *
    * @param stage the first stage which will be displayed
    */
-
   public void start(Stage stage) {
-    LangFile english = new LangFile("en");
-    LangFile.lang = new LangFile(english, "sk");
+    LanguageSelector languageSelector  =new LanguageSelector(stage);
     LangFile.lang.msg("started", "name", "Puzzle Battle Client", "version", "1.0");
 
-    new LoginScreen(stage).show();
+    new LoginScreen(stage,languageSelector).show();
   }
 }
