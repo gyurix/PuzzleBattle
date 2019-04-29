@@ -28,7 +28,7 @@ public class FourInARowScreen extends AbstractScreen {
   private double coinRadius;
   private ArrayList<Coin> coins = new ArrayList<Coin>();
   private FourInARowGame game;
- // private GameTable gameTable;
+  // private GameTable gameTable;
   private Point2D mapSize = new Point2D(400, 400);
   private UserPuzzleBattle user;
 

@@ -72,11 +72,11 @@ public class RegisterScreen extends AbstractScreen {
   /**
    * Creates specific side label
    *
-   * @param text - text which should be displayed on side label
-   * @param pos - position for concrete label
+   * @param text           - text which should be displayed on side label
+   * @param pos            - position for concrete label
    * @param contentDisplay - used content display
-   * @param top - insets from top, which will be set
-   * @param bottom - insets from bottom, which will be set
+   * @param top            - insets from top, which will be set
+   * @param bottom         - insets from bottom, which will be set
    * @return created special side label
    */
   private Label createSpecialSideLabel(String text, Pos pos, ContentDisplay contentDisplay, int top, int bottom) {
@@ -130,16 +130,6 @@ public class RegisterScreen extends AbstractScreen {
     Alert alert = new Alert(Alert.AlertType.ERROR);
     alert.setTitle("Not same passwords");
     alert.setContentText("Type your password and confirm password again!");
-    alert.showAndWait();
-  }
-
-  /**
-   * Alert which will be showed if registration fails
-   */
-  private void registrationFailedAlert() {
-    Alert alert = new Alert(Alert.AlertType.ERROR);
-    alert.setTitle("Registration failed");
-    alert.setContentText("Registration failed! Please Register again!");
     alert.showAndWait();
   }
 
@@ -257,16 +247,26 @@ public class RegisterScreen extends AbstractScreen {
       return;
     } else {
       Logging.logInfo("Passwords are the same. Registration is completed!");
-      ServerOutRegister sor = new ServerOutRegister(email, password,nickName);
+      ServerOutRegister sor = new ServerOutRegister(email, password, nickName);
       new Server().sendPacket(sor);
       ServerInRegisterSuccessful registerSuccessful = new ServerInRegisterSuccessful();
-      if(!registerSuccessful.isSuccessfulRegistration()){
+      if (!registerSuccessful.isSuccessfulRegistration()) {
         Logging.logSevere("Registration failed");
         registrationFailedAlert();
       }
     }
     new AdditionalInformationScreen(new Stage(), nickName, email).show();
     new LoginScreen(getStage()).show();
+  }
+
+  /**
+   * Alert which will be showed if registration fails
+   */
+  private void registrationFailedAlert() {
+    Alert alert = new Alert(Alert.AlertType.ERROR);
+    alert.setTitle("Registration failed");
+    alert.setContentText("Registration failed! Please Register again!");
+    alert.showAndWait();
   }
 
   /**

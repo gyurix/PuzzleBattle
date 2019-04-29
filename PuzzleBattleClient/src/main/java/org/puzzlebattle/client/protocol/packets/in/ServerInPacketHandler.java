@@ -10,7 +10,9 @@ public interface ServerInPacketHandler {
     unexpected(packet);
   }
 
-  default void handle(ServerInBestPlayers packet) { unexpected(packet); }
+  default void handle(ServerInBestPlayers packet) {
+    unexpected(packet);
+  }
 
   default void handle(ServerInRegisterSuccessful packet) {
     unexpected(packet);

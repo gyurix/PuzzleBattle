@@ -7,8 +7,8 @@ import org.puzzlebattle.core.protocol.ByteBufUtils;
 @Data
 public class ClientInBestPlayersRequest extends ClientInPacket {
   private int numberBestPlayers;
-  private String username;
   private String password;
+  private String username;
 
   public void handle(ClientInPacketHandler handler) {
     handler.handle(this);

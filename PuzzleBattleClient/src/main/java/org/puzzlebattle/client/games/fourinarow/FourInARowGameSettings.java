@@ -18,7 +18,7 @@ import static javafx.scene.input.KeyCode.*;
 
 @AllArgsConstructor
 @Data
-public class FourInARowGameSettings{
+public class FourInARowGameSettings {
   private static KeyCode digit[] = new KeyCode[]{DIGIT0, DIGIT1, DIGIT2, DIGIT3, DIGIT4, DIGIT5, DIGIT6, DIGIT7, DIGIT8, DIGIT9};
   private static KeyCode numpad[] = new KeyCode[]{NUMPAD0, NUMPAD1, NUMPAD2, NUMPAD3, NUMPAD4, NUMPAD5, NUMPAD6, NUMPAD7, NUMPAD8, NUMPAD9};
   private Color backgroundColor = Color.GAINSBORO;
@@ -51,6 +51,8 @@ public class FourInARowGameSettings{
    * @return KeyCode of selected numpad, representation of numpad key which is pressed
    */
 
-  public static KeyCode getNumpad(int x) { return (x < 10) ? numpad[x] : null; }
+  public static KeyCode getNumpad(int x) {
+    return (x < 10) ? numpad[x] : null;
+  }
 
 }

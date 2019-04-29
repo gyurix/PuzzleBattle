@@ -1,6 +1,6 @@
 package org.puzzlebattle.server.db.entity.gameSettings;
 
-public class BallBouncerGameSettings extends GameSettings{
+public class BallBouncerGameSettings extends GameSettings {
 
   public int getGameType() {
     return super.gameType;

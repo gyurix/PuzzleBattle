@@ -32,9 +32,9 @@ public class FriendshipMenu extends AbstractScreen {
   private UserPuzzleBattle user;
   private HBox wholeScreen;
 
-/*
- *  Creates friendship  menu
- */
+  /*
+   *  Creates friendship  menu
+   */
   public FriendshipMenu(Stage stage, UserPuzzleBattle user) {
     super(stage);
     this.user = user;
@@ -82,9 +82,8 @@ public class FriendshipMenu extends AbstractScreen {
   /*
    * Loads best users to fill table with no specified users for starting friendship
    */
-  private ObservableList<UserGameAttributes> loadBestFriends()
-  {
-    ServerOutBestPlayersRequest bestPlayers = new ServerOutBestPlayersRequest(user.getUserName(),user.getPassword(),10);
+  private ObservableList<UserGameAttributes> loadBestFriends() {
+    ServerOutBestPlayersRequest bestPlayers = new ServerOutBestPlayersRequest(user.getUserName(), user.getPassword(), 10);
     new Server().sendPacket(bestPlayers);
     ServerInBestPlayers bestPlayersReceinved = new ServerInBestPlayers();
     return bestPlayersReceinved.getUserGameAttributes();
@@ -94,7 +93,7 @@ public class FriendshipMenu extends AbstractScreen {
    * Loads and fills table with friends
    */
   private void loadDataAndFillTableFromDatabase() {
-    ServerOutLoadFriends loadFriends  = new ServerOutLoadFriends(user.getUserName(),user.getPassword());
+    ServerOutLoadFriends loadFriends = new ServerOutLoadFriends(user.getUserName(), user.getPassword());
     new Server().sendPacket(loadFriends);
   }
 

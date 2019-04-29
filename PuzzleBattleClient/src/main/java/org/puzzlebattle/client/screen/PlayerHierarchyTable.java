@@ -25,7 +25,7 @@ public class PlayerHierarchyTable extends TableView<UserGameAttributes> {
   /**
    * Creates specific TableView according to UserGameAttribute class
    *
-   * @param width - minimal width of the column and size of table
+   * @param width  - minimal width of the column and size of table
    * @param height - minimla height of table
    */
   public PlayerHierarchyTable(double width, double height) {

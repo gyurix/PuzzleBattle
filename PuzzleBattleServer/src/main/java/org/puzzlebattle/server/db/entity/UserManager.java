@@ -1,7 +1,5 @@
 package org.puzzlebattle.server.db.entity;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -80,7 +78,6 @@ public class UserManager {
     return userGameAttributes;
   }
   */
-
   public static List<UserGameAttributes> getBestPlayers(int maxPlayers) {
     SessionFactory sf = new Configuration().configure("/META-INF/hibernate.cfg.xml").buildSessionFactory();
     Session session = sf.openSession();

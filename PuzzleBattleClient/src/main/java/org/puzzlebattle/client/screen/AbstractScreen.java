@@ -143,7 +143,7 @@ public abstract class AbstractScreen {
    * Shows alert with specified content and arguments
    *
    * @param type - type of alert
-   * @param key - specifies in language file type of information
+   * @param key  - specifies in language file type of information
    * @param args - arguments which should be displayed in context
    */
   public void showAlert(Alert.AlertType type, String key, Object... args) {

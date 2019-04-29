@@ -99,8 +99,8 @@ public class AdditionalInformationScreen extends AbstractScreen {
    *
    * @param bottom - component which will be stored in bottom
    * @param center - component which will be stored center
-   * @param left  - component which will be stored left
-   * @param right - component which will be stored right
+   * @param left   - component which will be stored left
+   * @param right  - component which will be stored right
    * @return created borer pane
    */
   private BorderPane createBorderPane(Node bottom, Node center, Node left, Node right) {
@@ -115,7 +115,7 @@ public class AdditionalInformationScreen extends AbstractScreen {
   /**
    * Creation of button with specified text and minWidth
    *
-   * @param text - text string which will be added to button
+   * @param text     - text string which will be added to button
    * @param minWidth - minimal width of button
    * @return created button
    */
@@ -166,9 +166,9 @@ public class AdditionalInformationScreen extends AbstractScreen {
   /**
    * Creation of VBox with specified padding, minWidth and componets
    *
-   * @param spacing - spacing which should be applied on VBox
+   * @param spacing  - spacing which should be applied on VBox
    * @param minWidth - minimal width of VBox
-   * @param args - components of VBox
+   * @param args     - components of VBox
    * @return created VBox
    */
   private VBox createVBox(int spacing, double minWidth, Node... args) {
@@ -384,17 +384,6 @@ public class AdditionalInformationScreen extends AbstractScreen {
   }
 
   /**
-   * Update of information after collecting them from text fields
-   */
-  private void updateInformationDatabase()
-  {
-    ServerOutChangeProfile changeProfile = new ServerOutChangeProfile(saveImageToBytes(loadedImage),loadedDateOfBirth,loadedName,loadedSurname);
-    new Server().sendPacket(changeProfile);
-    ServerInChangeProfile serverInChangeProfile = new ServerInChangeProfile();
-    //serverInChangeProfile.getUserPuzzleBattle(); NOT USED DATA WILL BE DISPLAYED FROM TEXT FIELDS, NO WAIT FOR REPLY
-  }
-
-  /**
    * Prepare components of scene 1, it includes used regions, and labels, text fields
    * <br>
    * name, surname, dateOfBirth
@@ -473,6 +462,16 @@ public class AdditionalInformationScreen extends AbstractScreen {
   public void show() {
     stage.setScene(scene1);
     stage.show();
+  }
+
+  /**
+   * Update of information after collecting them from text fields
+   */
+  private void updateInformationDatabase() {
+    ServerOutChangeProfile changeProfile = new ServerOutChangeProfile(saveImageToBytes(loadedImage), loadedDateOfBirth, loadedName, loadedSurname);
+    new Server().sendPacket(changeProfile);
+    ServerInChangeProfile serverInChangeProfile = new ServerInChangeProfile();
+    //serverInChangeProfile.getUserPuzzleBattle(); NOT USED DATA WILL BE DISPLAYED FROM TEXT FIELDS, NO WAIT FOR REPLY
   }
 
   /**

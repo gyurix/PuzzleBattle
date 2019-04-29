@@ -72,10 +72,10 @@ public class GameTable {
   /**
    * Preparation of game table between two users-players, players will be specified, other attributes used to create this record about played game
    *
-   * @param user user of puzzle battle game, player of the game will be obtained
-   * @param test             true if it is only test
-   * @param gameType         type of certain game
-   * @param gameSettings     settings for certain game, game type
+   * @param user         user of puzzle battle game, player of the game will be obtained
+   * @param test         true if it is only test
+   * @param gameType     type of certain game
+   * @param gameSettings settings for certain game, game type
    * @return
    */
   public static GameTable prepareGameTable(User user, boolean test, int gameType, GameSettings gameSettings) {

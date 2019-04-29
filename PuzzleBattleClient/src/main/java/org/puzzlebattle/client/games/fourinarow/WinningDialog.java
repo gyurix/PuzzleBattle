@@ -35,7 +35,7 @@ public class WinningDialog extends Stage {
   public WinningDialog(FourInARowScreen fourInARowScreen, FourInARowPlayer winningPlayer, Stage primaryStage, UserPuzzleBattle user) {
     this.primaryStage = primaryStage;
     this.user = user;
-    ServerOutEndFourInARow endFourInARow = new ServerOutEndFourInARow(winningPlayer.getPlayingNumber(),user.getUserName(),user.getPassword(),null);
+    ServerOutEndFourInARow endFourInARow = new ServerOutEndFourInARow(winningPlayer.getPlayingNumber(), user.getUserName(), user.getPassword(), null);
     new Server().sendPacket(endFourInARow);
     prepareLayouts(fourInARowScreen);
     scene = new Scene(border, fourInARowScreen.getWidth(), fourInARowScreen.getHeight());
@@ -107,7 +107,7 @@ public class WinningDialog extends Stage {
     fourInARowScreen.getStage().close();
     //GET FOUR IN A ROW GAME SETTINGS
     //GameTable newGameTable = GameTable.createTheSameGameFromOlderGame(gameTable, new FourInARowGameSettings());
-    new FourInARowScreen(fourInARowScreen.getStage(), new FourInARowGame(null,new FourInARowGameSettings()), user).show();
+    new FourInARowScreen(fourInARowScreen.getStage(), new FourInARowGame(null, new FourInARowGameSettings()), user).show();
   }
 
   private void tryToAddImage() {

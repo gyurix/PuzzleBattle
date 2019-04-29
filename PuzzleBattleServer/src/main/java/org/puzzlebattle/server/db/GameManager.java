@@ -1,15 +1,15 @@
 package org.puzzlebattle.server.db;
 
-import org.puzzlebattle.server.db.entity.gameSettings.BallBouncerGameSettings;
-import org.puzzlebattle.server.db.entity.gameSettings.FourInARowGameSettings;
-import org.puzzlebattle.server.db.entity.gameSettings.GameSettings;
 import org.puzzlebattle.server.db.entity.GameTable;
 import org.puzzlebattle.server.db.entity.GameType;
 import org.puzzlebattle.server.db.entity.User;
+import org.puzzlebattle.server.db.entity.gameSettings.BallBouncerGameSettings;
+import org.puzzlebattle.server.db.entity.gameSettings.FourInARowGameSettings;
+import org.puzzlebattle.server.db.entity.gameSettings.GameSettings;
 
 public class GameManager {
 
-  public GameManager(){
+  public GameManager() {
     GameType.addGamesToDBIfTheyAreNot();
   }
 

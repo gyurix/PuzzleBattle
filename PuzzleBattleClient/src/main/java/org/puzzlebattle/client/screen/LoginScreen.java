@@ -76,7 +76,7 @@ public class LoginScreen extends AbstractScreen {
   /**
    * Creates a label and sets specified text and width
    *
-   * @param text - text which will be added
+   * @param text     - text which will be added
    * @param minWidth - minimal width of the label
    * @return created label
    */
@@ -127,9 +127,9 @@ public class LoginScreen extends AbstractScreen {
   private void login(Event event) {
     pwd = passwordField.getText();
     login = loginTextField.getText();
-    UserPuzzleBattle user = new UserPuzzleBattle(login,pwd);
+    UserPuzzleBattle user = new UserPuzzleBattle(login, pwd);
     logInfo("Logging in...", "login", login);
-    ServerOutLogin serverLogin = new ServerOutLogin(user.getUserName(),user.getPassword());
+    ServerOutLogin serverLogin = new ServerOutLogin(user.getUserName(), user.getPassword());
     new Server().sendPacket(serverLogin);
 
     ServerInLoginResult loginResult = new ServerInLoginResult();

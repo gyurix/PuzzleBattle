@@ -2,7 +2,6 @@ package org.puzzlebattle.server.protocol.packets.in;
 
 import io.netty.buffer.ByteBuf;
 import org.puzzlebattle.core.utils.Callable;
-import org.puzzlebattle.server.protocol.packets.out.ClientOutBestPlayers;
 
 public enum ClientInType {
   ENCRYPTION(ClientInEncryption::new),

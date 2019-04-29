@@ -11,12 +11,12 @@ public class ServerInChangeProfile extends ServerInPacket {
   private UserPuzzleBattle userPuzzleBattle;
 
   @Override
-    public void handle(ServerInPacketHandler handler) {
-      handler.handle(this);
-    }
+  public void handle(ServerInPacketHandler handler) {
+    handler.handle(this);
+  }
 
-    @Override
-    public void read(ByteBuf buf) {
+  @Override
+  public void read(ByteBuf buf) {
     String nickName = ByteBufUtils.readString(buf);
     String password = ByteBufUtils.readString(buf);
     String name = ByteBufUtils.readString(buf);
@@ -26,7 +26,7 @@ public class ServerInChangeProfile extends ServerInPacket {
     int age = buf.readInt();
     byte[] bytes = ByteBufUtils.readBytes(buf);
 
-    userPuzzleBattle = new UserPuzzleBattle(nickName,password,age,bytes,dateOfBirth,email,name,surname);
+    userPuzzleBattle = new UserPuzzleBattle(nickName, password, age, bytes, dateOfBirth, email, name, surname);
 
   }
 }

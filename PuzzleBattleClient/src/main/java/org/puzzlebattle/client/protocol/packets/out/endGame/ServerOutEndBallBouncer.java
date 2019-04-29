@@ -1,4 +1,5 @@
 package org.puzzlebattle.client.protocol.packets.out.endGame;
+
 import io.netty.buffer.ByteBuf;
 import lombok.AllArgsConstructor;
 import lombok.Data;

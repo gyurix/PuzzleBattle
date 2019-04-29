@@ -26,16 +26,16 @@ public class BestPlayersScreen extends AbstractScreen {
   private Label fourInARowLabel, ballBouncerLabel;
   private Separator gameSeparator;
   private SettingsForScreens settingsForScreens;
-  private HBox wholeScreen;
   private UserPuzzleBattle user;
+  private HBox wholeScreen;
 
   /**
    * Constructor which constructs screen for best players
    *
-   * @param stage stage where information about best players will be set
+   * @param stage              stage where information about best players will be set
    * @param settingsForScreens settings which will be applied
    */
-  public BestPlayersScreen(UserPuzzleBattle user,Stage stage, SettingsForScreens settingsForScreens) {
+  public BestPlayersScreen(UserPuzzleBattle user, Stage stage, SettingsForScreens settingsForScreens) {
     super(stage);
     this.user = user;
     this.settingsForScreens = settingsForScreens;
@@ -59,10 +59,9 @@ public class BestPlayersScreen extends AbstractScreen {
   /**
    * Creates VBox according to inserted parameters
    *
-   * @param spacing - spacing
-   * @param minWidth - minimal width of the layout
+   * @param spacing   - spacing
+   * @param minWidth  - minimal width of the layout
    * @param maxHeight - maximal height of the layout
-   *
    * @return created VBox
    */
   private VBox createVBox(int spacing, double minWidth, double maxHeight) {
@@ -78,7 +77,7 @@ public class BestPlayersScreen extends AbstractScreen {
    * @param user - user who will view table with best players
    */
   private void loadDataAndFillTablesFromDatabase(UserPuzzleBattle user) {
-    ServerOutBestPlayersRequest serverOutBestPlayersRequest = new ServerOutBestPlayersRequest(user.getUserName(),user.getPassword(),10);
+    ServerOutBestPlayersRequest serverOutBestPlayersRequest = new ServerOutBestPlayersRequest(user.getUserName(), user.getPassword(), 10);
     new Server().sendPacket(serverOutBestPlayersRequest);
     ServerInBestPlayers bestPlayers = new ServerInBestPlayers();
     fourInARowGameTable.setItems(bestPlayers.getUserGameAttributes());

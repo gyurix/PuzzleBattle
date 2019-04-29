@@ -26,14 +26,9 @@ import org.puzzlebattle.client.protocol.packets.out.startGame.ServerOutLaunchBal
 import org.puzzlebattle.client.protocol.packets.out.startGame.ServerOutLaunchFourInARow;
 import org.puzzlebattle.core.utils.Logging;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 
 import static org.puzzlebattle.core.utils.LangFile.lang;
 
@@ -97,7 +92,7 @@ public class MainScreen extends AbstractScreen {
    */
   private void launchBallBouncer() {
 
-    ServerOutLaunchBallBouncer launchBallBouncer = new ServerOutLaunchBallBouncer(user.getUserName(),user.getPassword());
+    ServerOutLaunchBallBouncer launchBallBouncer = new ServerOutLaunchBallBouncer(user.getUserName(), user.getPassword());
     new Server().sendPacket(launchBallBouncer);
     //addBallBouncerGameToDatabase(user, true);
     super.getStage().close();
@@ -108,7 +103,7 @@ public class MainScreen extends AbstractScreen {
    * Launching Four in a row game
    */
   private void launchFourInARow() {
-    ServerOutLaunchFourInARow launchBallBouncer = new ServerOutLaunchFourInARow(user.getUserName(),user.getPassword());
+    ServerOutLaunchFourInARow launchBallBouncer = new ServerOutLaunchFourInARow(user.getUserName(), user.getPassword());
     new Server().sendPacket(launchBallBouncer);
     //GameTable gameTable = addFourInARowGameToDatabase(user, true);
     super.getStage().close();
@@ -259,7 +254,7 @@ public class MainScreen extends AbstractScreen {
    */
   private void prepareProfileScreen() {
     playerProfileScreen = new PlayerProfileScreen(new Stage());
-    ServerOutLogin login = new ServerOutLogin(user.getPassword(),user.getUserName());
+    ServerOutLogin login = new ServerOutLogin(user.getPassword(), user.getUserName());
     new Server().sendPacket(login);
 
     ServerInChangeProfile serverInChangeProfile = new ServerInChangeProfile();
@@ -397,7 +392,7 @@ public class MainScreen extends AbstractScreen {
       playerProfile.setLoadedDateOfBirth(userFromDatabase.getDateOfBirth());
     }
 
-    if(userFromDatabase.getAge() != 0) {
+    if (userFromDatabase.getAge() != 0) {
       playerProfile.setLoadedAge("" + userFromDatabase.getAge());
     }
     Logging.logInfo("all available data have been added to profile from database");
@@ -407,7 +402,7 @@ public class MainScreen extends AbstractScreen {
    * Method creates screen for best players and shows it for user
    */
   private void viewBestPlayers() {
-    BestPlayersScreen bestPlayersScreen = new BestPlayersScreen(user,new Stage(), settingsForScreens);
+    BestPlayersScreen bestPlayersScreen = new BestPlayersScreen(user, new Stage(), settingsForScreens);
     bestPlayersScreen.show();
   }
 }

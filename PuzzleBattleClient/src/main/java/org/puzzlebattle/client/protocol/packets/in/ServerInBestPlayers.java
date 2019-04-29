@@ -22,10 +22,10 @@ public class ServerInBestPlayers extends ServerInPacket {
     String username;
     int score;
     userGameAttributes = FXCollections.observableArrayList();
-    for(int i=0;i<numberOfBestPlayersReceived;i=i+1){
+    for (int i = 0; i < numberOfBestPlayersReceived; i = i + 1) {
       username = ByteBufUtils.readString(buf);
       score = buf.readInt();
-      userGameAttributes.add(new UserGameAttributes(username,score));
+      userGameAttributes.add(new UserGameAttributes(username, score));
     }
   }
 }

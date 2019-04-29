@@ -11,14 +11,14 @@ import static org.puzzlebattle.core.protocol.ByteBufUtils.writeString;
 
 @AllArgsConstructor
 @Data
-public class ClientOutBestPlayers  extends ClientOutPacket {
+public class ClientOutBestPlayers extends ClientOutPacket {
   private List<UserGameAttributes> listOfUserGameAttributes;
   private int numberBestPlayersSend;
 
-  public void write(ByteBuf buf){
+  public void write(ByteBuf buf) {
     numberBestPlayersSend = listOfUserGameAttributes.size();
     buf.writeInt(numberBestPlayersSend);
-    for(int i=0;i<numberBestPlayersSend;i=i+1) {
+    for (int i = 0; i < numberBestPlayersSend; i = i + 1) {
       writeString(buf, listOfUserGameAttributes.get(i).getNickName());
       buf.writeInt(listOfUserGameAttributes.get(i).getScore());
     }

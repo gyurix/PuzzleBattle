@@ -46,7 +46,9 @@ public interface ClientInPacketHandler {
     unexpected(packet);
   }
 
-  default void handle(ClientInBestPlayersRequest packet) { unexpected(packet); }
+  default void handle(ClientInBestPlayersRequest packet) {
+    unexpected(packet);
+  }
 
   void unexpected(ClientInPacket packet);
 }
