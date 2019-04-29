@@ -5,7 +5,8 @@ import java.util.HashMap;
 public enum ClientOutType {
   ENCRYPTION(ClientOutEncryption.class),
   KEEP_ALIVE(ClientOutKeepAlive.class),
-  LOGIN_RESULT(ClientOutLoginResult.class);
+  LOGIN_RESULT(ClientOutLoginResult.class),
+  BEST_PLAYERS(ClientOutBestPlayers.class);
 
   private static HashMap<Class<? extends ClientOutPacket>, ClientOutType> types = new HashMap<>();
 

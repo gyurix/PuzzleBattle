@@ -13,6 +13,7 @@ import org.puzzlebattle.server.ThreadUtils;
 import org.puzzlebattle.server.db.DB;
 import org.puzzlebattle.server.db.UserGameAttributes;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -56,6 +57,7 @@ public class UserManager {
    * @param maxPlayers maximum best players which should be displayed
    * @return list of best players
    */
+  /*
   public static ObservableList<UserGameAttributes> getBestPlayers(int maxPlayers) {
     SessionFactory sf = new Configuration().configure("/META-INF/hibernate.cfg.xml").buildSessionFactory();
     Session session = sf.openSession();
@@ -66,6 +68,29 @@ public class UserManager {
     List<Object[]> list = null;
     list = query.list();
     ObservableList<UserGameAttributes> userGameAttributes = FXCollections.observableArrayList();
+    for (Object[] object : list) {
+      if (object[0] != null) {
+        userGameAttributes.add(new UserGameAttributes(((User) object[0]).getNickName(), ((int) object[1])));
+      }
+    }
+
+    session.close();
+    sf.close();
+
+    return userGameAttributes;
+  }
+  */
+
+  public static List<UserGameAttributes> getBestPlayers(int maxPlayers) {
+    SessionFactory sf = new Configuration().configure("/META-INF/hibernate.cfg.xml").buildSessionFactory();
+    Session session = sf.openSession();
+
+    String hql = "SELECT  u, g.score FROM GamePlayer g LEFT JOIN User u ON u.id = g.player ORDER BY g.score DESC";
+    Query query = session.createQuery(hql);
+    query.setMaxResults(maxPlayers);
+    List<Object[]> list = null;
+    list = query.list();
+    List<UserGameAttributes> userGameAttributes = new ArrayList<UserGameAttributes>();
     for (Object[] object : list) {
       if (object[0] != null) {
         userGameAttributes.add(new UserGameAttributes(((User) object[0]).getNickName(), ((int) object[1])));

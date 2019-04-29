@@ -20,6 +20,7 @@ import org.puzzlebattle.client.games.fourinarow.FourInARowGame;
 import org.puzzlebattle.client.games.fourinarow.FourInARowGameSettings;
 import org.puzzlebattle.client.games.fourinarow.FourInARowScreen;
 import org.puzzlebattle.client.protocol.Server;
+import org.puzzlebattle.client.protocol.packets.in.ServerInChangeProfile;
 import org.puzzlebattle.client.protocol.packets.out.ServerOutLogin;
 import org.puzzlebattle.client.protocol.packets.out.startGame.ServerOutLaunchBallBouncer;
 import org.puzzlebattle.client.protocol.packets.out.startGame.ServerOutLaunchFourInARow;
@@ -30,6 +31,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -196,6 +198,9 @@ public class MainScreen extends AbstractScreen {
     regionFourInARow.setMinHeight(10);
   }
 
+  /**
+   * Prepares friendship menu
+   */
   private void prepareFriendshipMenu() {
     friendshipMenu = new FriendshipMenu(new Stage(), user);
     friendshipMenu.show();
@@ -256,8 +261,10 @@ public class MainScreen extends AbstractScreen {
     playerProfileScreen = new PlayerProfileScreen(new Stage());
     ServerOutLogin login = new ServerOutLogin(user.getPassword(),user.getUserName());
     new Server().sendPacket(login);
-    UserPuzzleBattle userFromDatabase = null;
-    //GET userFromDB
+
+    ServerInChangeProfile serverInChangeProfile = new ServerInChangeProfile();
+    UserPuzzleBattle userFromDatabase = serverInChangeProfile.getUserPuzzleBattle();
+
     if (userFromDatabase != null) {
       updateInformationPlayerProfileScreen(playerProfileScreen, userFromDatabase);
       playerProfileScreen.show();
@@ -295,13 +302,8 @@ public class MainScreen extends AbstractScreen {
     new LoginScreen(getStage()).show();
   }
 
-  /**
-   * Update information for player profile screen
-   *
-   * @param playerProfile    player profile screen
-   * @param userFromDatabase user loaded width additional information from database using his nickname and password
-   */
-  private void updateInformationPlayerProfileScreen(PlayerProfileScreen playerProfile, UserPuzzleBattle userFromDatabase) {
+  /*
+  private void updateInformationPlayerProfileScreen1(PlayerProfileScreen playerProfile, UserPuzzleBattle userFromDatabase) {
 
     DateFormat df;
     String convertedDate;
@@ -318,7 +320,7 @@ public class MainScreen extends AbstractScreen {
       Logging.logWarning("Error while writing image", i);
     }
 
-    playerProfile.setNickName(userFromDatabase.getNickName());
+    playerProfile.setNickName(userFromDatabase.getUserName());
     playerProfile.setEmail(userFromDatabase.getEmail());
     if (userFromDatabase.getAvatar() != null) {
       playerProfile.setLoadedImage("pictures/avatar.bmp");
@@ -339,7 +341,13 @@ public class MainScreen extends AbstractScreen {
       df = new SimpleDateFormat("MM/dd/yyyy");
       convertedDate = df.format(userFromDatabase.getDateOfBirth());
       calendar = Calendar.getInstance();
-      calendar.setTime(userFromDatabase.getDateOfBirth());
+      try {
+        calendar.setTime(AdditionalInformationScreen.convertStringToDate(userFromDatabase.getDateOfBirth()));
+      }
+      catch (ParseException e)
+      {
+        e.printStackTrace();
+      }
       year = calendar.get(Calendar.YEAR);
       currentYear = Calendar.getInstance().get(Calendar.YEAR);
 
@@ -348,10 +356,58 @@ public class MainScreen extends AbstractScreen {
     }
 
     Logging.logInfo("all available data have been added to profile from database");
+  }*/
+
+  /**
+   * Update information for player profile screen
+   *
+   * @param playerProfile    player profile screen
+   * @param userFromDatabase user loaded width additional information from database using his nickname and password
+   */
+  private void updateInformationPlayerProfileScreen(PlayerProfileScreen playerProfile, UserPuzzleBattle userFromDatabase) {
+
+    File imageFile = new File("PuzzleBattleClient/src/main/resources/pictures/avatar.bmp");
+    try {
+      FileOutputStream fos = new FileOutputStream(imageFile);
+      if (userFromDatabase.getAvatar() != null)
+        fos.write(userFromDatabase.getAvatar());
+      fos.close();
+    } catch (IOException i) {
+      Logging.logWarning("Error while writing image", i);
+    }
+
+    playerProfile.setNickName(userFromDatabase.getUserName());
+    playerProfile.setEmail(userFromDatabase.getEmail());
+    if (userFromDatabase.getAvatar() != null) {
+      playerProfile.setLoadedImage("pictures/avatar.bmp");
+    } else {
+      Logging.logFiner("no image is set, default will be applied");
+      playerProfile.setLoadedImage("faces/face1.png");
+    }
+
+    if (userFromDatabase.getName() != null) {
+      playerProfile.setLoadedName(userFromDatabase.getName());
+    }
+
+    if (userFromDatabase.getSurname() != null) {
+      playerProfile.setLoadedSurname(userFromDatabase.getSurname());
+    }
+
+    if (userFromDatabase.getDateOfBirth() != null) {
+      playerProfile.setLoadedDateOfBirth(userFromDatabase.getDateOfBirth());
+    }
+
+    if(userFromDatabase.getAge() != 0) {
+      playerProfile.setLoadedAge("" + userFromDatabase.getAge());
+    }
+    Logging.logInfo("all available data have been added to profile from database");
   }
 
+  /**
+   * Method creates screen for best players and shows it for user
+   */
   private void viewBestPlayers() {
-    BestPlayersScreen bestPlayersScreen = new BestPlayersScreen(new Stage(), settingsForScreens);
+    BestPlayersScreen bestPlayersScreen = new BestPlayersScreen(user,new Stage(), settingsForScreens);
     bestPlayersScreen.show();
   }
 }

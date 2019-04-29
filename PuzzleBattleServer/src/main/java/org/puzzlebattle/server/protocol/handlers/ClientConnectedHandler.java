@@ -2,10 +2,7 @@ package org.puzzlebattle.server.protocol.handlers;
 
 import io.netty.channel.Channel;
 import org.puzzlebattle.server.entity.Client;
-import org.puzzlebattle.server.protocol.packets.in.ClientInEndGame;
-import org.puzzlebattle.server.protocol.packets.in.ClientInFindFriend;
-import org.puzzlebattle.server.protocol.packets.in.ClientInGamePlayer;
-import org.puzzlebattle.server.protocol.packets.in.ClientInKeepAlive;
+import org.puzzlebattle.server.protocol.packets.in.*;
 import org.puzzlebattle.server.protocol.packets.out.ClientOutKeepAlive;
 
 public class ClientConnectedHandler extends ClientHandler {
@@ -32,4 +29,10 @@ public class ClientConnectedHandler extends ClientHandler {
   public void handle(ClientInGamePlayer packet) {
 
   }
+
+  @Override
+  public void handle(ClientInBestPlayersRequest packet) {
+
+  }
+
 }

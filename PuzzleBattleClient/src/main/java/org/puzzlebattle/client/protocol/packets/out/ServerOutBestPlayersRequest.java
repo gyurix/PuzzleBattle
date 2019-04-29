@@ -11,10 +11,12 @@ import static org.puzzlebattle.core.protocol.ByteBufUtils.writeString;
 public class ServerOutBestPlayersRequest extends ServerOutPacket {
   private String userName;
   private String userPassword;
+  private int  numberBestPlayers;
 
   @Override
   public void write(ByteBuf buf) {
     writeString(buf, userName);
     writeString(buf, userPassword);
+    buf.writeInt(numberBestPlayers);
   }
 }

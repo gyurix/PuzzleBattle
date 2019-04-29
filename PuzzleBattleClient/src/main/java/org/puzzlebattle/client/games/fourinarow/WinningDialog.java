@@ -16,7 +16,6 @@ import org.puzzlebattle.client.protocol.packets.out.endGame.ServerOutEndFourInAR
 import org.puzzlebattle.client.screen.MainScreen;
 import org.puzzlebattle.client.screen.SettingsForScreens;
 
-import java.sql.Timestamp;
 
 public class WinningDialog extends Stage {
 

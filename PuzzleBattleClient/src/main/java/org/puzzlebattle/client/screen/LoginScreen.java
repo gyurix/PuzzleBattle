@@ -10,6 +10,7 @@ import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import org.puzzlebattle.client.games.UserPuzzleBattle;
 import org.puzzlebattle.client.protocol.Server;
+import org.puzzlebattle.client.protocol.packets.in.ServerInLoginResult;
 import org.puzzlebattle.client.protocol.packets.out.ServerOutLogin;
 
 import static javafx.scene.control.Alert.AlertType.ERROR;
@@ -60,12 +61,25 @@ public class LoginScreen extends AbstractScreen {
     registerPanel.getChildren().addAll(registerRegion, registerButton);
   }
 
+  /**
+   * Creates a label and loads specified language according to given key
+   *
+   * @param key - key to obtain requested name for created label
+   * @return created label
+   */
   private Label createLabel(String key) {
     Label label = new Label(lang.get(key));
     label.setFont(getDefaultFont());
     return label;
   }
 
+  /**
+   * Creates a label and sets specified text and width
+   *
+   * @param text - text which will be added
+   * @param minWidth - minimal width of the label
+   * @return created label
+   */
   private Label createLabel(String text, double minWidth) {
     Label label = new Label(text);
     label.setMaxHeight(Double.MAX_VALUE);
@@ -73,17 +87,33 @@ public class LoginScreen extends AbstractScreen {
     return label;
   }
 
+  /**
+   * Creates a region and sets specified width
+   *
+   * @param minHeight - minimal width of the region
+   * @return created region
+   */
   private Region createRegion(double minHeight) {
     Region region = new Region();
     region.setMinHeight(minHeight);
     return region;
   }
 
+  /**
+   * Returns title of the login screen
+   *
+   * @return title of the loging screen
+   */
   @Override
   public String getTitle() {
     return "Login to the Puzzle Battle";
   }
 
+  /**
+   * Registration of event is applied here
+   *
+   * @param scene scene which is used to register events
+   */
   @Override
   public void registerEvents(Scene scene) {
     registerButton.setOnAction(e -> new RegisterScreen(stage).show());
@@ -101,9 +131,9 @@ public class LoginScreen extends AbstractScreen {
     logInfo("Logging in...", "login", login);
     ServerOutLogin serverLogin = new ServerOutLogin(user.getUserName(),user.getPassword());
     new Server().sendPacket(serverLogin);
-    user=null;
-    //GET PACKET
-    if (user == null) {
+
+    ServerInLoginResult loginResult = new ServerInLoginResult();
+    if (loginResult.isResult()) {
       showAlert(ERROR, "login.incorrect");
     } else {
       new MainScreen(stage, new SettingsForScreens(), user).show();

@@ -7,10 +7,16 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import org.puzzlebattle.client.databaseTables.LoginRegisterUser;
+import org.puzzlebattle.client.games.UserPuzzleBattle;
+import org.puzzlebattle.client.protocol.Server;
+import org.puzzlebattle.client.protocol.packets.in.ServerInBestPlayers;
+import org.puzzlebattle.client.protocol.packets.out.ServerOutBestPlayersRequest;
 
 import static org.puzzlebattle.core.utils.LangFile.lang;
 
+/**
+ * Screen for showing best players to user
+ */
 public class BestPlayersScreen extends AbstractScreen {
 
   private BestPlayersTable ballBouncerGameTable;
@@ -21,15 +27,26 @@ public class BestPlayersScreen extends AbstractScreen {
   private Separator gameSeparator;
   private SettingsForScreens settingsForScreens;
   private HBox wholeScreen;
+  private UserPuzzleBattle user;
 
-  public BestPlayersScreen(Stage stage, SettingsForScreens settingsForScreens) {
+  /**
+   * Constructor which constructs screen for best players
+   *
+   * @param stage stage where information about best players will be set
+   * @param settingsForScreens settings which will be applied
+   */
+  public BestPlayersScreen(UserPuzzleBattle user,Stage stage, SettingsForScreens settingsForScreens) {
     super(stage);
+    this.user = user;
     this.settingsForScreens = settingsForScreens;
     createTables();
     prepareComponentsForBestPlayerTable();
-    loadDataAndFillTablesFromDatabase();
+    loadDataAndFillTablesFromDatabase(user);
   }
 
+  /**
+   * Creates tables for best player screen
+   */
   private void createTables() {
     fourInARowGameTable = new BestPlayersTable();
     fourInARowGameTable.setMaxHeight(Double.MAX_VALUE);
@@ -39,6 +56,15 @@ public class BestPlayersScreen extends AbstractScreen {
     ballBouncerGameTable.setMaxHeight(Double.MAX_VALUE);
   }
 
+  /**
+   * Creates VBox according to inserted parameters
+   *
+   * @param spacing - spacing
+   * @param minWidth - minimal width of the layout
+   * @param maxHeight - maximal height of the layout
+   *
+   * @return created VBox
+   */
   private VBox createVBox(int spacing, double minWidth, double maxHeight) {
     VBox vBox = new VBox(spacing);
     vBox.setMinWidth(minWidth);
@@ -46,8 +72,16 @@ public class BestPlayersScreen extends AbstractScreen {
     return vBox;
   }
 
-  private void loadDataAndFillTablesFromDatabase() {
-    fourInARowGameTable.setItems(LoginRegisterUser.getBestPlayers(10));
+  /**
+   * Loads data and fill table of best players with them
+   *
+   * @param user - user who will view table with best players
+   */
+  private void loadDataAndFillTablesFromDatabase(UserPuzzleBattle user) {
+    ServerOutBestPlayersRequest serverOutBestPlayersRequest = new ServerOutBestPlayersRequest(user.getUserName(),user.getPassword(),10);
+    new Server().sendPacket(serverOutBestPlayersRequest);
+    ServerInBestPlayers bestPlayers = new ServerInBestPlayers();
+    fourInARowGameTable.setItems(bestPlayers.getUserGameAttributes());
   }
 
   /**
@@ -61,6 +95,9 @@ public class BestPlayersScreen extends AbstractScreen {
     ballBouncerLabel.setFont(fBallBouncer);
   }
 
+  /**
+   * Prepares components for BestPlayerTable
+   */
   private void prepareComponentsForBestPlayerTable() {
     prepareGameLabels();
     prepareLayoutsForBestPlayer();
@@ -78,11 +115,17 @@ public class BestPlayersScreen extends AbstractScreen {
     fourInARowLabel.setFont(fFourInARow);
   }
 
+  /**
+   * Prepares game labels
+   */
   private void prepareGameLabels() {
     prepareFourInARowGameLabel();
     prepareBallBouncerGameLabel();
   }
 
+  /**
+   * Prepares game layouts and separators
+   */
   private void prepareGameLayoutsAndSeparators() {
     ballBouncerGameLayout = createVBox(10, super.getWidth() / 2 - 25, super.getHeight());
 
@@ -94,17 +137,26 @@ public class BestPlayersScreen extends AbstractScreen {
     fourInARowGameLayout = createVBox(10, super.getWidth() / 2 - 25, super.getHeight());
   }
 
+  /**
+   * Prepares layouts for best playes
+   */
   private void prepareLayoutsForBestPlayer() {
     prepareGameLayoutsAndSeparators();
     prepareWholeLayout();
   }
 
+  /**
+   * Prepare layout with both best players tables, each for each game
+   */
   private void prepareWholeLayout() {
     wholeScreen = new HBox(10);
     wholeScreen.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
     this.pane = wholeScreen;
   }
 
+  /**
+   * Sets components to layout
+   */
   private void setComponentsToLayouts() {
     ballBouncerGameLayout.getChildren().setAll(ballBouncerLabel, ballBouncerGameTable);
     fourInARowGameLayout.getChildren().setAll(fourInARowLabel, fourInARowGameTable);

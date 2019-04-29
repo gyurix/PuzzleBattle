@@ -15,6 +15,7 @@ import javafx.scene.text.FontPosture;
 import javafx.stage.Stage;
 import org.puzzlebattle.client.games.UserPuzzleBattle;
 import org.puzzlebattle.client.protocol.Server;
+import org.puzzlebattle.client.protocol.packets.in.ServerInChangeProfile;
 import org.puzzlebattle.client.protocol.packets.out.ServerOutChangeProfile;
 import org.puzzlebattle.core.utils.Logging;
 
@@ -80,7 +81,7 @@ public class AdditionalInformationScreen extends AbstractScreen {
   }
 
   /**
-   * Convertion string date to sql date, for storing into database
+   * Conversion string date to sql date, for storing into database
    *
    * @param dateToConvert string representation of date which should be converted
    * @return sql date prepared to be stored into database
@@ -93,6 +94,15 @@ public class AdditionalInformationScreen extends AbstractScreen {
     return sqlDate;
   }
 
+  /**
+   * Creates border pane and adds components to selected position
+   *
+   * @param bottom - component which will be stored in bottom
+   * @param center - component which will be stored center
+   * @param left  - component which will be stored left
+   * @param right - component which will be stored right
+   * @return created borer pane
+   */
   private BorderPane createBorderPane(Node bottom, Node center, Node left, Node right) {
     BorderPane border = new BorderPane();
     border.setBottom(bottom);
@@ -102,12 +112,26 @@ public class AdditionalInformationScreen extends AbstractScreen {
     return border;
   }
 
+  /**
+   * Creation of button with specified text and minWidth
+   *
+   * @param text - text string which will be added to button
+   * @param minWidth - minimal width of button
+   * @return created button
+   */
   private Button createButton(String text, int minWidth) {
     Button button = new Button(text);
     button.setMinWidth(minWidth);
     return button;
   }
 
+  /**
+   * Creation of label with specified text which will be added and font
+   *
+   * @param text - text string which will be added to label
+   * @param font - font which will be applied on label
+   * @return created label
+   */
   private Label createLabel(String text, Font font) {
     Label label = new Label(text);
     label.setMaxWidth(Double.MAX_VALUE);
@@ -115,18 +139,38 @@ public class AdditionalInformationScreen extends AbstractScreen {
     return label;
   }
 
+  /**
+   * Creation of label with specified minWidth
+   *
+   * @param minWidth - minimal width of label
+   * @return created label
+   */
   private Label createLabel(int minWidth) {
     Label label = new Label();
     label.setMinWidth(minWidth);
     return label;
   }
 
+  /**
+   * Creation of region with specified minWidth
+   *
+   * @param minWidth - minimal width of region
+   * @return created region
+   */
   private Region createRegion(int minWidth) {
     Region region = new Region();
     region.setMinWidth(minWidth);
     return region;
   }
 
+  /**
+   * Creation of VBox with specified padding, minWidth and componets
+   *
+   * @param spacing - spacing which should be applied on VBox
+   * @param minWidth - minimal width of VBox
+   * @param args - components of VBox
+   * @return created VBox
+   */
   private VBox createVBox(int spacing, double minWidth, Node... args) {
     VBox vBox = new VBox(spacing);
     vBox.setMinWidth(minWidth);
@@ -339,11 +383,17 @@ public class AdditionalInformationScreen extends AbstractScreen {
     }
   }
 
+  /**
+   * Update of information after collecting them from text fields
+   */
   private void updateInformationDatabase()
   {
     ServerOutChangeProfile changeProfile = new ServerOutChangeProfile(saveImageToBytes(loadedImage),loadedDateOfBirth,loadedName,loadedSurname);
     new Server().sendPacket(changeProfile);
+    ServerInChangeProfile serverInChangeProfile = new ServerInChangeProfile();
+    //serverInChangeProfile.getUserPuzzleBattle(); NOT USED DATA WILL BE DISPLAYED FROM TEXT FIELDS, NO WAIT FOR REPLY
   }
+
   /**
    * Prepare components of scene 1, it includes used regions, and labels, text fields
    * <br>

@@ -24,7 +24,6 @@ import static org.puzzlebattle.core.utils.LangFile.lang;
  * @author Juraj Barath, Jakub Perdek
  * @version 1.0
  */
-
 @Getter
 public abstract class AbstractScreen {
 
@@ -140,6 +139,13 @@ public abstract class AbstractScreen {
     stage.setOnCloseRequest(e -> onCloseHandler());
   }
 
+  /**
+   * Shows alert with specified content and arguments
+   *
+   * @param type - type of alert
+   * @param key - specifies in language file type of information
+   * @param args - arguments which should be displayed in context
+   */
   public void showAlert(Alert.AlertType type, String key, Object... args) {
     Alert alert = new Alert(type);
     alert.setTitle(lang.get(key + ".title", args));

@@ -2,6 +2,7 @@ package org.puzzlebattle.server.protocol.packets.in;
 
 import io.netty.buffer.ByteBuf;
 import org.puzzlebattle.core.utils.Callable;
+import org.puzzlebattle.server.protocol.packets.out.ClientOutBestPlayers;
 
 public enum ClientInType {
   ENCRYPTION(ClientInEncryption::new),
@@ -13,7 +14,8 @@ public enum ClientInType {
   END_GAME_FROM_USER(ClientInEndGame::new),
   FIND_FRIEND(ClientInFindFriend::new),
   GAME_PLAYER(ClientInGamePlayer::new),
-  LOAD_FRIENDS(ClientInFindFriend::new);
+  LOAD_FRIENDS(ClientInFindFriend::new),
+  BEST_PLAYERS(ClientInBestPlayersRequest::new);
 
   Callable<? extends ClientInPacket> callable;
 
