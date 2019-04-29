@@ -8,7 +8,6 @@ import javafx.scene.paint.Color;
  * @author (Jakub Perdek)
  * @version (1.0)
  */
-
 public class FourInARowPoint {
 
   private int coinsInColumnBelow;
@@ -23,7 +22,6 @@ public class FourInARowPoint {
    * -color of player, to distinguish player's move, player's coin
    * -coin in column below, which are useful to specific height, distance, which coin will fall
    */
-
   public FourInARowPoint(int numberOfColumn, Color colorOfPlayerForCoin, int coinsInColumnBelow, FourInARowEntity fourInARowEntity, FourInARowPlayer playerPoint) {
 
     this.numberOfColumn = numberOfColumn;
@@ -38,7 +36,6 @@ public class FourInARowPoint {
    *
    * @return coin in the column, under this coin
    */
-
   public int getCoinsInColumnBelow() {
     return coinsInColumnBelow;
   }
@@ -48,7 +45,6 @@ public class FourInARowPoint {
    *
    * @return specific color, which represents player
    */
-
   public Color getColorOfPlayerForCoin() {
     return colorOfPlayerForCoin;
   }
@@ -58,14 +54,16 @@ public class FourInARowPoint {
    *
    * @return number of columns in grid
    */
-
   public int getNumberOfColumn() {
     return numberOfColumn;
   }
 
+  /**
+   * Try to find if player ont the move is winner
+   *
+   * @param fourInARowScreen screen of four in a row game
+   */
   public void isWinner(FourInARowScreen fourInARowScreen) {
     fourInARowEntity.isWinningMove(playerPoint, coinsInColumnBelow + 1, numberOfColumn, fourInARowScreen);
   }
-
-
 }

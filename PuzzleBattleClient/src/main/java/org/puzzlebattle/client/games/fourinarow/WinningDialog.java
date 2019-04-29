@@ -16,22 +16,33 @@ import org.puzzlebattle.client.protocol.packets.out.endGame.ServerOutEndFourInAR
 import org.puzzlebattle.client.screen.MainScreen;
 import org.puzzlebattle.client.screen.SettingsForScreens;
 
-
+/**
+ * Winning dialof for Four in a row game
+ *
+ * @author (Jakub Perdek)
+ * @version (1.0)
+ */
 public class WinningDialog extends Stage {
 
   private BorderPane border;
-  private Button closeButton;
+  private Button closeButton, returnToMenu, newGame;
   private Font f;
   private Image image;
   private ImageView img1;
-  private Button newGame;
   private Stage primaryStage;
-  private Button returnToMenu;
   private Scene scene;
   private UserPuzzleBattle user;
   private VBox verticalBox;
   private Label winner;
 
+  /**
+   * Creates and shows winning dialog for lucky player
+   *
+   * @param fourInARowScreen  -four in a row screen
+   * @param winningPlayer     -winner of the game
+   * @param primaryStage      - primary stage
+   * @param user              - user of Puzzle Battle
+   */
   public WinningDialog(FourInARowScreen fourInARowScreen, FourInARowPlayer winningPlayer, Stage primaryStage, UserPuzzleBattle user) {
     this.primaryStage = primaryStage;
     this.user = user;
@@ -42,6 +53,11 @@ public class WinningDialog extends Stage {
     applySettingsToStage(winningPlayer);
   }
 
+  /**
+   * Applies settings on stage as close request, player name is shown in title
+   *
+   * @param winningPlayer - winner of Four in a row game
+   */
   private void applySettingsToStage(FourInARowPlayer winningPlayer) {
     int playerNumber = winningPlayer.getPlayingNumber();
     this.setTitle("Player number " + playerNumber + " is winner.");
@@ -50,6 +66,11 @@ public class WinningDialog extends Stage {
     this.sizeToScene();
   }
 
+  /**
+   * Creates and prepares buttons for Four in a row screen
+   *
+   * @param fourInARowScreen - screen of Four in a row game
+   */
   private void createAndPrepareButtons(FourInARowScreen fourInARowScreen) {
     newGame = new Button("New game");
     returnToMenu = new Button("Return to menu");
@@ -63,6 +84,9 @@ public class WinningDialog extends Stage {
     newGame.setOnAction(e -> startNewGame(fourInARowScreen));
   }
 
+  /**
+   * Creates and prepares label winner
+   */
   private void createAndPrepareLabelWinner() {
     winner = new Label("Winner");
     winner.setMaxWidth(Double.MAX_VALUE);
@@ -70,25 +94,42 @@ public class WinningDialog extends Stage {
     winner.setFont(f);
   }
 
+  /**
+   * Creates main menu
+   */
   private void createMainMenu() {
     this.close();
     primaryStage.close();
     new MainScreen(new Stage(), new SettingsForScreens(), user).show();
   }
 
-  public double getWinningDialogHeight() {
-    return 400;
-  }
+  /**
+   * Returns height of winning dialog
+   *
+   * @return winning dialog height
+   */
+  public double getWinningDialogHeight() { return 400; }
 
-  public double getWinningDialogWidth() {
-    return 250;
-  }
+  /**
+   * Returns width of winning dialog
+   *
+   * @return winning dialog width
+   */
+  public double getWinningDialogWidth() { return 250; }
 
+  /**
+   * Action on close, whole application will be closed
+   */
   private void onClose() {
     this.close();
     Platform.exit();
   }
 
+  /**
+   * Prepare layouts of Four in a row screen
+   *
+   * @param fourInARowScreen screen of Four in a row game
+   */
   private void prepareLayouts(FourInARowScreen fourInARowScreen) {
     border = new BorderPane();
     border.setMaxSize(fourInARowScreen.getWidth(), fourInARowScreen.getHeight());
@@ -101,7 +142,11 @@ public class WinningDialog extends Stage {
     border.setTop(winner);
   }
 
-
+  /**
+   * Starts a new game
+   *
+   * @param fourInARowScreen - screen of Four in a row game
+   */
   private void startNewGame(FourInARowScreen fourInARowScreen) {
     this.close();
     fourInARowScreen.getStage().close();
@@ -110,6 +155,9 @@ public class WinningDialog extends Stage {
     new FourInARowScreen(fourInARowScreen.getStage(), new FourInARowGame(null, new FourInARowGameSettings()), user).show();
   }
 
+  /**
+   * Adds a picture of winner in winning dialog screen
+   */
   private void tryToAddImage() {
     String imageURL = "pictures/oldChap.png";
     image = new Image(imageURL);

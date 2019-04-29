@@ -12,12 +12,10 @@ import lombok.Getter;
  * @author (Juraj Barath)
  * @version (1.0)
  */
-
 @Getter
 public class Bouncer extends Rectangle {
   private Color color;
   private BouncerGame game;
-
 
   /**
    * Constructor enables to create certain type of bouncer
@@ -26,7 +24,6 @@ public class Bouncer extends Rectangle {
    * -position
    * -size
    */
-
   public Bouncer(BouncerGame game, double x, double y, double width, double height, Color color) {
     super(x, y, width, height);
     this.game = game;
@@ -38,12 +35,11 @@ public class Bouncer extends Rectangle {
   }
 
   /**
-   * An example of a method - replace this comment with your own
+   * Tests if bouncer is on the ball
    *
-   * @param y a sample parameter for a method
-   * @return the sum of x and y
+   * @param ball - ball in BallBouncer game
+   * @return true if ball is on bouncer, otherwise false
    */
-
   public boolean contains(BouncerBall ball) {
     for (double x = -1; x <= 1; x += 0.2) {
       for (double y = -1; y <= 1; y += 0.2) {
@@ -55,12 +51,12 @@ public class Bouncer extends Rectangle {
   }
 
   /**
-   * An example of a method - replace this comment with your own
+   * Apply velocity if ball bouncer hits a ball
    *
-   * @param y a sample parameter for a method
-   * @return the sum of x and y
+   * @param ball - ball in BallBouncer game
+   * @param yMultiplier
+   * @return null if bouncer contains a ball, otherwise new velocity
    */
-
   public Point2D getAppliedVelocity(BouncerBall ball, double yMultiplier) {
     if (!contains(ball))
       return null;
@@ -70,12 +66,10 @@ public class Bouncer extends Rectangle {
   }
 
   /**
-   * An example of a method - replace this comment with your own
+   * Returns center of ball bouncer game, position of bouncer and half of height
    *
-   * @param y a sample parameter for a method
-   * @return the sum of x and y
+   * @return center of y coordinate
    */
-
   public double getCenterY() {
     return getY() + getHeight() / 2;
   }

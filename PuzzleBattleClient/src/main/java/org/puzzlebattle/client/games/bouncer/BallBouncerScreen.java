@@ -33,7 +33,6 @@ public class BallBouncerScreen extends AbstractScreen {
     scheduleAtFixedRate(16, game::tick);
   }
 
-
   /**
    * Returns height of the map
    *
@@ -44,13 +43,11 @@ public class BallBouncerScreen extends AbstractScreen {
     return game.getMapSize().getY();
   }
 
-
   /**
    * Returns width of the map
    *
    * @return width of the map
    */
-
   @Override
   public double getWidth() {
     return game.getMapSize().getX();
@@ -59,7 +56,6 @@ public class BallBouncerScreen extends AbstractScreen {
   /**
    * Method which is applied on the close
    */
-
   @Override
   public void onClose() {
     lang.msg("end.finished", "name", "Puzzle Battle Client", "version", "1.0");
@@ -70,7 +66,6 @@ public class BallBouncerScreen extends AbstractScreen {
    *
    * @param scene scene where key events should be applied
    */
-
   @Override
   public void registerEvents(Scene scene) {
     scene.setOnKeyPressed((e) -> game.onKeyEvent(e.getCode(), true));

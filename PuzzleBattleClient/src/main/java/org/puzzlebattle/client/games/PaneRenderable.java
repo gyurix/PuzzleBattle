@@ -9,7 +9,6 @@ import javafx.scene.layout.Pane;
  * @author (Juraj Barath, Jakub Perdek)
  * @version (1.0)
  */
-
 public interface PaneRenderable {
 
 
@@ -18,6 +17,5 @@ public interface PaneRenderable {
    *
    * @param canvas pane which should be renderes
    */
-
   void render(Pane canvas);
 }

@@ -21,6 +21,9 @@ import static org.puzzlebattle.core.utils.LangFile.lang;
 
 /**
  * Player profile screen should show details about player if are available
+ *
+ * @author Jakub Perdek
+ * @version 1.0
  */
 public class PlayerProfileScreen extends AbstractScreen {
 

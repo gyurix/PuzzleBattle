@@ -13,7 +13,6 @@ import lombok.Data;
  * @author (Juraj Barath)
  * @version (1.0)
  */
-
 @AllArgsConstructor
 @Data
 public class BouncerPlayerSettings {

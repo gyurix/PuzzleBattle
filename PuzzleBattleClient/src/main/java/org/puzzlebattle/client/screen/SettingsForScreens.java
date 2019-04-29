@@ -3,10 +3,13 @@ package org.puzzlebattle.client.screen;
 import javafx.scene.paint.Color;
 import lombok.Data;
 
-@Data
 /**
  * Class with settings for screens
+ *
+ * @author Jakub Perdek
+ * @version 1.0
  */
+@Data
 public class SettingsForScreens {
 
   private final int sizeOfTextBallBouncer = 45;

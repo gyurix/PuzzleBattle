@@ -19,7 +19,6 @@ import java.util.List;
  * @author (Jakub Perdek)
  * @version (1.0)
  */
-
 public class PanelGrid extends Pane {
   private final int fontSize = 20;
   private int columns = 7;
@@ -38,7 +37,6 @@ public class PanelGrid extends Pane {
   /**
    * Grid panel will be created 50 from top and 0, strictly on the left with specified width and height
    */
-
   public PanelGrid(double width, double height, FourInARowScreen fourInARowScreen) {
     this(0, 50, width, height, fourInARowScreen);
   }
@@ -47,7 +45,6 @@ public class PanelGrid extends Pane {
   /**
    * Specific Grid panel, where additionally position X and Y where panel should be situated can be set
    */
-
   public PanelGrid(double X, double Y, double width, double height, FourInARowScreen fourInARowScreen) {
     createGrids(this, rows, columns, width, height, Color.YELLOW, Color.GREEN);
     createLabels(this, initialSpace / 2, spaceFromTop, width, height, columns, fourInARowScreen);
@@ -58,7 +55,6 @@ public class PanelGrid extends Pane {
    *
    * @param label a sample parameter for a method
    */
-
   private void applySettingsOnLabel(Label label) {
 
     font = new Font("TimesNewRoman", fontSize);
@@ -73,7 +69,6 @@ public class PanelGrid extends Pane {
    * @param width           width of whole grid
    * @return the sum of x and y
    */
-
   private int countColumnSpace(double numberOfColumns, double width) {
     double sizeOfRowGrids = numberOfColumns * thicknessOfRows;
     return (int) ((width - sizeOfRowGrids) / numberOfColumns);
@@ -87,7 +82,6 @@ public class PanelGrid extends Pane {
    * @param width        width of whole grid
    * @return row space
    */
-
   private int countRowSpace(double numberOfRows, double width) {
     double sizeOfRowGrids = numberOfRows * thicknessOfRows;
     return (int) ((width - sizeOfRowGrids) / numberOfRows);
@@ -143,7 +137,6 @@ public class PanelGrid extends Pane {
    * @param widthOfWindow   width of whole window
    * @param numberOfWindows number of windows in the row
    */
-
   private void createLabels(Pane panel, double positionX, double positionY, double widthOfWindow, double heightOfWindow, int numberOfWindows, FourInARowScreen fourInARowScreen) {
     this.distanceOfColumns = countRowSpace(numberOfWindows, widthOfWindow) - 1;
 
@@ -169,7 +162,6 @@ public class PanelGrid extends Pane {
    * @param color  color of rectangle, which represents grid
    * @return created specified rectangle located at given coordinates and filled in certain color
    */
-
   private Rectangle createRectangle(double X, double Y, double width, double height, Color color) {
     rect = new Rectangle(X, Y, width, height);
     rect.setFill(color);
@@ -183,7 +175,6 @@ public class PanelGrid extends Pane {
    * @param requestedColumn column where coin should fall
    * @return location of Y coordinate, where coin should fall
    */
-
   public double getColumnX(int requestedColumn) {
     return initialSpace / 2 + requestedColumn * (distanceOfColumns + thicknessOfRows) + 4;
   }
@@ -193,7 +184,6 @@ public class PanelGrid extends Pane {
    *
    * @return distance of column, how columns are far away
    */
-
   public double getDistanceOfColumns() {
     return distanceOfColumns;
   }
@@ -203,11 +193,16 @@ public class PanelGrid extends Pane {
    *
    * @return thickness of rows
    */
-
   public double getThicknessOfRows() {
     return thicknessOfRows;
   }
 
+  /**
+   * Handling clicking on label in four in a row game
+   *
+   * @param event             - mouse event
+   * @param fourInARowScreen  - screen of four in a row game
+   */
   private void handleLabel(MouseEvent event, FourInARowScreen fourInARowScreen) {
     Label label = (Label) event.getSource();
     String labelText = label.getText();

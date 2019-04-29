@@ -15,7 +15,6 @@ import static javafx.scene.input.KeyCode.*;
  * @author (Jakub Perdek)
  * @version (1.0)
  */
-
 @AllArgsConstructor
 @Data
 public class FourInARowGameSettings {
@@ -29,7 +28,6 @@ public class FourInARowGameSettings {
   /**
    * Empty constructor for applying Four in a row game settings
    */
-
   public FourInARowGameSettings() {
   }
 
@@ -39,7 +37,6 @@ public class FourInARowGameSettings {
    * @param x number in sequence of selected digit
    * @return KeyCode of selected digit, representation of digit key which is pressed
    */
-
   public static KeyCode getDigit(int x) {
     return (x < 10) ? digit[x] : null;
   }
@@ -50,7 +47,6 @@ public class FourInARowGameSettings {
    * @param x number in sequence of selected numpad
    * @return KeyCode of selected numpad, representation of numpad key which is pressed
    */
-
   public static KeyCode getNumpad(int x) {
     return (x < 10) ? numpad[x] : null;
   }

@@ -2,10 +2,14 @@ package org.puzzlebattle.client.screen;
 
 import lombok.Data;
 
-@Data
+
 /**
  * User game attributes to store attributes about game players
+ *
+ * @author Jakub Perdek
+ * @version 1.0
  */
+@Data
 public class UserGameAttributes {
 
   private String endTimestamp;

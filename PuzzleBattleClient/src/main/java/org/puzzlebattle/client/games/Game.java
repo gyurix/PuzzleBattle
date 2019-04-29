@@ -11,19 +11,16 @@ import org.puzzlebattle.core.utils.reflection.Reflection;
  * @author (Juraj Barath)
  * @version (1.0)
  */
-
 @AllArgsConstructor
 @Getter
 public abstract class Game {
   private Object serverConnection;
-
 
   /**
    * on message
    *
    * @param o Json object
    */
-
   public void onMessage(JsonObject o) {
     Reflection.applyJson(this, o);
   }

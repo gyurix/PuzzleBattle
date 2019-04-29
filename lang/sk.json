@@ -14,7 +14,11 @@
     "incorrect": {
       "title": "Nespravne prihlasovacie udaje",
       "text": "Zadane meno a heslo je nespravne!"
-    }
+    },
+    "password": "Heslo",
+    "register": "Registracia",
+    "return": "Navrat",
+    "login": "Prihlasenie"
   },
   "mainScreen": {
     "title": "Hlavne menu",

@@ -22,30 +22,25 @@ import static org.puzzlebattle.core.utils.LangFile.lang;
  * @author (Jakub Perdek)
  * @version (1.0)
  */
-
 public class FourInARowScreen extends AbstractScreen {
 
   private double coinRadius;
   private ArrayList<Coin> coins = new ArrayList<Coin>();
   private FourInARowGame game;
-  // private GameTable gameTable;
   private Point2D mapSize = new Point2D(400, 400);
   private UserPuzzleBattle user;
 
   /**
    * Constructor for objects of class SkladPonuka
    */
-
   public FourInARowScreen(Stage stage, FourInARowGame game, UserPuzzleBattle user) {
     super(stage);
     this.game = game;
     this.user = user;
-    //this.gameTable = gameTable;
     pane = new PanelGrid(0, 0, mapSize.getX(), mapSize.getY(), this);
     pane.setBackground(new Background(new BackgroundFill(game.getSettings().getBackgroundColor(), null, null)));
     coinRadius = getPane().getDistanceOfColumns() * 0.4f;
   }
-
 
   /**
    * Coin is created here. First necessary values are obtained from fourInARowPoint to specify coin.
@@ -63,15 +58,16 @@ public class FourInARowScreen extends AbstractScreen {
     return newCoin;
   }
 
+  /**
+   * Method  which returs used pane
+   * @return pane
+   */
   @Override
-  public PanelGrid getPane() {
-    return (PanelGrid) pane;
-  }
+  public PanelGrid getPane() { return (PanelGrid) pane; }
 
   /**
    * Method  which is called on the close
    */
-
   @Override
   public void onClose() {
     lang.msg("end.finished", "name", "Puzzle Battle Client", "version", "1.0");
@@ -82,7 +78,6 @@ public class FourInARowScreen extends AbstractScreen {
    *
    * @param scene scene where events should be registered
    */
-
   public void registerEvents(Scene scene) {
     scene.setOnKeyPressed((e) -> this.onKeyEvent(e.getCode()));
   }
@@ -93,7 +88,6 @@ public class FourInARowScreen extends AbstractScreen {
    *
    * @param key key which is pressed
    */
-
   public void onKeyEvent(KeyCode key) {
     FourInARowPoint point = game.questionForMove(key);
     if (point != null) {
@@ -103,10 +97,18 @@ public class FourInARowScreen extends AbstractScreen {
     }
   }
 
+  /**
+   * Informs player that he is on the move
+   */
   public void showDialogForNextMove() {
     System.out.println("Next player on the move");
   }
 
+  /**
+   * Shows winner screen for the winner
+   *
+   * @param playerOnTheMove
+   */
   public void showWinnerScreen(FourInARowPlayer playerOnTheMove) {
     WinningDialog winningDialog = new WinningDialog(this, playerOnTheMove, super.getStage(), user);
     winningDialog.initModality(Modality.WINDOW_MODAL);
@@ -121,7 +123,6 @@ public class FourInARowScreen extends AbstractScreen {
    *
    * @param coin - The coin which should be new coin, which will be falling from certain position
    */
-
   public void startCoinFall(Coin coin, double to) {
     new CoinFall(this, coin, to, 5);
   }

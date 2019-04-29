@@ -47,7 +47,7 @@ public class LoginScreen extends AbstractScreen {
     super(stage);
     this.languageSelector = languageSelector;
     createComponentsForLoginScreen();
-    prepareScreenAndPane(stage);
+    prepareScreenAndPane();
     logInfo("Login screen created.");
   }
 
@@ -183,7 +183,7 @@ public class LoginScreen extends AbstractScreen {
    * Method which prepares confirm button
    */
   private void prepareLoginButton() {
-    confirmButton = new Button("Login");
+    confirmButton = new Button(lang.get("login.login"));
     confirmButton.setMaxWidth(Double.MAX_VALUE);
     confirmButton.setOnAction(this::login);
   }
@@ -203,7 +203,7 @@ public class LoginScreen extends AbstractScreen {
    * Prepare password label
    */
   private void preparePasswordLabel() {
-    passwordLabel = new Label("Password");
+    passwordLabel = new Label(lang.get("login.password"));
     passwordLabel.setFont(getDefaultFont());
   }
 
@@ -221,16 +221,14 @@ public class LoginScreen extends AbstractScreen {
    * Prepare button for registration
    */
   private void prepareRegisterButton() {
-    registerButton = new Button("Register");
+    registerButton = new Button(lang.get("login.register"));
     registerButton.setMinWidth(200);
   }
 
   /**
    * Preparing  screen and pane
-   *
-   * @param stage
    */
-  private void prepareScreenAndPane(Stage stage) {
+  private void prepareScreenAndPane() {
     prepareLoginPanel();
     prepareBorderPanel();
   }

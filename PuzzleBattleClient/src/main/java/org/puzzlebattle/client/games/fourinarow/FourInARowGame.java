@@ -14,7 +14,6 @@ import java.util.ArrayList;
  * @author (Jakub Perdek)
  * @version (1.0)
  */
-
 public class FourInARowGame extends Game {
   private int[] fillingColumns;
   private FourInARowEntity fourInARowEntity;
@@ -27,7 +26,6 @@ public class FourInARowGame extends Game {
   /**
    * Four in a row game is created, players with specific colors are added, setting are stored.
    */
-
   public FourInARowGame(Object serverConnection, FourInARowGameSettings settings) {
     super(serverConnection);
     this.settings = settings;
@@ -48,7 +46,6 @@ public class FourInARowGame extends Game {
    * @param numberOfSelectedColumn selected column by player
    * @return information about column and coin, which will be added into it
    */
-
   private FourInARowPoint applyMove(int numberOfSelectedColumn) {
 
     fillingColumns[numberOfSelectedColumn]++;
@@ -67,7 +64,6 @@ public class FourInARowGame extends Game {
    * @param column selected column by player, where coin will fall
    * @return true if move can be accepted, or false if not
    */
-
   private boolean conditionsToMove(int column) {
     if (settings.getMaxColumns() >= column && fillingColumns[column] < settings.getMaxRows()) {
       Logging.logInfo(fillingColumns[column] + " <> " + settings.getMaxRows());
@@ -80,7 +76,6 @@ public class FourInARowGame extends Game {
    * For every column, counter of coins inserted is set on null - zero
    * Counter is created here.
    */
-
   private void createFillingColumns() {
     fillingColumns = new int[settings.getMaxColumns() + 1];
     for (int i = 0; i < settings.getMaxColumns() + 1; i++)
@@ -92,7 +87,6 @@ public class FourInARowGame extends Game {
    *
    * @return player on the move
    */
-
   private FourInARowPlayer getWhoIsOnTheMove() {
     if (you.isOnTheMove())
       return you;
@@ -108,7 +102,6 @@ public class FourInARowGame extends Game {
    * @param key key which was pressed
    * @return information about selected column, color of player on the move and other necessary information
    */
-
   public FourInARowPoint questionForMove(KeyCode key) {
 
     for (int i = 1; i < 10; i++)
@@ -126,7 +119,6 @@ public class FourInARowGame extends Game {
    *
    * @param playerOnTheMove player who is on the move
    */
-
   private void switchPlayer(FourInARowPlayer playerOnTheMove) {
     int number;
     int numberOfPlayers;
@@ -141,7 +133,5 @@ public class FourInARowGame extends Game {
       number++;
 
     players.get(number - 1).setMove();
-
   }
-
 }

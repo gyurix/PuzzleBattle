@@ -13,7 +13,6 @@ import lombok.Getter;
  * @author (Juraj Barath)
  * @version (1.0)
  */
-
 @Getter
 public class BouncerPlayer {
   private Bouncer bouncer;
@@ -21,11 +20,9 @@ public class BouncerPlayer {
   private int goalCount;
   private Text goals;
 
-
   /**
    * Constructor for objects of class SkladPonuka
    */
-
   public BouncerPlayer(BouncerGame game, Bouncer bouncer, Color textColor) {
     this.game = game;
     this.bouncer = bouncer;
@@ -34,11 +31,9 @@ public class BouncerPlayer {
     goals.setFill(textColor);
   }
 
-
   /**
    * If goal was given
    */
-
   public void goal() {
     ++goalCount;
     goals.setText(String.valueOf(goalCount));

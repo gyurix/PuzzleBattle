@@ -14,7 +14,6 @@ import java.util.Random;
  * @author (Juraj Barath, Jakub Perdek)
  * @version (1.0)
  */
-
 @Getter
 public class BouncerGame extends Game {
   private BouncerBall ball;
@@ -28,7 +27,6 @@ public class BouncerGame extends Game {
   /**
    * Constructor for objects of class SkladPonuka
    */
-
   public BouncerGame(Object serverConnection, BouncerGameSettings settings) {
     super(serverConnection);
     this.settings = settings;
@@ -41,7 +39,6 @@ public class BouncerGame extends Game {
   /**
    * It creates a ball.
    */
-
   private void createBall() {
     ball = new BouncerBall(this, 20);
     resetBall();
@@ -51,7 +48,6 @@ public class BouncerGame extends Game {
   /**
    * Enemy is created here.
    */
-
   private void createEnemy() {
     enemy = new BouncerPlayer(this,
             new Bouncer(this, mapSize.getX() / 2 - 50, mapSize.getY() / 32 - 7.5, 100, 15, settings.getEnemy().getColor()),
@@ -63,7 +59,6 @@ public class BouncerGame extends Game {
   /**
    * It creates you.
    */
-
   private void createYou() {
     you = new BouncerPlayer(this,
             new Bouncer(this, mapSize.getX() / 2 - 50, (mapSize.getY() - mapSize.getY() / 32) - 7.5, 100, 15, settings.getYou().getColor()),
@@ -77,7 +72,6 @@ public class BouncerGame extends Game {
    *
    * @return if you give a goal. Enemy does't catch ball
    */
-
   public boolean isEnemyFailed() {
     return ball.getCenterY() < mapSize.getY() / 32;
   }
@@ -88,21 +82,18 @@ public class BouncerGame extends Game {
    *
    * @return if you fails. You don't catch ball.
    */
-
   public boolean isYouFailed() {
     return ball.getCenterY() > mapSize.getY() - mapSize.getY() / 32;
   }
 
-
   /**
-   * An example of a method - replace this comment with your own
+   * Movement
    *
-   * @param left      a sample parameter for a method
-   * @param right     a sample parameter for a method
-   * @param player    a sample parameter for a method
-   * @param intensity a sample parameter for a method
+   * @param left      - if bouncer moves to left
+   * @param right     - if bouncer moves to right
+   * @param player    - player of BallBouncer game
+   * @param intensity - intensity
    */
-
   public void move(boolean left, boolean right, BouncerPlayer player, double intensity) {
     if (left && right)
       return;
@@ -114,14 +105,12 @@ public class BouncerGame extends Game {
       bouncer.setX(Math.min(mapSize.getX() - bouncer.getWidth(), x + intensity));
   }
 
-
   /**
    * Key event, which is triggered by special keys. These keys can manipulate with bouncers.
    *
    * @param key     used key
    * @param pressed if button is pressed
    */
-
   public void onKeyEvent(KeyCode key, boolean pressed) {
     if (key == settings.getYou().getLeft())
       left1 = pressed;
@@ -135,11 +124,9 @@ public class BouncerGame extends Game {
     }
   }
 
-
   /**
    * Resets a ball into its standard position
    */
-
   public void resetBall() {
     ball.setCenterX(mapSize.getX() / 2);
     ball.setCenterY(mapSize.getY() / 2);
@@ -148,11 +135,9 @@ public class BouncerGame extends Game {
             (random.nextBoolean() ? -1 : 1) * (1 + random.nextDouble() * 2)));
   }
 
-
   /**
    * Ticking of the ball
    */
-
   public void tick() {
     move(left1, right1, you, settings.getYou().getMovementIntensity());
     if (getServerConnection() == null)
