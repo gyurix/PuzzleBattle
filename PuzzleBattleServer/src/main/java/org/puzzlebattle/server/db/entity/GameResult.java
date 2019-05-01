@@ -11,7 +11,7 @@ import javax.persistence.Table;
  * @version 1.0
  */
 @Entity
-@Table(name = "Game")
+@Table
 public class GameResult extends AbstractEntity {
   @Column
   private int player1;

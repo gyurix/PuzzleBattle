@@ -11,8 +11,8 @@ import java.sql.Timestamp;
  * @author Jakub Perdek, Juraj Barath
  * @version 1.0
  */
-@Entity
 @Data
+@Entity
 @Table
 public class DurationDate {
   @Column

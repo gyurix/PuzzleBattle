@@ -17,9 +17,9 @@ import java.sql.Timestamp;
  * @author Jakub Perdek
  * @version 1.0
  */
-@Entity
-@Table(name = "game")
 @Data
+@Entity
+@Table
 public class GameTable {
 
   @ManyToOne(cascade = {CascadeType.ALL})
@@ -77,7 +77,7 @@ public class GameTable {
    * @param gameSettings settings for certain game, game type
    * @return
    */
-  public static GameTable prepareGameTable(User user, boolean test, int gameType, GameSettings gameSettings) {
+  public static GameTable prepareGameTable(PBUser user, boolean test, int gameType, GameSettings gameSettings) {
     GamePlayer player1;
     GamePlayer player2;
     GameTable gameTable;

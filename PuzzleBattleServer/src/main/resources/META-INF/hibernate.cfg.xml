@@ -22,13 +22,14 @@
         <property name="hibernate.hbm2ddl.auto">update</property>
         <property name="hibernate.temp.use_jdbc_metadata_defaults">false</property>
 
-        <mapping class="org.puzzlebattle.server.db.entity.User"/>
-        <mapping class="org.puzzlebattle.server.db.entity.GameType"/>
+        <mapping class="org.puzzlebattle.server.db.entity.DurationDate"/>
+        <mapping class="org.puzzlebattle.server.db.entity.Friendship"/>
         <mapping class="org.puzzlebattle.server.db.entity.GamePlayer"/>
+        <mapping class="org.puzzlebattle.server.db.entity.GameResult"/>
         <mapping class="org.puzzlebattle.server.db.entity.GameSettings"/>
         <mapping class="org.puzzlebattle.server.db.entity.GameTable"/>
-        <mapping class="org.puzzlebattle.server.db.entity.Friendship"/>
-        <mapping class="org.puzzlebattle.server.db.entity.DurationDate"/>
+        <mapping class="org.puzzlebattle.server.db.entity.GameType"/>
+        <mapping class="org.puzzlebattle.server.db.entity.PBUser"/>
 
     </session-factory>
 </hibernate-configuration>

@@ -17,9 +17,9 @@ import java.util.List;
  * @author Jakub Perdek
  * @version 1.0
  */
-@Entity
-@Table(name = "gamePlayer")
 @Data
+@Entity
+@Table
 public class GamePlayer {
 
   private int gameType;
@@ -28,7 +28,7 @@ public class GamePlayer {
   private long id;
   @ManyToOne
   @JoinColumn
-  private User player;
+  private PBUser player;
   private int score = 0;
 
   /**
@@ -36,7 +36,7 @@ public class GamePlayer {
    * @param gameTypeForNewUser
    * @return
    *//*
-  public static GamePlayer createGamePlayerFromUserIfNotExist(User user, int gameTypeForNewUser) {
+  public static GamePlayer createGamePlayerFromUserIfNotExist(PBUser user, int gameTypeForNewUser) {
     GamePlayer foundGamePlayer;
     if ((foundGamePlayer = findGamePlayerInDB(UserManager.findUser(user.getNickName(), user.getPassword()), gameTypeForNewUser)) == null) {
       GamePlayer newGamePlayer = new GamePlayer();
@@ -69,7 +69,7 @@ public class GamePlayer {
    * @param gameTypeOfUser
    * @return
    */
-  public static GamePlayer findGamePlayerInDB(User user, int gameTypeOfUser) {
+  public static GamePlayer findGamePlayerInDB(PBUser user, int gameTypeOfUser) {
     SessionFactory sf = new Configuration().configure("/META-INF/hibernate.cfg.xml").buildSessionFactory();
     Session session = sf.openSession();
     Transaction t = session.beginTransaction();
