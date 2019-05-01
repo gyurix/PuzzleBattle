@@ -5,6 +5,7 @@ import javafx.scene.input.KeyCode;
 import lombok.Getter;
 import org.puzzlebattle.client.games.Game;
 import org.puzzlebattle.client.protocol.Client;
+import org.puzzlebattle.client.protocol.packets.out.ServerOutUpdateGame;
 import org.puzzlebattle.core.entity.GameType;
 
 import java.util.Random;
@@ -137,17 +138,7 @@ public class BouncerGame extends Game {
       left2 = pressed;
     else if (key == settings.getEnemy().getRight())
       right2 = pressed;
-  }
-
-  @Override
-  public void updateData(int[] data) {
-    if (data[0] == 1)
-      you.goal();
-    if (data[1] == 1)
-      enemy.goal();
-    enemy.getBouncer().setX(data[2]);
-    ball.setCenterX(data[3]);
-    ball.setCenterX(data[4]);
+    client.sendPacket(new ServerOutUpdateGame(new int[]{(right1 ? 1 : 0) - (left1 ? 1 : 0)}));
   }
 
   /**
@@ -160,13 +151,25 @@ public class BouncerGame extends Game {
     if (vel == null)
       vel = you.getBouncer().getAppliedVelocity(ball, -1);
     if (vel == null) {
-      if (isEnemyFailed())
+      /*if (isEnemyFailed())
         you.goal();
       else if (isYouFailed())
-        enemy.goal();
+        enemy.goal();*/
       return;
     }
     ball.setVelocity(vel);
     ball.tick();
+  }
+
+  @Override
+  public void updateData(int[] data) {
+    if (data[0] == 1)
+      you.goal();
+    if (data[1] == 1)
+      enemy.goal();
+    enemy.getBouncer().setX(data[2]);
+    ball.setCenterX(data[3]);
+    ball.setCenterX(data[4]);
+    ball.setRadius(data[5]);
   }
 }

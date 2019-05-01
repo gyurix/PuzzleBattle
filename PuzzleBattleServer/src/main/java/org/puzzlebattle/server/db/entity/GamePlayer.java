@@ -45,10 +45,11 @@ public class GamePlayer extends AbstractEntity {
    */
   public static void withGamePlayer(PBUser user, GameType gameType, ErrorAcceptedConsumer<GamePlayer> result) {
     DB.INSTANCE.withSession((s) -> {
-      String hql = "FROM GamePlayer WHERE player = ?1 AND gameType = ?2 LIMIT 1";
+      String hql = "FROM GamePlayer WHERE player = ?1 AND gameType = ?2";
       Query<GamePlayer> query = s.createQuery(hql);
+      query.setMaxResults(1);
       query.setParameter(1, user);
-      query.setParameter(2, gameType);
+      query.setParameter(2, gameType.ordinal());
       List<GamePlayer> list = query.list();
       if (!list.isEmpty()) {
         result.accept(list.get(0));

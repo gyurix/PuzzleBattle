@@ -15,8 +15,6 @@ import org.puzzlebattle.client.screen.BestPlayersScreen;
 import org.puzzlebattle.client.screen.LoginScreen;
 import org.puzzlebattle.client.utils.ThreadUtils;
 
-import static org.puzzlebattle.core.entity.GameType.FOUR_IN_A_ROW;
-
 public class ServerConnectedHandler extends ServerHandler {
   public ServerConnectedHandler(Channel channel, Client client) {
     super(channel, client);
@@ -30,9 +28,8 @@ public class ServerConnectedHandler extends ServerHandler {
 
   @Override
   public void handle(ServerInBestPlayers packet) {
-    ThreadUtils.ui(() -> {
-      BestPlayersScreen.getInstance().getFourInARowGameTable().setItems(packet.getUserGameAttributes());
-    });
+    ThreadUtils.ui(() -> BestPlayersScreen.getInstance().getFourInARowGameTable()
+            .setItems(packet.getUserGameAttributes()));
   }
 
   @Override
@@ -47,9 +44,6 @@ public class ServerConnectedHandler extends ServerHandler {
           new BallBouncerScreen(LoginScreen.getInstance().getStage(),
                   new BouncerGame(new BouncerGameSettings(), client), client);
           break;
-      }
-      if (packet.getType() == FOUR_IN_A_ROW) {
-
       }
     });
   }
