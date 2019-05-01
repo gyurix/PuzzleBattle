@@ -3,21 +3,16 @@ package org.puzzlebattle.client.protocol.packets.out;
 import io.netty.buffer.ByteBuf;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-
-import static org.puzzlebattle.core.protocol.ByteBufUtils.writeString;
+import org.puzzlebattle.core.entity.GameType;
 
 @AllArgsConstructor
 @Data
 public class ServerOutStartGame extends ServerOutPacket {
-  private String password;
-  private int playerNumber;
-  private String username;
+  private GameType gameType;
 
   @Override
   public void write(ByteBuf buf) {
-    writeString(buf, username);
-    writeString(buf, password);
-    buf.writeInt(playerNumber);
+    buf.writeByte(gameType.ordinal());
   }
 
 }

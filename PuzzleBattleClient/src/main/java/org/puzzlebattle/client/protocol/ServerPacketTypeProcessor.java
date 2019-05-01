@@ -8,6 +8,7 @@ import org.puzzlebattle.client.protocol.packets.in.ServerInPacket;
 import org.puzzlebattle.client.protocol.packets.in.ServerInType;
 import org.puzzlebattle.client.protocol.packets.out.ServerOutPacket;
 import org.puzzlebattle.client.protocol.packets.out.ServerOutType;
+import org.puzzlebattle.core.utils.Logging;
 
 import static io.netty.buffer.ByteBufAllocator.DEFAULT;
 
@@ -21,9 +22,10 @@ public class ServerPacketTypeProcessor extends ChannelDuplexHandler {
       buf.release();
       throw new RuntimeException("Invalid incoming client packet id " + packetId + ". Packet id must be between 0 and " + inTypes.length);
     }
-    ServerInPacket p = null;
+    ServerInPacket p;
     try {
       p = inTypes[packetId].of(buf);
+      Logging.logInfo("Received packet", "packet", p);
     } catch (Throwable e) {
       buf.release();
       throw e;
@@ -39,6 +41,7 @@ public class ServerPacketTypeProcessor extends ChannelDuplexHandler {
     buf.writeByte(ServerOutType.of(p).ordinal());
     try {
       p.write(buf);
+      Logging.logInfo("Sent packet", "packet", p);
     } catch (Throwable e) {
       buf.release();
       throw e;

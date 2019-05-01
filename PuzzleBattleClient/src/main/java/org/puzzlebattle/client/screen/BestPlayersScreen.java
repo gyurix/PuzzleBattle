@@ -8,7 +8,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import lombok.Getter;
-import org.puzzlebattle.client.games.UserPuzzleBattle;
 import org.puzzlebattle.client.protocol.Client;
 import org.puzzlebattle.client.protocol.packets.out.ServerOutBestPlayersRequest;
 
@@ -29,7 +28,6 @@ public class BestPlayersScreen extends AbstractScreen {
   private Label fourInARowLabel, ballBouncerLabel;
   private Separator gameSeparator;
   private SettingsForScreens settingsForScreens;
-  private UserPuzzleBattle user;
   private HBox wholeScreen;
 
   /**
@@ -38,14 +36,13 @@ public class BestPlayersScreen extends AbstractScreen {
    * @param stage              stage where information about best players will be set
    * @param settingsForScreens settings which will be applied
    */
-  public BestPlayersScreen(UserPuzzleBattle user, Stage stage, SettingsForScreens settingsForScreens, Client client) {
+  public BestPlayersScreen(Stage stage, SettingsForScreens settingsForScreens, Client client) {
     super(stage, client);
-    this.user = user;
     instance = this;
     this.settingsForScreens = settingsForScreens;
     createTables();
     prepareComponentsForBestPlayerTable();
-    loadDataAndFillTablesFromDatabase(user);
+    client.sendPacket(new ServerOutBestPlayersRequest(10));
   }
 
   /**
@@ -73,19 +70,6 @@ public class BestPlayersScreen extends AbstractScreen {
     vBox.setMinWidth(minWidth);
     vBox.setMaxHeight(maxHeight);
     return vBox;
-  }
-
-  /**
-   * Loads data and fill table of best players with them
-   *
-   * @param user - user who will view table with best players
-   */
-  private void loadDataAndFillTablesFromDatabase(UserPuzzleBattle user) {
-    ServerOutBestPlayersRequest serverOutBestPlayersRequest =
-            new ServerOutBestPlayersRequest(10, user.getUserName(), user.getPassword());
-    // new Server().sendPacket(serverOutBestPlayersRequest);
-    // ServerInBestPlayers bestPlayers = new ServerInBestPlayers();
-    //fourInARowGameTable.setItems(bestPlayers.getUserGameAttributes());
   }
 
   /**

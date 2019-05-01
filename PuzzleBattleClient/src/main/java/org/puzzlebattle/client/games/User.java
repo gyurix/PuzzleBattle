@@ -7,7 +7,7 @@ import lombok.Data;
 @AllArgsConstructor
 @Builder
 @Data
-public class UserPuzzleBattle {
+public class User {
   private int age = 0;
   private byte[] avatar;
   private String dateOfBirth;
@@ -17,12 +17,12 @@ public class UserPuzzleBattle {
   private String surname;
   private String userName;
 
-  public UserPuzzleBattle(String userName, String password) {
+  public User(String userName, String password) {
     this.userName = userName;
     this.password = password;
   }
 
-  public UserPuzzleBattle(String userName, String password, String email) {
+  public User(String userName, String password, String email) {
     this.userName = userName;
     this.password = password;
     this.email = email;
