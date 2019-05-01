@@ -2,7 +2,6 @@ package org.puzzlebattle.client.games;
 
 
 import javafx.application.Platform;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -26,7 +25,6 @@ import org.puzzlebattle.core.entity.GameWinner;
  * @version (1.0)
  */
 public class EndDialog extends AbstractScreen {
-  private BorderPane border;
   private Button closeButton, returnToMenu, newGame;
   private Font f;
   private GameType gameType;
@@ -100,9 +98,22 @@ public class EndDialog extends AbstractScreen {
     new MainScreen(new Stage(), new SettingsForScreens(), client).show();
   }
 
-  @Override
-  public Scene getScene() {
-    return new Scene(border, getWinningDialogWidth(), getWinningDialogHeight());
+  /**
+   * Returns height of winning dialog
+   *
+   * @return winning dialog height
+   */
+  public double getHeight() {
+    return 400;
+  }
+
+  /**
+   * Returns width of winning dialog
+   *
+   * @return winning dialog width
+   */
+  public double getWidth() {
+    return 250;
   }
 
   /**
@@ -113,35 +124,17 @@ public class EndDialog extends AbstractScreen {
   }
 
   /**
-   * Returns height of winning dialog
-   *
-   * @return winning dialog height
-   */
-  public double getWinningDialogHeight() {
-    return 400;
-  }
-
-  /**
-   * Returns width of winning dialog
-   *
-   * @return winning dialog width
-   */
-  public double getWinningDialogWidth() {
-    return 250;
-  }
-
-  /**
    * Prepare layouts of Four in a row screen
    *
    * @param type - Type of the end screen
    */
   private void prepareLayouts(GameWinner type) {
-    border = new BorderPane();
-    border.setMaxSize(getWinningDialogWidth(), getWinningDialogHeight());
+    pane = new BorderPane();
+    pane.setMaxSize(getWidth(), getHeight());
     verticalBox = new VBox(10);
     createAndPrepareButtons();
     verticalBox.getChildren().addAll(newGame, returnToMenu, closeButton);
-    border.setRight(verticalBox);
+    ((BorderPane) pane).setRight(verticalBox);
     switch (type) {
       case P1:
         tryToAddImage("pictures/oldChap.png");
@@ -156,7 +149,7 @@ public class EndDialog extends AbstractScreen {
         createAndPrepareLabel("Draw");
         break;
     }
-    border.setTop(winner);
+    ((BorderPane) pane).setTop(winner);
   }
 
   /**
@@ -173,6 +166,6 @@ public class EndDialog extends AbstractScreen {
     image = new Image(imgUrl);
     img1 = new ImageView();
     img1.setImage(image);
-    border.setLeft(img1);
+    ((BorderPane) pane).setLeft(img1);
   }
 }
