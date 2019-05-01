@@ -15,7 +15,6 @@ import javafx.scene.text.FontPosture;
 import javafx.stage.Stage;
 import org.puzzlebattle.client.games.User;
 import org.puzzlebattle.client.protocol.Client;
-import org.puzzlebattle.client.protocol.packets.in.ServerInChangeProfile;
 import org.puzzlebattle.client.protocol.packets.out.ServerOutChangeProfile;
 import org.puzzlebattle.core.utils.Logging;
 
@@ -50,7 +49,6 @@ public class AdditionalInformationScreen extends AbstractScreen {
   private Button loadPhoto;
   private File loadedImage;
   private String loadedImagePath = defaultImage, loadedName, loadedSurname, loadedAge, loadedDateOfBirth;
-  private User loadedUser;
   private VBox mainComponentsScene1, mainComponentsScene2;
   private HBox movePageScene1, movePageScene2;
   private TextField nameText;
@@ -469,9 +467,12 @@ public class AdditionalInformationScreen extends AbstractScreen {
    */
   private void updateInformationDatabase() {
     ServerOutChangeProfile changeProfile = new ServerOutChangeProfile(saveImageToBytes(loadedImage), loadedDateOfBirth, loadedName, loadedSurname);
+    User user = client.getUser();
+    user.setAvatar(changeProfile.getAvatar());
+    user.setDateOfBirth(changeProfile.getDateOfBirth());
+    user.setAge(Integer.valueOf(loadedAge));
+    user.setAvatar(changeProfile.getAvatar());
     client.sendPacket(changeProfile);
-    ServerInChangeProfile serverInChangeProfile = new ServerInChangeProfile();
-    //serverInChangeProfile.getUser(); NOT USED DATA WILL BE DISPLAYED FROM TEXT FIELDS, NO WAIT FOR REPLY
   }
 
   /**

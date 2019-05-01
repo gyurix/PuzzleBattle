@@ -94,8 +94,7 @@ public class EndDialog extends AbstractScreen {
    * Creates main menu
    */
   private void createMainMenu() {
-    stage.close();
-    new MainScreen(new Stage(), new SettingsForScreens(), client).show();
+    new MainScreen(stage, new SettingsForScreens(), client).show();
   }
 
   /**
@@ -156,7 +155,7 @@ public class EndDialog extends AbstractScreen {
    * Starts a new game
    */
   protected void startNewGame() {
-    new ServerOutStartGame(gameType);
+    client.sendPacket(new ServerOutStartGame(gameType));
   }
 
   /**
