@@ -21,4 +21,10 @@ public class UserPuzzleBattle {
     this.userName = userName;
     this.password = password;
   }
+
+  public UserPuzzleBattle(String userName, String password, String email) {
+    this.userName = userName;
+    this.password = password;
+    this.email = email;
+  }
 }

@@ -7,6 +7,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import lombok.Getter;
 import org.puzzlebattle.client.games.UserPuzzleBattle;
 import org.puzzlebattle.client.protocol.Server;
 import org.puzzlebattle.client.protocol.packets.in.ServerInBestPlayers;
@@ -19,9 +20,12 @@ import static org.puzzlebattle.core.utils.LangFile.lang;
  */
 public class BestPlayersScreen extends AbstractScreen {
 
+  @Getter
+  private static BestPlayersScreen instance;
   private BestPlayersTable ballBouncerGameTable;
   private Font fFourInARow, fBallBouncer;
   private VBox fourInARowGameLayout, ballBouncerGameLayout;
+  @Getter
   private BestPlayersTable fourInARowGameTable;
   private Label fourInARowLabel, ballBouncerLabel;
   private Separator gameSeparator;
@@ -38,6 +42,7 @@ public class BestPlayersScreen extends AbstractScreen {
   public BestPlayersScreen(UserPuzzleBattle user, Stage stage, SettingsForScreens settingsForScreens) {
     super(stage);
     this.user = user;
+    instance = this;
     this.settingsForScreens = settingsForScreens;
     createTables();
     prepareComponentsForBestPlayerTable();
@@ -79,9 +84,9 @@ public class BestPlayersScreen extends AbstractScreen {
   private void loadDataAndFillTablesFromDatabase(UserPuzzleBattle user) {
     ServerOutBestPlayersRequest serverOutBestPlayersRequest =
             new ServerOutBestPlayersRequest(10, user.getUserName(), user.getPassword());
-    new Server().sendPacket(serverOutBestPlayersRequest);
-    ServerInBestPlayers bestPlayers = new ServerInBestPlayers();
-    fourInARowGameTable.setItems(bestPlayers.getUserGameAttributes());
+   // new Server().sendPacket(serverOutBestPlayersRequest);
+   // ServerInBestPlayers bestPlayers = new ServerInBestPlayers();
+    //fourInARowGameTable.setItems(bestPlayers.getUserGameAttributes());
   }
 
   /**

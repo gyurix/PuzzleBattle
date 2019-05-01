@@ -8,13 +8,10 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
+import lombok.Getter;
 import org.puzzlebattle.client.games.UserPuzzleBattle;
-import org.puzzlebattle.client.protocol.Server;
-import org.puzzlebattle.client.protocol.packets.in.ServerInLoginResult;
 import org.puzzlebattle.client.protocol.packets.out.ServerOutLogin;
 
-import static javafx.scene.control.Alert.AlertType.ERROR;
-import static javafx.scene.control.Alert.AlertType.INFORMATION;
 import static org.puzzlebattle.core.utils.LangFile.lang;
 import static org.puzzlebattle.core.utils.Logging.logInfo;
 
@@ -26,7 +23,8 @@ import static org.puzzlebattle.core.utils.Logging.logInfo;
  * @version (1.0)
  */
 public class LoginScreen extends AbstractScreen {
-
+  @Getter
+  private static LoginScreen instance;
   private Button confirmButton;
   private Region loginButtonRegion, loginPasswordRegion, registerRegion;
   private Label loginLabel;
@@ -39,12 +37,15 @@ public class LoginScreen extends AbstractScreen {
   private HBox registerPanel;
   private Label separatorLeft, separatorRight;
   private LanguageSelector languageSelector;
+  @Getter
+  private UserPuzzleBattle user;
 
   /**
    * Constructor which creates screen for log in
    */
   public LoginScreen(Stage stage,LanguageSelector languageSelector) {
     super(stage);
+    instance=this;
     this.languageSelector = languageSelector;
     createComponentsForLoginScreen();
     prepareScreenAndPane();
@@ -129,18 +130,10 @@ public class LoginScreen extends AbstractScreen {
   private void login(Event event) {
     pwd = passwordField.getText();
     login = loginTextField.getText();
-    UserPuzzleBattle user = new UserPuzzleBattle(login, pwd);
+    this.user = new UserPuzzleBattle(login, pwd);
     logInfo("Logging in...", "login", login);
     ServerOutLogin serverLogin = new ServerOutLogin(user.getUserName(), user.getPassword());
-    new Server().sendPacket(serverLogin);
-
-    ServerInLoginResult loginResult = new ServerInLoginResult();
-    if (loginResult.isResult()) {
-      showAlert(ERROR, "login.incorrect");
-    } else {
-      new MainScreen(stage, new SettingsForScreens(), user).show();
-      showAlert(INFORMATION, "login.loggingIn");
-    }
+    //new Server().sendPacket(serverLogin);
   }
 
   /**

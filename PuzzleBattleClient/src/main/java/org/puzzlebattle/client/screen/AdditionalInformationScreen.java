@@ -469,8 +469,7 @@ public class AdditionalInformationScreen extends AbstractScreen {
    */
   private void updateInformationDatabase() {
     ServerOutChangeProfile changeProfile = new ServerOutChangeProfile(saveImageToBytes(loadedImage), loadedDateOfBirth, loadedName, loadedSurname);
-    new Server().sendPacket(changeProfile);
-    ServerInChangeProfile serverInChangeProfile = new ServerInChangeProfile();
+   // new Server().sendPacket(changeProfile);
     //serverInChangeProfile.getUserPuzzleBattle(); NOT USED DATA WILL BE DISPLAYED FROM TEXT FIELDS, NO WAIT FOR REPLY
   }
 

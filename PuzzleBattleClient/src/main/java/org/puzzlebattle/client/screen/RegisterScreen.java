@@ -11,6 +11,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
+import lombok.Getter;
+import org.puzzlebattle.client.games.UserPuzzleBattle;
 import org.puzzlebattle.client.protocol.Server;
 import org.puzzlebattle.client.protocol.packets.in.ServerInRegisterSuccessful;
 import org.puzzlebattle.client.protocol.packets.out.ServerOutRegister;
@@ -33,12 +35,17 @@ public class RegisterScreen extends AbstractScreen {
   private TextField nickField, emailField;
   private Region regionNickEmail, regionEmailPassword, regionBetweenPassword, regionUpConfirmButton;
   private VBox registerComponents;
+  @Getter
+  private static RegisterScreen instance;
+  @Getter
+  private UserPuzzleBattle userPuzzleBattle;
 
   /**
    * Constructor which apply registering of the screen
    */
   RegisterScreen(Stage stage) {
     super(stage);
+    instance = this;
     prepareComponents();
     stage.setResizable(false);
     Logging.logInfo("Registration screen is created, but not shown.");
@@ -240,6 +247,7 @@ public class RegisterScreen extends AbstractScreen {
     String email = emailField.getText();
     String password = passwordField.getText();
     String passwordConfirm = confirmPasswordField.getText();
+    userPuzzleBattle = new UserPuzzleBattle(nickName,password,email);
 
     if (!password.equals(passwordConfirm)) {
       Logging.logWarning("Passwords aren't same!");
@@ -248,21 +256,14 @@ public class RegisterScreen extends AbstractScreen {
     } else {
       Logging.logInfo("Passwords are the same. Registration is completed!");
       ServerOutRegister sor = new ServerOutRegister(email, password, nickName);
-      new Server().sendPacket(sor);
-      ServerInRegisterSuccessful registerSuccessful = new ServerInRegisterSuccessful();
-      if (!registerSuccessful.isSuccessfulRegistration()) {
-        Logging.logSevere("Registration failed");
-        registrationFailedAlert();
-      }
+      //new Server().sendPacket(sor);
     }
-    new AdditionalInformationScreen(new Stage(), nickName, email).show();
-    new LoginScreen(getStage(),new LanguageSelector(getStage(),100,25)).show();
   }
 
   /**
    * Alert which will be showed if registration fails
    */
-  private void registrationFailedAlert() {
+  public void registrationFailedAlert() {
     Alert alert = new Alert(Alert.AlertType.ERROR);
     alert.setTitle(lang.get("register.registrationFailed.title"));
     alert.setContentText(lang.get("register.registrationFailed.text"));
