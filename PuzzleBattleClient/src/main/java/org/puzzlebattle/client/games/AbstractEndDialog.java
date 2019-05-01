@@ -11,13 +11,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import org.puzzlebattle.client.games.fourinarow.FourInARowGame;
-import org.puzzlebattle.client.games.fourinarow.FourInARowGameSettings;
-import org.puzzlebattle.client.games.fourinarow.FourInARowPlayer;
-import org.puzzlebattle.client.games.fourinarow.FourInARowScreen;
 import org.puzzlebattle.client.protocol.Client;
 import org.puzzlebattle.client.protocol.packets.out.ServerOutEndGame;
-import org.puzzlebattle.client.screen.AbstractScreen;
 import org.puzzlebattle.client.screen.MainScreen;
 import org.puzzlebattle.client.screen.SettingsForScreens;
 
@@ -44,29 +39,26 @@ public abstract class AbstractEndDialog extends Stage {
   /**
    * Creates and shows winning dialog for lucky player
    *
-   * @param screen - four in a row screen
    * @param primaryStage     - primary stage
    */
-  public AbstractEndDialog(AbstractScreen screen,int winnerNumber,
-                           Stage primaryStage, Client client,String type) {
+  public AbstractEndDialog(Stage primaryStage, Client client,String type) {
     this.client = client;
     this.primaryStage = primaryStage;
     this.user = user;
     ServerOutEndGame endGame = new ServerOutEndGame();
-    screen.getClient().sendPacket(endGame);
 
-    prepareLayouts(screen,type);
-    scene = new Scene(border, screen.getWidth(), screen.getHeight());
-    applySettingsToStage(winnerNumber,type);
+    prepareLayouts(type);
+    scene = new Scene(border, getWinningDialogWidth(), getWinningDialogHeight());
+    applySettingsToStage(type);
   }
 
   /**
    * Applies settings on stage as close request, player name is shown in title
    *
    */
-  private void applySettingsToStage(int playerNumber, String type) {
+  private void applySettingsToStage(String type) {
     if(type.equals("winner")) {
-      this.setTitle("Player number " + playerNumber + " is winner.");
+      this.setTitle("Winner");
     }
     else if(type.equals("draw")) {
       this.setTitle("Draw");
@@ -81,10 +73,8 @@ public abstract class AbstractEndDialog extends Stage {
 
   /**
    * Creates and prepares buttons for Four in a row screen
-   *
-   * @param abstractScreen - screen of Four in a row game
    */
-  private void createAndPrepareButtons(AbstractScreen abstractScreen) {
+  private void createAndPrepareButtons() {
     newGame = new Button("New game");
     returnToMenu = new Button("Return to menu");
     closeButton = new Button("Close the game");
@@ -94,7 +84,7 @@ public abstract class AbstractEndDialog extends Stage {
 
     closeButton.setOnAction(e -> onClose());
     returnToMenu.setOnAction(e -> createMainMenu());
-    newGame.setOnAction(e -> startNewGame(abstractScreen));
+    newGame.setOnAction(e -> startNewGame());
   }
 
   /**
@@ -147,11 +137,11 @@ public abstract class AbstractEndDialog extends Stage {
    *
    * @parama abstractScreen screen of Four in a row game
    */
-  private void prepareLayouts(AbstractScreen abstractScreen,String type) {
+  private void prepareLayouts(String type) {
     border = new BorderPane();
-    border.setMaxSize(abstractScreen.getWidth(), abstractScreen.getHeight());
+    border.setMaxSize(getWinningDialogWidth(), getWinningDialogHeight());
     verticalBox = new VBox(10);
-    createAndPrepareButtons(abstractScreen);
+    createAndPrepareButtons();
     verticalBox.getChildren().addAll(newGame, returnToMenu, closeButton);
     border.setRight(verticalBox);
     if(type.equals("winner")) {
@@ -172,9 +162,8 @@ public abstract class AbstractEndDialog extends Stage {
   /**
    * Starts a new game
    *
-   * @param abstractScreen - screen of Four in a row game
    */
-  protected abstract void startNewGame(AbstractScreen abstractScreen);
+  protected abstract void startNewGame();
 
   /**
    * Adds a picture of winner in winning dialog screen

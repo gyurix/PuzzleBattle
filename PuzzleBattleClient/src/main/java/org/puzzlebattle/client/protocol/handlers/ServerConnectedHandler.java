@@ -10,6 +10,9 @@ import org.puzzlebattle.client.games.fourinarow.FourInARowGame;
 import org.puzzlebattle.client.games.fourinarow.FourInARowGameSettings;
 import org.puzzlebattle.client.games.fourinarow.FourInARowScreen;
 import org.puzzlebattle.client.protocol.Client;
+import org.puzzlebattle.client.protocol.packets.in.ServerInBestPlayers;
+import org.puzzlebattle.client.protocol.packets.in.ServerInChangeProfile;
+import org.puzzlebattle.client.protocol.packets.in.ServerInStartGame;
 import org.puzzlebattle.client.protocol.packets.in.*;
 import org.puzzlebattle.client.screen.BestPlayersScreen;
 import org.puzzlebattle.client.screen.LoginScreen;
@@ -28,6 +31,7 @@ public class ServerConnectedHandler extends ServerHandler {
   public void handle(ServerInChangeProfile packet) {
     client.setUser(packet.getProfile());
   }
+
 
   @Override
   public void handle(ServerInBestPlayers packet) {

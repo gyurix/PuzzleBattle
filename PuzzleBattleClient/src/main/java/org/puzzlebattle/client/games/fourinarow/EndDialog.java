@@ -28,16 +28,14 @@ public class EndDialog extends AbstractEndDialog {
    */
   public EndDialog(FourInARowScreen fourInARowScreen, FourInARowPlayer winningPlayer,
                        Stage primaryStage, Client client,String type) {
-    super(fourInARowScreen,0,primaryStage,client,type);
+    super(primaryStage,client,type);
     this.client = client;
   }
 
   /**
    * Starts a new game
-   *
-   * @param fourInARowScreen - screen of Four in a row game
    */
-  protected void startNewGame(AbstractScreen fourInARowScreen) {
+  protected void startNewGame() {
     new ServerOutStartGame(GameType.FOUR_IN_A_ROW);
   }
 
