@@ -6,7 +6,7 @@ public interface ClientInPacketHandler {
     unexpected(packet);
   }
 
-  default void handle(ClientInKeyboardAction packet) {
+  default void handle(ClientInUpdateGame packet) {
     unexpected(packet);
   }
 

@@ -83,25 +83,25 @@ public class MainScreen extends AbstractScreen {
   }
 
   /**
-   * Launching Ball bouncer game
+   * Prepare buttons for ball bouncer
    */
-  private void launchBallBouncer() {
-    ServerOutStartGame launchBallBouncer = new ServerOutStartGame(GameType.BOUNCER);
-    client.sendPacket(launchBallBouncer);
-    //addBallBouncerGameToDatabase(user, true);
-    getStage().close();
-    new BallBouncerScreen(new Stage(), new BouncerGame(null, new BouncerGameSettings()), client).show();
+  private void prepareButtonsBallBouncer() {
+    startBallBouncerGame = createButton(LangFile.lang.get("mainScreen.ballBouncer.launchBallBouncerGame"));
+    startBallBouncerGame.setOnAction(e -> startBallBouncer());
+
+    viewBestPlayersBallBouncer = createButton(LangFile.lang.get("mainScreen.ballBouncer.viewBestBallBouncerPlayers"));
+    viewBestPlayersBallBouncer.setOnAction(e -> viewBestPlayers());
   }
 
   /**
-   * Launching Four in a row game
+   * Prepare buttons for Four in a row
    */
-  private void launchFourInARow() {
-    ServerOutStartGame launchPacket = new ServerOutStartGame(GameType.FOUR_IN_A_ROW);
-    client.sendPacket(launchPacket);
-    //GameTable gameTable = addFourInARowGameToDatabase(user, true);
-    getStage().close();
-    new FourInARowScreen(new Stage(), new FourInARowGame(null, new FourInARowGameSettings()), client).show();
+  private void prepareButtonsFourInARow() {
+    startFourInARowGame = createButton(LangFile.lang.get("mainScreen.fourInARow.launchFourInARowGame"));
+    startFourInARowGame.setOnAction(e -> startFourInARow());
+
+    viewBestPlayersFourInARow = createButton(LangFile.lang.get("mainScreen.fourInARow.viewBestFourInARowPlayers"));
+    viewBestPlayersFourInARow.setOnAction(e -> viewBestPlayers());
   }
 
   /**
@@ -124,25 +124,27 @@ public class MainScreen extends AbstractScreen {
   }
 
   /**
-   * Prepare buttons for ball bouncer
+   * Launching Ball bouncer game
    */
-  private void prepareButtonsBallBouncer() {
-    startBallBouncerGame = createButton(LangFile.lang.get("mainScreen.ballBouncer.launchBallBouncerGame"));
-    startBallBouncerGame.setOnAction(e -> launchBallBouncer());
+  private void startBallBouncer() {
+    ServerOutStartGame launchBallBouncer = new ServerOutStartGame(GameType.BOUNCER);
+    client.sendPacket(launchBallBouncer);
 
-    viewBestPlayersBallBouncer = createButton(LangFile.lang.get("mainScreen.ballBouncer.viewBestBallBouncerPlayers"));
-    viewBestPlayersBallBouncer.setOnAction(e -> viewBestPlayers());
+    BouncerGame game = new BouncerGame(null, new BouncerGameSettings());
+    client.setGame(game);
+    new BallBouncerScreen(stage, game, client).show();
   }
 
   /**
-   * Prepare buttons for Four in a row
+   * Launching Four in a row game
    */
-  private void prepareButtonsFourInARow() {
-    startFourInARowGame = createButton(LangFile.lang.get("mainScreen.fourInARow.launchFourInARowGame"));
-    startFourInARowGame.setOnAction(e -> launchFourInARow());
+  private void startFourInARow() {
+    ServerOutStartGame launchPacket = new ServerOutStartGame(GameType.FOUR_IN_A_ROW);
+    client.sendPacket(launchPacket);
 
-    viewBestPlayersFourInARow = createButton(LangFile.lang.get("mainScreen.fourInARow.viewBestFourInARowPlayers"));
-    viewBestPlayersFourInARow.setOnAction(e -> viewBestPlayers());
+    FourInARowGame game = new FourInARowGame(null, new FourInARowGameSettings());
+    client.setGame(game);
+    new FourInARowScreen(stage, game, client).show();
   }
 
   /**

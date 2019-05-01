@@ -120,8 +120,8 @@ public class FourInARowGame extends Game {
    * @return true if it si draw, otherwise false
    */
   public boolean isDraw() {
-    for(int column=1 ;column <settings.getMaxColumns(); column= column + 1) {
-      if (fillingColumns[column] < settings.getMaxRows()){
+    for (int column = 1; column < settings.getMaxColumns(); column = column + 1) {
+      if (fillingColumns[column] < settings.getMaxRows()) {
         return false;
       }
     }
@@ -147,5 +147,10 @@ public class FourInARowGame extends Game {
       number++;
 
     players.get(number - 1).setMove();
+  }
+
+  @Override
+  public void updateData(int[] data) {
+    applyMove(data[0]);
   }
 }

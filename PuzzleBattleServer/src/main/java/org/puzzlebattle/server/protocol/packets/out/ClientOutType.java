@@ -6,9 +6,11 @@ public enum ClientOutType {
   BEST_PLAYERS(ClientOutBestPlayers.class),
   CHANGE_PROFILE(ClientOutChangeProfile.class),
   ENCRYPTION(ClientOutEncryption.class),
+  END_GAME(ClientOutEndGame.class),
   KEEP_ALIVE(ClientOutKeepAlive.class),
-  LOGIN_RESULT(ClientOutLoginResult.class);
-
+  LOGIN_RESULT(ClientOutLoginResult.class),
+  START_GAME(ClientOutStartGame.class),
+  UPDATE_GAME(ClientOutEndGame.class);
   private static HashMap<Class<? extends ClientOutPacket>, ClientOutType> types = new HashMap<>();
 
   static {

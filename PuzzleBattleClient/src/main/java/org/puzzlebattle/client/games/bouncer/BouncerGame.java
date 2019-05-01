@@ -142,7 +142,7 @@ public class BouncerGame extends Game {
     move(left1, right1, you, settings.getYou().getMovementIntensity());
     if (getServerConnection() == null)
       move(left2, right2, enemy, settings.getEnemy().getMovementIntensity());
-    ball.tick();
+    /*ball.tick();
     Point2D vel = enemy.getBouncer().getAppliedVelocity(ball, 1);
     if (vel == null)
       vel = you.getBouncer().getAppliedVelocity(ball, -1);
@@ -154,6 +154,17 @@ public class BouncerGame extends Game {
       return;
     }
     ball.setVelocity(vel);
-    ball.tick();
+    ball.tick();*/
+  }
+
+  @Override
+  public void updateData(int[] data) {
+    if (data[0] == 1)
+      you.goal();
+    if (data[1] == 1)
+      enemy.goal();
+    enemy.getBouncer().setX(data[2]);
+    ball.setCenterX(data[3]);
+    ball.setCenterX(data[4]);
   }
 }

@@ -1,6 +1,7 @@
 package org.puzzlebattle.client.protocol;
 
 import lombok.Data;
+import org.puzzlebattle.client.games.Game;
 import org.puzzlebattle.client.games.User;
 import org.puzzlebattle.client.protocol.packets.out.ServerOutPacket;
 import org.puzzlebattle.core.entity.AddressInfo;
@@ -11,6 +12,7 @@ public class Client {
   private AddressInfo address;
   private ServerConnection connection;
   private User user;
+  private Game game;
   private EncryptionUtils encryptionUtils = new EncryptionUtils();
 
   public Client(AddressInfo serverAddress) {

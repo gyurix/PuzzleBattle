@@ -7,15 +7,15 @@ public enum ClientInType {
   BEST_PLAYERS_REQUEST(ClientInBestPlayersRequest::new),
   CHANGE_PROFILE(ClientInChangeProfile::new),
   ENCRYPTION(ClientInEncryption::new),
+  END_GAME(ClientInEndGame::new),
   FIND_FRIEND(ClientInFindFriend::new),
   GAME_PLAYER(ClientInGamePlayer::new),
   KEEP_ALIVE(ClientInKeepAlive::new),
-  KEYBOARD_ACTION(ClientInKeyboardAction::new),
   LOAD_FRIENDS(ClientInLoadFriends::new),
   LOGIN(ClientInLogin::new),
-  MOUSE_ACTION(ClientInMouseAction::new),
   REGISTER(ClientInRegister::new),
-  START_GAME(ClientInStartGame::new);
+  START_GAME(ClientInStartGame::new),
+  UPDATE_GAME(ClientInUpdateGame::new);
 
   Callable<? extends ClientInPacket> callable;
 

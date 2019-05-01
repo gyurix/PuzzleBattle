@@ -4,16 +4,17 @@ import io.netty.buffer.ByteBuf;
 import lombok.Data;
 
 @Data
-public class ClientInKeyboardAction extends ClientInPacket {
-  private int key;
-  private boolean pressed;
+public class ClientInUpdateGame extends ClientInPacket {
+  private int[] data;
 
   public void handle(ClientInPacketHandler handler) {
     handler.handle(this);
   }
 
   public void read(ByteBuf buf) {
-    key = buf.readInt();
-    pressed = buf.readBoolean();
+    int len = buf.readUnsignedByte();
+    data = new int[len];
+    for (int i = 0; i < len; ++i)
+      data[i] = buf.readInt();
   }
 }
