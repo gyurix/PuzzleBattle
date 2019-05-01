@@ -14,13 +14,7 @@ public interface ClientInPacketHandler {
     unexpected(packet);
   }
 
-  default void handle(ClientInMouseAction packet) {
-    unexpected(packet);
-  }
-
-  default void handle(ClientInLogin packet) {
-    unexpected(packet);
-  }
+  default void handle(ClientInLogin packet) { unexpected(packet); }
 
   default void handle(ClientInRegister packet) {
     unexpected(packet);

@@ -1,5 +1,7 @@
 package org.puzzlebattle.server.db.entity;
 
+import org.puzzlebattle.core.entity.GameWinner;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
