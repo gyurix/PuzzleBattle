@@ -8,7 +8,6 @@ public enum ServerOutType {
   ENCRYPTION(ServerOutEncryption.class),
   FIND_FRIEND(ServerOutFindFriend.class),
   GAME_PLAYER(ServerOutGamePlayer.class),
-  INSERT_GAME_SETTINGS(ServerOutInsertGameSettings.class),
   KEEP_ALIVE(ServerOutKeepAlive.class),
   KEYBOARD_ACTION(ServerOutKeyboardAction.class),
   LOAD_FRIENDS(ServerOutLoadFriends.class),

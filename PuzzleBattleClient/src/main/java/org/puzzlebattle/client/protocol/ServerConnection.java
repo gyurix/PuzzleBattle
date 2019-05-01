@@ -11,14 +11,11 @@ import lombok.Getter;
 import lombok.Setter;
 import org.puzzlebattle.client.protocol.handlers.ServerEncryptionHandler;
 import org.puzzlebattle.client.protocol.handlers.ServerHandler;
-import org.puzzlebattle.client.protocol.packets.out.ServerOutEncryption;
 import org.puzzlebattle.client.protocol.packets.out.ServerOutPacket;
-import org.puzzlebattle.client.utils.ThreadUtils;
 import org.puzzlebattle.core.protocol.processor.PacketLengthProcessor;
-import org.puzzlebattle.core.utils.EncryptionUtils;
+import org.puzzlebattle.core.utils.Logging;
 
 import java.net.InetSocketAddress;
-import java.security.KeyPair;
 
 @Getter
 public class ServerConnection {
@@ -55,14 +52,7 @@ public class ServerConnection {
           pipeline.addLast("length", lengthProcessor);
           pipeline.addLast("type", typeProcessor);
           pipeline.addLast("handler", handler);
-          EncryptionUtils utils = client.getEncryptionUtils();
-          KeyPair pair = EncryptionUtils.generateRSA();
-          utils.setRsaEncryptKey(pair.getPublic());
-          utils.setRsaDecryptKey(pair.getPrivate());
-          ThreadUtils.async(() -> {
-            sendPacket(new ServerOutEncryption(utils.getRsaEncryptKey().getEncoded()));
-          });
-          System.out.println("Established TCP connection.");
+          Logging.logInfo("Connected to server", "server", client.getAddress());
         }
       });
       ChannelFuture channelFuture = clientBootstrap.connect().sync();

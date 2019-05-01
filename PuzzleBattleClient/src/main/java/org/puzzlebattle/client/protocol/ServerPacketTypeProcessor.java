@@ -41,7 +41,7 @@ public class ServerPacketTypeProcessor extends ChannelDuplexHandler {
     buf.writeByte(ServerOutType.of(p).ordinal());
     try {
       p.write(buf);
-      Logging.logInfo("Sent packet", "packet", p);
+      Logging.logInfo("Sending packet", "packet", p);
     } catch (Throwable e) {
       buf.release();
       throw e;
@@ -50,6 +50,7 @@ public class ServerPacketTypeProcessor extends ChannelDuplexHandler {
     buf.resetWriterIndex();
     buf.writeInt(len - 4);
     buf.writerIndex(len);
-    ctx.write(buf, promise);
+    ctx.writeAndFlush(buf, promise);
+    Logging.logInfo("Sent packet", "packet", p);
   }
 }

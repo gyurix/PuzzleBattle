@@ -36,5 +36,4 @@ public class ServerLoginHandler extends ServerHandler {
     BestPlayersScreen.getInstance().getFourInARowGameTable().setItems(packet.getUserGameAttributes());
   }
 
-  //public void handle(ServerIn)
 }

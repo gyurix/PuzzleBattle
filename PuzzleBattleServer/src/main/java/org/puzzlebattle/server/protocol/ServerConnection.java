@@ -9,6 +9,7 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import org.puzzlebattle.core.entity.AddressInfo;
 import org.puzzlebattle.core.protocol.processor.PacketLengthProcessor;
+import org.puzzlebattle.core.utils.Logging;
 import org.puzzlebattle.server.entity.Server;
 import org.puzzlebattle.server.protocol.handlers.ClientEncryptionHandler;
 import org.puzzlebattle.server.protocol.handlers.ClientHandler;
@@ -38,7 +39,6 @@ public class ServerConnection extends ChannelInitializer<Channel> {
 
   @Override
   protected void initChannel(Channel ch) {
-    System.out.println("[Client " + ch.remoteAddress() + "] Connecting...");
     ChannelPipeline pipeline = ch.pipeline();
     PacketLengthProcessor lengthProcessor = new PacketLengthProcessor();
     ClientPacketTypeProcessor typeProcessor = new ClientPacketTypeProcessor();
@@ -47,6 +47,7 @@ public class ServerConnection extends ChannelInitializer<Channel> {
     pipeline.addLast("type", typeProcessor);
     pipeline.addLast("handler", handler);
     clientHandlers.put(ch, handler);
+    Logging.logInfo("Connected Client", "client", ch.remoteAddress());
   }
 
   public void start() {

@@ -29,7 +29,8 @@ public class ClientEncryptionHandler extends ClientHandler {
     client.setHandler(newHandler);
 
     channel.pipeline().addBefore("type", "encryption", new PacketCrypterRSA(keyUtils));
-    sendPacket(new ClientOutEncryption(keyUtils.getAesKey().getEncoded(), keyUtils.getAesEncryptIV().getIV(), keyUtils.getAesDecryptIV().getIV()));
+    sendPacket(new ClientOutEncryption(keyUtils.getAesKey().getEncoded(),
+            keyUtils.getAesEncryptIV().getIV(), keyUtils.getAesDecryptIV().getIV()));
 
     channel.pipeline().replace("encryption", "encryption", new PacketCrypterAES(keyUtils));
   }

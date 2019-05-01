@@ -50,5 +50,9 @@ public interface ClientInPacketHandler {
     unexpected(packet);
   }
 
+  default void handle(ClientInStartGame packet) {
+    unexpected(packet);
+  }
+
   void unexpected(ClientInPacket packet);
 }
