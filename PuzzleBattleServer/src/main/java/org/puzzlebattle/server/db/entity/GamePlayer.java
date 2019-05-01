@@ -1,6 +1,7 @@
 package org.puzzlebattle.server.db.entity;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.query.Query;
 import org.puzzlebattle.core.entity.GameType;
 import org.puzzlebattle.core.utils.ErrorAcceptedConsumer;
@@ -21,6 +22,7 @@ import java.util.List;
  */
 @Data
 @Entity
+@NoArgsConstructor
 @Table
 public class GamePlayer extends AbstractEntity {
 
@@ -56,6 +58,7 @@ public class GamePlayer extends AbstractEntity {
         return;
       }
       GamePlayer gamePlayer = new GamePlayer(user, gameType);
+      gamePlayer.persist(e->result.accept(gamePlayer));
     });
   }
 
@@ -66,6 +69,6 @@ public class GamePlayer extends AbstractEntity {
    */
   public void addScore(int score) {
     this.score = this.score + score;
-    update();
+    //update();
   }
 }

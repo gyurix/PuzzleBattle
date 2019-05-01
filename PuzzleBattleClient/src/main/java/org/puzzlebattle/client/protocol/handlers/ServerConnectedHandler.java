@@ -11,6 +11,7 @@ import org.puzzlebattle.client.protocol.Client;
 import org.puzzlebattle.client.protocol.packets.in.ServerInBestPlayers;
 import org.puzzlebattle.client.protocol.packets.in.ServerInChangeProfile;
 import org.puzzlebattle.client.protocol.packets.in.ServerInStartGame;
+import org.puzzlebattle.client.protocol.packets.in.ServerInUpdateGame;
 import org.puzzlebattle.client.screen.BestPlayersScreen;
 import org.puzzlebattle.client.screen.LoginScreen;
 import org.puzzlebattle.client.utils.ThreadUtils;
@@ -38,13 +39,14 @@ public class ServerConnectedHandler extends ServerHandler {
       switch (packet.getType()) {
         case FOUR_IN_A_ROW:
           new FourInARowScreen(LoginScreen.getInstance().getStage(), new FourInARowGame(packet.isInitializer(),
-                  new FourInARowGameSettings(), client), client);
+                  new FourInARowGameSettings(), client), client).show();
           break;
         case BOUNCER:
           new BallBouncerScreen(LoginScreen.getInstance().getStage(),
-                  new BouncerGame(new BouncerGameSettings(), client), client);
+                  new BouncerGame(new BouncerGameSettings(), client), client).show();
           break;
       }
     });
   }
+
 }

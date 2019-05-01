@@ -1,11 +1,11 @@
 package org.puzzlebattle.server.game;
 
-import org.puzzlebattle.core.entity.GameType;
-import org.puzzlebattle.server.db.entity.GameSettings;
-import org.puzzlebattle.server.entity.Client;
+        import org.puzzlebattle.core.entity.GameType;
+        import org.puzzlebattle.server.db.entity.GameSettings;
+        import org.puzzlebattle.server.entity.Client;
 
-import java.util.ArrayList;
-import java.util.List;
+        import java.util.ArrayList;
+        import java.util.List;
 
 public class FourInARow extends Game {
   private static final int MAXX = 7;
@@ -79,6 +79,7 @@ public class FourInARow extends Game {
       List<Boolean> list = new ArrayList<>();
       map.add(list);
     }
+    nextStep = p1;
   }
 
   @Override
