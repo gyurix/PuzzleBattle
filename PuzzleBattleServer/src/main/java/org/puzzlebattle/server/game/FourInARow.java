@@ -44,14 +44,14 @@ public class FourInARow extends Game {
       toLeft -= 1;
     }
 
-    while (toRight < MAXX && toRight >= 0 && checkable.equals(getCoin(toRight, row))) {
+    while (toRight <= MAXX && toRight >= 0 && checkable.equals(getCoin(toRight, row))) {
       pointsObtainedInARow += 1;
       toRight += 1;
     }
 
     while (toDown >= 0 && checkable.equals(getCoin(column, toDown))) {
       pointsObtainedInAColumn += 1;
-      toDown -= toDown;
+      toDown -= 1;
     }
 
     if (pointsObtainedInARow >= NUMBER_IN_ROW_COUNT) {
@@ -100,8 +100,8 @@ public class FourInARow extends Game {
     drop(client, col);
     nextStep = client == p1 ? p2 : p1;
     nextStep.getHandler().sendPacket(new ClientOutUpdateGame(new int[]{data[0]}));
-   // if (checkWin(client, col))
-   //   lose(nextStep);
+    if (checkWin(client, col))
+      lose(nextStep);
    if (dropped == MAXX * MAXY)
       draw();
   }

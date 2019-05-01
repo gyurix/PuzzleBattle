@@ -104,7 +104,7 @@ public class EndDialog extends AbstractScreen {
    * @return winning dialog height
    */
   public double getHeight() {
-    return 400;
+    return 520;
   }
 
   /**
@@ -113,7 +113,7 @@ public class EndDialog extends AbstractScreen {
    * @return winning dialog width
    */
   public double getWidth() {
-    return 250;
+    return 620;
   }
 
   /**

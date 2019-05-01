@@ -69,6 +69,6 @@ public class GamePlayer extends AbstractEntity {
    */
   public void addScore(int score) {
     this.score = this.score + score;
-    //update();
+    update();
   }
 }
