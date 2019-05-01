@@ -11,6 +11,7 @@ public enum ClientOutType {
   LOGIN_RESULT(ClientOutLoginResult.class),
   START_GAME(ClientOutStartGame.class),
   UPDATE_GAME(ClientOutEndGame.class);
+
   private static HashMap<Class<? extends ClientOutPacket>, ClientOutType> types = new HashMap<>();
 
   static {

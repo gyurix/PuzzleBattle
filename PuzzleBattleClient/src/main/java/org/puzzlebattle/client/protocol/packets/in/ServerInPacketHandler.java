@@ -14,12 +14,19 @@ public interface ServerInPacketHandler {
     unexpected(packet);
   }
 
+  default void handle(ServerInEncryption packet) { unexpected(packet); }
 
-  default void handle(ServerInEncryption packet) {
+  default void handle(ServerInKeepAlive packet) { unexpected(packet); }
+
+  default void handle(ServerInEndGame packet) {
     unexpected(packet);
   }
 
-  default void handle(ServerInKeepAlive packet) {
+  default void handle(ServerInStartGame packet) {
+    unexpected(packet);
+  }
+
+  default void handle(ServerInUpdateGame packet) {
     unexpected(packet);
   }
 

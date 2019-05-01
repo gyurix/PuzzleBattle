@@ -7,8 +7,11 @@ public enum ServerInType {
   BEST_PLAYERS(ServerInBestPlayers::new),
   CHANGE_PROFILE(ServerInChangeProfile::new),
   ENCRYPTION(ServerInEncryption::new),
+  END_GAME(ServerInEndGame::new),
   KEEP_ALIVE(ServerInKeepAlive::new),
-  LOGIN_RESULT(ServerInLoginResult::new);
+  LOGIN_RESULT(ServerInLoginResult::new),
+  START_GAME(ServerInStartGame::new),
+  UPDATE_GAME(ServerInUpdateGame::new);
 
   Callable<? extends ServerInPacket> callable;
 

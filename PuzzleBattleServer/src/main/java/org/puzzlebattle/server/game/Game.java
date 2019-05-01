@@ -1,6 +1,5 @@
 package org.puzzlebattle.server.game;
 
-import org.puzzlebattle.server.db.entity.GameWinner;
 import org.puzzlebattle.server.entity.Client;
 import org.puzzlebattle.server.protocol.packets.out.ClientOutEndGame;
 
