@@ -12,9 +12,12 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import org.puzzlebattle.client.protocol.Client;
-import org.puzzlebattle.client.protocol.packets.out.ServerOutEndGame;
+import org.puzzlebattle.client.protocol.packets.out.ServerOutStartGame;
+import org.puzzlebattle.client.screen.AbstractScreen;
 import org.puzzlebattle.client.screen.MainScreen;
 import org.puzzlebattle.client.screen.SettingsForScreens;
+import org.puzzlebattle.core.entity.GameType;
+import org.puzzlebattle.core.entity.GameWinner;
 
 /**
  * Winning dialog for Four in a row game
@@ -22,53 +25,45 @@ import org.puzzlebattle.client.screen.SettingsForScreens;
  * @author (Jakub Perdek)
  * @version (1.0)
  */
-public abstract class AbstractEndDialog extends Stage {
-
+public class EndDialog extends AbstractScreen {
   private BorderPane border;
-  private Client client;
   private Button closeButton, returnToMenu, newGame;
   private Font f;
+  private GameType gameType;
   private Image image;
   private ImageView img1;
-  private Stage primaryStage;
-  private Scene scene;
-  private User user;
   private VBox verticalBox;
   private Label winner;
 
   /**
    * Creates and shows winning dialog for lucky player
    *
-   * @param primaryStage     - primary stage
+   * @param stage - primary stage
    */
-  public AbstractEndDialog(Stage primaryStage, Client client,String type) {
-    this.client = client;
-    this.primaryStage = primaryStage;
-    this.user = user;
-    ServerOutEndGame endGame = new ServerOutEndGame();
-
-    prepareLayouts(type);
-    scene = new Scene(border, getWinningDialogWidth(), getWinningDialogHeight());
-    applySettingsToStage(type);
+  public EndDialog(Stage stage, Client client, GameType gameType, GameWinner winner) {
+    super(stage, client);
+    this.gameType = gameType;
+    prepareLayouts(winner);
+    applySettingsToStage(winner);
   }
 
   /**
    * Applies settings on stage as close request, player name is shown in title
-   *
    */
-  private void applySettingsToStage(String type) {
-    if(type.equals("winner")) {
-      this.setTitle("Winner");
+  private void applySettingsToStage(GameWinner type) {
+    switch (type) {
+      case P1:
+        stage.setTitle("Winner");
+        break;
+      case P2:
+        stage.setTitle("Draw");
+        break;
+      case DRAW:
+        stage.setTitle("Loser");
+        break;
     }
-    else if(type.equals("draw")) {
-      this.setTitle("Draw");
-    }
-    else if(type.equals("loser")){
-      this.setTitle("Loser");
-    }
-    this.setScene(scene);
-    this.setOnCloseRequest(e -> onClose());
-    this.sizeToScene();
+    stage.setOnCloseRequest(e -> onClose());
+    stage.sizeToScene();
   }
 
   /**
@@ -101,9 +96,20 @@ public abstract class AbstractEndDialog extends Stage {
    * Creates main menu
    */
   private void createMainMenu() {
-    this.close();
-    primaryStage.close();
+    stage.close();
     new MainScreen(new Stage(), new SettingsForScreens(), client).show();
+  }
+
+  @Override
+  public Scene getScene() {
+    return new Scene(border, getWinningDialogWidth(), getWinningDialogHeight());
+  }
+
+  /**
+   * Action on close, whole application will be closed
+   */
+  public void onClose() {
+    Platform.exit();
   }
 
   /**
@@ -125,52 +131,46 @@ public abstract class AbstractEndDialog extends Stage {
   }
 
   /**
-   * Action on close, whole application will be closed
-   */
-  private void onClose() {
-    this.close();
-    Platform.exit();
-  }
-
-  /**
    * Prepare layouts of Four in a row screen
    *
-   * @parama abstractScreen screen of Four in a row game
+   * @param type - Type of the end screen
    */
-  private void prepareLayouts(String type) {
+  private void prepareLayouts(GameWinner type) {
     border = new BorderPane();
     border.setMaxSize(getWinningDialogWidth(), getWinningDialogHeight());
     verticalBox = new VBox(10);
     createAndPrepareButtons();
     verticalBox.getChildren().addAll(newGame, returnToMenu, closeButton);
     border.setRight(verticalBox);
-    if(type.equals("winner")) {
-      tryToAddImage("pictures/oldChap.png");
-      createAndPrepareLabel("Winner");
-    }
-    else if(type.equals("loser")){
-      tryToAddImage("pictures/lose.jpg");
-      createAndPrepareLabel("Loser");
-    }
-    else if(type.equals("draw")){
-      tryToAddImage("pictures/draw.jpg");
-      createAndPrepareLabel("Draw");
+    switch (type) {
+      case P1:
+        tryToAddImage("pictures/oldChap.png");
+        createAndPrepareLabel("Winner");
+        break;
+      case P2:
+        tryToAddImage("pictures/lose.jpg");
+        createAndPrepareLabel("Loser");
+        break;
+      case DRAW:
+        tryToAddImage("pictures/draw.jpg");
+        createAndPrepareLabel("Draw");
+        break;
     }
     border.setTop(winner);
   }
 
   /**
    * Starts a new game
-   *
    */
-  protected abstract void startNewGame();
+  protected void startNewGame() {
+    new ServerOutStartGame(gameType);
+  }
 
   /**
    * Adds a picture of winner in winning dialog screen
    */
-  private void tryToAddImage(String cesta) {
-    String imageURL = cesta;
-    image = new Image(imageURL);
+  private void tryToAddImage(String imgUrl) {
+    image = new Image(imgUrl);
     img1 = new ImageView();
     img1.setImage(image);
     border.setLeft(img1);
