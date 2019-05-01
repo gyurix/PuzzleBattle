@@ -4,6 +4,9 @@ import io.netty.buffer.ByteBuf;
 import org.puzzlebattle.core.utils.Callable;
 
 public enum ServerInType {
+  BEST_PLAYERS(ServerInBestPlayers::new),
+  CHANGE_PROFILE(ServerInChangeProfile::new),
+  ENCRYPTION(ServerInEncryption::new),
   LOGIN_RESULT(ServerInLoginResult::new);
 
   Callable<? extends ServerInPacket> callable;

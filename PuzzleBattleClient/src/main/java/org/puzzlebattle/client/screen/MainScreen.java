@@ -13,7 +13,7 @@ import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import org.puzzlebattle.client.ClientLauncher;
-import org.puzzlebattle.client.games.UserPuzzleBattle;
+import org.puzzlebattle.client.games.User;
 import org.puzzlebattle.client.games.bouncer.BallBouncerScreen;
 import org.puzzlebattle.client.games.bouncer.BouncerGame;
 import org.puzzlebattle.client.games.bouncer.BouncerGameSettings;
@@ -21,10 +21,8 @@ import org.puzzlebattle.client.games.fourinarow.FourInARowGame;
 import org.puzzlebattle.client.games.fourinarow.FourInARowGameSettings;
 import org.puzzlebattle.client.games.fourinarow.FourInARowScreen;
 import org.puzzlebattle.client.protocol.Client;
-import org.puzzlebattle.client.protocol.packets.in.ServerInChangeProfile;
-import org.puzzlebattle.client.protocol.packets.out.ServerOutLogin;
-import org.puzzlebattle.client.protocol.packets.out.startGame.ServerOutLaunchBallBouncer;
-import org.puzzlebattle.client.protocol.packets.out.startGame.ServerOutLaunchFourInARow;
+import org.puzzlebattle.client.protocol.packets.out.ServerOutStartGame;
+import org.puzzlebattle.core.entity.GameType;
 import org.puzzlebattle.core.utils.LangFile;
 import org.puzzlebattle.core.utils.Logging;
 
@@ -39,7 +37,6 @@ import java.io.IOException;
  * @version (1.0)
  */
 public class MainScreen extends AbstractScreen {
-
   private Font fBallBouncer, fFourInARow;
   private FriendshipMenu friendshipMenu;
   private GridPane gridPane;
@@ -52,17 +49,15 @@ public class MainScreen extends AbstractScreen {
   private Region regionFourInARow, regionBallBouncer;
   private Separator separator;
   private SettingsForScreens settingsForScreens;
-  private UserPuzzleBattle user;
   private VBox vBoxBallBouncerGame, vBoxFourInARowGame;
   private Button viewBestPlayersBallBouncer, viewBestPlayersFourInARow, viewProfileButton;
 
   /**
    * Constructor which creates main screen in the program.
    */
-  public MainScreen(Stage stage, SettingsForScreens settingsForScreens, UserPuzzleBattle user, Client client) {
+  public MainScreen(Stage stage, SettingsForScreens settingsForScreens, Client client) {
     super(stage, client);
     this.settingsForScreens = settingsForScreens;
-    this.user = user;
 
     prepareBallBouncerGameMenu();
     prepareFourInARowGameMenu();
@@ -91,11 +86,10 @@ public class MainScreen extends AbstractScreen {
    * Launching Ball bouncer game
    */
   private void launchBallBouncer() {
-
-    ServerOutLaunchBallBouncer launchBallBouncer = new ServerOutLaunchBallBouncer(user.getUserName(), user.getPassword());
+    ServerOutStartGame launchBallBouncer = new ServerOutStartGame(GameType.BOUNCER);
     client.sendPacket(launchBallBouncer);
     //addBallBouncerGameToDatabase(user, true);
-    super.getStage().close();
+    getStage().close();
     new BallBouncerScreen(new Stage(), new BouncerGame(null, new BouncerGameSettings()), client).show();
   }
 
@@ -103,11 +97,11 @@ public class MainScreen extends AbstractScreen {
    * Launching Four in a row game
    */
   private void launchFourInARow() {
-    ServerOutLaunchFourInARow launchBallBouncer = new ServerOutLaunchFourInARow(user.getUserName(), user.getPassword());
-    client.sendPacket(launchBallBouncer);
+    ServerOutStartGame launchPacket = new ServerOutStartGame(GameType.FOUR_IN_A_ROW);
+    client.sendPacket(launchPacket);
     //GameTable gameTable = addFourInARowGameToDatabase(user, true);
-    super.getStage().close();
-    new FourInARowScreen(new Stage(), new FourInARowGame(null, new FourInARowGameSettings()), user, client).show();
+    getStage().close();
+    new FourInARowScreen(new Stage(), new FourInARowGame(null, new FourInARowGameSettings()), client).show();
   }
 
   /**
@@ -197,7 +191,7 @@ public class MainScreen extends AbstractScreen {
    * Prepares friendship menu
    */
   private void prepareFriendshipMenu() {
-    friendshipMenu = new FriendshipMenu(new Stage(), user, client);
+    friendshipMenu = new FriendshipMenu(new Stage(), client);
     friendshipMenu.show();
   }
 
@@ -254,18 +248,8 @@ public class MainScreen extends AbstractScreen {
    */
   private void prepareProfileScreen() {
     playerProfileScreen = new PlayerProfileScreen(new Stage(), client);
-    ServerOutLogin login = new ServerOutLogin(user.getPassword(), user.getUserName());
-    client.sendPacket(login);
-
-    ServerInChangeProfile serverInChangeProfile = new ServerInChangeProfile();
-    UserPuzzleBattle userFromDatabase = serverInChangeProfile.getProfile();
-
-    if (userFromDatabase != null) {
-      updateInformationPlayerProfileScreen(playerProfileScreen, userFromDatabase);
-      playerProfileScreen.show();
-    } else {
-      Logging.logWarning("User data hasn't been obtained so far");
-    }
+    updateInformationPlayerProfileScreen(playerProfileScreen, client.getUser());
+    playerProfileScreen.show();
   }
 
   /**
@@ -295,11 +279,11 @@ public class MainScreen extends AbstractScreen {
   private void reLogin() {
     getStage().close();
     new LoginScreen(getStage(), new LanguageSelector(getStage(), 100, 25),
-            new Client(ClientLauncher.getConfig().getServerAddress())).show();
+            new Client(ClientLauncher.getConfig().getServer())).show();
   }
 
   /*
-  private void updateInformationPlayerProfileScreen1(PlayerProfileScreen playerProfile, UserPuzzleBattle userFromDatabase) {
+  private void updateInformationPlayerProfileScreen1(PlayerProfileScreen playerProfile, User userFromDatabase) {
 
     DateFormat df;
     String convertedDate;
@@ -360,7 +344,7 @@ public class MainScreen extends AbstractScreen {
    * @param playerProfile    player profile screen
    * @param userFromDatabase user loaded width additional information from database using his nickname and password
    */
-  private void updateInformationPlayerProfileScreen(PlayerProfileScreen playerProfile, UserPuzzleBattle userFromDatabase) {
+  private void updateInformationPlayerProfileScreen(PlayerProfileScreen playerProfile, User userFromDatabase) {
 
     File imageFile = new File("PuzzleBattleClient/src/main/resources/pictures/avatar.bmp");
     try {
@@ -403,7 +387,7 @@ public class MainScreen extends AbstractScreen {
    * Method creates screen for best players and shows it for user
    */
   private void viewBestPlayers() {
-    BestPlayersScreen bestPlayersScreen = new BestPlayersScreen(user, new Stage(), settingsForScreens, client);
+    BestPlayersScreen bestPlayersScreen = new BestPlayersScreen(new Stage(), settingsForScreens, client);
     bestPlayersScreen.show();
   }
 }

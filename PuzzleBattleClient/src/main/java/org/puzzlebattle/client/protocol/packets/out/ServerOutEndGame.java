@@ -6,7 +6,8 @@ import lombok.Data;
 
 @AllArgsConstructor
 @Data
-public class ServerOutLoadFriends extends ServerOutPacket {
+public class ServerOutEndGame extends ServerOutPacket {
+
   @Override
   public void write(ByteBuf buf) {
   }

@@ -13,6 +13,7 @@ import org.puzzlebattle.client.protocol.handlers.ServerEncryptionHandler;
 import org.puzzlebattle.client.protocol.handlers.ServerHandler;
 import org.puzzlebattle.client.protocol.packets.out.ServerOutEncryption;
 import org.puzzlebattle.client.protocol.packets.out.ServerOutPacket;
+import org.puzzlebattle.client.utils.ThreadUtils;
 import org.puzzlebattle.core.protocol.processor.PacketLengthProcessor;
 import org.puzzlebattle.core.utils.EncryptionUtils;
 
@@ -21,14 +22,14 @@ import java.security.KeyPair;
 
 @Getter
 public class ServerConnection {
-  private Thread connectionThread;
+  private Thread connectionThread = new Thread(this::start);
   private Client client;
   @Setter
   private ServerHandler handler;
 
   public ServerConnection(Client client) {
-    connectionThread = new Thread(this::start);
     this.client = client;
+    connectionThread.start();
   }
 
   public void sendPacket(ServerOutPacket packet) {
@@ -54,12 +55,14 @@ public class ServerConnection {
           pipeline.addLast("length", lengthProcessor);
           pipeline.addLast("type", typeProcessor);
           pipeline.addLast("handler", handler);
+          EncryptionUtils utils = client.getEncryptionUtils();
+          KeyPair pair = EncryptionUtils.generateRSA();
+          utils.setRsaEncryptKey(pair.getPublic());
+          utils.setRsaDecryptKey(pair.getPrivate());
+          ThreadUtils.async(() -> {
+            sendPacket(new ServerOutEncryption(utils.getRsaEncryptKey().getEncoded()));
+          });
           System.out.println("Established TCP connection.");
-          EncryptionUtils encryptionUtils = client.getEncryptionUtils();
-          KeyPair rsa = EncryptionUtils.generateRSA();
-          encryptionUtils.setRsaDecryptKey(rsa.getPrivate());
-          encryptionUtils.setRsaEncryptKey(rsa.getPublic());
-          sendPacket(new ServerOutEncryption(rsa.getPublic().getEncoded()));
         }
       });
       ChannelFuture channelFuture = clientBootstrap.connect().sync();

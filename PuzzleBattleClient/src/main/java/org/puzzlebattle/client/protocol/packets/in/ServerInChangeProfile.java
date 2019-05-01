@@ -2,7 +2,7 @@ package org.puzzlebattle.client.protocol.packets.in;
 
 import io.netty.buffer.ByteBuf;
 import lombok.Data;
-import org.puzzlebattle.client.games.UserPuzzleBattle;
+import org.puzzlebattle.client.games.User;
 
 import static org.puzzlebattle.core.protocol.ByteBufUtils.readBytes;
 import static org.puzzlebattle.core.protocol.ByteBufUtils.readString;
@@ -10,7 +10,7 @@ import static org.puzzlebattle.core.protocol.ByteBufUtils.readString;
 
 @Data
 public class ServerInChangeProfile extends ServerInPacket {
-  private UserPuzzleBattle profile;
+  private User profile;
 
   @Override
   public void handle(ServerInPacketHandler handler) {
@@ -19,7 +19,7 @@ public class ServerInChangeProfile extends ServerInPacket {
 
   @Override
   public void read(ByteBuf buf) {
-    profile = UserPuzzleBattle.builder().userName(readString(buf))
+    profile = User.builder().userName(readString(buf))
             .password(readString(buf))
             .name(readString(buf))
             .surname(readString(buf))

@@ -10,9 +10,9 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import org.puzzlebattle.client.games.UserPuzzleBattle;
+import org.puzzlebattle.client.games.User;
 import org.puzzlebattle.client.protocol.Client;
-import org.puzzlebattle.client.protocol.packets.out.endGame.ServerOutEndFourInARow;
+import org.puzzlebattle.client.protocol.packets.out.ServerOutEndGame;
 import org.puzzlebattle.client.screen.MainScreen;
 import org.puzzlebattle.client.screen.SettingsForScreens;
 
@@ -25,33 +25,31 @@ import org.puzzlebattle.client.screen.SettingsForScreens;
 public class WinningDialog extends Stage {
 
   private BorderPane border;
+  private Client client;
   private Button closeButton, returnToMenu, newGame;
   private Font f;
   private Image image;
   private ImageView img1;
   private Stage primaryStage;
   private Scene scene;
-  private UserPuzzleBattle user;
+  private User user;
   private VBox verticalBox;
   private Label winner;
-  private Client client;
 
   /**
    * Creates and shows winning dialog for lucky player
    *
-   * @param fourInARowScreen -four in a row screen
-   * @param winningPlayer    -winner of the game
+   * @param fourInARowScreen - four in a row screen
+   * @param winningPlayer    - winner of the game
    * @param primaryStage     - primary stage
-   * @param user             - user of Puzzle Battle
    */
   public WinningDialog(FourInARowScreen fourInARowScreen, FourInARowPlayer winningPlayer,
-                       Stage primaryStage, UserPuzzleBattle user, Client client) {
+                       Stage primaryStage, Client client) {
     this.client = client;
     this.primaryStage = primaryStage;
     this.user = user;
-    ServerOutEndFourInARow endFourInARow = new ServerOutEndFourInARow(winningPlayer.getPlayingNumber(),
-            user.getUserName(), user.getPassword(), null);
-    fourInARowScreen.getClient().sendPacket(endFourInARow);
+    ServerOutEndGame endGame = new ServerOutEndGame();
+    fourInARowScreen.getClient().sendPacket(endGame);
     prepareLayouts(fourInARowScreen);
     scene = new Scene(border, fourInARowScreen.getWidth(), fourInARowScreen.getHeight());
     applySettingsToStage(winningPlayer);
@@ -104,7 +102,7 @@ public class WinningDialog extends Stage {
   private void createMainMenu() {
     this.close();
     primaryStage.close();
-    new MainScreen(new Stage(), new SettingsForScreens(), user, client).show();
+    new MainScreen(new Stage(), new SettingsForScreens(), client).show();
   }
 
   /**
@@ -162,7 +160,7 @@ public class WinningDialog extends Stage {
     //GameTable newGameTable = GameTable.createTheSameGameFromOlderGame(gameTable, new FourInARowGameSettings());
     new FourInARowScreen(fourInARowScreen.getStage(),
             new FourInARowGame(null, new FourInARowGameSettings()),
-            user, client).show();
+            client).show();
   }
 
   /**

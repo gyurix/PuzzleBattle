@@ -50,7 +50,7 @@ public class ClientLauncher extends Application {
       config = gson.fromJson(new FileReader("config.json"), ClientConfig.class);
       LanguageSelector languageSelector = new LanguageSelector(stage);
       LangFile.lang.msg("started", "name", "Puzzle Battle Client", "version", "1.0");
-      new LoginScreen(stage, languageSelector, new Client(config.getServerAddress())).show();
+      new LoginScreen(stage, languageSelector, new Client(config.getServer())).show();
     } catch (Throwable e) {
       Logging.logSevere("Failed to start client", "error", e);
     }

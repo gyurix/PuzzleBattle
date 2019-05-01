@@ -9,9 +9,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import lombok.Getter;
-import org.puzzlebattle.client.games.UserPuzzleBattle;
+import org.puzzlebattle.client.games.User;
 import org.puzzlebattle.client.protocol.Client;
 import org.puzzlebattle.client.protocol.packets.out.ServerOutLogin;
+import org.puzzlebattle.core.utils.EncryptionUtils;
+
+import java.security.KeyPair;
 
 import static org.puzzlebattle.core.utils.LangFile.lang;
 import static org.puzzlebattle.core.utils.Logging.logInfo;
@@ -39,14 +42,14 @@ public class LoginScreen extends AbstractScreen {
   private Label separatorLeft, separatorRight;
   private LanguageSelector languageSelector;
   @Getter
-  private UserPuzzleBattle user;
+  private User user;
 
   /**
    * Constructor which creates screen for log in
    */
   public LoginScreen(Stage stage, LanguageSelector languageSelector, Client client) {
     super(stage, client);
-    instance=this;
+    instance = this;
     this.languageSelector = languageSelector;
     createComponentsForLoginScreen();
     prepareScreenAndPane();
@@ -131,10 +134,13 @@ public class LoginScreen extends AbstractScreen {
   private void login(Event event) {
     pwd = passwordField.getText();
     login = loginTextField.getText();
-    this.user = new UserPuzzleBattle(login, pwd);
+    this.user = new User(login, pwd);
     logInfo("Logging in...", "login", login);
-    ServerOutLogin serverLogin = new ServerOutLogin(user.getUserName(), user.getPassword());
-    //new Server().sendPacket(serverLogin);
+    EncryptionUtils encryptionUtils = client.getEncryptionUtils();
+    KeyPair rsa = EncryptionUtils.generateRSA();
+    encryptionUtils.setRsaDecryptKey(rsa.getPrivate());
+    encryptionUtils.setRsaEncryptKey(rsa.getPublic());
+    client.sendPacket(new ServerOutLogin(user.getUserName(), user.getPassword()));
   }
 
   /**

@@ -13,5 +13,5 @@ public class ClientConfig {
   private HashMap<String, BouncerGameSettings> fourInARowGameT;
   @Setter
   private String lang = "en";
-  private AddressInfo serverAddress;
+  private AddressInfo server;
 }

@@ -3,10 +3,19 @@ package org.puzzlebattle.client.protocol.packets.out;
 import java.util.HashMap;
 
 public enum ServerOutType {
+  BEST_PLAYERS_REQUEST(ServerOutBestPlayersRequest.class),
+  CHANGE_PROFILE(ServerOutChangeProfile.class),
   ENCRYPTION(ServerOutEncryption.class),
+  FIND_FRIEND(ServerOutFindFriend.class),
+  GAME_PLAYER(ServerOutGamePlayer.class),
+  INSERT_GAME_SETTINGS(ServerOutInsertGameSettings.class),
   KEEP_ALIVE(ServerOutKeepAlive.class),
   KEYBOARD_ACTION(ServerOutKeyboardAction.class),
-  LOGIN_RESULT(ServerOutLogin.class);
+  LOAD_FRIENDS(ServerOutLoadFriends.class),
+  LOGIN(ServerOutLogin.class),
+  MOUSE_ACTION(ServerOutMouseAction.class),
+  REGISTER(ServerOutRegister.class),
+  START_GAME(ServerOutStartGame.class);
 
   private static HashMap<Class<? extends ServerOutPacket>, ServerOutType> types = new HashMap<>();
 

@@ -8,7 +8,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import org.puzzlebattle.client.games.UserPuzzleBattle;
 import org.puzzlebattle.client.protocol.Client;
 import org.puzzlebattle.client.protocol.packets.in.ServerInBestPlayers;
 import org.puzzlebattle.client.protocol.packets.out.ServerOutBestPlayersRequest;
@@ -29,15 +28,13 @@ public class FriendshipMenu extends AbstractScreen {
   private FriendshipTable foundUsers, friendshipTable;
   private Region horizontalForButtonRegion;
   private VBox tableContent, menuButtons;
-  private UserPuzzleBattle user;
   private HBox wholeScreen;
 
   /*
    *  Creates friendship  menu
    */
-  public FriendshipMenu(Stage stage, UserPuzzleBattle user, Client client) {
+  public FriendshipMenu(Stage stage, Client client) {
     super(stage, client);
-    this.user = user;
     prepareComponentsForFriendshipMenu();
   }
 
@@ -83,8 +80,7 @@ public class FriendshipMenu extends AbstractScreen {
    * Loads best users to fill table with no specified users for starting friendship
    */
   private ObservableList<UserGameAttributes> loadBestFriends() {
-    ServerOutBestPlayersRequest bestPlayers = new ServerOutBestPlayersRequest(
-            10, user.getUserName(), user.getPassword());
+    ServerOutBestPlayersRequest bestPlayers = new ServerOutBestPlayersRequest(10);
     client.sendPacket(bestPlayers);
     ServerInBestPlayers bestPlayersReceinved = new ServerInBestPlayers();
     return bestPlayersReceinved.getUserGameAttributes();
@@ -94,7 +90,7 @@ public class FriendshipMenu extends AbstractScreen {
    * Loads and fills table with friends
    */
   private void loadDataAndFillTableFromDatabase() {
-    ServerOutLoadFriends loadFriends = new ServerOutLoadFriends(user.getUserName(), user.getPassword());
+    ServerOutLoadFriends loadFriends = new ServerOutLoadFriends();
     client.sendPacket(loadFriends);
   }
 
