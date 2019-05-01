@@ -9,6 +9,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import lombok.Getter;
 import org.puzzlebattle.client.protocol.Client;
+import org.puzzlebattle.client.protocol.packets.out.ServerOutEndGame;
 import org.puzzlebattle.client.screen.AbstractScreen;
 import org.puzzlebattle.core.utils.Logging;
 
@@ -95,6 +96,13 @@ public class FourInARowScreen extends AbstractScreen {
    * @param key key which is pressed
    */
   public void onKeyEvent(KeyCode key) {
+
+    if(key == KeyCode.ESCAPE){
+      ServerOutEndGame endGame = new ServerOutEndGame();
+      client.sendPacket(endGame);
+      return;
+    }
+
     FourInARowPoint point = game.questionForMove(key);
     if (point != null) {
       Coin coin = createCoin(point);

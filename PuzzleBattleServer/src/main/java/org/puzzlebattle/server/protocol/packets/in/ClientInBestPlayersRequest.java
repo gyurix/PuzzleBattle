@@ -4,19 +4,15 @@ import io.netty.buffer.ByteBuf;
 import lombok.Data;
 import org.puzzlebattle.core.protocol.ByteBufUtils;
 
+
 @Data
 public class ClientInBestPlayersRequest extends ClientInPacket {
   private int numberBestPlayers;
-  private String password;
-  private String username;
-
   public void handle(ClientInPacketHandler handler) {
     handler.handle(this);
   }
 
   public void read(ByteBuf buf) {
-    username = ByteBufUtils.readString(buf);
-    password = ByteBufUtils.readString(buf);
     numberBestPlayers = buf.readInt();
   }
 
