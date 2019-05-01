@@ -7,8 +7,8 @@ import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import org.puzzlebattle.core.entity.AddressInfo;
 import org.puzzlebattle.core.protocol.processor.PacketLengthProcessor;
-import org.puzzlebattle.server.entity.AddressInfo;
 import org.puzzlebattle.server.entity.Server;
 import org.puzzlebattle.server.protocol.handlers.ClientEncryptionHandler;
 import org.puzzlebattle.server.protocol.handlers.ClientHandler;
@@ -25,9 +25,11 @@ import static org.puzzlebattle.core.utils.Logging.logSevere;
 public class ServerConnection extends ChannelInitializer<Channel> {
   private final Map<Channel, ClientHandler> clientHandlers = Collections.synchronizedMap(new HashMap<>());
   private final Server server;
+  private final Thread connectionThread = new Thread(this::start);
 
   public ServerConnection(Server server) {
     this.server = server;
+    connectionThread.start();
   }
 
   public void cleanup() {

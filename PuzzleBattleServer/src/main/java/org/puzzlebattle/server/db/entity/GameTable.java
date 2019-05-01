@@ -83,7 +83,7 @@ public class GameTable {
     GamePlayer player2;
     GameTable gameTable;
 
-    player1 = GamePlayer.createGamePlayerFromUserIfNotExist(user, gameType);
+    player1 = null;//GamePlayer.createGamePlayerFromUserIfNotExist(user, gameType);
     if (test) {
       player2 = GamePlayer.createVirtualPlayerForTest(gameType);
     } else {

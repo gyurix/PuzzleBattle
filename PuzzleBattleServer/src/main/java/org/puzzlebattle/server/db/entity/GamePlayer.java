@@ -35,7 +35,7 @@ public class GamePlayer {
    * @param user
    * @param gameTypeForNewUser
    * @return
-   */
+   *//*
   public static GamePlayer createGamePlayerFromUserIfNotExist(User user, int gameTypeForNewUser) {
     GamePlayer foundGamePlayer;
     if ((foundGamePlayer = findGamePlayerInDB(UserManager.findUser(user.getNickName(), user.getPassword()), gameTypeForNewUser)) == null) {
@@ -48,7 +48,7 @@ public class GamePlayer {
     } else {
       return foundGamePlayer;
     }
-  }
+  }*/
 
   /**
    * @param gameType
