@@ -1,4 +1,5 @@
-package org.puzzlebattle.client.games.fourinarow;
+package org.puzzlebattle.client.games;
+
 
 import javafx.application.Platform;
 import javafx.scene.Scene;
@@ -10,9 +11,13 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import org.puzzlebattle.client.games.User;
+import org.puzzlebattle.client.games.fourinarow.FourInARowGame;
+import org.puzzlebattle.client.games.fourinarow.FourInARowGameSettings;
+import org.puzzlebattle.client.games.fourinarow.FourInARowPlayer;
+import org.puzzlebattle.client.games.fourinarow.FourInARowScreen;
 import org.puzzlebattle.client.protocol.Client;
 import org.puzzlebattle.client.protocol.packets.out.ServerOutEndGame;
+import org.puzzlebattle.client.screen.AbstractScreen;
 import org.puzzlebattle.client.screen.MainScreen;
 import org.puzzlebattle.client.screen.SettingsForScreens;
 
@@ -22,7 +27,7 @@ import org.puzzlebattle.client.screen.SettingsForScreens;
  * @author (Jakub Perdek)
  * @version (1.0)
  */
-public class WinningDialog extends Stage {
+public abstract class AbstractEndDialog extends Stage {
 
   private BorderPane border;
   private Client client;
@@ -39,30 +44,28 @@ public class WinningDialog extends Stage {
   /**
    * Creates and shows winning dialog for lucky player
    *
-   * @param fourInARowScreen - four in a row screen
-   * @param winningPlayer    - winner of the game
+   * @param screen - four in a row screen
    * @param primaryStage     - primary stage
    */
-  public WinningDialog(FourInARowScreen fourInARowScreen, FourInARowPlayer winningPlayer,
-                       Stage primaryStage, Client client,String type) {
+  public AbstractEndDialog(AbstractScreen screen,int winnerNumber,
+                           Stage primaryStage, Client client,String type) {
     this.client = client;
     this.primaryStage = primaryStage;
     this.user = user;
     ServerOutEndGame endGame = new ServerOutEndGame();
-    fourInARowScreen.getClient().sendPacket(endGame);
-    prepareLayouts(fourInARowScreen,type);
-    scene = new Scene(border, fourInARowScreen.getWidth(), fourInARowScreen.getHeight());
-    applySettingsToStage(winningPlayer,type);
+    screen.getClient().sendPacket(endGame);
+
+    prepareLayouts(screen,type);
+    scene = new Scene(border, screen.getWidth(), screen.getHeight());
+    applySettingsToStage(winnerNumber,type);
   }
 
   /**
    * Applies settings on stage as close request, player name is shown in title
    *
-   * @param winningPlayer - winner of Four in a row game
    */
-  private void applySettingsToStage(FourInARowPlayer winningPlayer,String type) {
+  private void applySettingsToStage(int playerNumber, String type) {
     if(type.equals("winner")) {
-      int playerNumber = winningPlayer.getPlayingNumber();
       this.setTitle("Player number " + playerNumber + " is winner.");
     }
     else if(type.equals("draw")) {
@@ -79,9 +82,9 @@ public class WinningDialog extends Stage {
   /**
    * Creates and prepares buttons for Four in a row screen
    *
-   * @param fourInARowScreen - screen of Four in a row game
+   * @param abstractScreen - screen of Four in a row game
    */
-  private void createAndPrepareButtons(FourInARowScreen fourInARowScreen) {
+  private void createAndPrepareButtons(AbstractScreen abstractScreen) {
     newGame = new Button("New game");
     returnToMenu = new Button("Return to menu");
     closeButton = new Button("Close the game");
@@ -91,7 +94,7 @@ public class WinningDialog extends Stage {
 
     closeButton.setOnAction(e -> onClose());
     returnToMenu.setOnAction(e -> createMainMenu());
-    newGame.setOnAction(e -> startNewGame(fourInARowScreen));
+    newGame.setOnAction(e -> startNewGame(abstractScreen));
   }
 
   /**
@@ -142,13 +145,13 @@ public class WinningDialog extends Stage {
   /**
    * Prepare layouts of Four in a row screen
    *
-   * @param fourInARowScreen screen of Four in a row game
+   * @parama abstractScreen screen of Four in a row game
    */
-  private void prepareLayouts(FourInARowScreen fourInARowScreen,String type) {
+  private void prepareLayouts(AbstractScreen abstractScreen,String type) {
     border = new BorderPane();
-    border.setMaxSize(fourInARowScreen.getWidth(), fourInARowScreen.getHeight());
+    border.setMaxSize(abstractScreen.getWidth(), abstractScreen.getHeight());
     verticalBox = new VBox(10);
-    createAndPrepareButtons(fourInARowScreen);
+    createAndPrepareButtons(abstractScreen);
     verticalBox.getChildren().addAll(newGame, returnToMenu, closeButton);
     border.setRight(verticalBox);
     if(type.equals("winner")) {
@@ -169,17 +172,9 @@ public class WinningDialog extends Stage {
   /**
    * Starts a new game
    *
-   * @param fourInARowScreen - screen of Four in a row game
+   * @param abstractScreen - screen of Four in a row game
    */
-  private void startNewGame(FourInARowScreen fourInARowScreen) {
-    this.close();
-    fourInARowScreen.getStage().close();
-    //GET FOUR IN A ROW GAME SETTINGS
-    //GameTable newGameTable = GameTable.createTheSameGameFromOlderGame(gameTable, new FourInARowGameSettings());
-    new FourInARowScreen(fourInARowScreen.getStage(),
-            new FourInARowGame(null, new FourInARowGameSettings()),
-            client).show();
-  }
+  protected abstract void startNewGame(AbstractScreen abstractScreen);
 
   /**
    * Adds a picture of winner in winning dialog screen
