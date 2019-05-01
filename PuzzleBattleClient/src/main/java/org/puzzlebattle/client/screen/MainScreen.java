@@ -12,6 +12,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import org.puzzlebattle.client.ClientLauncher;
 import org.puzzlebattle.client.games.UserPuzzleBattle;
 import org.puzzlebattle.client.games.bouncer.BallBouncerScreen;
 import org.puzzlebattle.client.games.bouncer.BouncerGame;
@@ -19,18 +20,17 @@ import org.puzzlebattle.client.games.bouncer.BouncerGameSettings;
 import org.puzzlebattle.client.games.fourinarow.FourInARowGame;
 import org.puzzlebattle.client.games.fourinarow.FourInARowGameSettings;
 import org.puzzlebattle.client.games.fourinarow.FourInARowScreen;
-import org.puzzlebattle.client.protocol.Server;
+import org.puzzlebattle.client.protocol.Client;
 import org.puzzlebattle.client.protocol.packets.in.ServerInChangeProfile;
 import org.puzzlebattle.client.protocol.packets.out.ServerOutLogin;
 import org.puzzlebattle.client.protocol.packets.out.startGame.ServerOutLaunchBallBouncer;
 import org.puzzlebattle.client.protocol.packets.out.startGame.ServerOutLaunchFourInARow;
+import org.puzzlebattle.core.utils.LangFile;
 import org.puzzlebattle.core.utils.Logging;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-
-import static org.puzzlebattle.core.utils.LangFile.lang;
 
 /**
  * Main screen in the program. Probably games can be chosen here.
@@ -59,8 +59,8 @@ public class MainScreen extends AbstractScreen {
   /**
    * Constructor which creates main screen in the program.
    */
-  public MainScreen(Stage stage, SettingsForScreens settingsForScreens, UserPuzzleBattle user) {
-    super(stage);
+  public MainScreen(Stage stage, SettingsForScreens settingsForScreens, UserPuzzleBattle user, Client client) {
+    super(stage, client);
     this.settingsForScreens = settingsForScreens;
     this.user = user;
 
@@ -93,10 +93,10 @@ public class MainScreen extends AbstractScreen {
   private void launchBallBouncer() {
 
     ServerOutLaunchBallBouncer launchBallBouncer = new ServerOutLaunchBallBouncer(user.getUserName(), user.getPassword());
-    new Server().sendPacket(launchBallBouncer);
+    client.sendPacket(launchBallBouncer);
     //addBallBouncerGameToDatabase(user, true);
     super.getStage().close();
-    new BallBouncerScreen(new Stage(), new BouncerGame(null, new BouncerGameSettings())).show();
+    new BallBouncerScreen(new Stage(), new BouncerGame(null, new BouncerGameSettings()), client).show();
   }
 
   /**
@@ -104,10 +104,10 @@ public class MainScreen extends AbstractScreen {
    */
   private void launchFourInARow() {
     ServerOutLaunchFourInARow launchBallBouncer = new ServerOutLaunchFourInARow(user.getUserName(), user.getPassword());
-    new Server().sendPacket(launchBallBouncer);
+    client.sendPacket(launchBallBouncer);
     //GameTable gameTable = addFourInARowGameToDatabase(user, true);
     super.getStage().close();
-    new FourInARowScreen(new Stage(), new FourInARowGame(null, new FourInARowGameSettings()), user).show();
+    new FourInARowScreen(new Stage(), new FourInARowGame(null, new FourInARowGameSettings()), user, client).show();
   }
 
   /**
@@ -133,10 +133,10 @@ public class MainScreen extends AbstractScreen {
    * Prepare buttons for ball bouncer
    */
   private void prepareButtonsBallBouncer() {
-    startBallBouncerGame = createButton(lang.get("mainScreen.ballBouncer.launchBallBouncerGame"));
+    startBallBouncerGame = createButton(LangFile.lang.get("mainScreen.ballBouncer.launchBallBouncerGame"));
     startBallBouncerGame.setOnAction(e -> launchBallBouncer());
 
-    viewBestPlayersBallBouncer = createButton(lang.get("mainScreen.ballBouncer.viewBestBallBouncerPlayers"));
+    viewBestPlayersBallBouncer = createButton(LangFile.lang.get("mainScreen.ballBouncer.viewBestBallBouncerPlayers"));
     viewBestPlayersBallBouncer.setOnAction(e -> viewBestPlayers());
   }
 
@@ -144,10 +144,10 @@ public class MainScreen extends AbstractScreen {
    * Prepare buttons for Four in a row
    */
   private void prepareButtonsFourInARow() {
-    startFourInARowGame = createButton(lang.get("mainScreen.fourInARow.launchFourInARowGame"));
+    startFourInARowGame = createButton(LangFile.lang.get("mainScreen.fourInARow.launchFourInARowGame"));
     startFourInARowGame.setOnAction(e -> launchFourInARow());
 
-    viewBestPlayersFourInARow = createButton(lang.get("mainScreen.fourInARow.viewBestFourInARowPlayers"));
+    viewBestPlayersFourInARow = createButton(LangFile.lang.get("mainScreen.fourInARow.viewBestFourInARowPlayers"));
     viewBestPlayersFourInARow.setOnAction(e -> viewBestPlayers());
   }
 
@@ -155,13 +155,13 @@ public class MainScreen extends AbstractScreen {
    * Preparing escape buttons, for example reLoginButton, closeMainScreen and viewProfileButton
    */
   private void prepareEscapeButtons() {
-    reLoginButton = createButton(lang.get("mainScreen.menu.reLogin"));
+    reLoginButton = createButton(LangFile.lang.get("mainScreen.menu.reLogin"));
     reLoginButton.setOnAction(e -> reLogin());
-    closeMainScreen = createButton(lang.get("mainScreen.menu.close"));
+    closeMainScreen = createButton(LangFile.lang.get("mainScreen.menu.close"));
     closeMainScreen.setOnAction(e -> stage.close());
-    viewProfileButton = createButton(lang.get("mainScreen.menu.viewProfile"));
+    viewProfileButton = createButton(LangFile.lang.get("mainScreen.menu.viewProfile"));
     viewProfileButton.setOnAction(e -> prepareProfileScreen());
-    friendshipMenuButton = createButton(lang.get("mainScreen.menu.friendshipMenu"));
+    friendshipMenuButton = createButton(LangFile.lang.get("mainScreen.menu.friendshipMenu"));
     friendshipMenuButton.setOnAction(e -> prepareFriendshipMenu());
   }
 
@@ -197,7 +197,7 @@ public class MainScreen extends AbstractScreen {
    * Prepares friendship menu
    */
   private void prepareFriendshipMenu() {
-    friendshipMenu = new FriendshipMenu(new Stage(), user);
+    friendshipMenu = new FriendshipMenu(new Stage(), user, client);
     friendshipMenu.show();
   }
 
@@ -231,7 +231,7 @@ public class MainScreen extends AbstractScreen {
    * Prepare label for ball bouncer
    */
   private void prepareLabelForBallBouncer() {
-    labelBallBouncer = new Label(lang.get("mainScreen.ballBouncer.ballBouncerLabel"));
+    labelBallBouncer = new Label(LangFile.lang.get("mainScreen.ballBouncer.ballBouncerLabel"));
     fBallBouncer = new Font(settingsForScreens.getTypeCharBallBouncer(), settingsForScreens.getSizeOfTextBallBouncer());
     labelBallBouncer.setTextFill(settingsForScreens.getColorBallBouncerLabel());
     labelBallBouncer.setWrapText(true);
@@ -242,7 +242,7 @@ public class MainScreen extends AbstractScreen {
    * Prepare label for four in a row
    */
   private void prepareLabelForFourInARow() {
-    labelFourInARow = new Label(lang.get("mainScreen.fourInARow.fourInARowLabel"));
+    labelFourInARow = new Label(LangFile.lang.get("mainScreen.fourInARow.fourInARowLabel"));
     fFourInARow = new Font(settingsForScreens.getTypeCharFourInARow(), settingsForScreens.getSizeOfTextFourInARow());
     labelFourInARow.setTextFill(settingsForScreens.getColorFourInARowLabel());
     labelFourInARow.setWrapText(true);
@@ -253,9 +253,9 @@ public class MainScreen extends AbstractScreen {
    * Preparation of profile screen, additional information about user will be loaded from database
    */
   private void prepareProfileScreen() {
-    playerProfileScreen = new PlayerProfileScreen(new Stage());
+    playerProfileScreen = new PlayerProfileScreen(new Stage(), client);
     ServerOutLogin login = new ServerOutLogin(user.getPassword(), user.getUserName());
-    new Server().sendPacket(login);
+    client.sendPacket(login);
 
     ServerInChangeProfile serverInChangeProfile = new ServerInChangeProfile();
     UserPuzzleBattle userFromDatabase = serverInChangeProfile.getProfile();
@@ -294,7 +294,8 @@ public class MainScreen extends AbstractScreen {
    */
   private void reLogin() {
     getStage().close();
-    new LoginScreen(getStage(),new LanguageSelector(getStage(),100,25)).show();
+    new LoginScreen(getStage(), new LanguageSelector(getStage(), 100, 25),
+            new Client(ClientLauncher.getConfig().getServerAddress())).show();
   }
 
   /*
@@ -402,7 +403,7 @@ public class MainScreen extends AbstractScreen {
    * Method creates screen for best players and shows it for user
    */
   private void viewBestPlayers() {
-    BestPlayersScreen bestPlayersScreen = new BestPlayersScreen(user, new Stage(), settingsForScreens);
+    BestPlayersScreen bestPlayersScreen = new BestPlayersScreen(user, new Stage(), settingsForScreens, client);
     bestPlayersScreen.show();
   }
 }

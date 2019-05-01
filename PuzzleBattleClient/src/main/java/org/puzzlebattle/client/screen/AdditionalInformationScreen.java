@@ -14,7 +14,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.stage.Stage;
 import org.puzzlebattle.client.games.UserPuzzleBattle;
-import org.puzzlebattle.client.protocol.Server;
+import org.puzzlebattle.client.protocol.Client;
 import org.puzzlebattle.client.protocol.packets.in.ServerInChangeProfile;
 import org.puzzlebattle.client.protocol.packets.out.ServerOutChangeProfile;
 import org.puzzlebattle.core.utils.Logging;
@@ -70,8 +70,8 @@ public class AdditionalInformationScreen extends AbstractScreen {
    * @param nickName      nickname of user
    * @param emailOfPlayer email of user
    */
-  public AdditionalInformationScreen(Stage stage, String nickName, String emailOfPlayer) {
-    super(stage);
+  public AdditionalInformationScreen(Stage stage, String nickName, String emailOfPlayer, Client client) {
+    super(stage, client);
     this.nickNameOfPlayer = nickName;
     this.emailOfPlayer = emailOfPlayer;
     prepareComponents();
@@ -373,7 +373,7 @@ public class AdditionalInformationScreen extends AbstractScreen {
     try {
       prepareBasicComponentsForProfileScreen();
       prepareBasicSettingsForProfileScreen();
-      playerProfile = new PlayerProfileScreen(new Stage());
+      playerProfile = new PlayerProfileScreen(new Stage(), client);
       updateInformationDatabase();
       updateInformationPlayerProfileScreen(playerProfile);
       playerProfile.show();
@@ -469,7 +469,8 @@ public class AdditionalInformationScreen extends AbstractScreen {
    */
   private void updateInformationDatabase() {
     ServerOutChangeProfile changeProfile = new ServerOutChangeProfile(saveImageToBytes(loadedImage), loadedDateOfBirth, loadedName, loadedSurname);
-   // new Server().sendPacket(changeProfile);
+    client.sendPacket(changeProfile);
+    ServerInChangeProfile serverInChangeProfile = new ServerInChangeProfile();
     //serverInChangeProfile.getUserPuzzleBattle(); NOT USED DATA WILL BE DISPLAYED FROM TEXT FIELDS, NO WAIT FOR REPLY
   }
 

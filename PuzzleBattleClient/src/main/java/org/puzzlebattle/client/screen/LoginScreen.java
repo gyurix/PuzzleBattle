@@ -10,6 +10,7 @@ import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import lombok.Getter;
 import org.puzzlebattle.client.games.UserPuzzleBattle;
+import org.puzzlebattle.client.protocol.Client;
 import org.puzzlebattle.client.protocol.packets.out.ServerOutLogin;
 
 import static org.puzzlebattle.core.utils.LangFile.lang;
@@ -43,8 +44,8 @@ public class LoginScreen extends AbstractScreen {
   /**
    * Constructor which creates screen for log in
    */
-  public LoginScreen(Stage stage,LanguageSelector languageSelector) {
-    super(stage);
+  public LoginScreen(Stage stage, LanguageSelector languageSelector, Client client) {
+    super(stage, client);
     instance=this;
     this.languageSelector = languageSelector;
     createComponentsForLoginScreen();
@@ -119,7 +120,7 @@ public class LoginScreen extends AbstractScreen {
    */
   @Override
   public void registerEvents(Scene scene) {
-    registerButton.setOnAction(e -> new RegisterScreen(stage).show());
+    registerButton.setOnAction(e -> new RegisterScreen(stage, client).show());
     loginTextField.setOnAction(this::login);
     passwordField.setOnAction(this::login);
   }

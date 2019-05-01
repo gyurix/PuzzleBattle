@@ -13,10 +13,10 @@ import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import lombok.Getter;
 import org.puzzlebattle.client.games.UserPuzzleBattle;
-import org.puzzlebattle.client.protocol.Server;
-import org.puzzlebattle.client.protocol.packets.in.ServerInRegisterSuccessful;
+import org.puzzlebattle.client.protocol.Client;
 import org.puzzlebattle.client.protocol.packets.out.ServerOutRegister;
 import org.puzzlebattle.core.utils.Logging;
+
 import static org.puzzlebattle.core.utils.LangFile.lang;
 
 /**
@@ -27,6 +27,8 @@ import static org.puzzlebattle.core.utils.LangFile.lang;
  */
 public class RegisterScreen extends AbstractScreen {
 
+  @Getter
+  private static RegisterScreen instance;
   private Button confirmButton;
   private PasswordField confirmPasswordField, passwordField;
   private Label emailLabel, nickLabel, passwordConfLabel, leftLabel, passwordLabel, rightLabel;
@@ -36,15 +38,13 @@ public class RegisterScreen extends AbstractScreen {
   private Region regionNickEmail, regionEmailPassword, regionBetweenPassword, regionUpConfirmButton;
   private VBox registerComponents;
   @Getter
-  private static RegisterScreen instance;
-  @Getter
   private UserPuzzleBattle userPuzzleBattle;
 
   /**
    * Constructor which apply registering of the screen
    */
-  RegisterScreen(Stage stage) {
-    super(stage);
+  RegisterScreen(Stage stage, Client client) {
+    super(stage, client);
     instance = this;
     prepareComponents();
     stage.setResizable(false);
@@ -247,7 +247,7 @@ public class RegisterScreen extends AbstractScreen {
     String email = emailField.getText();
     String password = passwordField.getText();
     String passwordConfirm = confirmPasswordField.getText();
-    userPuzzleBattle = new UserPuzzleBattle(nickName,password,email);
+    userPuzzleBattle = new UserPuzzleBattle(nickName, password, email);
 
     if (!password.equals(passwordConfirm)) {
       Logging.logWarning("Passwords aren't same!");

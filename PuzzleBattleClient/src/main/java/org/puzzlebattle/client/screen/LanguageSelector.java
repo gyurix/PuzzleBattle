@@ -8,12 +8,13 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.puzzlebattle.client.config.ClientConfig;
+import org.puzzlebattle.client.ClientLauncher;
 import org.puzzlebattle.core.utils.IOUtils;
 import org.puzzlebattle.core.utils.LangFile;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.Objects;
 import java.util.TreeSet;
 
 import static org.puzzlebattle.core.utils.LangFile.lang;
@@ -66,8 +67,8 @@ public class LanguageSelector extends HBox {
    */
   private void addComponentsToChoiceBox(ChoiceBox<LanguageOption> languageChooser) {
     languageChooser.getItems().addAll(options);
-    LanguageOption selected = optionMap.getOrDefault(ClientConfig.lang, optionMap.get("en"));
-    ClientConfig.lang = selected.getCode();
+    LanguageOption selected = optionMap.getOrDefault(ClientLauncher.getConfig().getLang(), optionMap.get("en"));
+    ClientLauncher.getConfig().setLang(selected.getCode());
     languageChooser.getSelectionModel().select(selected);
     languageChooser.setOnAction(e -> applyLanguageChoice());
   }
@@ -79,13 +80,13 @@ public class LanguageSelector extends HBox {
     lang = langFiles.get(languageChooser.getSelectionModel().getSelectedItem().getCode());
     stageOfLoginScreen.close();
     languageTitle.setText(lang.get("login.language"));
-    new LoginScreen(stageOfLoginScreen, this).show();
+    new LoginScreen(stageOfLoginScreen, this, LoginScreen.getInstance().getClient()).show();
   }
 
   private void loadLanguages() {
     IOUtils.saveResources("lang/en.json", "lang/de.json", "lang/sk.json");
     registerLanguage("en");
-    for (String name : new File("lang").list((dir, name) -> name.endsWith(".json"))) {
+    for (String name : Objects.requireNonNull(new File("lang").list((dir, name) -> name.endsWith(".json")))) {
       String langCode = name.replace(".json", "");
       if (!langCode.equals("en"))
         registerLanguage(langCode);

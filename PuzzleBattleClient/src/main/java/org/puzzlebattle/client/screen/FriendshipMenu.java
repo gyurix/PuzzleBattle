@@ -9,7 +9,7 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.puzzlebattle.client.games.UserPuzzleBattle;
-import org.puzzlebattle.client.protocol.Server;
+import org.puzzlebattle.client.protocol.Client;
 import org.puzzlebattle.client.protocol.packets.in.ServerInBestPlayers;
 import org.puzzlebattle.client.protocol.packets.out.ServerOutBestPlayersRequest;
 import org.puzzlebattle.client.protocol.packets.out.ServerOutLoadFriends;
@@ -35,8 +35,8 @@ public class FriendshipMenu extends AbstractScreen {
   /*
    *  Creates friendship  menu
    */
-  public FriendshipMenu(Stage stage, UserPuzzleBattle user) {
-    super(stage);
+  public FriendshipMenu(Stage stage, UserPuzzleBattle user, Client client) {
+    super(stage, client);
     this.user = user;
     prepareComponentsForFriendshipMenu();
   }
@@ -85,7 +85,7 @@ public class FriendshipMenu extends AbstractScreen {
   private ObservableList<UserGameAttributes> loadBestFriends() {
     ServerOutBestPlayersRequest bestPlayers = new ServerOutBestPlayersRequest(
             10, user.getUserName(), user.getPassword());
-    new Server().sendPacket(bestPlayers);
+    client.sendPacket(bestPlayers);
     ServerInBestPlayers bestPlayersReceinved = new ServerInBestPlayers();
     return bestPlayersReceinved.getUserGameAttributes();
   }
@@ -95,7 +95,7 @@ public class FriendshipMenu extends AbstractScreen {
    */
   private void loadDataAndFillTableFromDatabase() {
     ServerOutLoadFriends loadFriends = new ServerOutLoadFriends(user.getUserName(), user.getPassword());
-    new Server().sendPacket(loadFriends);
+    client.sendPacket(loadFriends);
   }
 
   /*

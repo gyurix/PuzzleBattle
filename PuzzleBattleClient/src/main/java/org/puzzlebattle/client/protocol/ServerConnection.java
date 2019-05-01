@@ -8,22 +8,27 @@ import io.netty.channel.ChannelPipeline;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import lombok.Getter;
+import lombok.Setter;
 import org.puzzlebattle.client.protocol.handlers.ServerEncryptionHandler;
 import org.puzzlebattle.client.protocol.handlers.ServerHandler;
+import org.puzzlebattle.client.protocol.packets.out.ServerOutEncryption;
 import org.puzzlebattle.client.protocol.packets.out.ServerOutPacket;
 import org.puzzlebattle.core.protocol.processor.PacketLengthProcessor;
+import org.puzzlebattle.core.utils.EncryptionUtils;
 
 import java.net.InetSocketAddress;
+import java.security.KeyPair;
 
 @Getter
 public class ServerConnection {
   private Thread connectionThread;
+  private Client client;
+  @Setter
   private ServerHandler handler;
-  private Server server;
 
-  public ServerConnection(Server server) {
+  public ServerConnection(Client client) {
     connectionThread = new Thread(this::start);
-    this.server = server;
+    this.client = client;
   }
 
   public void sendPacket(ServerOutPacket packet) {
@@ -37,19 +42,24 @@ public class ServerConnection {
 
       clientBootstrap.group(group);
       clientBootstrap.channel(NioSocketChannel.class);
-      clientBootstrap.remoteAddress(new InetSocketAddress(server.getAddress().getHost(),
-              server.getAddress().getPort()));
+      clientBootstrap.remoteAddress(new InetSocketAddress(client.getAddress().getHost(),
+              client.getAddress().getPort()));
       clientBootstrap.handler(new ChannelInitializer<Channel>() {
         @Override
         protected void initChannel(Channel ch) {
           ChannelPipeline pipeline = ch.pipeline();
           PacketLengthProcessor lengthProcessor = new PacketLengthProcessor();
           ServerPacketTypeProcessor typeProcessor = new ServerPacketTypeProcessor();
-          handler = new ServerEncryptionHandler(ch, server);
+          handler = new ServerEncryptionHandler(ch, client);
           pipeline.addLast("length", lengthProcessor);
           pipeline.addLast("type", typeProcessor);
           pipeline.addLast("handler", handler);
           System.out.println("Established TCP connection.");
+          EncryptionUtils encryptionUtils = client.getEncryptionUtils();
+          KeyPair rsa = EncryptionUtils.generateRSA();
+          encryptionUtils.setRsaDecryptKey(rsa.getPrivate());
+          encryptionUtils.setRsaEncryptKey(rsa.getPublic());
+          sendPacket(new ServerOutEncryption(rsa.getPublic().getEncoded()));
         }
       });
       ChannelFuture channelFuture = clientBootstrap.connect().sync();

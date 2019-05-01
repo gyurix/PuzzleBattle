@@ -12,6 +12,7 @@ import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import lombok.Getter;
+import org.puzzlebattle.client.protocol.Client;
 
 import java.util.ArrayList;
 
@@ -26,7 +27,7 @@ import static org.puzzlebattle.core.utils.LangFile.lang;
  */
 @Getter
 public abstract class AbstractScreen {
-
+  protected final Client client;
   protected Pane pane;
   @Getter
   protected Stage stage;
@@ -37,22 +38,23 @@ public abstract class AbstractScreen {
   /**
    * Screen where panel for repainting objects is created, then stage is used
    */
-  public AbstractScreen(Stage stage) {
+  public AbstractScreen(Stage stage, Client client) {
     this.stage = stage;
+    this.client = client;
     pane = new Pane();
   }
 
   /**
    * Default insets for any component used in inherited class
    *
-   * @return inets with default values
+   * @return insets with default values
    */
   protected Insets createDefaultInsets() {
     return new Insets(50, 100, 50, 100);
   }
 
   /**
-   * Default fon for every inherited screen
+   * Default font for every inherited screen
    *
    * @return
    */
@@ -65,7 +67,9 @@ public abstract class AbstractScreen {
    *
    * @return height of the screen, 480 by default
    */
-  public double getHeight() { return 480; }
+  public double getHeight() {
+    return 480;
+  }
 
   /**
    * Method which returns title of the screen
@@ -141,7 +145,7 @@ public abstract class AbstractScreen {
    * Shows alert with specified content and arguments
    *
    * @param type - type of alert
-   * @param key - specifies in language file type of information
+   * @param key  - specifies in language file type of information
    * @param args - arguments which should be displayed in context
    */
   public void showAlert(Alert.AlertType type, String key, Object... args) {

@@ -4,6 +4,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.stage.Stage;
+import org.puzzlebattle.client.protocol.Client;
 import org.puzzlebattle.client.screen.AbstractScreen;
 
 import static org.puzzlebattle.core.utils.LangFile.lang;
@@ -25,8 +26,8 @@ public class BallBouncerScreen extends AbstractScreen {
    * Background is set and all components are added into Pane
    * Movement of the ball is simulated here too.
    */
-  public BallBouncerScreen(Stage stage, BouncerGame game) {
-    super(stage);
+  public BallBouncerScreen(Stage stage, BouncerGame game, Client client) {
+    super(stage, client);
     this.game = game;
     pane.setBackground(new Background(new BackgroundFill(game.getSettings().getBackgroundColor(), null, null)));
     pane.getChildren().addAll(game.getBall(), game.getEnemy().getBouncer(), game.getEnemy().getGoals(), game.getYou().getBouncer(), game.getYou().getGoals());

@@ -12,9 +12,9 @@ public class ServerLauncher {
 
   public static void main(String[] args) throws Throwable {
     System.out.println("Saving resources...");
-    IOUtils.saveResources("config.json");
+    IOUtils.saveResources("server-config.json");
     System.out.println("Loading configuration...");
-    ServerConfig config = GSON.fromJson(new FileReader("config.json"), ServerConfig.class);
+    ServerConfig config = GSON.fromJson(new FileReader("server-config.json"), ServerConfig.class);
     Server server = new Server(config.getAddress());
     System.out.println("Launched server");
   }

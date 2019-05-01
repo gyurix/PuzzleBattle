@@ -13,6 +13,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
+import org.puzzlebattle.client.protocol.Client;
 import org.puzzlebattle.core.utils.Logging;
 
 import java.util.Random;
@@ -44,8 +45,8 @@ public class PlayerProfileScreen extends AbstractScreen {
    *
    * @param stage - stage to set scene with specified profile detail
    */
-  public PlayerProfileScreen(Stage stage) {
-    super(stage);
+  public PlayerProfileScreen(Stage stage, Client client) {
+    super(stage, client);
     prepareComponents();
     this.pane = grid;
     Logging.logInfo("Player screen has been created.");

@@ -7,7 +7,7 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 import lombok.Getter;
 import org.puzzlebattle.client.config.ClientConfig;
-import org.puzzlebattle.client.protocol.Server;
+import org.puzzlebattle.client.protocol.Client;
 import org.puzzlebattle.client.screen.LanguageSelector;
 import org.puzzlebattle.client.screen.LoginScreen;
 import org.puzzlebattle.core.utils.IOUtils;
@@ -50,8 +50,7 @@ public class ClientLauncher extends Application {
       config = gson.fromJson(new FileReader("config.json"), ClientConfig.class);
       LanguageSelector languageSelector = new LanguageSelector(stage);
       LangFile.lang.msg("started", "name", "Puzzle Battle Client", "version", "1.0");
-      new LoginScreen(stage, languageSelector).show();
-      new Server(config.getServerAddress());
+      new LoginScreen(stage, languageSelector, new Client(config.getServerAddress())).show();
     } catch (Throwable e) {
       Logging.logSevere("Failed to start client", "error", e);
     }

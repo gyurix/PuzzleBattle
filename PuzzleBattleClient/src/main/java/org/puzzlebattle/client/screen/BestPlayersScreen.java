@@ -9,8 +9,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import lombok.Getter;
 import org.puzzlebattle.client.games.UserPuzzleBattle;
-import org.puzzlebattle.client.protocol.Server;
-import org.puzzlebattle.client.protocol.packets.in.ServerInBestPlayers;
+import org.puzzlebattle.client.protocol.Client;
 import org.puzzlebattle.client.protocol.packets.out.ServerOutBestPlayersRequest;
 
 import static org.puzzlebattle.core.utils.LangFile.lang;
@@ -39,8 +38,8 @@ public class BestPlayersScreen extends AbstractScreen {
    * @param stage              stage where information about best players will be set
    * @param settingsForScreens settings which will be applied
    */
-  public BestPlayersScreen(UserPuzzleBattle user, Stage stage, SettingsForScreens settingsForScreens) {
-    super(stage);
+  public BestPlayersScreen(UserPuzzleBattle user, Stage stage, SettingsForScreens settingsForScreens, Client client) {
+    super(stage, client);
     this.user = user;
     instance = this;
     this.settingsForScreens = settingsForScreens;
@@ -84,8 +83,8 @@ public class BestPlayersScreen extends AbstractScreen {
   private void loadDataAndFillTablesFromDatabase(UserPuzzleBattle user) {
     ServerOutBestPlayersRequest serverOutBestPlayersRequest =
             new ServerOutBestPlayersRequest(10, user.getUserName(), user.getPassword());
-   // new Server().sendPacket(serverOutBestPlayersRequest);
-   // ServerInBestPlayers bestPlayers = new ServerInBestPlayers();
+    // new Server().sendPacket(serverOutBestPlayersRequest);
+    // ServerInBestPlayers bestPlayers = new ServerInBestPlayers();
     //fourInARowGameTable.setItems(bestPlayers.getUserGameAttributes());
   }
 
