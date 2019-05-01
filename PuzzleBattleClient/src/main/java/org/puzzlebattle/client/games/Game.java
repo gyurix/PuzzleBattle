@@ -2,6 +2,7 @@ package org.puzzlebattle.client.games;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import org.puzzlebattle.core.entity.GameType;
 
 /**
  * Abstract class which represents game.
@@ -12,7 +13,7 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public abstract class Game {
-  private Object serverConnection;
+  public abstract GameType getType();
 
   public abstract void updateData(int[] data);
 }

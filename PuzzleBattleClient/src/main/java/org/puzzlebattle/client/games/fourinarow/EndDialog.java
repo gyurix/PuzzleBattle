@@ -34,6 +34,8 @@ public class EndDialog extends AbstractEndDialog {
    * @param fourInARowScreen - four in a row screen
    * @param winningPlayer    - winner of the game
    * @param primaryStage     - primary stage
+   * @param client            - client
+   * @param type              - type of dialog
    */
   public EndDialog(FourInARowScreen fourInARowScreen, FourInARowPlayer winningPlayer,
                        Stage primaryStage, Client client,String type) {
@@ -52,8 +54,7 @@ public class EndDialog extends AbstractEndDialog {
     //GET FOUR IN A ROW GAME SETTINGS
     //GameTable newGameTable = GameTable.createTheSameGameFromOlderGame(gameTable, new FourInARowGameSettings());
     new FourInARowScreen(fourInARowScreen.getStage(),
-            new FourInARowGame(null, new FourInARowGameSettings()),
-            client).show();
+            new FourInARowGame(null, new FourInARowGameSettings()), client).show();
   }
 
 }

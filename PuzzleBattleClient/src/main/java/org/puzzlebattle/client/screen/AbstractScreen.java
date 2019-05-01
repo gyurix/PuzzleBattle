@@ -65,10 +65,10 @@ public abstract class AbstractScreen {
   /**
    * Method which returns height of the screen
    *
-   * @return height of the screen, 480 by default
+   * @return height of the screen, 520 by default
    */
   public double getHeight() {
-    return 480;
+    return 520;
   }
 
   /**

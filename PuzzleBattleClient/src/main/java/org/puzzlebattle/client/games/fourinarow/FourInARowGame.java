@@ -5,6 +5,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import lombok.Getter;
 import org.puzzlebattle.client.games.Game;
+import org.puzzlebattle.core.entity.GameType;
 import org.puzzlebattle.core.utils.Logging;
 
 import java.util.ArrayList;
@@ -20,6 +21,7 @@ public class FourInARowGame extends Game {
   private ArrayList<FourInARowPlayer> players = new ArrayList<FourInARowPlayer>();
   @Getter
   private FourInARowGameSettings settings;
+  @Getter
   private FourInARowPlayer you, enemy;
 
 
@@ -27,7 +29,7 @@ public class FourInARowGame extends Game {
    * Four in a row game is created, players with specific colors are added, setting are stored.
    */
   public FourInARowGame(Object serverConnection, FourInARowGameSettings settings) {
-    super(serverConnection);
+   // super(serverConnection);
     this.settings = settings;
     FourInARowPlayer.nullNumberOfPlayers();
     you = new FourInARowPlayer(this, true, Color.RED);
@@ -150,7 +152,11 @@ public class FourInARowGame extends Game {
   }
 
   @Override
+  public GameType getType() { return GameType.FOUR_IN_A_ROW; }
+
+  @Override
   public void updateData(int[] data) {
     applyMove(data[0]);
   }
+
 }

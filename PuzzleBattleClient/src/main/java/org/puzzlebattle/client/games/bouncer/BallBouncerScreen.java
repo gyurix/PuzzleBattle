@@ -4,6 +4,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.stage.Stage;
+import lombok.Getter;
 import org.puzzlebattle.client.protocol.Client;
 import org.puzzlebattle.client.screen.AbstractScreen;
 
@@ -16,10 +17,11 @@ import static org.puzzlebattle.core.utils.LangFile.lang;
  * @author (Juraj Barath, Jakub Perdek)
  * @version (1.0)
  */
-
 public class BallBouncerScreen extends AbstractScreen {
+  @Getter
   private BouncerGame game;
-
+  @Getter
+  private static BallBouncerScreen instance;
 
   /**
    * Constructor which creates screen inherited from abstract screen.
@@ -29,6 +31,7 @@ public class BallBouncerScreen extends AbstractScreen {
   public BallBouncerScreen(Stage stage, BouncerGame game, Client client) {
     super(stage, client);
     this.game = game;
+    this.instance = instance;
     pane.setBackground(new Background(new BackgroundFill(game.getSettings().getBackgroundColor(), null, null)));
     pane.getChildren().addAll(game.getBall(), game.getEnemy().getBouncer(), game.getEnemy().getGoals(), game.getYou().getBouncer(), game.getYou().getGoals());
     scheduleAtFixedRate(16, game::tick);

@@ -7,6 +7,7 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import lombok.Getter;
 import org.puzzlebattle.client.protocol.Client;
 import org.puzzlebattle.client.screen.AbstractScreen;
 import org.puzzlebattle.core.utils.Logging;
@@ -26,15 +27,19 @@ public class FourInARowScreen extends AbstractScreen {
 
   private double coinRadius;
   private ArrayList<Coin> coins = new ArrayList<Coin>();
+  @Getter
   private FourInARowGame game;
   private Point2D mapSize = new Point2D(400, 400);
+  @Getter
+  private static FourInARowScreen instance;
 
   /**
-   * Constructor for objects of class SkladPonuka
+   * Constructor for objects of class Four In A Row screen
    */
   public FourInARowScreen(Stage stage, FourInARowGame game, Client client) {
     super(stage, client);
     this.game = game;
+    instance = this;
     pane = new PanelGrid(0, 0, mapSize.getX(), mapSize.getY(), this);
     pane.setBackground(new Background(new BackgroundFill(game.getSettings().getBackgroundColor(), null, null)));
     coinRadius = getPane().getDistanceOfColumns() * 0.4f;

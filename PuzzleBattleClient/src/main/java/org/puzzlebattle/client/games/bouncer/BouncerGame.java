@@ -4,6 +4,7 @@ import javafx.geometry.Point2D;
 import javafx.scene.input.KeyCode;
 import lombok.Getter;
 import org.puzzlebattle.client.games.Game;
+import org.puzzlebattle.core.entity.GameType;
 
 import java.util.Random;
 
@@ -28,7 +29,7 @@ public class BouncerGame extends Game {
    * Constructor for objects of class SkladPonuka
    */
   public BouncerGame(Object serverConnection, BouncerGameSettings settings) {
-    super(serverConnection);
+    //super(serverConnection);
     this.settings = settings;
     createBall();
     createEnemy();
@@ -116,12 +117,12 @@ public class BouncerGame extends Game {
       left1 = pressed;
     else if (key == settings.getYou().getRight())
       right1 = pressed;
-    if (getServerConnection() == null) {
+  //  if (getServerConnection() == null) {
       if (key == settings.getEnemy().getLeft())
         left2 = pressed;
       else if (key == settings.getEnemy().getRight())
         right2 = pressed;
-    }
+   // }
   }
 
   /**
@@ -140,8 +141,8 @@ public class BouncerGame extends Game {
    */
   public void tick() {
     move(left1, right1, you, settings.getYou().getMovementIntensity());
-    if (getServerConnection() == null)
-      move(left2, right2, enemy, settings.getEnemy().getMovementIntensity());
+   // if (getServerConnection() == null)
+    //  move(left2, right2, enemy, settings.getEnemy().getMovementIntensity());
     /*ball.tick();
     Point2D vel = enemy.getBouncer().getAppliedVelocity(ball, 1);
     if (vel == null)
@@ -167,4 +168,6 @@ public class BouncerGame extends Game {
     ball.setCenterX(data[3]);
     ball.setCenterX(data[4]);
   }
+
+  public GameType getType(){ return GameType.FOUR_IN_A_ROW; }
 }
