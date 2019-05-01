@@ -2,9 +2,7 @@ package org.puzzlebattle.client.protocol.handlers;
 
 import io.netty.channel.Channel;
 import org.puzzlebattle.client.protocol.Client;
-import org.puzzlebattle.client.protocol.packets.in.ServerInBestPlayers;
 import org.puzzlebattle.client.protocol.packets.in.ServerInLoginResult;
-import org.puzzlebattle.client.screen.BestPlayersScreen;
 import org.puzzlebattle.client.screen.LoginScreen;
 import org.puzzlebattle.client.screen.MainScreen;
 import org.puzzlebattle.client.screen.SettingsForScreens;
@@ -32,8 +30,5 @@ public class ServerLoginHandler extends ServerHandler {
     ThreadUtils.ui(() -> LoginScreen.getInstance().showAlert(ERROR, "login.incorrect"));
   }
 
-  public void handle(ServerInBestPlayers packet) {
-    BestPlayersScreen.getInstance().getFourInARowGameTable().setItems(packet.getUserGameAttributes());
-  }
 
 }

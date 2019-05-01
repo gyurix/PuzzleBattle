@@ -21,6 +21,9 @@ public class BallBouncerScreen extends AbstractScreen {
   @Getter
   private BouncerGame game;
 
+  @Getter
+  private static BallBouncerScreen instance;
+
   /**
    * Constructor which creates screen inherited from abstract screen.
    * Background is set and all components are added into Pane
@@ -28,6 +31,7 @@ public class BallBouncerScreen extends AbstractScreen {
    */
   public BallBouncerScreen(Stage stage, BouncerGame game, Client client) {
     super(stage, client);
+    instance = this;
     this.game = game;
     pane.setBackground(new Background(new BackgroundFill(game.getSettings().getBackgroundColor(), null, null)));
     pane.getChildren().addAll(game.getBall(), game.getEnemy().getBouncer(), game.getEnemy().getGoals(), game.getYou().getBouncer(), game.getYou().getGoals());

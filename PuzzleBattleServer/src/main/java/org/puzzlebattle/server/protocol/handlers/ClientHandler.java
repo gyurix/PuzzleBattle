@@ -22,7 +22,11 @@ public abstract class ClientHandler extends PacketHandler implements ClientInPac
   @Override
   public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
     ClientInPacket p = (ClientInPacket) msg;
-    p.handle(this);
+    try {
+      p.handle(this);
+    } catch (Throwable e) {
+      Logging.logSevere("Error on handling packet", "packet", p, "error", e);
+    }
   }
 
   public void sendPacket(ClientOutPacket packet) {

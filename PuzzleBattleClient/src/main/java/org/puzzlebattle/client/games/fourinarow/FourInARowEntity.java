@@ -59,34 +59,6 @@ public class FourInARowEntity {
 
   }
 
-  public void applyDraw(FourInARowPlayer playerOnTheMove, FourInARowScreen gameScreen) {
-    gameScreen.showWinnerScreen(playerOnTheMove, "draw", "Draw!");
-  }
-
-  public void applyLose(FourInARowPlayer playerOnTheMove, FourInARowScreen gameScreen) {
-    gameScreen.showWinnerScreen(playerOnTheMove, "loser", "You lose!");
-  }
-
-  public void isWinningMove(FourInARowPlayer playerOnTheMove, int row, int column, FourInARowScreen gameScreen) {
-    int playerNumber = playerOnTheMove.getPlayingNumber();
-
-    if (analyseOfWinningMove(row, column, playerNumber)) {
-      gameScreen.showWinnerScreen(playerOnTheMove, "winner", "You are the winner!");
-    } else {
-      gameScreen.showDialogForNextMove();
-    }
-  }
-
-
-  private void printTable() {
-    for (int i = 0; i < columns; i = i + 1) {
-      for (int j = 0; j < rows; j = j + 1) {
-        System.out.print(mapOfPlayers[i][j] + " ");
-      }
-      System.out.println();
-    }
-  }
-
   public void setNullToAMapValues(int[][] mapOfPlayers, int rowsOfMap, int columnsOfMap) {
     for (int i = 0; i < columnsOfMap; i = i + 1) {
       for (int j = 0; j < rowsOfMap; j = j + 1) {

@@ -57,31 +57,4 @@ public class FourInARowPoint {
   public int getNumberOfColumn() {
     return numberOfColumn;
   }
-
-  /**
-   * Try to find if player ont the move is winner
-   *
-   * @param fourInARowScreen screen of four in a row game
-   */
-  public void isWinner(FourInARowScreen fourInARowScreen) {
-    fourInARowEntity.isWinningMove(playerPoint, coinsInColumnBelow + 1, numberOfColumn, fourInARowScreen);
-  }
-
-  /**
-   * Apply draw ending game and showing dialog
-   *
-   * @param fourInARowScreen - screen of four in a row game
-   */
-  public void applyDraw(FourInARowScreen fourInARowScreen) {
-    fourInARowEntity.applyDraw(playerPoint,fourInARowScreen);
-  }
-
-  /**
-   * Apply ending game and showing dialog for loser
-   *
-   * @param fourInARowScreen - screen of four in a row game
-   */
-  public void applyLoser(FourInARowScreen fourInARowScreen) {
-    fourInARowEntity.applyLose(playerPoint, fourInARowScreen);
-  }
 }

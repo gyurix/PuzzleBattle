@@ -1,11 +1,14 @@
 package org.puzzlebattle.server.game;
 
-        import org.puzzlebattle.core.entity.GameType;
-        import org.puzzlebattle.server.db.entity.GameSettings;
-        import org.puzzlebattle.server.entity.Client;
+import org.puzzlebattle.core.entity.GameType;
+import org.puzzlebattle.core.utils.Logging;
+import org.puzzlebattle.server.db.entity.GameSettings;
+import org.puzzlebattle.server.entity.Client;
+import org.puzzlebattle.server.protocol.packets.out.ClientOutUpdateGame;
 
-        import java.util.ArrayList;
-        import java.util.List;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class FourInARow extends Game {
   private static final int MAXX = 7;
@@ -24,7 +27,7 @@ public class FourInARow extends Game {
   }
 
   private boolean checkWin(Client client, int column) {
-    boolean checkable = client == p2;
+    Boolean checkable = client == p2;
     int row = map.get(column).size() - 1;
 
     int pointsObtainedInARow = 0;
@@ -36,17 +39,17 @@ public class FourInARow extends Game {
     toDown = row - 1;
 
 
-    while (toLeft >= 0 && getCoin(toLeft, row) == checkable) {
+    while (toLeft >= 0 && checkable.equals(getCoin(toLeft, row))) {
       pointsObtainedInARow += 1;
       toLeft -= 1;
     }
 
-    while (toRight < MAXX && toRight >= 0 && getCoin(toRight, row) == checkable) {
+    while (toRight < MAXX && toRight >= 0 && checkable.equals(getCoin(toRight, row))) {
       pointsObtainedInARow += 1;
       toRight += 1;
     }
 
-    while (toDown >= 0 && getCoin(column, toDown) == checkable) {
+    while (toDown >= 0 && checkable.equals(getCoin(column, toDown))) {
       pointsObtainedInAColumn += 1;
       toDown -= toDown;
     }
@@ -84,13 +87,19 @@ public class FourInARow extends Game {
 
   @Override
   public void update(Client client, int[] data) {
-    if (nextStep != client)
+    Logging.logInfo("Update FourInARow", "client", client, "data", Arrays.toString(data));
+    if (nextStep != client) {
+      Logging.logWarning("Unauthorized player tried to move", "moved", client, "expected", nextStep);
       return;
-    int col = data[0];
-    if (!canDrop(col))
+    }
+    int col = data[0] - 1;
+    if (!canDrop(col)) {
+      Logging.logWarning("Can not drop to column, because it's full already", "column", col);
       return;
+    }
     drop(client, col);
     nextStep = client == p1 ? p2 : p1;
+    nextStep.getHandler().sendPacket(new ClientOutUpdateGame(new int[]{data[0]}));
     if (checkWin(client, col))
       lose(nextStep);
     if (dropped == MAXX * MAXY)

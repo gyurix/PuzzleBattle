@@ -1,6 +1,8 @@
 package org.puzzlebattle.server.protocol.handlers;
 
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelHandlerContext;
+import org.puzzlebattle.core.utils.Logging;
 import org.puzzlebattle.server.MatchManager;
 import org.puzzlebattle.server.db.UserGameAttributes;
 import org.puzzlebattle.server.db.entity.UserManager;
@@ -51,9 +53,14 @@ public class ClientConnectedHandler extends ClientHandler {
   }
 
   @Override
+  public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
+    Logging.logInfo("Client disconnected", "client", client);
+  }
+
+  @Override
   public void handle(ClientInBestPlayersRequest packet) {
     List<UserGameAttributes> bestPlayers = UserManager.getBestPlayers(packet.getNumberBestPlayers());
-    ClientOutBestPlayers bestPlayersPacket = new ClientOutBestPlayers(bestPlayers,bestPlayers.size());
+    ClientOutBestPlayers bestPlayersPacket = new ClientOutBestPlayers(bestPlayers, bestPlayers.size());
     client.getHandler().sendPacket(bestPlayersPacket);
   }
 }

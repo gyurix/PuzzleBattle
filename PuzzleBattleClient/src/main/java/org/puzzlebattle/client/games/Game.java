@@ -1,6 +1,5 @@
 package org.puzzlebattle.client.games;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.puzzlebattle.client.protocol.Client;
 import org.puzzlebattle.core.entity.GameType;
@@ -11,9 +10,13 @@ import org.puzzlebattle.core.entity.GameType;
  * @author (Juraj Barath)
  * @version (1.0)
  */
-@AllArgsConstructor
 @Getter
 public abstract class Game {
+  public Game(Client client) {
+    this.client = client;
+    client.setGame(this);
+  }
+
   protected Client client;
 
   public abstract GameType getType();

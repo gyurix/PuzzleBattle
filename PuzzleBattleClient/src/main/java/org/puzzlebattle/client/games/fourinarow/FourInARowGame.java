@@ -47,20 +47,30 @@ public class FourInARowGame extends Game {
    * Steps which are necessary if move was accepted. Counter of coins in specific column must be increased.
    * Player is found, his move is taken and set to next player. Information about falling coin are stored into FourInARowPoint object.
    *
-   * @param numberOfSelectedColumn selected column by player
+   * @param col - The selected column by player
    * @return information about column and coin, which will be added into it
    */
-  private FourInARowPoint applyMove(int numberOfSelectedColumn) {
-
-    fillingColumns[numberOfSelectedColumn]++;
+  private void applyMove(int col) {
+    Logging.logInfo("Apply move", "column", col);
+    if (!conditionsToMove(col)) {
+      Logging.logWarning("Conditions to move are not met");
+      return;
+    }
+    fillingColumns[col]++;
     FourInARowPlayer playerOnTheMove = getWhoIsOnTheMove();
     if (playerOnTheMove == you)
-      client.getConnection().getHandler().sendPacket(new ServerOutUpdateGame(new int[]{numberOfSelectedColumn}));
+      client.getConnection().getHandler().sendPacket(new ServerOutUpdateGame(new int[]{col}));
 
     switchPlayer(playerOnTheMove);
-    fourInARowEntity.setPlayerNumberToAMap(playerOnTheMove, fillingColumns[numberOfSelectedColumn], numberOfSelectedColumn);
-    return new FourInARowPoint(numberOfSelectedColumn, playerOnTheMove.getColorOfPlayersCoin(),
-            fillingColumns[numberOfSelectedColumn] - 1, fourInARowEntity, playerOnTheMove);
+    fourInARowEntity.setPlayerNumberToAMap(playerOnTheMove, fillingColumns[col], col);
+    FourInARowPoint point = new FourInARowPoint(col, playerOnTheMove.getColorOfPlayersCoin(),
+            fillingColumns[col] - 1, fourInARowEntity, playerOnTheMove);
+    FourInARowScreen screen = FourInARowScreen.getInstance();
+    Coin coin = createCoin(point, screen);
+    startCoinFall(coin, screen.mapSize.getY() - (point.getCoinsInColumnBelow()) *
+            (screen.getPane().getThicknessOfRows() +
+                    screen.getPane().getDistanceOfColumns()) +
+            screen.getPane().getThicknessOfRows(), screen);
   }
 
   /**
@@ -76,6 +86,23 @@ public class FourInARowGame extends Game {
       return true;
     } else
       return false;
+  }
+
+  /**
+   * Coin is created here. First necessary values are obtained from fourInARowPoint to specify coin.
+   * After creation of coin is added to pane.
+   *
+   * @param point            necessary information for creating coin
+   * @param fourInARowScreen
+   * @return created coin
+   */
+  public Coin createCoin(FourInARowPoint point, FourInARowScreen fourInARowScreen) {
+    int column = point.getNumberOfColumn();
+    double x = fourInARowScreen.getPane().getColumnX(column);
+    Coin newCoin = new Coin(x, fourInARowScreen.coinRadius, fourInARowScreen.coinRadius, point.getColorOfPlayerForCoin());
+    fourInARowScreen.coins.add(newCoin);
+    fourInARowScreen.getPane().getChildren().add(newCoin);
+    return newCoin;
   }
 
   /**
@@ -108,22 +135,34 @@ public class FourInARowGame extends Game {
    * @param key key which was pressed
    * @return information about selected column, color of player on the move and other necessary information
    */
-  public FourInARowPoint questionForMove(KeyCode key) {
-    if (getWhoIsOnTheMove() != you)
-      return null;
+  public void questionForMove(KeyCode key) {
+    if (getWhoIsOnTheMove() != you) {
+      Logging.logWarning("You are not on the move!");
+      return;
+    }
     for (int i = 1; i < 10; i++)
       if (key == FourInARowGameSettings.getDigit(i) || key == FourInARowGameSettings.getNumpad(i)) {
-        if (conditionsToMove(i)) {
-          return applyMove(i);
-        }
+        applyMove(i);
+        return;
       }
-
-    return null;
+    return;
   }
 
   @Override
   public GameType getType() {
     return GameType.FOUR_IN_A_ROW;
+  }
+
+  /**
+   * Rendering of coin fall is provided here. At first all components are repainted and set to a front.
+   * Then in background coin fall is simulated.
+   *
+   * @param coin             - The coin which should be new coin, which will be falling from certain position
+   * @param to
+   * @param fourInARowScreen
+   */
+  public void startCoinFall(Coin coin, double to, FourInARowScreen fourInARowScreen) {
+    new CoinFall(fourInARowScreen, coin, to, 5);
   }
 
   /**
@@ -165,5 +204,4 @@ public class FourInARowGame extends Game {
   public void updateData(int[] data) {
     applyMove(data[0]);
   }
-
 }

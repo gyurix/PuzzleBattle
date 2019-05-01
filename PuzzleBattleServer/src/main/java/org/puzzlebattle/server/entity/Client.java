@@ -21,4 +21,9 @@ public class Client {
   public Client(Server server) {
     this.server = server;
   }
+
+  @Override
+  public String toString() {
+    return user == null ? "Unauthorized" : user.getNickName();
+  }
 }

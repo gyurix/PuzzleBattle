@@ -4,6 +4,7 @@ package org.puzzlebattle.client;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import javafx.application.Application;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import lombok.Getter;
 import org.puzzlebattle.client.config.ClientConfig;
@@ -46,6 +47,7 @@ public class ClientLauncher extends Application {
    */
   public void start(Stage stage) {
     try {
+      stage.getIcons().add(new Image("pictures/icon.png"));
       IOUtils.saveResources("config.json");
       config = gson.fromJson(new FileReader("config.json"), ClientConfig.class);
       LanguageSelector languageSelector = new LanguageSelector(stage);
