@@ -100,9 +100,9 @@ public class FourInARow extends Game {
     drop(client, col);
     nextStep = client == p1 ? p2 : p1;
     nextStep.getHandler().sendPacket(new ClientOutUpdateGame(new int[]{data[0]}));
-    if (checkWin(client, col))
-      lose(nextStep);
-    if (dropped == MAXX * MAXY)
+   // if (checkWin(client, col))
+   //   lose(nextStep);
+   if (dropped == MAXX * MAXY)
       draw();
   }
 }
