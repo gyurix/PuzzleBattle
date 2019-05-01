@@ -4,6 +4,8 @@
     "finished": "Finished <name> v <version>"
   },
   "login": {
+    "language": "Language",
+    "languageTitle": "English",
     "username": "Username",
     "usernameText": "Put your login here!",
     "loggingIn": {
@@ -16,6 +18,7 @@
     },
     "password": "Password",
     "register": "Register",
+    "login": "Login",
     "return": "return"
   },
   "mainScreen": {

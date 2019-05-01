@@ -18,5 +18,9 @@ public interface ServerInPacketHandler {
     unexpected(packet);
   }
 
+  default void handle(ServerInEncryption packet) {
+    unexpected(packet);
+  }
+
   void unexpected(ServerInPacket packet);
 }

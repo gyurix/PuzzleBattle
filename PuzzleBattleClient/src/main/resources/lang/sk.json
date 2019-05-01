@@ -3,10 +3,13 @@
     "finished": "Skoncil <name> v <version>"
   },
   "login": {
+    "language": "Jazyk",
     "username": "Prihlasovacie meno",
     "usernameText": "Tu napis prihl. meno",
+    "languageTitle": "Slovenčina (Slovak)",
     "password": "Heslo",
     "return": "navrat",
+    "login": "Prihlásenie",
     "loggingIn": {
       "title": "Prihlasujem...",
       "text": "Prihlasujem, prosim cakajte..."
