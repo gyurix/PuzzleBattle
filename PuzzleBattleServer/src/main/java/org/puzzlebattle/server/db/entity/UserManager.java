@@ -30,15 +30,15 @@ public class UserManager {
    * @param nickName nickName of user
    * @return registered user, stored in database
    */
-  public static void findUser(String nickName, ErrorAcceptedConsumer<User> resultHandler) {
+  public static void findUser(String nickName, ErrorAcceptedConsumer<PBUser> resultHandler) {
     DB.INSTANCE.withSession((s) -> {
       try {
-        String hql = "FROM User WHERE nickName=?1";
-        Query<User> query = s.createQuery(hql);
+        String hql = "FROM PBUser WHERE nickName=?1";
+        Query<PBUser> query = s.createQuery(hql);
         query.setParameter(1, nickName);
-        List<User> list = query.list();
+        List<PBUser> list = query.list();
         if (list.size() > 0) {
-          User registeredUser = list.get(0);
+          PBUser registeredUser = list.get(0);
           resultHandler.accept(registeredUser);
           return;
         }
@@ -60,7 +60,7 @@ public class UserManager {
     SessionFactory sf = new Configuration().configure("/META-INF/hibernate.cfg.xml").buildSessionFactory();
     Session session = sf.openSession();
 
-    String hql = "SELECT  u, g.score FROM GamePlayer g LEFT JOIN User u ON u.id = g.player ORDER BY g.score DESC";
+    String hql = "SELECT  u, g.score FROM GamePlayer g LEFT JOIN PBUser u ON u.id = g.player ORDER BY g.score DESC";
     Query query = session.createQuery(hql);
     query.setMaxResults(maxPlayers);
     List<Object[]> list = null;
@@ -68,7 +68,7 @@ public class UserManager {
     ObservableList<UserGameAttributes> userGameAttributes = FXCollections.observableArrayList();
     for (Object[] object : list) {
       if (object[0] != null) {
-        userGameAttributes.add(new UserGameAttributes(((User) object[0]).getNickName(), ((int) object[1])));
+        userGameAttributes.add(new UserGameAttributes(((PBUser) object[0]).getNickName(), ((int) object[1])));
       }
     }
 
@@ -82,7 +82,7 @@ public class UserManager {
     SessionFactory sf = new Configuration().configure("/META-INF/hibernate.cfg.xml").buildSessionFactory();
     Session session = sf.openSession();
 
-    String hql = "SELECT  u, g.score FROM GamePlayer g LEFT JOIN User u ON u.id = g.player ORDER BY g.score DESC";
+    String hql = "SELECT  u, g.score FROM GamePlayer g LEFT JOIN PBUser u ON u.id = g.player ORDER BY g.score DESC";
     Query query = session.createQuery(hql);
     query.setMaxResults(maxPlayers);
     List<Object[]> list = null;
@@ -90,7 +90,7 @@ public class UserManager {
     List<UserGameAttributes> userGameAttributes = new ArrayList<UserGameAttributes>();
     for (Object[] object : list) {
       if (object[0] != null) {
-        userGameAttributes.add(new UserGameAttributes(((User) object[0]).getNickName(), ((int) object[1])));
+        userGameAttributes.add(new UserGameAttributes(((PBUser) object[0]).getNickName(), ((int) object[1])));
       }
     }
 
@@ -118,7 +118,7 @@ public class UserManager {
    *                      or null if the registration process failed, because there is a user with the same nick
    *                      in the database already
    */
-  public static void registerUser(User user, ErrorAcceptedConsumer<User> resultHandler) {
+  public static void registerUser(PBUser user, ErrorAcceptedConsumer<PBUser> resultHandler) {
     findUser(user.getNickName(), (r) -> {
       if (r != null) {
         resultHandler.accept(null);
@@ -135,7 +135,7 @@ public class UserManager {
    * @param cryptedPassword hashed password
    * @return true, if passwords are the same, otherwise false
    */
-  private static boolean verifyPassword(String password, String cryptedPassword) {
+  public static boolean verifyPassword(String password, String cryptedPassword) {
     return BCrypt.checkpw(password, cryptedPassword);
   }
 
@@ -146,16 +146,16 @@ public class UserManager {
    * @param password password of user, non-hashed
    * @return user or null if user was not found or passwords are not equal
    */
-  public static void withRegisterUser(String nickName, String password, Consumer<User> resultHandler) {
+  public static void withRegisterUser(String nickName, String password, Consumer<PBUser> resultHandler) {
     ThreadUtils.async(() -> {
       SessionFactory sf = new Configuration().configure("/META-INF/hibernate.cfg.xml").buildSessionFactory();
       try (Session session = sf.openSession()) {
-        String hql = "FROM User WHERE nickName=?1";
-        Query<User> query = session.createQuery(hql, User.class);
+        String hql = "FROM PBUser WHERE nickName=?1";
+        Query<PBUser> query = session.createQuery(hql, PBUser.class);
         query.setParameter(1, nickName);
-        List<User> list = query.list();
+        List<PBUser> list = query.list();
         if (list.size() > 0) {
-          User registeredUser = list.get(0);
+          PBUser registeredUser = list.get(0);
           if (verifyPassword(password, registeredUser.getPassword())) {
             ThreadUtils.ui(() -> resultHandler.accept(registeredUser));
             return;

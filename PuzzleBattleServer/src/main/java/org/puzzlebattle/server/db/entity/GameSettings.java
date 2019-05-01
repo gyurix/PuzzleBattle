@@ -1,13 +1,17 @@
 package org.puzzlebattle.server.db.entity;
 
 
+import lombok.Data;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.query.Query;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.List;
 
 //import org.puzzlebattle.client.games.bouncer.BouncerGameSettings;
@@ -20,9 +24,10 @@ import java.util.List;
  * @author Jakub Perdek
  * @version 1.0
  */
+@Data
 @Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public abstract class GameSettings {
+@Table
+public class GameSettings {
 
   protected int gameType;
   @Id
@@ -101,13 +106,5 @@ public abstract class GameSettings {
     }
 
   }
-
-  protected abstract int getGameType();
-
-  protected abstract void setGameType(int gameType);
-
-  protected abstract long getId();
-
-  protected abstract void setId(int id);
 }
 

@@ -8,7 +8,7 @@ public class GameManager {
     GameType.addGamesToDBIfTheyAreNot();
   }
 
-  /*private void addBallBouncerGameToDatabase(User userPuzzleBattle, boolean test) {
+  /*private void addBallBouncerGameToDatabase(PBUser userPuzzleBattle, boolean test) {
     int gameType = GameType.getFourInARowGame().getId();
     long gameSettingId = GameSettings.insertGameSettingsToDBIfTheyAreNotExistAndGetId(new BallBouncerGameSettings());
     GameSettings bouncerGameSettings = new BallBouncerGameSettings();
@@ -16,7 +16,7 @@ public class GameManager {
     GameTable gameTable = GameTable.prepareGameTable(userPuzzleBattle, test, gameType, bouncerGameSettings);
   }
 
-  private GameTable addFourInARowGameToDatabase(User userPuzzleBattle, boolean test) {
+  private GameTable addFourInARowGameToDatabase(PBUser userPuzzleBattle, boolean test) {
     int gameType = GameType.getFourInARowGame().getId();
     long gameSettingId = GameSettings.insertGameSettingsToDBIfTheyAreNotExistAndGetId(new FourInARowGameSettings());
     GameSettings fourInARowGameSetting = new FourInARowGameSettings();

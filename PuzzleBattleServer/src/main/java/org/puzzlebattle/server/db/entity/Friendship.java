@@ -21,9 +21,9 @@ import java.util.List;
  * @author Jakub Perdek, Juraj Barath
  * @version 1.0
  */
-@Entity
-@Table(name = "friendship")
 @Data
+@Entity
+@Table
 public class Friendship {
 
   @ManyToOne
@@ -34,37 +34,37 @@ public class Friendship {
   private long id;
   @ManyToOne
   @JoinColumn
-  private User player1;
+  private PBUser player1;
   @ManyToOne
   @JoinColumn
-  private User player2;
+  private PBUser player2;
 
-  public static ObservableList<UserGameAttributes> loadFriends(User user) {
+  public static ObservableList<UserGameAttributes> loadFriends(PBUser user) {
     SessionFactory sf = new Configuration().configure("/META-INF/hibernate.cfg.xml").buildSessionFactory();
     Session session = sf.openSession();
     SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     ObservableList<UserGameAttributes> friends = FXCollections.observableArrayList();
     List<Object[]> list;
 
-    String hql = "FROM Friendship g LEFT JOIN User u ON u.id = g.player1 " +
-            "LEFT JOIN User u ON u.id = g.player2 WHERE player1.id = ?1 DESC";
+    String hql = "FROM Friendship g LEFT JOIN PBUser u ON u.id = g.player1 " +
+            "LEFT JOIN PBUser u ON u.id = g.player2 WHERE player1.id = ?1 DESC";
     Query query = session.createQuery(hql);
     list = null;
     list = query.list();
     for (Object[] object : list) {
       if (object[0] != null) {
-        friends.add(new UserGameAttributes(((User) object[0]).getNickName(), ((int) object[1]), (f.format((Timestamp) object[1])), (f.format((Timestamp) object[1]))));
+        friends.add(new UserGameAttributes(((PBUser) object[0]).getNickName(), ((int) object[1]), (f.format((Timestamp) object[1])), (f.format((Timestamp) object[1]))));
       }
     }
 
-    hql = "FROM Friendship g LEFT JOIN User u ON u.id = g.player1 " +
-            "LEFT JOIN User u ON u.id = g.player2 WHERE player2.id = ?1 DESC";
+    hql = "FROM Friendship g LEFT JOIN PBUser u ON u.id = g.player1 " +
+            "LEFT JOIN PBUser u ON u.id = g.player2 WHERE player2.id = ?1 DESC";
     query = session.createQuery(hql);
     list = null;
     list = query.list();
     for (Object[] object : list) {
       if (object[0] != null) {
-        friends.add(new UserGameAttributes(((User) object[0]).getNickName(), ((int) object[1]), (f.format((Timestamp) object[1])), (f.format((Timestamp) object[1]))));
+        friends.add(new UserGameAttributes(((PBUser) object[0]).getNickName(), ((int) object[1]), (f.format((Timestamp) object[1])), (f.format((Timestamp) object[1]))));
       }
     }
 

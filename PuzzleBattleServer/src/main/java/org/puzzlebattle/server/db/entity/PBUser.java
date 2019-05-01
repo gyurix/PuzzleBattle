@@ -18,9 +18,9 @@ import static org.puzzlebattle.core.protocol.ByteBufUtils.readString;
  * @version 1.0
  */
 @Entity
-@Table(name = "userPuzzleBattle")
+@Table
 @Data
-public class User extends AbstractEntity implements BufReadable {
+public class PBUser extends AbstractEntity implements BufReadable {
 
   @Transient
   private int age;
