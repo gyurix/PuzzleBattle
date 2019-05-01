@@ -1,7 +1,5 @@
 package org.puzzlebattle.server.db.entity;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import lombok.Data;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -12,6 +10,7 @@ import org.puzzlebattle.server.db.UserGameAttributes;
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -39,11 +38,11 @@ public class Friendship {
   @JoinColumn
   private PBUser player2;
 
-  public static ObservableList<UserGameAttributes> loadFriends(PBUser user) {
+  public static List<UserGameAttributes> loadFriends(PBUser user) {
     SessionFactory sf = new Configuration().configure("/META-INF/hibernate.cfg.xml").buildSessionFactory();
     Session session = sf.openSession();
     SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    ObservableList<UserGameAttributes> friends = FXCollections.observableArrayList();
+    List<UserGameAttributes> friends = new ArrayList<>();
     List<Object[]> list;
 
     String hql = "FROM Friendship g LEFT JOIN PBUser u ON u.id = g.player1 " +

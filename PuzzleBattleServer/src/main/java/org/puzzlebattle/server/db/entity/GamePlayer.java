@@ -1,13 +1,15 @@
 package org.puzzlebattle.server.db.entity;
 
 import lombok.Data;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
-import org.hibernate.cfg.Configuration;
 import org.hibernate.query.Query;
+import org.puzzlebattle.core.entity.GameType;
+import org.puzzlebattle.core.utils.ErrorAcceptedConsumer;
+import org.puzzlebattle.server.db.DB;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import java.util.List;
 
 
@@ -20,96 +22,49 @@ import java.util.List;
 @Data
 @Entity
 @Table
-public class GamePlayer {
+public class GamePlayer extends AbstractEntity {
 
   private int gameType;
-  @Id
-  @GeneratedValue
-  private long id;
   @ManyToOne
   @JoinColumn
   private PBUser player;
   private int score = 0;
 
-  /**
-   * @param user
-   * @param gameTypeForNewUser
-   * @return
-   *//*
-  public static GamePlayer createGamePlayerFromUserIfNotExist(PBUser user, int gameTypeForNewUser) {
-    GamePlayer foundGamePlayer;
-    if ((foundGamePlayer = findGamePlayerInDB(UserManager.findUser(user.getNickName(), user.getPassword()), gameTypeForNewUser)) == null) {
-      GamePlayer newGamePlayer = new GamePlayer();
-      newGamePlayer.setPlayer(UserManager.findUser(user.getNickName(), user.getPassword()));
-      newGamePlayer.setScore(0);
-      newGamePlayer.setGameType(gameTypeForNewUser);
-      insertGamePlayerToDB(newGamePlayer);
-      return findGamePlayerInDB(UserManager.findUser(user.getNickName(), user.getPassword()), gameTypeForNewUser);
-    } else {
-      return foundGamePlayer;
-    }
-  }*/
-
-  /**
-   * @param gameType
-   * @return
-   */
-  public static GamePlayer createVirtualPlayerForTest(int gameType) {
-
-    GamePlayer virtualGamePlayer = new GamePlayer();
-    virtualGamePlayer.setGameType(gameType);
-    virtualGamePlayer.setScore(0);
-    virtualGamePlayer.setPlayer(null); //NOT IN TABLE!!!
-    insertGamePlayerToDB(virtualGamePlayer);
-    return virtualGamePlayer;
+  public GamePlayer(PBUser player, GameType gameType) {
+    this.player = player;
+    this.gameType = gameType.ordinal();
   }
 
   /**
-   * @param user
-   * @param gameTypeOfUser
-   * @return
+   * Gets the GamePlayer connected to the given user and GameType from the database.
+   * If it does not exists yet, creates it.
+   *
+   * @param user     - The PBUser to which the GamePlayer should be connected
+   * @param gameType - The GameType to which the GamePlayer should be connected
+   * @param result   - The result handler accepting the GamePlayer we obtained or created
    */
-  public static GamePlayer findGamePlayerInDB(PBUser user, int gameTypeOfUser) {
-    SessionFactory sf = new Configuration().configure("/META-INF/hibernate.cfg.xml").buildSessionFactory();
-    Session session = sf.openSession();
-    Transaction t = session.beginTransaction();
-    GamePlayer gamePlayer = null;
-
-    String hql = "FROM GamePlayer WHERE player=?1 AND gameType= ?2";
-    Query query = session.createQuery(hql);
-    query.setParameter(1, user);
-    query.setParameter(2, gameTypeOfUser);
-    List<GamePlayer> list = query.list();
-    if (list.size() > 0) {
-      gamePlayer = list.get(0);
-
-    }
-    t.commit();
-    session.close();
-    sf.close();
-    return gamePlayer;
+  public static void withGamePlayer(PBUser user, GameType gameType, ErrorAcceptedConsumer<GamePlayer> result) {
+    DB.INSTANCE.withSession((s) -> {
+      String hql = "FROM GamePlayer WHERE player = ?1 AND gameType = ?2 LIMIT 1";
+      Query<GamePlayer> query = s.createQuery(hql);
+      query.setParameter(1, user);
+      query.setParameter(2, gameType);
+      List<GamePlayer> list = query.list();
+      if (!list.isEmpty()) {
+        result.accept(list.get(0));
+        return;
+      }
+      GamePlayer gamePlayer = new GamePlayer(user, gameType);
+    });
   }
 
   /**
-   * @param gamePlayer
+   * Adds the given amount of score to this GamePlayer
+   *
+   * @param score - The addable score amount
    */
-  private static void insertGamePlayerToDB(GamePlayer gamePlayer) {
-    SessionFactory sf = new Configuration().configure("/META-INF/hibernate.cfg.xml").buildSessionFactory();
-    Session session = sf.openSession();
-    Transaction t = session.beginTransaction();
-
-    session.persist(gamePlayer);
-
-    t.commit();
-    session.close();
-    sf.close();
-  }
-
-  /**
-   * @param score
-   */
-  public void setScore(int score) {
+  public void addScore(int score) {
     this.score = this.score + score;
+    update();
   }
-
 }

@@ -7,6 +7,7 @@ import org.puzzlebattle.core.protocol.ByteBufUtils;
 
 @Data
 public class ServerInStartGame extends ServerInPacket {
+  private boolean initializer;
   private String settings;
   private GameType type;
 
@@ -17,6 +18,7 @@ public class ServerInStartGame extends ServerInPacket {
 
   @Override
   public void read(ByteBuf buf) {
+    initializer = buf.readBoolean();
     settings = ByteBufUtils.readString(buf);
     type = GameType.values()[buf.readUnsignedByte()];
   }

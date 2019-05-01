@@ -1,26 +1,35 @@
 package org.puzzlebattle.server.db.entity;
 
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import org.puzzlebattle.core.entity.GameWinner;
 
-import javax.persistence.Column;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+
 /**
- * Result of an actual game
+ * Table which represents one game between two players. Every game contains settings, result and interval
  *
- * @author Jakub Perdek, Juraj Barath
+ * @author Jakub Perdek
  * @version 1.0
  */
+@Data
 @Entity
 @Table
+@AllArgsConstructor
 public class GameResult extends AbstractEntity {
-  @Column
-  private int player1;
-  @Column
-  private int player2;
-  @Column
-  private int type;
-  @Column
+  @ManyToOne(cascade = {CascadeType.ALL})
+  private DurationDate duration;
+  @ManyToOne(cascade = {CascadeType.ALL})
+  private GameSettings gameSettings;
+  @ManyToOne
+  private GamePlayer player1;
+  @ManyToOne
+  private GamePlayer player2;
   private GameWinner winner;
 }
+

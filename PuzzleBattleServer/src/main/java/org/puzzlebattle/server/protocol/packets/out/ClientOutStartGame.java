@@ -9,10 +9,12 @@ import org.puzzlebattle.core.protocol.ByteBufUtils;
 @AllArgsConstructor
 @Data
 public class ClientOutStartGame extends ClientOutPacket {
+  private boolean initializer;
   private String settings;
   private GameType type;
 
   public void write(ByteBuf buf) {
+    buf.writeBoolean(initializer);
     buf.writeByte(type.ordinal());
     ByteBufUtils.writeString(buf, settings);
   }

@@ -22,7 +22,7 @@ public class FourInARowGameSettings {
   private static KeyCode numpad[] = new KeyCode[]{NUMPAD0, NUMPAD1, NUMPAD2, NUMPAD3, NUMPAD4, NUMPAD5, NUMPAD6, NUMPAD7, NUMPAD8, NUMPAD9};
   private Color backgroundColor = Color.GAINSBORO;
   private int maxColumns = 7;
-  private int maxInTheRow = 5;
+  private int maxInTheRow = 4;
   private int maxRows = 6;
 
   /**

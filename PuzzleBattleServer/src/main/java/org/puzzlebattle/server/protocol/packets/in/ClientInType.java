@@ -9,7 +9,6 @@ public enum ClientInType {
   ENCRYPTION(ClientInEncryption::new),
   END_GAME(ClientInEndGame::new),
   FIND_FRIEND(ClientInFindFriend::new),
-  GAME_PLAYER(ClientInGamePlayer::new),
   KEEP_ALIVE(ClientInKeepAlive::new),
   LOAD_FRIENDS(ClientInLoadFriends::new),
   LOGIN(ClientInLogin::new),

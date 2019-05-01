@@ -28,7 +28,7 @@ public class BouncerGame extends Game {
   /**
    * Constructor for objects of class SkladPonuka
    */
-  public BouncerGame(Object serverConnection, BouncerGameSettings settings) {
+  public BouncerGame(BouncerGameSettings settings) {
     //super(serverConnection);
     this.settings = settings;
     createBall();
@@ -106,23 +106,8 @@ public class BouncerGame extends Game {
       bouncer.setX(Math.min(mapSize.getX() - bouncer.getWidth(), x + intensity));
   }
 
-  /**
-   * Key event, which is triggered by special keys. These keys can manipulate with bouncers.
-   *
-   * @param key     used key
-   * @param pressed if button is pressed
-   */
-  public void onKeyEvent(KeyCode key, boolean pressed) {
-    if (key == settings.getYou().getLeft())
-      left1 = pressed;
-    else if (key == settings.getYou().getRight())
-      right1 = pressed;
-  //  if (getServerConnection() == null) {
-      if (key == settings.getEnemy().getLeft())
-        left2 = pressed;
-      else if (key == settings.getEnemy().getRight())
-        right2 = pressed;
-   // }
+  public GameType getType() {
+    return GameType.FOUR_IN_A_ROW;
   }
 
   /**
@@ -137,25 +122,22 @@ public class BouncerGame extends Game {
   }
 
   /**
-   * Ticking of the ball
+   * Key event, which is triggered by special keys. These keys can manipulate with bouncers.
+   *
+   * @param key     used key
+   * @param pressed if button is pressed
    */
-  public void tick() {
-    move(left1, right1, you, settings.getYou().getMovementIntensity());
-   // if (getServerConnection() == null)
-    //  move(left2, right2, enemy, settings.getEnemy().getMovementIntensity());
-    /*ball.tick();
-    Point2D vel = enemy.getBouncer().getAppliedVelocity(ball, 1);
-    if (vel == null)
-      vel = you.getBouncer().getAppliedVelocity(ball, -1);
-    if (vel == null) {
-      if (isEnemyFailed())
-        you.goal();
-      else if (isYouFailed())
-        enemy.goal();
-      return;
-    }
-    ball.setVelocity(vel);
-    ball.tick();*/
+  public void onKeyEvent(KeyCode key, boolean pressed) {
+    if (key == settings.getYou().getLeft())
+      left1 = pressed;
+    else if (key == settings.getYou().getRight())
+      right1 = pressed;
+    //  if (getServerConnection() == null) {
+    if (key == settings.getEnemy().getLeft())
+      left2 = pressed;
+    else if (key == settings.getEnemy().getRight())
+      right2 = pressed;
+    // }
   }
 
   @Override
@@ -169,5 +151,23 @@ public class BouncerGame extends Game {
     ball.setCenterX(data[4]);
   }
 
-  public GameType getType(){ return GameType.FOUR_IN_A_ROW; }
+  /**
+   * Ticking of the ball
+   */
+  public void tick() {
+    move(left1, right1, you, settings.getYou().getMovementIntensity());
+    ball.tick();
+    Point2D vel = enemy.getBouncer().getAppliedVelocity(ball, 1);
+    if (vel == null)
+      vel = you.getBouncer().getAppliedVelocity(ball, -1);
+    if (vel == null) {
+      if (isEnemyFailed())
+        you.goal();
+      else if (isYouFailed())
+        enemy.goal();
+      return;
+    }
+    ball.setVelocity(vel);
+    ball.tick();
+  }
 }

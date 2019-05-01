@@ -14,12 +14,6 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import org.puzzlebattle.client.ClientLauncher;
 import org.puzzlebattle.client.games.User;
-import org.puzzlebattle.client.games.bouncer.BallBouncerScreen;
-import org.puzzlebattle.client.games.bouncer.BouncerGame;
-import org.puzzlebattle.client.games.bouncer.BouncerGameSettings;
-import org.puzzlebattle.client.games.fourinarow.FourInARowGame;
-import org.puzzlebattle.client.games.fourinarow.FourInARowGameSettings;
-import org.puzzlebattle.client.games.fourinarow.FourInARowScreen;
 import org.puzzlebattle.client.protocol.Client;
 import org.puzzlebattle.client.protocol.packets.out.ServerOutStartGame;
 import org.puzzlebattle.core.entity.GameType;
@@ -129,10 +123,6 @@ public class MainScreen extends AbstractScreen {
   private void startBallBouncer() {
     ServerOutStartGame launchBallBouncer = new ServerOutStartGame(GameType.BOUNCER);
     client.sendPacket(launchBallBouncer);
-
-    BouncerGame game = new BouncerGame(null, new BouncerGameSettings());
-    client.setGame(game);
-    new BallBouncerScreen(stage, game, client).show();
   }
 
   /**
@@ -141,10 +131,6 @@ public class MainScreen extends AbstractScreen {
   private void startFourInARow() {
     ServerOutStartGame launchPacket = new ServerOutStartGame(GameType.FOUR_IN_A_ROW);
     client.sendPacket(launchPacket);
-
-    FourInARowGame game = new FourInARowGame(null, new FourInARowGameSettings());
-    client.setGame(game);
-    new FourInARowScreen(stage, game, client).show();
   }
 
   /**

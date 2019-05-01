@@ -28,12 +28,12 @@ public class FourInARowGame extends Game {
   /**
    * Four in a row game is created, players with specific colors are added, setting are stored.
    */
-  public FourInARowGame(Object serverConnection, FourInARowGameSettings settings) {
-   // super(serverConnection);
+  public FourInARowGame(boolean shouldStart, FourInARowGameSettings settings) {
+    // super(serverConnection);
     this.settings = settings;
     FourInARowPlayer.nullNumberOfPlayers();
-    you = new FourInARowPlayer(this, true, Color.RED);
-    enemy = new FourInARowPlayer(this, false, Color.BLUE);
+    you = new FourInARowPlayer(this, shouldStart, Color.RED);
+    enemy = new FourInARowPlayer(this, !shouldStart, Color.BLUE);
     players.add(you);
     players.add(enemy);
 
@@ -116,18 +116,9 @@ public class FourInARowGame extends Game {
     return null;
   }
 
-  /**
-   * Finds if is draw, users can't do any move
-   *
-   * @return true if it si draw, otherwise false
-   */
-  public boolean isDraw() {
-    for(int column=1 ;column <=settings.getMaxColumns(); column= column + 1) {
-      if (fillingColumns[column] < settings.getMaxRows()){
-        return false;
-      }
-    }
-    return true;
+  @Override
+  public GameType getType() {
+    return GameType.FOUR_IN_A_ROW;
   }
 
   /**
@@ -151,8 +142,19 @@ public class FourInARowGame extends Game {
     players.get(number - 1).setMove();
   }
 
-  @Override
-  public GameType getType() { return GameType.FOUR_IN_A_ROW; }
+  /**
+   * Finds if is draw, users can't do any move
+   *
+   * @return true if it si draw, otherwise false
+   */
+  public boolean isDraw() {
+    for (int column = 1; column <= settings.getMaxColumns(); column = column + 1) {
+      if (fillingColumns[column] < settings.getMaxRows()) {
+        return false;
+      }
+    }
+    return true;
+  }
 
   @Override
   public void updateData(int[] data) {

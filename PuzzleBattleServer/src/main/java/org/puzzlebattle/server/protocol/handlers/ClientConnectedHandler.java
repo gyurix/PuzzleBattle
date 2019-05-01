@@ -1,10 +1,11 @@
 package org.puzzlebattle.server.protocol.handlers;
 
 import io.netty.channel.Channel;
-import javafx.collections.ObservableList;
+import org.puzzlebattle.server.MatchManager;
 import org.puzzlebattle.server.db.UserGameAttributes;
 import org.puzzlebattle.server.db.entity.UserManager;
 import org.puzzlebattle.server.entity.Client;
+import org.puzzlebattle.server.game.Game;
 import org.puzzlebattle.server.protocol.packets.in.*;
 import org.puzzlebattle.server.protocol.packets.out.ClientOutBestPlayers;
 import org.puzzlebattle.server.protocol.packets.out.ClientOutKeepAlive;
@@ -22,12 +23,31 @@ public class ClientConnectedHandler extends ClientHandler {
   }
 
   @Override
+  public void handle(ClientInUpdateGame packet) {
+    Game g = client.getGame();
+    if (g != null)
+      g.update(client, packet.getData());
+  }
+
+  @Override
+  public void handle(ClientInLoadFriends packet) {
+  }
+
+  @Override
   public void handle(ClientInEndGame packet) {
+    Game g = client.getGame();
+    if (g != null)
+      g.lose(client);
   }
 
   @Override
   public void handle(ClientInFindFriend packet) {
 
+  }
+
+  @Override
+  public void handle(ClientInStartGame packet) {
+    MatchManager.getInstance().start(client, packet.getType());
   }
 
   @Override

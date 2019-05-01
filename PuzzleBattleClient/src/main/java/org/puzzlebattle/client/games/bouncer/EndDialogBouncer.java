@@ -3,10 +3,6 @@ package org.puzzlebattle.client.games.bouncer;
 
 import javafx.stage.Stage;
 import org.puzzlebattle.client.games.AbstractEndDialog;
-import org.puzzlebattle.client.games.fourinarow.FourInARowGame;
-import org.puzzlebattle.client.games.fourinarow.FourInARowGameSettings;
-import org.puzzlebattle.client.games.fourinarow.FourInARowPlayer;
-import org.puzzlebattle.client.games.fourinarow.FourInARowScreen;
 import org.puzzlebattle.client.protocol.Client;
 import org.puzzlebattle.client.screen.AbstractScreen;
 
@@ -30,8 +26,8 @@ public class EndDialogBouncer extends AbstractEndDialog {
    * @param type              - type of dialog
    */
   public EndDialogBouncer(BallBouncerScreen ballBouncerScreen, BouncerPlayer winningPlayer,
-                   Stage primaryStage, Client client, String type) {
-    super(ballBouncerScreen,0,primaryStage,client,type);
+                          Stage primaryStage, Client client, String type) {
+    super(ballBouncerScreen, 0, primaryStage, client, type);
     this.client = client;
   }
 
@@ -43,10 +39,8 @@ public class EndDialogBouncer extends AbstractEndDialog {
   protected void startNewGame(AbstractScreen fourInARowScreen) {
     this.close();
     fourInARowScreen.getStage().close();
-    //GET FOUR IN A ROW GAME SETTINGS
-    //GameTable newGameTable = GameTable.createTheSameGameFromOlderGame(gameTable, new FourInARowGameSettings());
     new BallBouncerScreen(fourInARowScreen.getStage(),
-            new BouncerGame(null, new BouncerGameSettings()),
+            new BouncerGame(new BouncerGameSettings()),
             client).show();
   }
 

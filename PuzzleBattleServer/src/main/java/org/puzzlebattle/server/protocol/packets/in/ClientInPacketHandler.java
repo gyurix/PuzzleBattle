@@ -14,7 +14,9 @@ public interface ClientInPacketHandler {
     unexpected(packet);
   }
 
-  default void handle(ClientInLogin packet) { unexpected(packet); }
+  default void handle(ClientInLogin packet) {
+    unexpected(packet);
+  }
 
   default void handle(ClientInRegister packet) {
     unexpected(packet);
@@ -33,10 +35,6 @@ public interface ClientInPacketHandler {
   }
 
   default void handle(ClientInFindFriend packet) {
-    unexpected(packet);
-  }
-
-  default void handle(ClientInGamePlayer packet) {
     unexpected(packet);
   }
 

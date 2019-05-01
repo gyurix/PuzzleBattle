@@ -27,7 +27,7 @@
         <mapping class="org.puzzlebattle.server.db.entity.GamePlayer"/>
         <mapping class="org.puzzlebattle.server.db.entity.GameResult"/>
         <mapping class="org.puzzlebattle.server.db.entity.GameSettings"/>
-        <mapping class="org.puzzlebattle.server.db.entity.GameTable"/>
+        <mapping class="org.puzzlebattle.server.db.entity.GameResult"/>
         <mapping class="org.puzzlebattle.server.db.entity.GameType"/>
         <mapping class="org.puzzlebattle.server.db.entity.PBUser"/>
 
