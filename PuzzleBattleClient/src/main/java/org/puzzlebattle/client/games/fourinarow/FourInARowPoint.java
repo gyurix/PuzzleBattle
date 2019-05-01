@@ -75,4 +75,11 @@ public class FourInARowPoint {
   public void applyDraw(FourInARowScreen fourInARowScreen) {
     fourInARowEntity.applyDraw(playerPoint,fourInARowScreen);
   }
+
+  /**
+   * Apply ending game and showing dialog for loser
+   *
+   * @param fourInARowScreen - screen of four in a row game
+   */
+  public void applyLoser(FourInARowScreen fourInARowScreen) { fourInARowEntity.applyLose(playerPoint,fourInARowScreen); }
 }

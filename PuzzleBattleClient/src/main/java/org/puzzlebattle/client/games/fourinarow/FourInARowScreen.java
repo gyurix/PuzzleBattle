@@ -113,13 +113,13 @@ public class FourInARowScreen extends AbstractScreen {
    *
    * @param playerOnTheMove
    */
-  public void showWinnerScreen(FourInARowPlayer playerOnTheMove) {
+  public void showWinnerScreen(FourInARowPlayer playerOnTheMove,String type,String text) {
     WinningDialog winningDialog = new WinningDialog(
-            this, playerOnTheMove, super.getStage(), client);
+            this, playerOnTheMove, super.getStage(), client,type);
     winningDialog.initModality(Modality.WINDOW_MODAL);
     winningDialog.initOwner(super.getStage());
     winningDialog.show();
-    Logging.logInfo("You are the winner!");
+    Logging.logInfo(text);
   }
 
   /**
