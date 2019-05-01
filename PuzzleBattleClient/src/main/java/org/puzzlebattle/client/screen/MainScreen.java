@@ -44,7 +44,7 @@ public class MainScreen extends AbstractScreen {
   private Separator separator;
   private SettingsForScreens settingsForScreens;
   private VBox vBoxBallBouncerGame, vBoxFourInARowGame;
-  private Button viewBestPlayersBallBouncer, viewBestPlayersFourInARow, viewProfileButton;
+  private Button viewBestPlayersBallBouncer, viewBestPlayersFourInARow, viewProfileButton, editProfileButton;
 
   /**
    * Constructor which creates main screen in the program.
@@ -145,6 +145,8 @@ public class MainScreen extends AbstractScreen {
     viewProfileButton.setOnAction(e -> prepareProfileScreen());
     friendshipMenuButton = createButton(LangFile.lang.get("mainScreen.menu.friendshipMenu"));
     friendshipMenuButton.setOnAction(e -> prepareFriendshipMenu());
+    editProfileButton = createButton(LangFile.lang.get("mainScreen.menu.editProfile"));
+    editProfileButton.setOnAction(e->new AdditionalInformationScreen(new Stage(),client).show());
   }
 
   /**
@@ -153,7 +155,7 @@ public class MainScreen extends AbstractScreen {
   private void prepareEscapeLayout() {
     hEscapeBox = new HBox(settingsForScreens.getSpacingForVBox());
     hEscapeBox.setMinWidth(super.getWidth());
-    hEscapeBox.getChildren().addAll(reLoginButton, closeMainScreen, viewProfileButton, friendshipMenuButton);
+    hEscapeBox.getChildren().addAll(reLoginButton, closeMainScreen, viewProfileButton, friendshipMenuButton,editProfileButton);
   }
 
   /**

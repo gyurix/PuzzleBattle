@@ -34,7 +34,9 @@
     "menu": {
       "reLogin": "Re-login",
       "close": "Uzatvor",
-      "viewProfile": "Ukaz profil"
+      "viewProfile": "Ukaz profil",
+      "friendshipMenu": "Priatelstva",
+      "editProfile": "Uprav profil"
     }
   },
   "friendship": {
@@ -85,7 +87,7 @@
       "surname": "priezvisko",
       "dateOfBirth": "datum narodenia"
     },
-    "buttons": {
+    "button": {
       "next": "dalsi",
       "previous": "predchadzajuci",
       "confirm": "potvrdenie",

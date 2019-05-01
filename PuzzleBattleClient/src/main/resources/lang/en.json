@@ -37,7 +37,8 @@
       "reLogin": "Re-login",
       "close": "Close",
       "viewProfile": "View profile",
-      "friendshipMenu": "Friendship menu."
+      "friendshipMenu": "Friendship menu",
+      "editProfile": "Edit profile"
     }
   },
   "friendship": {
@@ -88,7 +89,7 @@
       "surname": "surname",
       "dateOfBirth": "date of birth"
     },
-    "buttons": {
+    "button": {
       "next": "next",
       "previous": "previous",
       "confirm": "confirm",

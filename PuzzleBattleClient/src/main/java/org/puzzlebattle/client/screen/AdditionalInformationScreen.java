@@ -66,14 +66,13 @@ public class AdditionalInformationScreen extends AbstractScreen {
   /**
    * Constructor which prepares window with its basic components for obtaining additional information from them
    *
-   * @param stage         stage which is used to display window
-   * @param nickName      nickname of user
-   * @param emailOfPlayer email of user
+   * @param stage       stage which is used to display window
+   * @param client      client
    */
-  public AdditionalInformationScreen(Stage stage, String nickName, String emailOfPlayer, Client client) {
+  public AdditionalInformationScreen(Stage stage, Client client) {
     super(stage, client);
-    this.nickNameOfPlayer = nickName;
-    this.emailOfPlayer = emailOfPlayer;
+    this.nickNameOfPlayer = client.getUser().getUserName();
+    this.emailOfPlayer = client.getUser().getEmail();
     prepareComponents();
     prepareScenes();
     stage.setTitle(lang.get("additionalInformation.title"));

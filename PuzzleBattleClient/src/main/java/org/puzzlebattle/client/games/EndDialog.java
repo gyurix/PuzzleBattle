@@ -95,7 +95,7 @@ public class EndDialog extends AbstractScreen {
    */
   private void createMainMenu() {
     stage.close();
-    new MainScreen(new Stage(), new SettingsForScreens(), client).show();
+    new MainScreen(stage, new SettingsForScreens(), client).show();
   }
 
   /**
