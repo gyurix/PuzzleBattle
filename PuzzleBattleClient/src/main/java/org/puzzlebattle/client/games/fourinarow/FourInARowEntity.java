@@ -59,22 +59,22 @@ public class FourInARowEntity {
 
   }
 
+  public void applyDraw(FourInARowPlayer playerOnTheMove, FourInARowScreen gameScreen) {
+    gameScreen.showWinnerScreen(playerOnTheMove, "draw", "Draw!");
+  }
+
+  public void applyLose(FourInARowPlayer playerOnTheMove, FourInARowScreen gameScreen) {
+    gameScreen.showWinnerScreen(playerOnTheMove, "loser", "You lose!");
+  }
+
   public void isWinningMove(FourInARowPlayer playerOnTheMove, int row, int column, FourInARowScreen gameScreen) {
     int playerNumber = playerOnTheMove.getPlayingNumber();
 
     if (analyseOfWinningMove(row, column, playerNumber)) {
-      gameScreen.showWinnerScreen(playerOnTheMove,"winner","You are the winner!");
+      gameScreen.showWinnerScreen(playerOnTheMove, "winner", "You are the winner!");
     } else {
       gameScreen.showDialogForNextMove();
     }
-  }
-
-  public void applyDraw(FourInARowPlayer playerOnTheMove,FourInARowScreen gameScreen){
-    gameScreen.showWinnerScreen(playerOnTheMove,"draw","Draw!");
-  }
-
-  public void applyLose(FourInARowPlayer playerOnTheMove,FourInARowScreen gameScreen){
-    gameScreen.showWinnerScreen(playerOnTheMove,"loser","You lose!");
   }
 
 

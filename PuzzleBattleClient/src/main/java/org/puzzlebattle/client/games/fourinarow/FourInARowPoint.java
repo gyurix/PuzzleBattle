@@ -81,5 +81,7 @@ public class FourInARowPoint {
    *
    * @param fourInARowScreen - screen of four in a row game
    */
-  public void applyLoser(FourInARowScreen fourInARowScreen) { fourInARowEntity.applyLose(playerPoint,fourInARowScreen); }
+  public void applyLoser(FourInARowScreen fourInARowScreen) {
+    fourInARowEntity.applyLose(playerPoint, fourInARowScreen);
+  }
 }
