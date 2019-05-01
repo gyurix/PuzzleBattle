@@ -19,5 +19,9 @@ public interface ServerInPacketHandler {
     unexpected(packet);
   }
 
+  default void handle(ServerInKeepAlive packet) {
+    unexpected(packet);
+  }
+
   void unexpected(ServerInPacket packet);
 }

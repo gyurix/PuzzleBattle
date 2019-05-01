@@ -97,5 +97,29 @@
       "yourBirth": "Tvoj datum narodenia",
       "yourPhoto": "Tvoje foto"
     }
+  },
+  "register": {
+    "title": "Registracia Puzzle Battle",
+    "registrationFailed": {
+      "title": "Registracia zlyhala!",
+      "text": "Registracia zlyhala! Skuste sa zaregistrovat znovu prosim!"
+    },
+    "noSamePassword": {
+      "title": "Hesla nie su rovnake!",
+      "text": "Prosim zadajte svoje hesla znovu!"
+    },
+    "labelNames": {
+      "nickLabel": "Tvoja prezyvka",
+      "passwordLabel": "Tvoje heslo",
+      "confirmPassword": "Potvrdte password",
+      "emailLabel": "Tvoj email"
+    },
+    "buttonNames": {
+      "confirmButton": "Registracia"
+    },
+    "textFieldsContent": {
+      "nickField": "Zadaj svoju prezyvku",
+      "emailField": "Zadaj svoj email"
+    }
   }
 }

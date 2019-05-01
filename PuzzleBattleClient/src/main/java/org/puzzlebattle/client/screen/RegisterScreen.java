@@ -255,8 +255,8 @@ public class RegisterScreen extends AbstractScreen {
       return;
     } else {
       Logging.logInfo("Passwords are the same. Registration is completed!");
-      ServerOutRegister sor = new ServerOutRegister(email, password, nickName);
-      //new Server().sendPacket(sor);
+      client.sendPacket(new ServerOutRegister(email, password, nickName));
+      new MainScreen(stage, new SettingsForScreens(), client);
     }
   }
 

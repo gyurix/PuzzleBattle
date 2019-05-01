@@ -20,8 +20,6 @@ public class ServerLoginHandler extends ServerHandler {
   @Override
   public void handle(ServerInLoginResult packet) {
     if (packet.isResult()) {
-      ThreadUtils.ui(() -> LoginScreen.getInstance().showAlert(ERROR, "login.incorrect"));
-    } else {
       ThreadUtils.ui(() -> {
         new MainScreen(LoginScreen.getInstance().getStage(), new SettingsForScreens(), client).show();
       });
@@ -29,7 +27,9 @@ public class ServerLoginHandler extends ServerHandler {
       client.getConnection().setHandler(handler);
       client.setUser(LoginScreen.getInstance().getUser());
       channel.pipeline().replace("handler", "handler", handler);
+      return;
     }
+    ThreadUtils.ui(() -> LoginScreen.getInstance().showAlert(ERROR, "login.incorrect"));
   }
 
   public void handle(ServerInBestPlayers packet) {

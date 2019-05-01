@@ -100,5 +100,29 @@
       "yourBirth": "Your birth",
       "yourPhoto": "Your photo"
     }
+  },
+  "register": {
+    "title": "Register Puzzle Battle",
+    "registrationFailed": {
+      "title": "Registration failed",
+      "text": "Registration failed! Please Register again!"
+    },
+    "noSamePassword": {
+      "title": "Not same passwords",
+      "text": "Type your password and confirm password again!"
+    },
+    "labelNames": {
+      "nickLabel": "Your nick",
+      "passwordLabel": "Your password",
+      "confirmPassword": "Confirm password",
+      "emailLabel": "Your email"
+    },
+    "buttonNames": {
+      "confirmButton": "Register"
+    },
+    "textFieldsContent": {
+      "nickField": "Add your nick",
+      "emailField": "Add your email"
+    }
   }
 }

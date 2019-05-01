@@ -9,8 +9,6 @@ import java.sql.Date;
 import java.sql.Timestamp;
 
 import static org.puzzlebattle.core.protocol.ByteBufUtils.readString;
-import static org.puzzlebattle.core.utils.HashUtils.HashType.SHA_256;
-import static org.puzzlebattle.core.utils.HashUtils.hash;
 
 /**
  * Table which stores data about user, his nickName and email address
@@ -46,9 +44,9 @@ public class User extends AbstractEntity implements BufReadable {
   public void read(ByteBuf buf) {
     email = readString(buf).trim().toLowerCase();
     nickName = readString(buf);
-    password = hash(readString(buf), SHA_256); //ja mam Bcrypt, jednoduche porovnanie,...
+    password = UserManager.hashPassword(readString(buf));
     name = "";
-    surname = "";//"https://www.gravatar.com/avatar/" + hash(email, MD5);
+    surname = "";
     lastLogin = new Timestamp(System.currentTimeMillis());
     registered = new Timestamp(System.currentTimeMillis());
   }

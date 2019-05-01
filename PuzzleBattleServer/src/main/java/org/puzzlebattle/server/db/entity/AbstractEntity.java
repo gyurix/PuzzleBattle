@@ -19,15 +19,15 @@ class AbstractEntity {
 
   public void persist(ErrorAcceptedConsumer<Boolean> resultHandler) {
     DB.INSTANCE.withSession((s) -> {
+      Transaction t = s.beginTransaction();
       try {
-        Transaction t = s.beginTransaction();
         s.persist(this);
-        t.commit();
-        s.flush();
         resultHandler.accept(true);
       } catch (Throwable e) {
         Logging.logSevere("Failed to save entity to database.", "entity", this, "error", e);
         resultHandler.accept(false);
+      } finally {
+        t.commit();
       }
     });
   }

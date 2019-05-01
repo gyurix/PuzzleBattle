@@ -34,5 +34,4 @@ public class ClientConnectedHandler extends ClientHandler {
   public void handle(ClientInBestPlayersRequest packet) {
 
   }
-
 }

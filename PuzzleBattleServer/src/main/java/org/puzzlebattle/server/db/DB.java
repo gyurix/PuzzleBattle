@@ -18,6 +18,12 @@ public enum DB {
     sessionFactory = new Configuration().configure("/META-INF/hibernate.cfg.xml").buildSessionFactory();
   }
 
+  public void init() {
+    for (int i = 0; i < 5; ++i)
+      withSession((s) -> {
+      });
+  }
+
   private void shutdown() {
     sessions.values().forEach(SharedSessionContract::close);
     sessionFactory.close();

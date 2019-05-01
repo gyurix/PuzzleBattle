@@ -17,10 +17,8 @@ public class ClientLoginHandler extends ClientHandler {
 
   public void finishLogin(User user) {
     sendPacket(new ClientOutLoginResult(user != null));
-    if (user == null) {
-      channel.close();
+    if (user == null)
       return;
-    }
     client.setUser(user);
     ClientConnectedHandler newHandler = new ClientConnectedHandler(channel, client);
     channel.pipeline().replace("handler", "handler", newHandler);
@@ -37,6 +35,6 @@ public class ClientLoginHandler extends ClientHandler {
 
   @Override
   public void handle(ClientInRegister packet) {
-    packet.getUser().persist((r) -> finishLogin(r ? packet.getUser() : null));
+    UserManager.registerUser(packet.getUser(), this::finishLogin);
   }
 }
