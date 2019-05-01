@@ -22,12 +22,11 @@ class AbstractEntity {
       Transaction t = s.beginTransaction();
       try {
         s.persist(this);
+        t.commit();
         resultHandler.accept(true);
       } catch (Throwable e) {
         Logging.logSevere("Failed to save entity to database.", "entity", this, "error", e);
         resultHandler.accept(false);
-      } finally {
-        t.commit();
       }
     });
   }

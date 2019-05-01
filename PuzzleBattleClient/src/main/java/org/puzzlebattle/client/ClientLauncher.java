@@ -47,7 +47,7 @@ public class ClientLauncher extends Application {
    */
   public void start(Stage stage) {
     try {
-      stage.getIcons().add(new Image("pictures/icon.png"));
+     // stage.getIcons().add(new Image("pictures/icon.png"));
       IOUtils.saveResources("config.json");
       config = gson.fromJson(new FileReader("config.json"), ClientConfig.class);
       LanguageSelector languageSelector = new LanguageSelector(stage);
