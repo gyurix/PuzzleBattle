@@ -69,6 +69,10 @@ public class FourInARowEntity {
     }
   }
 
+  public void applyDraw(FourInARowPlayer playerOnTheMove,FourInARowScreen gameScreen){
+    gameScreen.showWinnerScreen(playerOnTheMove);
+  }
+
   private void printTable() {
     for (int i = 0; i < columns; i = i + 1) {
       for (int j = 0; j < rows; j = j + 1) {

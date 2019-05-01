@@ -66,4 +66,13 @@ public class FourInARowPoint {
   public void isWinner(FourInARowScreen fourInARowScreen) {
     fourInARowEntity.isWinningMove(playerPoint, coinsInColumnBelow + 1, numberOfColumn, fourInARowScreen);
   }
+
+  /**
+   * Apply draw ending game and showing dialog
+   *
+   * @param fourInARowScreen - screen of four in a row game
+   */
+  public void applyDraw(FourInARowScreen fourInARowScreen) {
+    fourInARowEntity.applyDraw(playerPoint,fourInARowScreen);
+  }
 }

@@ -115,6 +115,20 @@ public class FourInARowGame extends Game {
   }
 
   /**
+   * Finds if is draw, users can't do any move
+   *
+   * @return true if it si draw, otherwise false
+   */
+  public boolean isDraw() {
+    for(int column=1 ;column <settings.getMaxColumns(); column= column + 1) {
+      if (fillingColumns[column] < settings.getMaxRows()){
+        return false;
+      }
+    }
+    return true;
+  }
+
+  /**
    * Method where player on the move lost his move and another player in sequence obtains this move
    *
    * @param playerOnTheMove player who is on the move

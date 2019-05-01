@@ -98,6 +98,9 @@ public class FourInARowScreen extends AbstractScreen {
       Coin coin = createCoin(point);
       startCoinFall(coin, mapSize.getY() - (point.getCoinsInColumnBelow()) * (getPane().getThicknessOfRows() + getPane().getDistanceOfColumns()) + getPane().getThicknessOfRows());
       point.isWinner(this);
+      if(game.isDraw()){
+        point.applyDraw(this);
+      }
     }
   }
 
