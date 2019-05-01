@@ -63,15 +63,20 @@ public class FourInARowEntity {
     int playerNumber = playerOnTheMove.getPlayingNumber();
 
     if (analyseOfWinningMove(row, column, playerNumber)) {
-      gameScreen.showWinnerScreen(playerOnTheMove);
+      gameScreen.showWinnerScreen(playerOnTheMove,"winner","You are the winner!");
     } else {
       gameScreen.showDialogForNextMove();
     }
   }
 
   public void applyDraw(FourInARowPlayer playerOnTheMove,FourInARowScreen gameScreen){
-    gameScreen.showWinnerScreen(playerOnTheMove);
+    gameScreen.showWinnerScreen(playerOnTheMove,"draw","Draw!");
   }
+
+  public void applyLose(FourInARowPlayer playerOnTheMove,FourInARowScreen gameScreen){
+    gameScreen.showWinnerScreen(playerOnTheMove,"loser","You lose!");
+  }
+
 
   private void printTable() {
     for (int i = 0; i < columns; i = i + 1) {

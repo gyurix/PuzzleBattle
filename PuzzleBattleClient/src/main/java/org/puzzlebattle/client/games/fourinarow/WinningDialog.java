@@ -17,7 +17,7 @@ import org.puzzlebattle.client.screen.MainScreen;
 import org.puzzlebattle.client.screen.SettingsForScreens;
 
 /**
- * Winning dialof for Four in a row game
+ * Winning dialog for Four in a row game
  *
  * @author (Jakub Perdek)
  * @version (1.0)
@@ -44,15 +44,15 @@ public class WinningDialog extends Stage {
    * @param primaryStage     - primary stage
    */
   public WinningDialog(FourInARowScreen fourInARowScreen, FourInARowPlayer winningPlayer,
-                       Stage primaryStage, Client client) {
+                       Stage primaryStage, Client client,String type) {
     this.client = client;
     this.primaryStage = primaryStage;
     this.user = user;
     ServerOutEndGame endGame = new ServerOutEndGame();
     fourInARowScreen.getClient().sendPacket(endGame);
-    prepareLayouts(fourInARowScreen);
+    prepareLayouts(fourInARowScreen,type);
     scene = new Scene(border, fourInARowScreen.getWidth(), fourInARowScreen.getHeight());
-    applySettingsToStage(winningPlayer);
+    applySettingsToStage(winningPlayer,type);
   }
 
   /**
@@ -60,9 +60,17 @@ public class WinningDialog extends Stage {
    *
    * @param winningPlayer - winner of Four in a row game
    */
-  private void applySettingsToStage(FourInARowPlayer winningPlayer) {
-    int playerNumber = winningPlayer.getPlayingNumber();
-    this.setTitle("Player number " + playerNumber + " is winner.");
+  private void applySettingsToStage(FourInARowPlayer winningPlayer,String type) {
+    if(type.equals("winner")) {
+      int playerNumber = winningPlayer.getPlayingNumber();
+      this.setTitle("Player number " + playerNumber + " is winner.");
+    }
+    else if(type.equals("draw")) {
+      this.setTitle("Draw");
+    }
+    else if(type.equals("loser")){
+      this.setTitle("Loser");
+    }
     this.setScene(scene);
     this.setOnCloseRequest(e -> onClose());
     this.sizeToScene();
@@ -87,10 +95,10 @@ public class WinningDialog extends Stage {
   }
 
   /**
-   * Creates and prepares label winner
+   * Creates and prepares label
    */
-  private void createAndPrepareLabelWinner() {
-    winner = new Label("Winner");
+  private void createAndPrepareLabel(String text) {
+    winner = new Label(text);
     winner.setMaxWidth(Double.MAX_VALUE);
     f = new Font("Arial", 55);
     winner.setFont(f);
@@ -136,15 +144,25 @@ public class WinningDialog extends Stage {
    *
    * @param fourInARowScreen screen of Four in a row game
    */
-  private void prepareLayouts(FourInARowScreen fourInARowScreen) {
+  private void prepareLayouts(FourInARowScreen fourInARowScreen,String type) {
     border = new BorderPane();
     border.setMaxSize(fourInARowScreen.getWidth(), fourInARowScreen.getHeight());
     verticalBox = new VBox(10);
     createAndPrepareButtons(fourInARowScreen);
     verticalBox.getChildren().addAll(newGame, returnToMenu, closeButton);
     border.setRight(verticalBox);
-    tryToAddImage();
-    createAndPrepareLabelWinner();
+    if(type.equals("winner")) {
+      tryToAddImage("pictures/oldChap.png");
+      createAndPrepareLabel("Winner");
+    }
+    else if(type.equals("loser")){
+      tryToAddImage("pictures/lose.jpg");
+      createAndPrepareLabel("Loser");
+    }
+    else if(type.equals("draw")){
+      tryToAddImage("pictures/draw.jpg");
+      createAndPrepareLabel("Draw");
+    }
     border.setTop(winner);
   }
 
@@ -166,8 +184,8 @@ public class WinningDialog extends Stage {
   /**
    * Adds a picture of winner in winning dialog screen
    */
-  private void tryToAddImage() {
-    String imageURL = "pictures/oldChap.png";
+  private void tryToAddImage(String cesta) {
+    String imageURL = cesta;
     image = new Image(imageURL);
     img1 = new ImageView();
     img1.setImage(image);
