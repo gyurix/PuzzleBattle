@@ -102,7 +102,6 @@ public class FourInARowScreen extends AbstractScreen {
       client.sendPacket(endGame);
       return;
     }
-
     FourInARowPoint point = game.questionForMove(key);
     if (point != null) {
       Coin coin = createCoin(point);

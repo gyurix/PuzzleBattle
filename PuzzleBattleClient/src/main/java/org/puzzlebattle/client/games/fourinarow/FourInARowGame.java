@@ -5,6 +5,8 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import lombok.Getter;
 import org.puzzlebattle.client.games.Game;
+import org.puzzlebattle.client.protocol.Client;
+import org.puzzlebattle.client.protocol.packets.out.ServerOutUpdateGame;
 import org.puzzlebattle.core.entity.GameType;
 import org.puzzlebattle.core.utils.Logging;
 
@@ -28,8 +30,8 @@ public class FourInARowGame extends Game {
   /**
    * Four in a row game is created, players with specific colors are added, setting are stored.
    */
-  public FourInARowGame(boolean shouldStart, FourInARowGameSettings settings) {
-    // super(serverConnection);
+  public FourInARowGame(boolean shouldStart, FourInARowGameSettings settings, Client client) {
+    super(client);
     this.settings = settings;
     FourInARowPlayer.nullNumberOfPlayers();
     you = new FourInARowPlayer(this, shouldStart, Color.RED);
@@ -52,6 +54,8 @@ public class FourInARowGame extends Game {
 
     fillingColumns[numberOfSelectedColumn]++;
     FourInARowPlayer playerOnTheMove = getWhoIsOnTheMove();
+    if (playerOnTheMove == you)
+      client.getConnection().getHandler().sendPacket(new ServerOutUpdateGame(new int[]{numberOfSelectedColumn}));
 
     switchPlayer(playerOnTheMove);
     fourInARowEntity.setPlayerNumberToAMap(playerOnTheMove, fillingColumns[numberOfSelectedColumn], numberOfSelectedColumn);
@@ -105,7 +109,8 @@ public class FourInARowGame extends Game {
    * @return information about selected column, color of player on the move and other necessary information
    */
   public FourInARowPoint questionForMove(KeyCode key) {
-
+    if (getWhoIsOnTheMove() != you)
+      return null;
     for (int i = 1; i < 10; i++)
       if (key == FourInARowGameSettings.getDigit(i) || key == FourInARowGameSettings.getNumpad(i)) {
         if (conditionsToMove(i)) {

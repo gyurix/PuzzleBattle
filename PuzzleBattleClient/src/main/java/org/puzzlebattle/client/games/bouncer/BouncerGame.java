@@ -4,6 +4,7 @@ import javafx.geometry.Point2D;
 import javafx.scene.input.KeyCode;
 import lombok.Getter;
 import org.puzzlebattle.client.games.Game;
+import org.puzzlebattle.client.protocol.Client;
 import org.puzzlebattle.core.entity.GameType;
 
 import java.util.Random;
@@ -28,8 +29,8 @@ public class BouncerGame extends Game {
   /**
    * Constructor for objects of class SkladPonuka
    */
-  public BouncerGame(BouncerGameSettings settings) {
-    //super(serverConnection);
+  public BouncerGame(BouncerGameSettings settings, Client client) {
+    super(client);
     this.settings = settings;
     createBall();
     createEnemy();
@@ -132,12 +133,10 @@ public class BouncerGame extends Game {
       left1 = pressed;
     else if (key == settings.getYou().getRight())
       right1 = pressed;
-    //  if (getServerConnection() == null) {
     if (key == settings.getEnemy().getLeft())
       left2 = pressed;
     else if (key == settings.getEnemy().getRight())
       right2 = pressed;
-    // }
   }
 
   @Override

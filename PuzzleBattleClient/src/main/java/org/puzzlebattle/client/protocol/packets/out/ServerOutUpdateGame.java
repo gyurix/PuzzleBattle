@@ -6,13 +6,12 @@ import lombok.Data;
 
 @AllArgsConstructor
 @Data
-public class ServerOutKeyboardAction extends ServerOutPacket {
-  private int key;
-  private boolean pressed;
+public class ServerOutUpdateGame extends ServerOutPacket {
+  private int[] data;
 
-  @Override
   public void write(ByteBuf buf) {
-    buf.writeInt(key);
-    buf.writeBoolean(pressed);
+    buf.writeByte(data.length);
+    for (int i : data)
+      buf.writeInt(i);
   }
 }

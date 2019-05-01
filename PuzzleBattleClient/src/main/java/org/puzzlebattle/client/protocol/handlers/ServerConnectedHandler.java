@@ -41,11 +41,11 @@ public class ServerConnectedHandler extends ServerHandler {
       switch (packet.getType()) {
         case FOUR_IN_A_ROW:
           new FourInARowScreen(LoginScreen.getInstance().getStage(), new FourInARowGame(packet.isInitializer(),
-                  new FourInARowGameSettings()), client);
+                  new FourInARowGameSettings(), client), client);
           break;
         case BOUNCER:
           new BallBouncerScreen(LoginScreen.getInstance().getStage(),
-                  new BouncerGame(new BouncerGameSettings()), client);
+                  new BouncerGame(new BouncerGameSettings(), client), client);
           break;
       }
       if (packet.getType() == FOUR_IN_A_ROW) {

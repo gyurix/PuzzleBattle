@@ -40,7 +40,7 @@ public class EndDialogBouncer extends AbstractEndDialog {
     this.close();
     fourInARowScreen.getStage().close();
     new BallBouncerScreen(fourInARowScreen.getStage(),
-            new BouncerGame(new BouncerGameSettings()),
+            new BouncerGame(new BouncerGameSettings(), client),
             client).show();
   }
 

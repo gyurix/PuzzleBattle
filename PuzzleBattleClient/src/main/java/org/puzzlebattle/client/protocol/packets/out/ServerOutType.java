@@ -6,15 +6,14 @@ public enum ServerOutType {
   BEST_PLAYERS_REQUEST(ServerOutBestPlayersRequest.class),
   CHANGE_PROFILE(ServerOutChangeProfile.class),
   ENCRYPTION(ServerOutEncryption.class),
+  END_GAME(ServerOutEndGame.class),
   FIND_FRIEND(ServerOutFindFriend.class),
-  GAME_PLAYER(ServerOutGamePlayer.class),
   KEEP_ALIVE(ServerOutKeepAlive.class),
-  KEYBOARD_ACTION(ServerOutKeyboardAction.class),
   LOAD_FRIENDS(ServerOutLoadFriends.class),
   LOGIN(ServerOutLogin.class),
-  MOUSE_ACTION(ServerOutMouseAction.class),
   REGISTER(ServerOutRegister.class),
-  START_GAME(ServerOutStartGame.class);
+  START_GAME(ServerOutStartGame.class),
+  UPDATE_GAME(ServerOutUpdateGame.class);
 
   private static HashMap<Class<? extends ServerOutPacket>, ServerOutType> types = new HashMap<>();
 
