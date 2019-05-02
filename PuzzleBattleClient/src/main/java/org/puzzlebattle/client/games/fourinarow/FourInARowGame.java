@@ -24,6 +24,7 @@ public class FourInARowGame extends Game {
   private ArrayList<FourInARowPlayer> players = new ArrayList<FourInARowPlayer>();
   @Getter
   private FourInARowClientSettings clientSettings;
+  @Getter
   private FourInARowSettings settings;
   @Getter
   private FourInARowPlayer you, enemy;
@@ -38,8 +39,8 @@ public class FourInARowGame extends Game {
     this.clientSettings = clientSettings;
     this.settings = settings;
     FourInARowPlayer.nullNumberOfPlayers();
-    you = new FourInARowPlayer(this, shouldStart, Color.RED);
-    enemy = new FourInARowPlayer(this, !shouldStart, Color.BLUE);
+    you = new FourInARowPlayer(this, shouldStart, Color.valueOf(clientSettings.getYour()));
+    enemy = new FourInARowPlayer(this, !shouldStart, Color.valueOf(clientSettings.getEnemy()));
     players.add(you);
     players.add(enemy);
 

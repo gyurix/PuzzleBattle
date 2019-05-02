@@ -12,7 +12,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import org.puzzlebattle.client.ClientLauncher;
+import org.puzzlebattle.client.config.ConfigManager;
 import org.puzzlebattle.client.games.User;
 import org.puzzlebattle.client.protocol.Client;
 import org.puzzlebattle.client.protocol.packets.out.ServerOutStartGame;
@@ -147,7 +147,7 @@ public class MainScreen extends AbstractScreen {
     friendshipMenuButton = createButton(LangFile.lang.get("mainScreen.menu.friendshipMenu"));
     friendshipMenuButton.setOnAction(e -> prepareFriendshipMenu());
     editProfileButton = createButton(LangFile.lang.get("mainScreen.menu.editProfile"));
-    editProfileButton.setOnAction(e->new AdditionalInformationScreen(new Stage(),client).show());
+    editProfileButton.setOnAction(e -> new AdditionalInformationScreen(new Stage(), client).show());
   }
 
   /**
@@ -156,7 +156,7 @@ public class MainScreen extends AbstractScreen {
   private void prepareEscapeLayout() {
     hEscapeBox = new HBox(settingsForScreens.getSpacingForVBox());
     hEscapeBox.setMinWidth(super.getWidth());
-    hEscapeBox.getChildren().addAll(reLoginButton, closeMainScreen, viewProfileButton, friendshipMenuButton,editProfileButton);
+    hEscapeBox.getChildren().addAll(reLoginButton, closeMainScreen, viewProfileButton, friendshipMenuButton, editProfileButton);
   }
 
   /**
@@ -268,7 +268,7 @@ public class MainScreen extends AbstractScreen {
   private void reLogin() {
     getStage().close();
     new LoginScreen(getStage(), new LanguageSelector(getStage(), 100, 25),
-            new Client(ClientLauncher.getConfig().getServer())).show();
+            new Client(ConfigManager.getInstance().getConfig().getServer())).show();
   }
 
   /**

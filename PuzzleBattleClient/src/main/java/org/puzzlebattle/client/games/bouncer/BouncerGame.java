@@ -1,6 +1,7 @@
 package org.puzzlebattle.client.games.bouncer;
 
 import javafx.scene.input.KeyCode;
+import javafx.scene.paint.Color;
 import lombok.Getter;
 import org.puzzlebattle.client.games.Game;
 import org.puzzlebattle.client.protocol.Client;
@@ -54,8 +55,8 @@ public class BouncerGame extends Game {
                     settings.getMapMaxy() / 32.0 - 7.5,
                     settings.getBouncerWidth(),
                     settings.getBouncerHeight(),
-                    clientSettings.getEnemy().getColor()),
-            clientSettings.getEnemy().getGoalColor()
+                    Color.valueOf(clientSettings.getEnemy().getColor())),
+            Color.valueOf(clientSettings.getEnemy().getGoalColor())
     );
   }
 
@@ -70,28 +71,12 @@ public class BouncerGame extends Game {
                     (settings.getMapMaxy() - settings.getMapMaxy() / 32.0) - 7.5,
                     settings.getBouncerWidth(),
                     settings.getBouncerHeight(),
-                    clientSettings.getYou().getColor()),
-            clientSettings.getYou().getGoalColor()
-    );
+                    Color.valueOf(clientSettings.getYou().getColor())
+            ), Color.valueOf(clientSettings.getYou().getGoalColor()));
   }
 
   public GameType getType() {
     return GameType.BOUNCER;
-  }
-
-
-  /**
-   * Key event, which is triggered by special keys. These keys can manipulate with bouncers.
-   *
-   * @param key     used key
-   * @param pressed if button is pressed
-   */
-  public void onKeyEvent(KeyCode key, boolean pressed) {
-    if (key == clientSettings.getYou().getLeft())
-      left = pressed;
-    else if (key == clientSettings.getYou().getRight())
-      right = pressed;
-    client.sendPacket(new ServerOutUpdateGame(new int[]{(right ? 1 : 0) - (left ? 1 : 0)}));
   }
 
   @Override
@@ -107,5 +92,19 @@ public class BouncerGame extends Game {
     ball.setCenterX(data[6]);
     ball.setCenterY(data[7]);
     ball.setRadius(data[8]);
+  }
+
+  /**
+   * Key event, which is triggered by special keys. These keys can manipulate with bouncers.
+   *
+   * @param key     used key
+   * @param pressed if button is pressed
+   */
+  public void onKeyEvent(KeyCode key, boolean pressed) {
+    if (key == clientSettings.getYou().getLeft())
+      left = pressed;
+    else if (key == clientSettings.getYou().getRight())
+      right = pressed;
+    client.sendPacket(new ServerOutUpdateGame(new int[]{(right ? 1 : 0) - (left ? 1 : 0)}));
   }
 }

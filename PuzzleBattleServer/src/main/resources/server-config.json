@@ -6,6 +6,7 @@
   "gameProfiles": {
     "ballBouncer": {
       "normal": {
+        "template": "normal",
         "bouncerHeight": 15,
         "bouncerWidth": 100,
         "mapMaxx": 720,
@@ -18,6 +19,7 @@
         "winScore": 10
       },
       "small": {
+        "template": "small",
         "bouncerHeight": 15,
         "bouncerWidth": 100,
         "mapMaxx": 480,
@@ -32,6 +34,7 @@
     },
     "fourInARow": {
       "four": {
+        "template": "four",
         "maxx": 7,
         "maxy": 6,
         "numberInRowCount": 4,
@@ -39,6 +42,7 @@
         "winScore": 6
       },
       "five": {
+        "template": "five",
         "maxx": 9,
         "maxy": 8,
         "numberInRowCount": 5,

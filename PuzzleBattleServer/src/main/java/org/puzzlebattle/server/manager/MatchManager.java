@@ -19,6 +19,7 @@ public class MatchManager {
 
   private String randomProfile(Map<String, ?> map) {
     List<String> profiles = new ArrayList<>(map.keySet());
+    Logging.logInfo("Available profiles", "profiles", profiles);
     return profiles.get(rand.nextInt(profiles.size()));
   }
 

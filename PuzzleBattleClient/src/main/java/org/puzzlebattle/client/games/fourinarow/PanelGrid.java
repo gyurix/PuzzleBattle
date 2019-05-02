@@ -8,6 +8,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
+import org.puzzlebattle.core.gamesettings.FourInARowSettings;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,33 +22,27 @@ import java.util.List;
  */
 public class PanelGrid extends Pane {
   private final int fontSize = 20;
-  private int columns = 7;
   private int distanceOfColumns;
   private Font font;
   private List<Rectangle> grid = new ArrayList<Rectangle>();
   private double initialSpace = 50;
   private Label label;
   private Rectangle rect;
-  private int rows = 6;
   private double spaceFromTop = 10;
   private double thicknessOfColumns = 15;
   private double thicknessOfRows = 10;
-
-
-  /**
-   * Grid panel will be created 50 from top and 0, strictly on the left with specified width and height
-   */
-  public PanelGrid(double width, double height, FourInARowScreen fourInARowScreen) {
-    this(0, 50, width, height, fourInARowScreen);
-  }
+  private FourInARowSettings settings;
 
 
   /**
    * Specific Grid panel, where additionally position X and Y where panel should be situated can be set
    */
-  public PanelGrid(double X, double Y, double width, double height, FourInARowScreen fourInARowScreen) {
-    createGrids(this, rows, columns, width, height, Color.YELLOW, Color.GREEN);
-    createLabels(this, initialSpace / 2, spaceFromTop, width, height, columns, fourInARowScreen);
+  public PanelGrid(double width, double height, FourInARowScreen fourInARowScreen) {
+    FourInARowClientSettings clientSettings = fourInARowScreen.getGame().getClientSettings();
+    this.settings = fourInARowScreen.getGame().getSettings();
+    createGrids(this, settings.getMaxy(), settings.getMaxx(), width, height,
+            Color.valueOf(clientSettings.getHorizontalGrid()), Color.valueOf(clientSettings.getVerticalGrid()));
+    createLabels(this, initialSpace / 2, spaceFromTop, width, height, settings.getMaxx(), fourInARowScreen);
   }
 
   /**
@@ -102,14 +97,14 @@ public class PanelGrid extends Pane {
     int rowSpace = countRowSpace(X, width);
     int columnSpace = countColumnSpace(Y, width);
 
-    for (int i = 0; i < rows + 1; i = i + 1) {
+    for (int i = 0; i < settings.getMaxy() + 1; i = i + 1) {
       grid.add(createRectangle(initialSpace, i * rowSpace + initialSpace + columnSpace, height, thicknessOfRows, colorOfRows));
       panel.getChildren().add(grid.get(i));
     }
 
-    for (int i = 0; i < columns + 1; i = i + 1) {
+    for (int i = 0; i < settings.getMaxx() + 1; i = i + 1) {
       grid.add(createRectangle(i * rowSpace + initialSpace, initialSpace, thicknessOfColumns, height, colorOfColumns));
-      panel.getChildren().add(grid.get(i + rows + 1));
+      panel.getChildren().add(grid.get(i + settings.getMaxy() + 1));
     }
   }
 
@@ -200,8 +195,8 @@ public class PanelGrid extends Pane {
   /**
    * Handling clicking on label in four in a row game
    *
-   * @param event             - mouse event
-   * @param fourInARowScreen  - screen of four in a row game
+   * @param event            - mouse event
+   * @param fourInARowScreen - screen of four in a row game
    */
   private void handleLabel(MouseEvent event, FourInARowScreen fourInARowScreen) {
     Label label = (Label) event.getSource();

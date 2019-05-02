@@ -1,9 +1,9 @@
 package org.puzzlebattle.client.games.bouncer;
 
 import javafx.scene.input.KeyCode;
-import javafx.scene.paint.Color;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 
 /**
@@ -14,8 +14,9 @@ import lombok.Data;
  * @version (1.0)
  */
 @AllArgsConstructor
+@NoArgsConstructor
 @Data
 public class BouncerPlayerSettings {
-  private Color color, goalColor;
+  private String color, goalColor;
   private KeyCode left, right;
 }

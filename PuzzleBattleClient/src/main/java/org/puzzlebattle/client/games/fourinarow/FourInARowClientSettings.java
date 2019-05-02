@@ -1,7 +1,6 @@
 package org.puzzlebattle.client.games.fourinarow;
 
 import javafx.scene.input.KeyCode;
-import javafx.scene.paint.Color;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -20,7 +19,11 @@ import static javafx.scene.input.KeyCode.*;
 public class FourInARowClientSettings {
   private static KeyCode digit[] = new KeyCode[]{DIGIT0, DIGIT1, DIGIT2, DIGIT3, DIGIT4, DIGIT5, DIGIT6, DIGIT7, DIGIT8, DIGIT9};
   private static KeyCode numpad[] = new KeyCode[]{NUMPAD0, NUMPAD1, NUMPAD2, NUMPAD3, NUMPAD4, NUMPAD5, NUMPAD6, NUMPAD7, NUMPAD8, NUMPAD9};
-  private Color backgroundColor = Color.GAINSBORO;
+  private String background;
+  private String enemy;
+  private String horizontalGrid;
+  private String verticalGrid;
+  private String your;
 
   /**
    * Empty constructor for applying Four in a row game settings

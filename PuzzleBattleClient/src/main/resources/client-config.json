@@ -1,0 +1,58 @@
+{
+  "server": {
+    "host": "127.0.0.1",
+    "port": 16500
+  },
+  "ballBouncerTemplates": {
+    "normal": {
+      "backgroundColor": "101000",
+      "bouncerArcRadius": 15,
+      "bouncerBallColor": "0000FF",
+      "you": {
+        "color": "008000",
+        "goalColor": "00FF00",
+        "left": "LEFT",
+        "right": "RIGHT"
+      },
+      "enemy": {
+        "color": "800000",
+        "goalColor": "FF0000",
+        "left": "A",
+        "right": "D"
+      }
+    },
+    "small": {
+      "backgroundColor": "100000",
+      "bouncerArcRadius": 10,
+      "bouncerBallColor": "0000FF",
+      "you": {
+        "color": "408000",
+        "goalColor": "40FF00",
+        "left": "LEFT",
+        "right": "RIGHT"
+      },
+      "enemy": {
+        "color": "804000",
+        "goalColor": "FF4000",
+        "left": "A",
+        "right": "D"
+      }
+    }
+  },
+  "fourInARowTemplates": {
+    "four": {
+      "horizontalGrid": "808080",
+      "verticalGrid": "404040",
+      "your": "FFC000",
+      "enemy": "FF0000",
+      "background": "D0D0D0"
+    },
+    "five": {
+      "horizontalGrid": "800000",
+      "verticalGrid": "400000",
+      "your": "0000FF",
+      "enemy": "FF0000",
+      "background": "D0D0D0"
+    }
+  }
+}

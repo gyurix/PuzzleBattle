@@ -8,7 +8,8 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.puzzlebattle.client.ClientLauncher;
+import org.puzzlebattle.client.config.ClientConfig;
+import org.puzzlebattle.client.config.ConfigManager;
 import org.puzzlebattle.core.utils.IOUtils;
 import org.puzzlebattle.core.utils.LangFile;
 
@@ -67,8 +68,13 @@ public class LanguageSelector extends HBox {
    */
   private void addComponentsToChoiceBox(ChoiceBox<LanguageOption> languageChooser) {
     languageChooser.getItems().addAll(options);
-    LanguageOption selected = optionMap.getOrDefault(ClientLauncher.getConfig().getLang(), optionMap.get("en"));
-    ClientLauncher.getConfig().setLang(selected.getCode());
+    ConfigManager configManager = ConfigManager.getInstance();
+    ClientConfig config = configManager.getConfig();
+
+    LanguageOption selected = optionMap.getOrDefault(config.getLang(), optionMap.get("en"));
+    config.setLang(selected.getCode());
+    configManager.save();
+
     languageChooser.getSelectionModel().select(selected);
     languageChooser.setOnAction(e -> applyLanguageChoice());
   }
@@ -97,7 +103,7 @@ public class LanguageSelector extends HBox {
    * Prepares choice box
    */
   private void prepareChoiceBox() {
-    languageChooser = new ChoiceBox<LanguageOption>();
+    languageChooser = new ChoiceBox<>();
     addComponentsToChoiceBox(languageChooser);
   }
 

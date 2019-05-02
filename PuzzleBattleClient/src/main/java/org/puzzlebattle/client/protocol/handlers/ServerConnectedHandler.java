@@ -2,11 +2,11 @@ package org.puzzlebattle.client.protocol.handlers;
 
 import io.netty.channel.Channel;
 import javafx.stage.Stage;
+import org.puzzlebattle.client.config.ClientConfig;
+import org.puzzlebattle.client.config.ConfigManager;
 import org.puzzlebattle.client.games.EndDialog;
 import org.puzzlebattle.client.games.bouncer.BallBouncerScreen;
 import org.puzzlebattle.client.games.bouncer.BouncerGame;
-import org.puzzlebattle.client.games.bouncer.BouncerGameClientSettings;
-import org.puzzlebattle.client.games.fourinarow.FourInARowClientSettings;
 import org.puzzlebattle.client.games.fourinarow.FourInARowGame;
 import org.puzzlebattle.client.games.fourinarow.FourInARowScreen;
 import org.puzzlebattle.client.protocol.Client;
@@ -55,17 +55,24 @@ public class ServerConnectedHandler extends ServerHandler {
   @Override
   public void handle(ServerInStartGame packet) {
     ThreadUtils.ui(() -> {
+      ClientConfig config = ConfigManager.getInstance().getConfig();
       switch (packet.getType()) {
-        case FOUR_IN_A_ROW:
+        case FOUR_IN_A_ROW: {
+          FourInARowSettings settings = GSON.fromJson(packet.getSettings(), FourInARowSettings.class);
           new FourInARowScreen(LoginScreen.getInstance().getStage(),
-                  new FourInARowGame(packet.isInitializer(), new FourInARowClientSettings(),
-                          GSON.fromJson(packet.getSettings(), FourInARowSettings.class), client), client).show();
+                  new FourInARowGame(packet.isInitializer(),
+                          config.getFourInARowTemplates().get(settings.getTemplate()),
+                          settings, client), client).show();
           break;
-        case BOUNCER:
+        }
+        case BOUNCER: {
+          BallBouncerSettings settings = GSON.fromJson(packet.getSettings(),
+                  BallBouncerSettings.class);
           new BallBouncerScreen(LoginScreen.getInstance().getStage(),
-                  new BouncerGame(new BouncerGameClientSettings(), GSON.fromJson(packet.getSettings(),
-                          BallBouncerSettings.class), client), client).show();
+                  new BouncerGame(config.getBallBouncerTemplates().get(settings.getTemplate()),
+                          settings, client), client).show();
           break;
+        }
       }
     });
   }

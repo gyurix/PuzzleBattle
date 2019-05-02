@@ -3,6 +3,7 @@ package org.puzzlebattle.client.games.bouncer;
 import javafx.scene.Scene;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
+import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import lombok.Getter;
 import org.puzzlebattle.client.protocol.Client;
@@ -33,8 +34,10 @@ public class BallBouncerScreen extends AbstractScreen {
     super(stage, client);
     instance = this;
     this.game = game;
-    pane.setBackground(new Background(new BackgroundFill(game.getClientSettings().getBackgroundColor(), null, null)));
-    pane.getChildren().addAll(game.getBall(), game.getEnemy().getBouncer(), game.getEnemy().getGoals(), game.getYou().getBouncer(), game.getYou().getGoals());
+    pane.setBackground(new Background(new BackgroundFill(Paint.valueOf(game.getClientSettings().getBackgroundColor()),
+            null, null)));
+    pane.getChildren().addAll(game.getBall(), game.getEnemy().getBouncer(), game.getEnemy().getGoals(),
+            game.getYou().getBouncer(), game.getYou().getGoals());
   }
 
   /**

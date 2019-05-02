@@ -6,4 +6,5 @@ import lombok.Getter;
 public class MainSettings {
   private int drawScore;
   private int winScore;
+  private String template;
 }

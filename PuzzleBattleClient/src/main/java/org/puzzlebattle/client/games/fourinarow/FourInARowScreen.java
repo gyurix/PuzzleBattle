@@ -5,6 +5,7 @@ import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
+import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import lombok.Getter;
 import org.puzzlebattle.client.protocol.Client;
@@ -39,8 +40,9 @@ public class FourInARowScreen extends AbstractScreen {
     super(stage, client);
     this.game = game;
     instance = this;
-    pane = new PanelGrid(0, 0, mapSize.getX(), mapSize.getY(), this);
-    pane.setBackground(new Background(new BackgroundFill(game.getClientSettings().getBackgroundColor(), null, null)));
+    pane = new PanelGrid(mapSize.getX(), mapSize.getY(), this);
+    pane.setBackground(new Background(new BackgroundFill(
+            Paint.valueOf(game.getClientSettings().getBackground()), null, null)));
     coinRadius = getPane().getDistanceOfColumns() * 0.4f;
   }
 

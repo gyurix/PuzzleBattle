@@ -1,6 +1,7 @@
 package org.puzzlebattle.client.games.bouncer;
 
 import javafx.geometry.Point2D;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,7 +24,7 @@ public class BouncerBall extends Circle {
    */
   public BouncerBall(BouncerGame game, double radius) {
     super(game.getSettings().getMapMaxx() / 2, game.getSettings().getMapMaxy() / 2, radius,
-            game.getClientSettings().getBouncerBallColor());
+            Paint.valueOf(game.getClientSettings().getBouncerBallColor()));
     this.game = game;
   }
 

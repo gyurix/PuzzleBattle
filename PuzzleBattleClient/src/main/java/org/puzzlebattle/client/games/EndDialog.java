@@ -155,7 +155,7 @@ public class EndDialog extends AbstractScreen {
    * Starts a new game
    */
   protected void startNewGame() {
-    new ServerOutStartGame(gameType);
+    client.sendPacket(new ServerOutStartGame(gameType));
   }
 
   /**

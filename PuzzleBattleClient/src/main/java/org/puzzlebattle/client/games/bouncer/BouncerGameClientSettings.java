@@ -1,7 +1,5 @@
 package org.puzzlebattle.client.games.bouncer;
 
-import javafx.scene.input.KeyCode;
-import javafx.scene.paint.Color;
 import lombok.Data;
 
 /**
@@ -14,9 +12,9 @@ import lombok.Data;
 @Data
 public class BouncerGameClientSettings {
 
-  private Color backgroundColor = Color.BLACK;
-  private double bouncerArcRadius = 15;
-  private Color bouncerBallColor = Color.BLUE;
-  private BouncerPlayerSettings enemy = new BouncerPlayerSettings(Color.RED, Color.INDIANRED, KeyCode.A, KeyCode.D);
-  private BouncerPlayerSettings you = new BouncerPlayerSettings(Color.GREEN, Color.GREEN, KeyCode.LEFT, KeyCode.RIGHT);
+  private String backgroundColor;
+  private double bouncerArcRadius;
+  private String bouncerBallColor;
+  private BouncerPlayerSettings enemy;
+  private BouncerPlayerSettings you;
 }

@@ -4,17 +4,14 @@ package org.puzzlebattle.client;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import javafx.application.Application;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
-import lombok.Getter;
-import org.puzzlebattle.client.config.ClientConfig;
+import org.puzzlebattle.client.config.ConfigManager;
 import org.puzzlebattle.client.protocol.Client;
 import org.puzzlebattle.client.screen.LanguageSelector;
 import org.puzzlebattle.client.screen.LoginScreen;
-import org.puzzlebattle.core.utils.IOUtils;
 import org.puzzlebattle.core.utils.LangFile;
 import org.puzzlebattle.core.utils.Logging;
-
-import java.io.FileReader;
 
 /**
  * Write a description of class SkladPonuka here.
@@ -24,8 +21,6 @@ import java.io.FileReader;
  */
 public class ClientLauncher extends Application {
   private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
-  @Getter
-  private static ClientConfig config;
 
   /**
    * The applications main entry point
@@ -45,12 +40,11 @@ public class ClientLauncher extends Application {
    */
   public void start(Stage stage) {
     try {
-      // stage.getIcons().add(new Image("pictures/icon.png"));
-      IOUtils.saveResources("config.json");
-      config = gson.fromJson(new FileReader("config.json"), ClientConfig.class);
+      stage.getIcons().add(new Image("pictures/icon.png"));
+      ConfigManager.getInstance().load();
       LanguageSelector languageSelector = new LanguageSelector(stage);
       LangFile.lang.msg("started", "name", "Puzzle Battle Client", "version", "1.0");
-      new LoginScreen(stage, languageSelector, new Client(config.getServer())).show();
+      new LoginScreen(stage, languageSelector, new Client(ConfigManager.getInstance().getConfig().getServer())).show();
     } catch (Throwable e) {
       Logging.logSevere("Failed to start client", "error", e);
     }
