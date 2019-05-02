@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import lombok.Getter;
 import org.puzzlebattle.client.protocol.Client;
+import org.puzzlebattle.core.utils.Logging;
 
 import java.util.ArrayList;
 
@@ -93,6 +94,8 @@ public abstract class AbstractScreen {
    * Method where is speciffied what to do after closing a window
    */
   public void onClose() {
+    Logging.logInfo("Shutting down...");
+    client.getConnection().getHandler().getChannel().close();
   }
 
   /**

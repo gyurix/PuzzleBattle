@@ -41,7 +41,8 @@ public class ClientLauncher extends Application {
     try {
       stage.getIcons().add(new Image("pictures/icon.png"));
       ConfigManager.getInstance().load();
-      new LoginScreen(stage, new Client(ConfigManager.getInstance().getConfig().getServer())).show();
+      Client c = new Client(ConfigManager.getInstance().getConfig().getServer());
+      c.setOpenScreen(new LoginScreen(stage, c));
       LangFile.lang.msg("started", "name", "Puzzle Battle Client", "version", "1.0");
     } catch (Throwable e) {
       Logging.logSevere("Failed to start client", "error", e);

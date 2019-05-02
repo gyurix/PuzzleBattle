@@ -75,6 +75,7 @@ public class LanguageSelector extends HBox {
     configManager.save();
 
     languageChooser.getSelectionModel().select(selected);
+    lang = langFiles.get(selected.getCode());
     languageChooser.setOnAction(e -> applyLanguageChoice());
   }
 
@@ -82,7 +83,13 @@ public class LanguageSelector extends HBox {
    * Action after changed state of choice box, language selector, is performed here
    */
   private void applyLanguageChoice() {
-    lang = langFiles.get(languageChooser.getSelectionModel().getSelectedItem().getCode());
+    String selectedLang = languageChooser.getSelectionModel().getSelectedItem().getCode();
+    ConfigManager configManager = ConfigManager.getInstance();
+    ClientConfig config = configManager.getConfig();
+    config.setLang(selectedLang);
+    configManager.save();
+    lang = langFiles.get(selectedLang);
+
     languageTitle.setText(lang.get("login.language"));
     loginScreen.refresh();
   }

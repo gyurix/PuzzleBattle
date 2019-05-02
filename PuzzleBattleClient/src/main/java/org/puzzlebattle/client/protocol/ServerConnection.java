@@ -7,11 +7,13 @@ import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import javafx.application.Platform;
 import lombok.Getter;
 import lombok.Setter;
 import org.puzzlebattle.client.protocol.handlers.ServerEncryptionHandler;
 import org.puzzlebattle.client.protocol.handlers.ServerHandler;
 import org.puzzlebattle.client.protocol.packets.out.ServerOutPacket;
+import org.puzzlebattle.client.utils.ThreadUtils;
 import org.puzzlebattle.core.protocol.processor.PacketLengthProcessor;
 import org.puzzlebattle.core.utils.Logging;
 
@@ -52,13 +54,17 @@ public class ServerConnection {
           pipeline.addLast("length", lengthProcessor);
           pipeline.addLast("type", typeProcessor);
           pipeline.addLast("handler", handler);
-          Logging.logInfo("Connected to server", "server", client.getAddress());
         }
       });
+      Logging.logInfo("Connecting to server...", "server", client.getAddress());
       ChannelFuture channelFuture = clientBootstrap.connect().sync();
+      Logging.logInfo("Connected to the server, showing login screen...", "server", client.getAddress());
+      ThreadUtils.ui(() -> client.getOpenScreen().show());
       channelFuture.channel().closeFuture().sync();
-    } catch (InterruptedException ignored) {
-
+    } catch (Throwable e) {
+      Logging.logInfo("Failed to connect to server, closing client...", "server", client.getAddress());
+      Platform.exit();
+      return;
     } finally {
       try {
         group.shutdownGracefully().sync();
@@ -66,7 +72,8 @@ public class ServerConnection {
         e.printStackTrace();
       }
     }
-    System.out.println("Stopped TCP connection.");
+    Logging.logInfo("Disconnected from the server, closing client...");
+    Platform.exit();
   }
 
   public void stop() {
