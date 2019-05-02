@@ -14,7 +14,8 @@ public enum ClientInType {
   LOGIN(ClientInLogin::new),
   REGISTER(ClientInRegister::new),
   START_GAME(ClientInStartGame::new),
-  UPDATE_GAME(ClientInUpdateGame::new);
+  UPDATE_GAME(ClientInUpdateGame::new),
+  USER_INF_REQUEST(ClientInUserInfRequest::new);
 
   Callable<? extends ClientInPacket> callable;
 

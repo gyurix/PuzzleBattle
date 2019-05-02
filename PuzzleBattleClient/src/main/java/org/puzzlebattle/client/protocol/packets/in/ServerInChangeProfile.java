@@ -4,8 +4,7 @@ import io.netty.buffer.ByteBuf;
 import lombok.Data;
 import org.puzzlebattle.client.games.User;
 
-import static org.puzzlebattle.core.protocol.ByteBufUtils.readBytes;
-import static org.puzzlebattle.core.protocol.ByteBufUtils.readString;
+import static org.puzzlebattle.core.protocol.ByteBufUtils.*;
 
 
 @Data
@@ -26,6 +25,6 @@ public class ServerInChangeProfile extends ServerInPacket {
             .email(readString(buf))
             .dateOfBirth(readString(buf))
             .age(buf.readInt())
-            .avatar(readBytes(buf)).build();
+            .avatar(readBytes4(buf)).build();
   }
 }

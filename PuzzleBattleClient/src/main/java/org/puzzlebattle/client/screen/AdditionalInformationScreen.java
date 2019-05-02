@@ -299,7 +299,7 @@ public class AdditionalInformationScreen extends AbstractScreen {
   private void prepareLabelsForScene1() {
     prepareSideLabelsForScene1();
     addNameLabel = createLabel(lang.get("additionalInformation.labels.yourName"), super.getDefaultFont());
-    addSurnameLabel = createLabel(lang.get("additionalInformation.labels.yourName"), super.getDefaultFont());
+    addSurnameLabel = createLabel(lang.get("additionalInformation.labels.yourSurname"), super.getDefaultFont());
     addDateOfBirth = createLabel(lang.get("additionalInformation.labels.yourBirth"), super.getDefaultFont());
   }
 

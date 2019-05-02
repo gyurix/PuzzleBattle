@@ -3,6 +3,7 @@ package org.puzzlebattle.client.protocol.packets.out;
 import io.netty.buffer.ByteBuf;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.puzzlebattle.core.protocol.ByteBufUtils;
 
 import static org.puzzlebattle.core.protocol.ByteBufUtils.writeString;
 
@@ -19,6 +20,6 @@ public class ServerOutChangeProfile extends ServerOutPacket {
     writeString(buf, name);
     writeString(buf, surname);
     writeString(buf, dateOfBirth);
-    buf.writeBytes(avatar);
+    ByteBufUtils.writeBytes4(buf,avatar);
   }
 }

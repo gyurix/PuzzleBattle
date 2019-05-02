@@ -46,5 +46,7 @@ public interface ClientInPacketHandler {
     unexpected(packet);
   }
 
+  default void handle(ClientInUserInfRequest packet) { unexpected(packet); }
+
   void unexpected(ClientInPacket packet);
 }

@@ -1,6 +1,7 @@
 package org.puzzlebattle.client.protocol.handlers;
 
 import io.netty.channel.Channel;
+import javafx.stage.Stage;
 import org.puzzlebattle.client.games.EndDialog;
 import org.puzzlebattle.client.games.bouncer.BallBouncerScreen;
 import org.puzzlebattle.client.games.bouncer.BouncerGame;
@@ -12,7 +13,9 @@ import org.puzzlebattle.client.protocol.Client;
 import org.puzzlebattle.client.protocol.packets.in.*;
 import org.puzzlebattle.client.screen.BestPlayersScreen;
 import org.puzzlebattle.client.screen.LoginScreen;
+import org.puzzlebattle.client.screen.PlayerProfileScreen;
 import org.puzzlebattle.client.utils.ThreadUtils;
+import org.puzzlebattle.core.utils.Logging;
 
 public class ServerConnectedHandler extends ServerHandler {
   public ServerConnectedHandler(Channel channel, Client client) {
@@ -21,9 +24,12 @@ public class ServerConnectedHandler extends ServerHandler {
 
   @Override
   public void handle(ServerInChangeProfile packet) {
+    Logging.logInfo("RECEIVED!!!");
     client.setUser(packet.getProfile());
+    PlayerProfileScreen playerProfileScreen = new PlayerProfileScreen(new Stage(), client);
+    playerProfileScreen.updateInformationPlayerProfileScreen(client.getUser());
+    playerProfileScreen.show();
   }
-
 
   @Override
   public void handle(ServerInBestPlayers packet) {

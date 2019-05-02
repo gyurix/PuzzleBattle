@@ -16,6 +16,7 @@ import org.puzzlebattle.client.ClientLauncher;
 import org.puzzlebattle.client.games.User;
 import org.puzzlebattle.client.protocol.Client;
 import org.puzzlebattle.client.protocol.packets.out.ServerOutStartGame;
+import org.puzzlebattle.client.protocol.packets.out.ServerOutUserInfoRequest;
 import org.puzzlebattle.core.entity.GameType;
 import org.puzzlebattle.core.utils.LangFile;
 import org.puzzlebattle.core.utils.Logging;
@@ -237,9 +238,7 @@ public class MainScreen extends AbstractScreen {
    * Preparation of profile screen, additional information about user will be loaded from database
    */
   private void prepareProfileScreen() {
-    playerProfileScreen = new PlayerProfileScreen(new Stage(), client);
-    updateInformationPlayerProfileScreen(playerProfileScreen, client.getUser());
-    playerProfileScreen.show();
+    client.sendPacket(new ServerOutUserInfoRequest());
   }
 
   /**
@@ -271,62 +270,6 @@ public class MainScreen extends AbstractScreen {
     new LoginScreen(getStage(), new LanguageSelector(getStage(), 100, 25),
             new Client(ClientLauncher.getConfig().getServer())).show();
   }
-
-  /*
-  private void updateInformationPlayerProfileScreen1(PlayerProfileScreen playerProfile, User userFromDatabase) {
-
-    DateFormat df;
-    String convertedDate;
-    Calendar calendar;
-    int year, currentYear;
-    ByteArrayOutputStream b;
-    File imageFile = new File("PuzzleBattleClient/src/main/resources/pictures/avatar.bmp");
-    try {
-      FileOutputStream fos = new FileOutputStream(imageFile);
-      if (userFromDatabase.getAvatar() != null)
-        fos.write(userFromDatabase.getAvatar());
-      fos.close();
-    } catch (IOException i) {
-      Logging.logWarning("Error while writing image", i);
-    }
-
-    playerProfile.setNickName(userFromDatabase.getUserName());
-    playerProfile.setEmail(userFromDatabase.getEmail());
-    if (userFromDatabase.getAvatar() != null) {
-      playerProfile.setLoadedImage("pictures/avatar.bmp");
-    } else {
-      Logging.logFiner("no image is set, default will be applied");
-      playerProfile.setLoadedImage("faces/face1.png");
-    }
-
-    if (userFromDatabase.getName() != null) {
-      playerProfile.setLoadedName(userFromDatabase.getName());
-    }
-
-    if (userFromDatabase.getSurname() != null) {
-      playerProfile.setLoadedSurname(userFromDatabase.getSurname());
-    }
-
-    if (userFromDatabase.getDateOfBirth() != null) {
-      df = new SimpleDateFormat("MM/dd/yyyy");
-      convertedDate = df.format(userFromDatabase.getDateOfBirth());
-      calendar = Calendar.getInstance();
-      try {
-        calendar.setTime(AdditionalInformationScreen.convertStringToDate(userFromDatabase.getDateOfBirth()));
-      }
-      catch (ParseException e)
-      {
-        e.printStackTrace();
-      }
-      year = calendar.get(Calendar.YEAR);
-      currentYear = Calendar.getInstance().get(Calendar.YEAR);
-
-      playerProfile.setLoadedAge(String.valueOf((currentYear - year)));
-      playerProfile.setLoadedDateOfBirth(convertedDate);
-    }
-
-    Logging.logInfo("all available data have been added to profile from database");
-  }*/
 
   /**
    * Update information for player profile screen

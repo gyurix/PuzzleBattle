@@ -13,7 +13,8 @@ public enum ServerOutType {
   LOGIN(ServerOutLogin.class),
   REGISTER(ServerOutRegister.class),
   START_GAME(ServerOutStartGame.class),
-  UPDATE_GAME(ServerOutUpdateGame.class);
+  UPDATE_GAME(ServerOutUpdateGame.class),
+  USER_INFO_REQUEST(ServerOutUserInfoRequest.class);
 
   private static HashMap<Class<? extends ServerOutPacket>, ServerOutType> types = new HashMap<>();
 

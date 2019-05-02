@@ -5,11 +5,13 @@ import io.netty.channel.ChannelHandlerContext;
 import org.puzzlebattle.core.utils.Logging;
 import org.puzzlebattle.server.MatchManager;
 import org.puzzlebattle.server.db.UserGameAttributes;
+import org.puzzlebattle.server.db.entity.PBUser;
 import org.puzzlebattle.server.db.entity.UserManager;
 import org.puzzlebattle.server.entity.Client;
 import org.puzzlebattle.server.game.Game;
 import org.puzzlebattle.server.protocol.packets.in.*;
 import org.puzzlebattle.server.protocol.packets.out.ClientOutBestPlayers;
+import org.puzzlebattle.server.protocol.packets.out.ClientOutChangeProfile;
 import org.puzzlebattle.server.protocol.packets.out.ClientOutKeepAlive;
 
 import java.util.List;
@@ -17,6 +19,17 @@ import java.util.List;
 public class ClientConnectedHandler extends ClientHandler {
   public ClientConnectedHandler(Channel channel, Client client) {
     super(channel, client);
+  }
+
+  @Override
+  public void handle(ClientInChangeProfile packet) {
+    PBUser user = client.getUser();
+    PBUser puser = packet.getUser();
+    user.setName(puser.getName());
+    user.setSurname(puser.getSurname());
+    user.setDateOfBirth(puser.getDateOfBirth());
+    user.setAvatar(puser.getAvatar());
+    user.update();
   }
 
   @Override
@@ -62,5 +75,16 @@ public class ClientConnectedHandler extends ClientHandler {
     List<UserGameAttributes> bestPlayers = UserManager.getBestPlayers(packet.getNumberBestPlayers());
     ClientOutBestPlayers bestPlayersPacket = new ClientOutBestPlayers(bestPlayers, bestPlayers.size());
     client.getHandler().sendPacket(bestPlayersPacket);
+  }
+
+  @Override
+  public void handle(ClientInUserInfRequest packet) {
+    try {
+      Logging.logInfo("Sending change profile packet!");
+      sendPacket(new ClientOutChangeProfile(client.getUser()));
+    }
+    catch(Throwable t){
+      t.printStackTrace();
+    }
   }
 }

@@ -13,6 +13,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
+import org.puzzlebattle.client.games.User;
 import org.puzzlebattle.client.protocol.Client;
 import org.puzzlebattle.core.utils.Logging;
 
@@ -232,7 +233,7 @@ public class PlayerProfileScreen extends AbstractScreen {
    * @param dateOfBirthText - text containing user birth
    */
   public void setLoadedDateOfBirth(String dateOfBirthText) {
-    dateOfBirth.setText(lang.get("playerProfile.set.date") + dateOfBirthText);
+    dateOfBirth.setText(lang.get("playerProfile.set.dateOfBirth") + dateOfBirthText);
   }
 
   /**
@@ -275,4 +276,12 @@ public class PlayerProfileScreen extends AbstractScreen {
     nickName.setText(nickNameText);
   }
 
+
+  public void  updateInformationPlayerProfileScreen(User user){
+    name.setText(lang.get("playerProfile.set.name") + user.getName());
+    surname.setText(lang.get("playerProfile.set.surname") + user.getSurname());
+    dateOfBirth.setText(lang.get("playerProfile.set.dateOfBirth") + user.getDateOfBirth());
+    age.setText(lang.get("playerProfile.set.age") + user.getAge());
+    //avatar = user.getAvatar();
+  }
 }

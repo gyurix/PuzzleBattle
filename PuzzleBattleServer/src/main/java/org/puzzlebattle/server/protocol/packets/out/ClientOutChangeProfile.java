@@ -3,6 +3,8 @@ package org.puzzlebattle.server.protocol.packets.out;
 import io.netty.buffer.ByteBuf;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.puzzlebattle.core.protocol.ByteBufUtils;
+import org.puzzlebattle.server.db.entity.PBUser;
 
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -15,12 +17,7 @@ import static org.puzzlebattle.core.protocol.ByteBufUtils.writeString;
 @AllArgsConstructor
 @Data
 public class ClientOutChangeProfile extends ClientOutPacket {
-  private byte[] avatar;
-  private Date dateOfBirth;
-  private int id;
-  private Timestamp lastLogin;
-  private String name, surname, nickName, email, password;
-  private Timestamp registered;
+  private PBUser user;
 
   private int convertAge(Date dateOfBirthSQL) {
     Calendar calendar = Calendar.getInstance();
@@ -34,7 +31,6 @@ public class ClientOutChangeProfile extends ClientOutPacket {
   private String convertDateOfBirth(Date dateOfBirthSQL) {
     DateFormat df;
     String convertedDate;
-    Calendar calendar;
     df = new SimpleDateFormat("MM/dd/yyyy");
     convertedDate = df.format(dateOfBirthSQL);
 
@@ -47,7 +43,18 @@ public class ClientOutChangeProfile extends ClientOutPacket {
     return string;
   }
 
+  @Override
   public void write(ByteBuf buf) {
+    byte[] avatar = user.getAvatar();
+    Date dateOfBirth = user.getDateOfBirth();
+    Timestamp lastLogin = user.getLastLogin();
+    String name = user.getName();
+    String surname = user.getSurname();
+    String nickName = user.getNickName();
+    String email = user.getEmail();
+    String password = user.getPassword();
+    Timestamp registered = user.getRegistered();
+
     writeString(buf, nickName);
     writeString(buf, password);
     writeString(buf, name);
@@ -55,6 +62,6 @@ public class ClientOutChangeProfile extends ClientOutPacket {
     writeString(buf, email);
     writeString(buf, convertDateOfBirth(dateOfBirth));
     buf.writeInt(convertAge(dateOfBirth));
-    buf.writeBytes(avatar);
+    ByteBufUtils.writeBytes4(buf,avatar);
   }
 }
