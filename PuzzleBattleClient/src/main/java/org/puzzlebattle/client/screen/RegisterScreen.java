@@ -26,6 +26,7 @@ import static org.puzzlebattle.core.utils.LangFile.lang;
  * @version (1.0)
  */
 public class RegisterScreen extends AbstractScreen {
+  private static final String EMAIL_REGEX = "(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])";
   private Button confirmButton;
   private PasswordField confirmPasswordField, passwordField;
   private Label emailLabel, nickLabel, passwordConfLabel, leftLabel, passwordLabel, rightLabel;
@@ -247,7 +248,26 @@ public class RegisterScreen extends AbstractScreen {
     String password = passwordField.getText();
     String passwordConfirm = confirmPasswordField.getText();
     client.setUser(new User(nickName, password, email));
-
+    if (nickName.isEmpty()) {
+      showAlert(Alert.AlertType.ERROR, "register.nonick");
+      return;
+    }
+    if (email.isEmpty()) {
+      showAlert(Alert.AlertType.ERROR, "register.noemail");
+      return;
+    }
+    if (!email.matches(EMAIL_REGEX)) {
+      showAlert(Alert.AlertType.ERROR, "register.wrongemail");
+      return;
+    }
+    if (password.isEmpty()) {
+      showAlert(Alert.AlertType.ERROR, "register.nopwd");
+      return;
+    }
+    if (passwordConfirm.isEmpty()) {
+      showAlert(Alert.AlertType.ERROR, "register.nopwdConfirm");
+      return;
+    }
     if (!password.equals(passwordConfirm)) {
       Logging.logWarning("Passwords aren't same!");
       noSamePasswordsAlert();

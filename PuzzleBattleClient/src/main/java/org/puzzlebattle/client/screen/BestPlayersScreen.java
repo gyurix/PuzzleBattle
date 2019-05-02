@@ -1,6 +1,7 @@
 package org.puzzlebattle.client.screen;
 
 import javafx.geometry.Orientation;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
 import javafx.scene.control.TableColumn;
@@ -48,6 +49,7 @@ public class BestPlayersScreen extends AbstractScreen {
     createTables();
     prepareComponentsForBestPlayerTable();
     client.sendPacket(new ServerOutBestPlayersRequest(10));
+    showAlert(Alert.AlertType.INFORMATION, "bestplayers.loading");
   }
 
   /**

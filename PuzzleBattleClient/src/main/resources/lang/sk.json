@@ -101,6 +101,12 @@
       "yourPhoto": "Tvoje foto"
     }
   },
+  "bestplayers": {
+    "loading": {
+      "title": "Čakajte prosím",
+      "text": "Načítava sa zoznam najlepších hráčov..."
+    }
+  },
   "register": {
     "title": "Registracia Puzzle Battle",
     "registrationFailed": {
@@ -116,6 +122,26 @@
       "passwordLabel": "Tvoje heslo",
       "confirmPassword": "Potvrdte password",
       "emailLabel": "Tvoj email"
+    },
+    "nonick": {
+      "title": "Žiadna prezývka",
+      "text": "Nezadali ste Vašu prezývku"
+    },
+    "noemail": {
+      "title": "Žiadna email",
+      "text": "Nezadali ste Vašu emailovú adresu"
+    },
+    "wrongemail": {
+      "title": "Nespravna email",
+      "text": "Zadali ste nesprávnu email adresu"
+    },
+    "nopwd": {
+      "title": "Žiadne heslo",
+      "text": "Nezadali ste Vaše heslo"
+    },
+    "nopwdConfirm": {
+      "title": "Žiadne potvrdzovacie heslo",
+      "text": "Nezadali ste potvrdzovacie heslo"
     },
     "buttonNames": {
       "confirmButton": "Registracia"

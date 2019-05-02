@@ -52,6 +52,12 @@
     "userScore": "User score",
     "nickName": "NickName"
   },
+  "bestplayers": {
+    "loading": {
+      "title": "Loading best players",
+      "text": "Loading best players, please wait..."
+    }
+  },
   "playerProfile": {
     "title": "Player profile",
     "age": "age",
@@ -111,6 +117,26 @@
     "noSamePassword": {
       "title": "Not same passwords",
       "text": "Type your password and confirm password again!"
+    },
+    "nonick": {
+      "title": "No nick",
+      "text": "You did not enter your nickname"
+    },
+    "noemail": {
+      "title": "No email",
+      "text": "You did not enter your email address"
+    },
+    "wrongemail": {
+      "title": "Wrong email",
+      "text": "The entered email address is invalid"
+    },
+    "nopwd": {
+      "title": "No password",
+      "text": "You did not enter your password"
+    },
+    "nopwdConfirm": {
+      "title": "No password confirmation",
+      "text": "You did not fill the confirm password field"
     },
     "labelNames": {
       "nickLabel": "Your nick",

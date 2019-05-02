@@ -4,7 +4,8 @@ import io.netty.buffer.ByteBuf;
 import lombok.Data;
 import org.puzzlebattle.client.games.User;
 
-import static org.puzzlebattle.core.protocol.ByteBufUtils.*;
+import static org.puzzlebattle.core.protocol.ByteBufUtils.readBytes4;
+import static org.puzzlebattle.core.protocol.ByteBufUtils.readString;
 
 
 @Data
