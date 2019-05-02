@@ -27,8 +27,8 @@ public class Bouncer extends Rectangle {
   public Bouncer(BouncerGame game, double x, double y, double width, double height, Color color) {
     super(x, y, width, height);
     this.game = game;
-    setArcHeight(game.getSettings().getBouncerArcRadius());
-    setArcWidth(game.getSettings().getBouncerArcRadius());
+    setArcHeight(game.getClientSettings().getBouncerArcRadius());
+    setArcWidth(game.getClientSettings().getBouncerArcRadius());
     this.color = color;
     setFill(color);
     setStroke(color);

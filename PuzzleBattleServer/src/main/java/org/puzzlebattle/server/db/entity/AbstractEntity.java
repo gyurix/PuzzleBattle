@@ -21,7 +21,7 @@ class AbstractEntity {
     DB.INSTANCE.withSession((s) -> {
       Transaction t = s.beginTransaction();
       try {
-        s.persist(this);
+        s.saveOrUpdate(this);
         t.commit();
         resultHandler.accept(true);
       } catch (Throwable e) {

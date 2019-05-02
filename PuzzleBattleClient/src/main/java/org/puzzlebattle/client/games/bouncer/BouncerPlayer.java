@@ -26,7 +26,8 @@ public class BouncerPlayer {
   public BouncerPlayer(BouncerGame game, Bouncer bouncer, Color textColor) {
     this.game = game;
     this.bouncer = bouncer;
-    goals = new Text(game.getMapSize().getX() - game.getMapSize().getX() / 32, bouncer.getCenterY(), String.valueOf(goalCount));
+    goals = new Text(game.getSettings().getMapMaxx() - game.getSettings().getMapMaxx() / 32,
+            bouncer.getCenterY(), String.valueOf(goalCount));
     goals.setFont(new Font(24));
     goals.setFill(textColor);
   }
@@ -37,6 +38,5 @@ public class BouncerPlayer {
   public void goal() {
     ++goalCount;
     goals.setText(String.valueOf(goalCount));
-    game.resetBall();
   }
 }

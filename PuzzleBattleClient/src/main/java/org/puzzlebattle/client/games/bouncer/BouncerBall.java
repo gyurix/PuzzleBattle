@@ -22,7 +22,8 @@ public class BouncerBall extends Circle {
    * Constructor for objects of class SkladPonuka
    */
   public BouncerBall(BouncerGame game, double radius) {
-    super(game.getMapSize().multiply(0.5).getX(), game.getMapSize().multiply(0.5).getY(), radius, game.getSettings().getBouncerBallColor());
+    super(game.getSettings().getMapMaxx() / 2, game.getSettings().getMapMaxy() / 2, radius,
+            game.getClientSettings().getBouncerBallColor());
     this.game = game;
   }
 
@@ -35,8 +36,8 @@ public class BouncerBall extends Circle {
     if (newX - getRadius() < 0) {
       newX = getRadius();
       velocity = new Point2D(-velocity.getX(), velocity.getY());
-    } else if (newX + getRadius() > game.getMapSize().getX()) {
-      newX = game.getMapSize().getX() - getRadius();
+    } else if (newX + getRadius() > game.getSettings().getMapMaxx()) {
+      newX = game.getSettings().getMapMaxx() - getRadius();
       velocity = new Point2D(-velocity.getX(), velocity.getY());
     }
     setCenterX(newX);

@@ -60,10 +60,10 @@ public class ServerConnection extends ChannelInitializer<Channel> {
       serverBootstrap.localAddress(new InetSocketAddress(adr.getHost(), adr.getPort()));
       serverBootstrap.childHandler(this);
       ChannelFuture channelFuture = serverBootstrap.bind().sync();
-      logInfo("Started server " + adr);
+      logInfo("Started server", "address", adr);
       channelFuture.channel().closeFuture().sync();
     } catch (Throwable e) {
-      logSevere("Failed to start server", "address", adr);
+      logSevere("Failed to start server", "address", adr, "error", e);
     } finally {
       try {
         group.shutdownGracefully().sync();

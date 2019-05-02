@@ -206,6 +206,6 @@ public class PanelGrid extends Pane {
   private void handleLabel(MouseEvent event, FourInARowScreen fourInARowScreen) {
     Label label = (Label) event.getSource();
     String labelText = label.getText();
-    fourInARowScreen.onKeyEvent(FourInARowGameSettings.getDigit(Integer.parseInt(labelText)));
+    fourInARowScreen.onKeyEvent(FourInARowClientSettings.getDigit(Integer.parseInt(labelText)));
   }
 }

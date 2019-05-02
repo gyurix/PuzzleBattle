@@ -1,5 +1,7 @@
 package org.puzzlebattle.core.utils;
 
+import com.google.gson.Gson;
+
 import java.io.*;
 import java.nio.charset.Charset;
 
@@ -12,6 +14,7 @@ import java.nio.charset.Charset;
  */
 
 public class IOUtils {
+  public static final Gson GSON = new Gson();
   public static final Charset UTF8 = Charset.forName("UTF-8");
 
 

@@ -12,11 +12,11 @@ import lombok.Data;
  * @version (1.0)
  */
 @Data
-public class BouncerGameSettings {
+public class BouncerGameClientSettings {
 
   private Color backgroundColor = Color.BLACK;
   private double bouncerArcRadius = 15;
   private Color bouncerBallColor = Color.BLUE;
-  private BouncerPlayerSettings enemy = new BouncerPlayerSettings(Color.RED, Color.INDIANRED, KeyCode.A, KeyCode.D, 4.5);
-  private BouncerPlayerSettings you = new BouncerPlayerSettings(Color.GREEN, Color.GREEN, KeyCode.LEFT, KeyCode.RIGHT, 4.5);
+  private BouncerPlayerSettings enemy = new BouncerPlayerSettings(Color.RED, Color.INDIANRED, KeyCode.A, KeyCode.D);
+  private BouncerPlayerSettings you = new BouncerPlayerSettings(Color.GREEN, Color.GREEN, KeyCode.LEFT, KeyCode.RIGHT);
 }

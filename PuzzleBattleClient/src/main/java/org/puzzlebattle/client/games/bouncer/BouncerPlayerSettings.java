@@ -18,5 +18,4 @@ import lombok.Data;
 public class BouncerPlayerSettings {
   private Color color, goalColor;
   private KeyCode left, right;
-  private double movementIntensity;
 }

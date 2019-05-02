@@ -2,5 +2,49 @@
   "address": {
     "host": "0.0.0.0",
     "port": 16500
+  },
+  "gameProfiles": {
+    "ballBouncer": {
+      "normal": {
+        "bouncerHeight": 15,
+        "bouncerWidth": 100,
+        "mapMaxx": 720,
+        "mapMaxy": 720,
+        "maxBallRadius": 35,
+        "maxGoal": 5,
+        "minBallRadius": 10,
+        "movementIntensity": 4.5,
+        "drawScore": 5,
+        "winScore": 10
+      },
+      "small": {
+        "bouncerHeight": 15,
+        "bouncerWidth": 100,
+        "mapMaxx": 480,
+        "mapMaxy": 480,
+        "maxBallRadius": 25,
+        "maxGoal": 5,
+        "minBallRadius": 10,
+        "movementIntensity": 4.5,
+        "drawScore": 10,
+        "winScore": 20
+      }
+    },
+    "fourInARow": {
+      "four": {
+        "maxx": 7,
+        "maxy": 6,
+        "numberInRowCount": 4,
+        "drawScore": 3,
+        "winScore": 6
+      },
+      "five": {
+        "maxx": 9,
+        "maxy": 8,
+        "numberInRowCount": 5,
+        "drawScore": 7,
+        "winScore": 15
+      }
+    }
   }
 }

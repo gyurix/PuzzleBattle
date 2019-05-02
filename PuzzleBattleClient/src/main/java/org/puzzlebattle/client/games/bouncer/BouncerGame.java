@@ -1,14 +1,12 @@
 package org.puzzlebattle.client.games.bouncer;
 
-import javafx.geometry.Point2D;
 import javafx.scene.input.KeyCode;
 import lombok.Getter;
 import org.puzzlebattle.client.games.Game;
 import org.puzzlebattle.client.protocol.Client;
 import org.puzzlebattle.client.protocol.packets.out.ServerOutUpdateGame;
 import org.puzzlebattle.core.entity.GameType;
-
-import java.util.Random;
+import org.puzzlebattle.core.gamesettings.BallBouncerSettings;
 
 
 /**
@@ -20,19 +18,18 @@ import java.util.Random;
 @Getter
 public class BouncerGame extends Game {
   private BouncerBall ball;
-  private boolean left1, left2;
-  private Point2D mapSize = new Point2D(720, 720);
-  private Random random = new Random();
-  private boolean right1, right2;
-  private BouncerGameSettings settings;
+  private BouncerGameClientSettings clientSettings;
+  private boolean left, right;
+  private BallBouncerSettings settings;
   private BouncerPlayer you, enemy;
 
   /**
    * Constructor for objects of class SkladPonuka
    */
-  public BouncerGame(BouncerGameSettings settings, Client client) {
+  public BouncerGame(BouncerGameClientSettings clientSettings, BallBouncerSettings settings, Client client) {
     super(client);
     this.settings = settings;
+    this.clientSettings = clientSettings;
     createBall();
     createEnemy();
     createYou();
@@ -44,7 +41,6 @@ public class BouncerGame extends Game {
    */
   private void createBall() {
     ball = new BouncerBall(this, 20);
-    resetBall();
   }
 
 
@@ -53,8 +49,13 @@ public class BouncerGame extends Game {
    */
   private void createEnemy() {
     enemy = new BouncerPlayer(this,
-            new Bouncer(this, mapSize.getX() / 2 - 50, mapSize.getY() / 32 - 7.5, 100, 15, settings.getEnemy().getColor()),
-            settings.getEnemy().getGoalColor()
+            new Bouncer(this,
+                    (settings.getMapMaxx() - settings.getBouncerWidth()) / 2,
+                    settings.getMapMaxy() / 32.0 - 7.5,
+                    settings.getBouncerWidth(),
+                    settings.getBouncerHeight(),
+                    clientSettings.getEnemy().getColor()),
+            clientSettings.getEnemy().getGoalColor()
     );
   }
 
@@ -64,8 +65,13 @@ public class BouncerGame extends Game {
    */
   private void createYou() {
     you = new BouncerPlayer(this,
-            new Bouncer(this, mapSize.getX() / 2 - 50, (mapSize.getY() - mapSize.getY() / 32) - 7.5, 100, 15, settings.getYou().getColor()),
-            settings.getYou().getGoalColor()
+            new Bouncer(this,
+                    (settings.getMapMaxx() - settings.getBouncerWidth()) / 2,
+                    (settings.getMapMaxy() - settings.getMapMaxy() / 32.0) - 7.5,
+                    settings.getBouncerWidth(),
+                    settings.getBouncerHeight(),
+                    clientSettings.getYou().getColor()),
+            clientSettings.getYou().getGoalColor()
     );
   }
 
@@ -73,16 +79,6 @@ public class BouncerGame extends Game {
     return GameType.BOUNCER;
   }
 
-  /**
-   * Resets a ball into its standard position
-   */
-  public void resetBall() {
-    ball.setCenterX(mapSize.getX() / 2);
-    ball.setCenterY(mapSize.getY() / 2);
-    ball.setRadius(10 + Math.random() * 20);
-    ball.setVelocity(new Point2D((random.nextBoolean() ? -1 : 1) * (2 + random.nextDouble() * 2),
-            (random.nextBoolean() ? -1 : 1) * (1 + random.nextDouble() * 2)));
-  }
 
   /**
    * Key event, which is triggered by special keys. These keys can manipulate with bouncers.
@@ -91,15 +87,11 @@ public class BouncerGame extends Game {
    * @param pressed if button is pressed
    */
   public void onKeyEvent(KeyCode key, boolean pressed) {
-    if (key == settings.getYou().getLeft())
-      left1 = pressed;
-    else if (key == settings.getYou().getRight())
-      right1 = pressed;
-    if (key == settings.getEnemy().getLeft())
-      left2 = pressed;
-    else if (key == settings.getEnemy().getRight())
-      right2 = pressed;
-    client.sendPacket(new ServerOutUpdateGame(new int[]{(right1 ? 1 : 0) - (left1 ? 1 : 0)}));
+    if (key == clientSettings.getYou().getLeft())
+      left = pressed;
+    else if (key == clientSettings.getYou().getRight())
+      right = pressed;
+    client.sendPacket(new ServerOutUpdateGame(new int[]{(right ? 1 : 0) - (left ? 1 : 0)}));
   }
 
   @Override

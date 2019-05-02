@@ -5,10 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.puzzlebattle.core.entity.GameWinner;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 
 /**
@@ -24,7 +21,7 @@ import javax.persistence.Table;
 public class GameResult extends AbstractEntity {
   @ManyToOne(cascade = {CascadeType.ALL})
   private DurationDate duration;
-  @ManyToOne(cascade = {CascadeType.ALL})
+  @OneToOne(cascade = CascadeType.ALL)
   private GameSettings gameSettings;
   @ManyToOne
   private GamePlayer player1;

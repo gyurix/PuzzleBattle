@@ -3,7 +3,9 @@ package org.puzzlebattle.server.db.entity;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.sql.Timestamp;
 
 /**
@@ -19,10 +21,6 @@ import java.sql.Timestamp;
 public class DurationDate extends AbstractEntity {
   @Column
   private Timestamp endDate;
-  @Column
-  @Id
-  @GeneratedValue
-  private long id;
   @Column
   private Timestamp startDate;
 

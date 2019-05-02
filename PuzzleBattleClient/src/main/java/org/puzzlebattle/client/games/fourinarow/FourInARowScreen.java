@@ -40,7 +40,7 @@ public class FourInARowScreen extends AbstractScreen {
     this.game = game;
     instance = this;
     pane = new PanelGrid(0, 0, mapSize.getX(), mapSize.getY(), this);
-    pane.setBackground(new Background(new BackgroundFill(game.getSettings().getBackgroundColor(), null, null)));
+    pane.setBackground(new Background(new BackgroundFill(game.getClientSettings().getBackgroundColor(), null, null)));
     coinRadius = getPane().getDistanceOfColumns() * 0.4f;
   }
 

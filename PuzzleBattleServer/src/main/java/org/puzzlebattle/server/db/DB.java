@@ -5,6 +5,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.SharedSessionContract;
 import org.hibernate.cfg.Configuration;
 import org.puzzlebattle.core.utils.ErrorAcceptedConsumer;
+import org.puzzlebattle.core.utils.Logging;
 import org.puzzlebattle.server.ThreadUtils;
 
 import java.util.HashMap;
@@ -19,6 +20,7 @@ public enum DB {
   }
 
   public void init() {
+    Logging.logInfo("Initializing database connection...");
     for (int i = 0; i < 5; ++i)
       withSession((s) -> {
       });

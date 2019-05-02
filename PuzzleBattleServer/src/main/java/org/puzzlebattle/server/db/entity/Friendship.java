@@ -7,7 +7,10 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.query.Query;
 import org.puzzlebattle.server.db.UserGameAttributes;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -23,14 +26,11 @@ import java.util.List;
 @Data
 @Entity
 @Table
-public class Friendship {
+public class Friendship extends AbstractEntity {
 
   @ManyToOne
   @JoinColumn
   private DurationDate duration;
-  @Id
-  @GeneratedValue
-  private long id;
   @ManyToOne
   @JoinColumn
   private PBUser player1;

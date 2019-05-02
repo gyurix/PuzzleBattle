@@ -5,9 +5,9 @@ import javafx.stage.Stage;
 import org.puzzlebattle.client.games.EndDialog;
 import org.puzzlebattle.client.games.bouncer.BallBouncerScreen;
 import org.puzzlebattle.client.games.bouncer.BouncerGame;
-import org.puzzlebattle.client.games.bouncer.BouncerGameSettings;
+import org.puzzlebattle.client.games.bouncer.BouncerGameClientSettings;
+import org.puzzlebattle.client.games.fourinarow.FourInARowClientSettings;
 import org.puzzlebattle.client.games.fourinarow.FourInARowGame;
-import org.puzzlebattle.client.games.fourinarow.FourInARowGameSettings;
 import org.puzzlebattle.client.games.fourinarow.FourInARowScreen;
 import org.puzzlebattle.client.protocol.Client;
 import org.puzzlebattle.client.protocol.packets.in.*;
@@ -15,7 +15,10 @@ import org.puzzlebattle.client.screen.BestPlayersScreen;
 import org.puzzlebattle.client.screen.LoginScreen;
 import org.puzzlebattle.client.screen.PlayerProfileScreen;
 import org.puzzlebattle.client.utils.ThreadUtils;
-import org.puzzlebattle.core.utils.Logging;
+import org.puzzlebattle.core.gamesettings.BallBouncerSettings;
+import org.puzzlebattle.core.gamesettings.FourInARowSettings;
+
+import static org.puzzlebattle.core.utils.IOUtils.GSON;
 
 public class ServerConnectedHandler extends ServerHandler {
   public ServerConnectedHandler(Channel channel, Client client) {
@@ -24,7 +27,6 @@ public class ServerConnectedHandler extends ServerHandler {
 
   @Override
   public void handle(ServerInChangeProfile packet) {
-    Logging.logInfo("RECEIVED!!!");
     client.setUser(packet.getProfile());
     PlayerProfileScreen playerProfileScreen = new PlayerProfileScreen(new Stage(), client);
     playerProfileScreen.updateInformationPlayerProfileScreen(client.getUser());
@@ -55,12 +57,14 @@ public class ServerConnectedHandler extends ServerHandler {
     ThreadUtils.ui(() -> {
       switch (packet.getType()) {
         case FOUR_IN_A_ROW:
-          new FourInARowScreen(LoginScreen.getInstance().getStage(), new FourInARowGame(packet.isInitializer(),
-                  new FourInARowGameSettings(), client), client).show();
+          new FourInARowScreen(LoginScreen.getInstance().getStage(),
+                  new FourInARowGame(packet.isInitializer(), new FourInARowClientSettings(),
+                          GSON.fromJson(packet.getSettings(), FourInARowSettings.class), client), client).show();
           break;
         case BOUNCER:
           new BallBouncerScreen(LoginScreen.getInstance().getStage(),
-                  new BouncerGame(new BouncerGameSettings(), client), client).show();
+                  new BouncerGame(new BouncerGameClientSettings(), GSON.fromJson(packet.getSettings(),
+                          BallBouncerSettings.class), client), client).show();
           break;
       }
     });

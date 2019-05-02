@@ -33,7 +33,7 @@ public class BallBouncerScreen extends AbstractScreen {
     super(stage, client);
     instance = this;
     this.game = game;
-    pane.setBackground(new Background(new BackgroundFill(game.getSettings().getBackgroundColor(), null, null)));
+    pane.setBackground(new Background(new BackgroundFill(game.getClientSettings().getBackgroundColor(), null, null)));
     pane.getChildren().addAll(game.getBall(), game.getEnemy().getBouncer(), game.getEnemy().getGoals(), game.getYou().getBouncer(), game.getYou().getGoals());
   }
 
@@ -44,7 +44,7 @@ public class BallBouncerScreen extends AbstractScreen {
    */
   @Override
   public double getHeight() {
-    return game.getMapSize().getY();
+    return game.getSettings().getMapMaxy();
   }
 
   /**
@@ -54,7 +54,7 @@ public class BallBouncerScreen extends AbstractScreen {
    */
   @Override
   public double getWidth() {
-    return game.getMapSize().getX();
+    return game.getSettings().getMapMaxx();
   }
 
   /**

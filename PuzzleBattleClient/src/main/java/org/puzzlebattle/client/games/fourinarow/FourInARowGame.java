@@ -8,6 +8,7 @@ import org.puzzlebattle.client.games.Game;
 import org.puzzlebattle.client.protocol.Client;
 import org.puzzlebattle.client.protocol.packets.out.ServerOutUpdateGame;
 import org.puzzlebattle.core.entity.GameType;
+import org.puzzlebattle.core.gamesettings.FourInARowSettings;
 import org.puzzlebattle.core.utils.Logging;
 
 import java.util.ArrayList;
@@ -22,7 +23,8 @@ public class FourInARowGame extends Game {
   private FourInARowEntity fourInARowEntity;
   private ArrayList<FourInARowPlayer> players = new ArrayList<FourInARowPlayer>();
   @Getter
-  private FourInARowGameSettings settings;
+  private FourInARowClientSettings clientSettings;
+  private FourInARowSettings settings;
   @Getter
   private FourInARowPlayer you, enemy;
 
@@ -30,8 +32,10 @@ public class FourInARowGame extends Game {
   /**
    * Four in a row game is created, players with specific colors are added, setting are stored.
    */
-  public FourInARowGame(boolean shouldStart, FourInARowGameSettings settings, Client client) {
+  public FourInARowGame(boolean shouldStart, FourInARowClientSettings clientSettings,
+                        FourInARowSettings settings, Client client) {
     super(client);
+    this.clientSettings = clientSettings;
     this.settings = settings;
     FourInARowPlayer.nullNumberOfPlayers();
     you = new FourInARowPlayer(this, shouldStart, Color.RED);
@@ -39,7 +43,8 @@ public class FourInARowGame extends Game {
     players.add(you);
     players.add(enemy);
 
-    fourInARowEntity = new FourInARowEntity(settings.getMaxRows(), settings.getMaxColumns(), settings.getMaxInTheRow());
+    fourInARowEntity = new FourInARowEntity(settings.getMaxy(),
+            settings.getMaxx(), settings.getNumberInRowCount());
     createFillingColumns();
   }
 
@@ -81,8 +86,8 @@ public class FourInARowGame extends Game {
    * @return true if move can be accepted, or false if not
    */
   private boolean conditionsToMove(int column) {
-    if (settings.getMaxColumns() >= column && fillingColumns[column] < settings.getMaxRows()) {
-      Logging.logInfo(fillingColumns[column] + " <> " + settings.getMaxRows());
+    if (settings.getMaxx() >= column && fillingColumns[column] < settings.getMaxy()) {
+      Logging.logInfo(fillingColumns[column] + " <> " + settings.getMaxy());
       return true;
     } else
       return false;
@@ -110,8 +115,8 @@ public class FourInARowGame extends Game {
    * Counter is created here.
    */
   private void createFillingColumns() {
-    fillingColumns = new int[settings.getMaxColumns() + 1];
-    for (int i = 0; i < settings.getMaxColumns() + 1; i++)
+    fillingColumns = new int[settings.getMaxx() + 1];
+    for (int i = 0; i <= settings.getMaxx(); i++)
       fillingColumns[i] = 0;
   }
 
@@ -130,22 +135,17 @@ public class FourInARowGame extends Game {
   }
 
   /**
-   * Analyse if correct key was pressed on the keyboard.
+   * Finds if is draw, users can't do any move
    *
-   * @param key key which was pressed
-   * @return information about selected column, color of player on the move and other necessary information
+   * @return true if it si draw, otherwise false
    */
-  public void questionForMove(KeyCode key) {
-    if (getWhoIsOnTheMove() != you) {
-      Logging.logWarning("You are not on the move!");
-      return;
-    }
-    for (int i = 1; i < 10; i++)
-      if (key == FourInARowGameSettings.getDigit(i) || key == FourInARowGameSettings.getNumpad(i)) {
-        applyMove(i);
-        return;
+  public boolean isDraw() {
+    for (int column = 1; column <= settings.getMaxx(); column = column + 1) {
+      if (fillingColumns[column] < settings.getMaxy()) {
+        return false;
       }
-    return;
+    }
+    return true;
   }
 
   @Override
@@ -187,17 +187,22 @@ public class FourInARowGame extends Game {
   }
 
   /**
-   * Finds if is draw, users can't do any move
+   * Analyse if correct key was pressed on the keyboard.
    *
-   * @return true if it si draw, otherwise false
+   * @param key key which was pressed
+   * @return information about selected column, color of player on the move and other necessary information
    */
-  public boolean isDraw() {
-    for (int column = 1; column <= settings.getMaxColumns(); column = column + 1) {
-      if (fillingColumns[column] < settings.getMaxRows()) {
-        return false;
-      }
+  public void questionForMove(KeyCode key) {
+    if (getWhoIsOnTheMove() != you) {
+      Logging.logWarning("You are not on the move!");
+      return;
     }
-    return true;
+    for (int i = 1; i < 10; i++)
+      if (key == FourInARowClientSettings.getDigit(i) || key == FourInARowClientSettings.getNumpad(i)) {
+        applyMove(i);
+        return;
+      }
+    return;
   }
 
   @Override

@@ -1,9 +1,12 @@
 package org.puzzlebattle.server.game;
 
 import org.puzzlebattle.core.entity.GameType;
+import org.puzzlebattle.core.gamesettings.FourInARowSettings;
+import org.puzzlebattle.core.gamesettings.MainSettings;
 import org.puzzlebattle.core.utils.Logging;
 import org.puzzlebattle.server.db.entity.GameSettings;
 import org.puzzlebattle.server.entity.Client;
+import org.puzzlebattle.server.manager.ConfigManager;
 import org.puzzlebattle.server.protocol.packets.out.ClientOutUpdateGame;
 
 import java.util.ArrayList;
@@ -11,27 +14,25 @@ import java.util.Arrays;
 import java.util.List;
 
 public class FourInARow extends Game {
-  private static final int MAXX = 7;
-  private static final int MAXY = 6;
-  private static final int NUMBER_IN_ROW_COUNT = 4;
   private int dropped;
   private List<List<Boolean>> map = new ArrayList<>();
   private Client nextStep;
+  private FourInARowSettings settings;
 
-  public FourInARow(Client p1, Client p2, GameSettings settings) {
-    super(p1, p2, settings);
+  public FourInARow(Client p1, Client p2, GameSettings gameSettings) {
+    super(p1, p2, gameSettings);
   }
 
   public boolean canDrop(int col) {
-    return map.get(col).size() < MAXY;
+    return map.get(col).size() < settings.getMaxy();
   }
 
   private boolean checkWin(Client client, int column) {
     Boolean checkable = client == p2;
     int row = map.get(column).size() - 1;
 
-    int pointsObtainedInARow = 0;
-    int pointsObtainedInAColumn = 0;
+    int pointsObtainedInARow = 1;
+    int pointsObtainedInAColumn = 1;
     int toLeft, toRight, toDown;
 
     toLeft = column - 1;
@@ -44,7 +45,7 @@ public class FourInARow extends Game {
       toLeft -= 1;
     }
 
-    while (toRight <= MAXX && toRight >= 0 && checkable.equals(getCoin(toRight, row))) {
+    while (toRight <= settings.getMaxx() && toRight >= 0 && checkable.equals(getCoin(toRight, row))) {
       pointsObtainedInARow += 1;
       toRight += 1;
     }
@@ -54,9 +55,9 @@ public class FourInARow extends Game {
       toDown -= 1;
     }
 
-    if (pointsObtainedInARow >= NUMBER_IN_ROW_COUNT) {
+    if (pointsObtainedInARow >= settings.getNumberInRowCount()) {
       return true;
-    } else return pointsObtainedInAColumn >= NUMBER_IN_ROW_COUNT;
+    } else return pointsObtainedInAColumn >= settings.getNumberInRowCount();
   }
 
   public void drop(Client client, int col) {
@@ -72,13 +73,24 @@ public class FourInARow extends Game {
   }
 
   @Override
+  public void loadSettings() {
+    settings = ConfigManager.getInstance().getConfig().getGameProfiles().getFourInARow()
+            .get(gameSettings.getProfileName());
+  }
+
+  @Override
+  public MainSettings getSettings() {
+    return settings;
+  }
+
+  @Override
   public GameType getType() {
     return GameType.FOUR_IN_A_ROW;
   }
 
   @Override
   protected void start() {
-    for (int x = 0; x < MAXX; ++x) {
+    for (int x = 0; x < settings.getMaxx(); ++x) {
       List<Boolean> list = new ArrayList<>();
       map.add(list);
     }
@@ -102,7 +114,7 @@ public class FourInARow extends Game {
     nextStep.getHandler().sendPacket(new ClientOutUpdateGame(new int[]{data[0]}));
     if (checkWin(client, col))
       lose(nextStep);
-   if (dropped == MAXX * MAXY)
+    if (dropped == settings.getMaxx() * settings.getMaxy())
       draw();
   }
 }

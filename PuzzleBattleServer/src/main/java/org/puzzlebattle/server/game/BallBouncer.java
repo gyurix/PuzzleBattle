@@ -1,10 +1,13 @@
 package org.puzzlebattle.server.game;
 
 import org.puzzlebattle.core.entity.GameType;
+import org.puzzlebattle.core.gamesettings.BallBouncerSettings;
+import org.puzzlebattle.core.gamesettings.MainSettings;
 import org.puzzlebattle.core.utils.ErrorAcceptedRunnable;
 import org.puzzlebattle.server.ThreadUtils;
 import org.puzzlebattle.server.db.entity.GameSettings;
 import org.puzzlebattle.server.entity.Client;
+import org.puzzlebattle.server.manager.ConfigManager;
 import org.puzzlebattle.server.protocol.packets.out.ClientOutUpdateGame;
 
 import java.util.Random;
@@ -12,18 +15,11 @@ import java.util.Random;
 import static java.lang.Math.abs;
 
 public class BallBouncer extends Game implements ErrorAcceptedRunnable {
-  private static final double BOUNCER_HEIGHT = 15;
-  private static final double BOUNCER_WIDTH = 100;
-  private static final int MAP_MAXX = 720;
-  private static final int MAP_MAXY = 720;
-  private static final double MAX_BALL_RADIUS = 35;
-  private static final int MAX_GOAL = 5;
-  private static final double MIN_BALL_RADIUS = 10;
-  private static final double MOVEMENT_INTENSITY = 4.5;
   private static final Random random = new Random();
   double ballX, ballY, ballVX, ballVY, ballRadius, p1X, p1Y, p2X, p2Y;
   int p1Goals;
   int p2Goals;
+  private BallBouncerSettings settings;
 
   public BallBouncer(Client p1, Client p2, GameSettings settings) {
     super(p1, p2, settings);
@@ -31,8 +27,19 @@ public class BallBouncer extends Game implements ErrorAcceptedRunnable {
 
   private boolean checkBounce(double x, double y) {
     double distX = abs(ballX - x);
-    double distY = abs(ballY - y + BOUNCER_HEIGHT / 2);
-    return distY < ballRadius + BOUNCER_HEIGHT && distX < ballRadius + BOUNCER_WIDTH * 0.5;
+    double distY = abs(ballY - y);
+    return distY < ballRadius + settings.getBouncerHeight() * 0.5 && distX < ballRadius + settings.getBouncerWidth() * 0.5;
+  }
+
+  @Override
+  public void loadSettings() {
+    settings = ConfigManager.getInstance().getConfig().getGameProfiles().getBallBouncer()
+            .get(gameSettings.getProfileName());
+  }
+
+  @Override
+  public MainSettings getSettings() {
+    return settings;
   }
 
   @Override
@@ -40,19 +47,34 @@ public class BallBouncer extends Game implements ErrorAcceptedRunnable {
     return GameType.BOUNCER;
   }
 
+  @Override
+  protected void start() {
+    resetBall();
+    resetPlayers();
+    ThreadUtils.async(this);
+  }
+
+  @Override
+  public void update(Client client, int[] data) {
+    if (client == p1)
+      p1X = Math.max(0, Math.min(settings.getMapMaxx() - settings.getBouncerWidth(), p1X + data[0] * settings.getMovementIntensity()));
+    else
+      p2X = Math.max(0, Math.min(settings.getMapMaxx() - settings.getBouncerWidth(), p2X + data[0] * settings.getMovementIntensity()));
+  }
+
   public void resetBall() {
-    ballX = MAP_MAXX / 2;
-    ballY = MAP_MAXY / 2;
-    ballRadius = MIN_BALL_RADIUS + Math.random() * (MAX_BALL_RADIUS - MIN_BALL_RADIUS);
+    ballX = settings.getMapMaxx() / 2;
+    ballY = settings.getMapMaxy() / 2;
+    ballRadius = settings.getMinBallRadius() + Math.random() * (settings.getMaxBallRadius() - settings.getMinBallRadius());
     ballVX = (random.nextBoolean() ? -1 : 1) * (1 + random.nextDouble() * 2);
     ballVY = (random.nextBoolean() ? -1 : 1) * (0.5 + random.nextDouble());
   }
 
   public void resetPlayers() {
-    p1X = (MAP_MAXX - BOUNCER_WIDTH) / 2;
-    p1Y = MAP_MAXY / 32 - 8;
-    p2X = (MAP_MAXX - BOUNCER_WIDTH) / 2;
-    p2Y = MAP_MAXY / 32 * 31 - 8;
+    p1X = (settings.getMapMaxx() - settings.getBouncerWidth()) / 2;
+    p1Y = settings.getMapMaxy() / 32 - 8;
+    p2X = (settings.getMapMaxx() - settings.getBouncerWidth()) / 2;
+    p2Y = settings.getMapMaxy() / 32 * 31 - 8;
   }
 
   @Override
@@ -64,33 +86,33 @@ public class BallBouncer extends Game implements ErrorAcceptedRunnable {
       if (ballX - ballRadius < 0) {
         ballX = ballRadius;
         ballVX = -ballVX;
-      } else if (ballX + ballRadius > MAP_MAXX) {
-        ballX = MAP_MAXX - ballRadius;
+      } else if (ballX + ballRadius > settings.getMapMaxx()) {
+        ballX = settings.getMapMaxx() - ballRadius;
         ballVX = -ballVX;
       }
       boolean p1Goal = false;
-      if (checkBounce(p1X + BOUNCER_WIDTH / 2, p1Y + BOUNCER_HEIGHT)) {
+      if (checkBounce(p1X + settings.getBouncerWidth() / 2, p1Y + settings.getBouncerHeight())) {
         ballVX = (ballVX > 0 ? 1 : -1) * (Math.abs(ballVX / 2) + random.nextDouble());
         ballVY = Math.abs(ballVY) + random.nextDouble() / 2.0;
       } else
-        p1Goal = ballY < p1Y - BOUNCER_HEIGHT * 1.5;
+        p1Goal = ballY < p1Y - settings.getBouncerHeight() * 1.5;
 
       boolean p2Goal = false;
-      if (checkBounce(p2X + BOUNCER_WIDTH / 2, p2Y + BOUNCER_HEIGHT)) {
+      if (checkBounce(p2X + settings.getBouncerWidth() / 2, p2Y + settings.getBouncerHeight())) {
         ballVX = (ballVX > 0 ? 1 : -1) * (Math.abs(ballVX / 2) + random.nextDouble());
         ballVY = -(Math.abs(ballVY) + random.nextDouble() / 2.0);
       } else
-        p2Goal = ballY > p2Y + BOUNCER_HEIGHT / 2;
+        p2Goal = ballY > p2Y + settings.getBouncerHeight() / 2;
 
       if (p1Goal || p2Goal) {
         if (p1Goal) {
-          if (++p1Goals == MAX_GOAL) {
-            lose(p2);
+          if (++p1Goals == settings.getMaxGoal()) {
+            lose(p1);
             return;
           }
         } else {
-          if (++p2Goals == MAX_GOAL) {
-            lose(p1);
+          if (++p2Goals == settings.getMaxGoal()) {
+            lose(p2);
             return;
           }
         }
@@ -109,20 +131,5 @@ public class BallBouncer extends Game implements ErrorAcceptedRunnable {
       if (p1Goal || p2Goal)
         Thread.sleep(200);
     }
-  }
-
-  @Override
-  protected void start() {
-    resetBall();
-    resetPlayers();
-    ThreadUtils.async(this);
-  }
-
-  @Override
-  public void update(Client client, int[] data) {
-    if (client == p1)
-      p1X = Math.max(0, Math.min(MAP_MAXX - BOUNCER_WIDTH, p1X + data[0] * MOVEMENT_INTENSITY));
-    else
-      p2X = Math.max(0, Math.min(MAP_MAXX - BOUNCER_WIDTH, p2X + data[0] * MOVEMENT_INTENSITY));
   }
 }
