@@ -14,7 +14,7 @@
         "maxBallRadius": 35,
         "maxGoal": 5,
         "minBallRadius": 10,
-        "movementIntensity": 4.5,
+        "movementIntensity": 8,
         "drawScore": 5,
         "winScore": 10
       },
@@ -27,7 +27,7 @@
         "maxBallRadius": 25,
         "maxGoal": 5,
         "minBallRadius": 10,
-        "movementIntensity": 4.5,
+        "movementIntensity": 8,
         "drawScore": 10,
         "winScore": 20
       }
