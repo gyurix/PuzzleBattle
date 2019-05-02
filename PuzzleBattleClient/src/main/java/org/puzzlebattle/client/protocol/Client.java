@@ -15,6 +15,7 @@ public class Client {
   private User user;
   private AbstractScreen openScreen;
   private Game game;
+  private boolean relog;
   private EncryptionUtils encryptionUtils = new EncryptionUtils();
 
   public Client(AddressInfo serverAddress) {

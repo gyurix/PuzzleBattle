@@ -12,6 +12,7 @@ import java.util.HashMap;
 public class ClientConfig {
   private HashMap<String, BouncerGameClientSettings> ballBouncerTemplates;
   private HashMap<String, FourInARowClientSettings> fourInARowTemplates;
+  private SettingsForScreens screenSettings;
   @Setter
   private String lang = "en";
   private AddressInfo server;

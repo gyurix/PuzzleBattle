@@ -5,7 +5,6 @@ import org.puzzlebattle.client.protocol.Client;
 import org.puzzlebattle.client.protocol.packets.in.ServerInLoginResult;
 import org.puzzlebattle.client.screen.LoginScreen;
 import org.puzzlebattle.client.screen.MainScreen;
-import org.puzzlebattle.client.screen.SettingsForScreens;
 import org.puzzlebattle.client.utils.ThreadUtils;
 
 import static javafx.scene.control.Alert.AlertType.ERROR;
@@ -18,7 +17,7 @@ public class ServerLoginHandler extends ServerHandler {
   @Override
   public void handle(ServerInLoginResult packet) {
     if (packet.isResult()) {
-      ThreadUtils.ui(() -> new MainScreen(client.getOpenScreen().getStage(), new SettingsForScreens(), client).show());
+      ThreadUtils.ui(() -> new MainScreen(client.getOpenScreen().getStage(), client).show());
       ServerConnectedHandler handler = new ServerConnectedHandler(channel, client);
       client.getConnection().setHandler(handler);
       channel.pipeline().replace("handler", "handler", handler);

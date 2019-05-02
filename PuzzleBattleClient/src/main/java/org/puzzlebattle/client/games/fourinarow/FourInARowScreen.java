@@ -11,10 +11,10 @@ import lombok.Getter;
 import org.puzzlebattle.client.protocol.Client;
 import org.puzzlebattle.client.protocol.packets.out.ServerOutEndGame;
 import org.puzzlebattle.client.screen.AbstractScreen;
+import org.puzzlebattle.client.screen.MainScreen;
+import org.puzzlebattle.client.utils.ThreadUtils;
 
 import java.util.ArrayList;
-
-import static org.puzzlebattle.core.utils.LangFile.lang;
 
 
 /**
@@ -61,7 +61,8 @@ public class FourInARowScreen extends AbstractScreen {
    */
   @Override
   public void onClose() {
-    lang.msg("end.finished", "name", "Puzzle Battle Client", "version", "1.0");
+    client.sendPacket(new ServerOutEndGame());
+    ThreadUtils.ui(() -> new MainScreen(stage, client).show());
   }
 
   /**

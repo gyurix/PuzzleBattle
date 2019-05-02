@@ -7,9 +7,10 @@ import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import lombok.Getter;
 import org.puzzlebattle.client.protocol.Client;
+import org.puzzlebattle.client.protocol.packets.out.ServerOutEndGame;
 import org.puzzlebattle.client.screen.AbstractScreen;
-
-import static org.puzzlebattle.core.utils.LangFile.lang;
+import org.puzzlebattle.client.screen.MainScreen;
+import org.puzzlebattle.client.utils.ThreadUtils;
 
 
 /**
@@ -65,7 +66,8 @@ public class BallBouncerScreen extends AbstractScreen {
    */
   @Override
   public void onClose() {
-    lang.msg("end.finished", "name", "Puzzle Battle Client", "version", "1.0");
+    client.sendPacket(new ServerOutEndGame());
+    ThreadUtils.ui(() -> new MainScreen(stage, client).show());
   }
 
   /**

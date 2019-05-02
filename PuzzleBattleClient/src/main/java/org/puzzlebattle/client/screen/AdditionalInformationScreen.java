@@ -16,6 +16,7 @@ import javafx.stage.Stage;
 import org.puzzlebattle.client.games.User;
 import org.puzzlebattle.client.protocol.Client;
 import org.puzzlebattle.client.protocol.packets.out.ServerOutChangeProfile;
+import org.puzzlebattle.client.utils.ThreadUtils;
 import org.puzzlebattle.core.utils.Logging;
 
 import java.io.File;
@@ -64,8 +65,8 @@ public class AdditionalInformationScreen extends AbstractScreen {
   /**
    * Constructor which prepares window with its basic components for obtaining additional information from them
    *
-   * @param stage       stage which is used to display window
-   * @param client      client
+   * @param stage  stage which is used to display window
+   * @param client client
    */
   public AdditionalInformationScreen(Stage stage, Client client) {
     super(stage, client);
@@ -200,7 +201,7 @@ public class AdditionalInformationScreen extends AbstractScreen {
   private void loadPhoto() {
     loadedImagePath = "faces/face1.png";
     pathForPhotoLabel.setText(noImageLoaded);
-    FileScreen fileScreen = new FileScreen(lang.get("additionalInformation.fileScreenTitle"));
+    FileScreen fileScreen = new FileScreen(stage, lang.get("additionalInformation.fileScreenTitle"), client);
     fileScreen.setPictureFilter();
     loadedImage = fileScreen.showDialog();
     pathForPhotoLabel.setText(loadedImage.getPath());
@@ -210,6 +211,19 @@ public class AdditionalInformationScreen extends AbstractScreen {
       Logging.logSevere("Wrong url typed!", e);
       displayAlert();
     }
+  }
+
+  @Override
+  public void onClose() {
+    ThreadUtils.ui(() -> new MainScreen(stage, client).show());
+  }
+
+  /**
+   * Showing additional information screen
+   */
+  public void show() {
+    stage.setScene(scene1);
+    stage.show();
   }
 
   /**
@@ -370,11 +384,10 @@ public class AdditionalInformationScreen extends AbstractScreen {
     try {
       prepareBasicComponentsForProfileScreen();
       prepareBasicSettingsForProfileScreen();
-      playerProfile = new PlayerProfileScreen(new Stage(), client);
+      playerProfile = new PlayerProfileScreen(stage, client);
       updateInformationDatabase();
       updateInformationPlayerProfileScreen(playerProfile);
       playerProfile.show();
-      stage.close();
     } catch (ParseException e) {
       Logging.logWarning("Cannot convert string to date!", e);
     }
@@ -451,14 +464,6 @@ public class AdditionalInformationScreen extends AbstractScreen {
     }
 
     return result;
-  }
-
-  /**
-   * Showing additional information screen
-   */
-  public void show() {
-    stage.setScene(scene1);
-    stage.show();
   }
 
   /**

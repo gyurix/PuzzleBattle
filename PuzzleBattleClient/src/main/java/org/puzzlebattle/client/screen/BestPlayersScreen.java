@@ -3,13 +3,19 @@ package org.puzzlebattle.client.screen;
 import javafx.geometry.Orientation;
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import lombok.Getter;
+import org.puzzlebattle.client.config.ConfigManager;
+import org.puzzlebattle.client.config.SettingsForScreens;
 import org.puzzlebattle.client.protocol.Client;
 import org.puzzlebattle.client.protocol.packets.out.ServerOutBestPlayersRequest;
+import org.puzzlebattle.client.utils.ThreadUtils;
 
 import static org.puzzlebattle.core.utils.LangFile.lang;
 
@@ -33,13 +39,12 @@ public class BestPlayersScreen extends AbstractScreen {
   /**
    * Constructor which constructs screen for best players
    *
-   * @param stage              stage where information about best players will be set
-   * @param settingsForScreens settings which will be applied
+   * @param stage stage where information about best players will be set
    */
-  public BestPlayersScreen(Stage stage, SettingsForScreens settingsForScreens, Client client) {
+  public BestPlayersScreen(Stage stage, Client client) {
     super(stage, client);
     instance = this;
-    this.settingsForScreens = settingsForScreens;
+    this.settingsForScreens = ConfigManager.getInstance().getConfig().getScreenSettings();
     createTables();
     prepareComponentsForBestPlayerTable();
     client.sendPacket(new ServerOutBestPlayersRequest(10));
@@ -72,13 +77,18 @@ public class BestPlayersScreen extends AbstractScreen {
     return vBox;
   }
 
+  @Override
+  public void onClose() {
+    ThreadUtils.ui(() -> new MainScreen(stage, client).show());
+  }
+
   /**
    * Prepare horizontal layout for four in a row
    */
   private void prepareBallBouncerGameLabel() {
     ballBouncerLabel = new Label(lang.get("mainScreen.ballBouncer.ballBouncerLabel"));
     fBallBouncer = new Font(settingsForScreens.getTypeCharBallBouncer(), settingsForScreens.getSizeOfTextBallBouncer());
-    ballBouncerLabel.setTextFill(settingsForScreens.getColorBallBouncerLabel());
+    ballBouncerLabel.setTextFill(Paint.valueOf(settingsForScreens.getColorBallBouncerLabel()));
     ballBouncerLabel.setWrapText(true);
     ballBouncerLabel.setFont(fBallBouncer);
   }
@@ -98,7 +108,7 @@ public class BestPlayersScreen extends AbstractScreen {
   private void prepareFourInARowGameLabel() {
     fourInARowLabel = new Label(lang.get("mainScreen.fourInARow.fourInARowLabel"));
     fFourInARow = new Font(settingsForScreens.getTypeCharFourInARow(), settingsForScreens.getSizeOfTextFourInARow());
-    fourInARowLabel.setTextFill(settingsForScreens.getColorFourInARowLabel());
+    fourInARowLabel.setTextFill(Paint.valueOf(settingsForScreens.getColorFourInARowLabel()));
     fourInARowLabel.setWrapText(true);
     fourInARowLabel.setFont(fFourInARow);
   }
@@ -149,5 +159,23 @@ public class BestPlayersScreen extends AbstractScreen {
     ballBouncerGameLayout.getChildren().setAll(ballBouncerLabel, ballBouncerGameTable);
     fourInARowGameLayout.getChildren().setAll(fourInARowLabel, fourInARowGameTable);
     wholeScreen.getChildren().setAll(ballBouncerGameLayout, gameSeparator, fourInARowGameLayout);
+  }
+
+  /**
+   * Table for best players, uses hierarchy of tables
+   */
+  public static class BestPlayersTable extends FriendshipMenu.UserGameAttributes.PlayerHierarchyTable {
+
+    private TableColumn userScore;
+
+    /**
+     * Creates table for best players
+     */
+    public BestPlayersTable() {
+      userScore = new TableColumn(lang.get("columns.userScore"));
+      userScore.setMinWidth(super.MIN_WIDTH_FOR_COLUMN);
+      userScore.setCellValueFactory(new PropertyValueFactory<FriendshipMenu.UserGameAttributes, Integer>("score"));
+      this.getColumns().addAll(userScore);
+    }
   }
 }

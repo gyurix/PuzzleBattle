@@ -1,7 +1,6 @@
 package org.puzzlebattle.client.games;
 
 
-import javafx.application.Platform;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -14,7 +13,7 @@ import org.puzzlebattle.client.protocol.Client;
 import org.puzzlebattle.client.protocol.packets.out.ServerOutStartGame;
 import org.puzzlebattle.client.screen.AbstractScreen;
 import org.puzzlebattle.client.screen.MainScreen;
-import org.puzzlebattle.client.screen.SettingsForScreens;
+import org.puzzlebattle.client.utils.ThreadUtils;
 import org.puzzlebattle.core.entity.GameType;
 import org.puzzlebattle.core.entity.GameWinner;
 
@@ -94,7 +93,7 @@ public class EndDialog extends AbstractScreen {
    * Creates main menu
    */
   private void createMainMenu() {
-    new MainScreen(stage, new SettingsForScreens(), client).show();
+    new MainScreen(stage, client).show();
   }
 
   /**
@@ -119,7 +118,7 @@ public class EndDialog extends AbstractScreen {
    * Action on close, whole application will be closed
    */
   public void onClose() {
-    Platform.exit();
+    ThreadUtils.ui(() -> new MainScreen(stage, client).show());
   }
 
   /**

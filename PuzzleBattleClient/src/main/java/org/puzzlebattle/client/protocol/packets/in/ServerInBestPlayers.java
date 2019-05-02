@@ -4,12 +4,12 @@ import io.netty.buffer.ByteBuf;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import lombok.Data;
-import org.puzzlebattle.client.screen.UserGameAttributes;
+import org.puzzlebattle.client.screen.FriendshipMenu;
 import org.puzzlebattle.core.protocol.ByteBufUtils;
 
 @Data
 public class ServerInBestPlayers extends ServerInPacket {
-  private ObservableList<UserGameAttributes> userGameAttributes;
+  private ObservableList<FriendshipMenu.UserGameAttributes> userGameAttributes;
 
   @Override
   public void handle(ServerInPacketHandler handler) {
@@ -25,7 +25,7 @@ public class ServerInBestPlayers extends ServerInPacket {
     for (int i = 0; i < numberOfBestPlayersReceived; i = i + 1) {
       username = ByteBufUtils.readString(buf);
       score = buf.readInt();
-      userGameAttributes.add(new UserGameAttributes(username, score));
+      userGameAttributes.add(new FriendshipMenu.UserGameAttributes(username, score));
     }
   }
 }

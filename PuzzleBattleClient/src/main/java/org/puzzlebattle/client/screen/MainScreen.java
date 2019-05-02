@@ -10,13 +10,16 @@ import javafx.scene.control.Separator;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import org.puzzlebattle.client.config.ConfigManager;
+import org.puzzlebattle.client.config.SettingsForScreens;
 import org.puzzlebattle.client.games.User;
 import org.puzzlebattle.client.protocol.Client;
 import org.puzzlebattle.client.protocol.packets.out.ServerOutStartGame;
 import org.puzzlebattle.client.protocol.packets.out.ServerOutUserInfoRequest;
+import org.puzzlebattle.client.utils.ThreadUtils;
 import org.puzzlebattle.core.entity.GameType;
 import org.puzzlebattle.core.utils.LangFile;
 import org.puzzlebattle.core.utils.Logging;
@@ -50,9 +53,9 @@ public class MainScreen extends AbstractScreen {
   /**
    * Constructor which creates main screen in the program.
    */
-  public MainScreen(Stage stage, SettingsForScreens settingsForScreens, Client client) {
+  public MainScreen(Stage stage, Client client) {
     super(stage, client);
-    this.settingsForScreens = settingsForScreens;
+    this.settingsForScreens = ConfigManager.getInstance().getConfig().getScreenSettings();
 
     prepareBallBouncerGameMenu();
     prepareFourInARowGameMenu();
@@ -61,6 +64,14 @@ public class MainScreen extends AbstractScreen {
     prepareEscapeLayout();
     prepareSceneAndGridPane();
     Logging.logInfo("Main scene has been created.");
+  }
+
+  @Override
+  public void onClose() {
+    ThreadUtils.ui(() -> new LoginScreen(stage, client).show());
+    client.setRelog(true);
+    client.getConnection().getHandler().getChannel().close();
+    Logging.logInfo("Reconnecting...");
   }
 
   private Button createButton(String text) {
@@ -147,7 +158,7 @@ public class MainScreen extends AbstractScreen {
     friendshipMenuButton = createButton(LangFile.lang.get("mainScreen.menu.friendshipMenu"));
     friendshipMenuButton.setOnAction(e -> prepareFriendshipMenu());
     editProfileButton = createButton(LangFile.lang.get("mainScreen.menu.editProfile"));
-    editProfileButton.setOnAction(e -> new AdditionalInformationScreen(new Stage(), client).show());
+    editProfileButton.setOnAction(e -> new AdditionalInformationScreen(stage, client).show());
   }
 
   /**
@@ -182,7 +193,7 @@ public class MainScreen extends AbstractScreen {
    * Prepares friendship menu
    */
   private void prepareFriendshipMenu() {
-    friendshipMenu = new FriendshipMenu(new Stage(), client);
+    friendshipMenu = new FriendshipMenu(stage, client);
     friendshipMenu.show();
   }
 
@@ -218,7 +229,7 @@ public class MainScreen extends AbstractScreen {
   private void prepareLabelForBallBouncer() {
     labelBallBouncer = new Label(LangFile.lang.get("mainScreen.ballBouncer.ballBouncerLabel"));
     fBallBouncer = new Font(settingsForScreens.getTypeCharBallBouncer(), settingsForScreens.getSizeOfTextBallBouncer());
-    labelBallBouncer.setTextFill(settingsForScreens.getColorBallBouncerLabel());
+    labelBallBouncer.setTextFill(Paint.valueOf(settingsForScreens.getColorBallBouncerLabel()));
     labelBallBouncer.setWrapText(true);
     labelBallBouncer.setFont(fBallBouncer);
   }
@@ -229,7 +240,7 @@ public class MainScreen extends AbstractScreen {
   private void prepareLabelForFourInARow() {
     labelFourInARow = new Label(LangFile.lang.get("mainScreen.fourInARow.fourInARowLabel"));
     fFourInARow = new Font(settingsForScreens.getTypeCharFourInARow(), settingsForScreens.getSizeOfTextFourInARow());
-    labelFourInARow.setTextFill(settingsForScreens.getColorFourInARowLabel());
+    labelFourInARow.setTextFill(Paint.valueOf(settingsForScreens.getColorFourInARowLabel()));
     labelFourInARow.setWrapText(true);
     labelFourInARow.setFont(fFourInARow);
   }
@@ -266,8 +277,7 @@ public class MainScreen extends AbstractScreen {
    * Re login for user, user will log off and main menu will be closed
    */
   private void reLogin() {
-    getStage().close();
-    new LoginScreen(getStage(), new Client(ConfigManager.getInstance().getConfig().getServer())).show();
+    onClose();
   }
 
   /**
@@ -319,7 +329,7 @@ public class MainScreen extends AbstractScreen {
    * Method creates screen for best players and shows it for user
    */
   private void viewBestPlayers() {
-    BestPlayersScreen bestPlayersScreen = new BestPlayersScreen(new Stage(), settingsForScreens, client);
+    BestPlayersScreen bestPlayersScreen = new BestPlayersScreen(stage, client);
     bestPlayersScreen.show();
   }
 }

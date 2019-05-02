@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 import org.puzzlebattle.client.games.User;
 import org.puzzlebattle.client.protocol.Client;
 import org.puzzlebattle.client.protocol.packets.out.ServerOutRegister;
+import org.puzzlebattle.client.utils.ThreadUtils;
 import org.puzzlebattle.core.utils.Logging;
 
 import static org.puzzlebattle.core.utils.LangFile.lang;
@@ -108,6 +109,11 @@ public class RegisterScreen extends AbstractScreen {
   @Override
   public String getTitle() {
     return lang.get("register.title");
+  }
+
+  @Override
+  public void onClose() {
+    ThreadUtils.ui(() -> new LoginScreen(stage, client).show());
   }
 
   /**

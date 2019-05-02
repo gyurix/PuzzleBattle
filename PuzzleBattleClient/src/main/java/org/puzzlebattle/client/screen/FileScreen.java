@@ -2,6 +2,8 @@ package org.puzzlebattle.client.screen;
 
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import org.puzzlebattle.client.protocol.Client;
+import org.puzzlebattle.client.utils.ThreadUtils;
 import org.puzzlebattle.core.utils.Logging;
 
 import java.io.File;
@@ -10,7 +12,7 @@ import java.io.File;
  * Contains file chooser for choosing file and special filters, which can be easily applied
  * before search
  */
-public class FileScreen extends Stage {
+public class FileScreen extends AbstractScreen {
 
   private FileChooser chooseFile;
   private File chosenFile;
@@ -20,8 +22,8 @@ public class FileScreen extends Stage {
    *
    * @param title title for file chooser
    */
-  public FileScreen(String title) {
-    super();
+  public FileScreen(Stage stage, String title, Client client) {
+    super(stage, client);
     chooseFile = new FileChooser();
     chooseFile.setInitialDirectory(new File(System.getProperty("user.home")));
     chooseFile.setTitle(title);
@@ -58,13 +60,18 @@ public class FileScreen extends Stage {
     );
   }
 
+  @Override
+  public void onClose() {
+    ThreadUtils.ui(() -> new MainScreen(stage, client).show());
+  }
+
   /**
    * After choosing appropriate file with specific dialog, this file is returned
    *
    * @return chosen file using fileDialog
    */
   public File showDialog() {
-    chosenFile = chooseFile.showOpenDialog(this);
+    chosenFile = chooseFile.showOpenDialog(stage);
     return chosenFile;
   }
 }

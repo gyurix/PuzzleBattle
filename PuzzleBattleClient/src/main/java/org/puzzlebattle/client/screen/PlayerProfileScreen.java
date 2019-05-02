@@ -15,6 +15,7 @@ import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import org.puzzlebattle.client.games.User;
 import org.puzzlebattle.client.protocol.Client;
+import org.puzzlebattle.client.utils.ThreadUtils;
 import org.puzzlebattle.core.utils.Logging;
 
 import java.util.Random;
@@ -51,6 +52,11 @@ public class PlayerProfileScreen extends AbstractScreen {
     prepareComponents();
     this.pane = grid;
     Logging.logInfo("Player screen has been created.");
+  }
+
+  @Override
+  public void onClose() {
+    ThreadUtils.ui(() -> new AdditionalInformationScreen(stage, client).show());
   }
 
   /**
@@ -277,7 +283,7 @@ public class PlayerProfileScreen extends AbstractScreen {
   }
 
 
-  public void  updateInformationPlayerProfileScreen(User user){
+  public void updateInformationPlayerProfileScreen(User user) {
     name.setText(lang.get("playerProfile.set.name") + user.getName());
     surname.setText(lang.get("playerProfile.set.surname") + user.getSurname());
     dateOfBirth.setText(lang.get("playerProfile.set.dateOfBirth") + user.getDateOfBirth());
