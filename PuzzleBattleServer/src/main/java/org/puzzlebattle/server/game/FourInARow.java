@@ -66,6 +66,8 @@ public class FourInARow extends Game {
   }
 
   public Boolean getCoin(int x, int y) {
+    if (x > map.size())
+      return null;
     List<Boolean> list = map.get(x);
     if (list.size() <= y)
       return null;
