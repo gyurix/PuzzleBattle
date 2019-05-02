@@ -18,6 +18,7 @@ import org.puzzlebattle.client.protocol.Client;
 import org.puzzlebattle.client.utils.ThreadUtils;
 import org.puzzlebattle.core.utils.Logging;
 
+import java.io.ByteArrayInputStream;
 import java.util.Random;
 
 import static org.puzzlebattle.core.utils.LangFile.lang;
@@ -56,7 +57,7 @@ public class PlayerProfileScreen extends AbstractScreen {
 
   @Override
   public void onClose() {
-    ThreadUtils.ui(() -> new AdditionalInformationScreen(stage, client).show());
+    ThreadUtils.ui(() -> new MainScreen(stage, client).show());
   }
 
   /**
@@ -248,8 +249,19 @@ public class PlayerProfileScreen extends AbstractScreen {
    * @param imagePath - image path for stored image
    */
   public void setLoadedImage(String imagePath) {
-    System.out.println(imagePath);
     photoImage = new Image(imagePath);
+    selfPhoto.setImage(photoImage);
+    selfPhoto.setFitWidth(PICTURE_WIDTH);
+    selfPhoto.setFitHeight(PICTURE_HEIGHT);
+  }
+
+  /**
+   * Loads image from buffer
+   *
+   * @param buffer - buffer where image is stored
+   */
+  public void setLoadedImageFromBuffer(byte[] buffer) {
+    photoImage = new Image(new ByteArrayInputStream(buffer));
     selfPhoto.setImage(photoImage);
     selfPhoto.setFitWidth(PICTURE_WIDTH);
     selfPhoto.setFitHeight(PICTURE_HEIGHT);
@@ -282,12 +294,17 @@ public class PlayerProfileScreen extends AbstractScreen {
     nickName.setText(nickNameText);
   }
 
-
-  public void updateInformationPlayerProfileScreen(User user) {
+  /**
+   * Loads information from database to profile screen
+   *
+   * @param user loaded information stored in user
+   */
+  public void  updateInformationPlayerProfileScreen(User user){
     name.setText(lang.get("playerProfile.set.name") + user.getName());
     surname.setText(lang.get("playerProfile.set.surname") + user.getSurname());
     dateOfBirth.setText(lang.get("playerProfile.set.dateOfBirth") + user.getDateOfBirth());
     age.setText(lang.get("playerProfile.set.age") + user.getAge());
-    //avatar = user.getAvatar();
+    email.setText(user.getEmail());
+    setLoadedImageFromBuffer(user.getAvatar());
   }
 }

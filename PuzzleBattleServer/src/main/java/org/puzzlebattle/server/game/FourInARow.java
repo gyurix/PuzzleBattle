@@ -66,7 +66,7 @@ public class FourInARow extends Game {
   }
 
   public Boolean getCoin(int x, int y) {
-    if (x > map.size())
+    if (x >= map.size())
       return null;
     List<Boolean> list = map.get(x);
     if (list.size() <= y)
@@ -116,6 +116,7 @@ public class FourInARow extends Game {
     nextStep.getHandler().sendPacket(new ClientOutUpdateGame(new int[]{data[0]}));
     if (checkWin(client, col))
       lose(nextStep);
+    Logging.logInfo(""+settings.getMaxx() * settings.getMaxy());
     if (dropped == settings.getMaxx() * settings.getMaxy())
       draw();
   }

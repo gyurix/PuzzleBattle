@@ -80,8 +80,15 @@ public class ClientConnectedHandler extends ClientHandler {
   @Override
   public void handle(ClientInUserInfRequest packet) {
     try {
-      Logging.logInfo("Sending change profile packet!");
-      sendPacket(new ClientOutChangeProfile(client.getUser()));
+
+      ClientOutChangeProfile clientOutChangeProfile = new ClientOutChangeProfile(client.getUser());
+      if(client.getUser().getDateOfBirth()!=null && client.getUser().getName()!=null
+              && client.getUser().getSurname()!=null) {
+        client.getHandler().sendPacket(clientOutChangeProfile);
+      }
+      else {
+        Logging.logInfo("Change profile packet not send, no specific information available!");
+      }
     }
     catch(Throwable t){
       t.printStackTrace();

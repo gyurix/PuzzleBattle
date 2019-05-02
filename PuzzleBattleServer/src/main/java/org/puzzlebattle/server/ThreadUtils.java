@@ -9,7 +9,7 @@ import java.util.concurrent.Executors;
 
 public class ThreadUtils {
   @Getter
-  private static final ExecutorService executor = Executors.newCachedThreadPool();
+  private static final ExecutorService executor = Executors.newSingleThreadExecutor();
 
   public static void async(ErrorAcceptedRunnable runnable) {
     executor.submit(runnable.toRunnable());

@@ -1,6 +1,7 @@
 package org.puzzlebattle.client.protocol.handlers;
 
 import io.netty.channel.Channel;
+import javafx.stage.Stage;
 import org.puzzlebattle.client.config.ClientConfig;
 import org.puzzlebattle.client.config.ConfigManager;
 import org.puzzlebattle.client.games.EndDialog;
@@ -25,10 +26,12 @@ public class ServerConnectedHandler extends ServerHandler {
 
   @Override
   public void handle(ServerInChangeProfile packet) {
-    client.setUser(packet.getProfile());
-    PlayerProfileScreen playerProfileScreen = new PlayerProfileScreen(client.getOpenScreen().getStage(), client);
-    playerProfileScreen.updateInformationPlayerProfileScreen(client.getUser());
-    playerProfileScreen.show();
+    ThreadUtils.ui(() -> {
+      client.setUser(packet.getProfile());
+      PlayerProfileScreen playerProfileScreen = new PlayerProfileScreen(client.getOpenScreen().getStage(), client);
+      playerProfileScreen.updateInformationPlayerProfileScreen(client.getUser());
+      playerProfileScreen.show();
+    });
   }
 
   @Override

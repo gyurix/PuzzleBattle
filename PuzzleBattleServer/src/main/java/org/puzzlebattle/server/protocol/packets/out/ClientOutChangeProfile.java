@@ -54,14 +54,15 @@ public class ClientOutChangeProfile extends ClientOutPacket {
     String email = user.getEmail();
     String password = user.getPassword();
     Timestamp registered = user.getRegistered();
-
-    writeString(buf, nickName);
-    writeString(buf, password);
-    writeString(buf, name);
-    writeString(buf, surname);
-    writeString(buf, email);
-    writeString(buf, convertDateOfBirth(dateOfBirth));
-    buf.writeInt(convertAge(dateOfBirth));
-    ByteBufUtils.writeBytes4(buf,avatar);
+    if(dateOfBirth!=null) {
+      writeString(buf, nickName);
+      writeString(buf, password);
+      writeString(buf, name);
+      writeString(buf, surname);
+      writeString(buf, email);
+      writeString(buf, convertDateOfBirth(dateOfBirth));
+      buf.writeInt(convertAge(dateOfBirth));
+      ByteBufUtils.writeBytes4(buf, avatar);
+    }
   }
 }

@@ -27,6 +27,7 @@ public class ClientInChangeProfile extends ClientInPacket {
     byte avatar[] = ByteBufUtils.readBytes4(buf);
     user.setName(name);
     user.setAvatar(avatar);
+    user.setSurname(surname);
     user.setDateOfBirth(convertStringToDate(dateOfBirth));
   }
 

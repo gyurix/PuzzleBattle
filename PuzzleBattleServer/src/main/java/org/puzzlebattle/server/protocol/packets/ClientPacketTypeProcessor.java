@@ -4,6 +4,7 @@ import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelDuplexHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelPromise;
+import org.puzzlebattle.core.utils.Logging;
 import org.puzzlebattle.server.protocol.packets.in.ClientInPacket;
 import org.puzzlebattle.server.protocol.packets.in.ClientInType;
 import org.puzzlebattle.server.protocol.packets.out.ClientOutPacket;
@@ -42,15 +43,20 @@ public class ClientPacketTypeProcessor extends ChannelDuplexHandler {
 
   public void write(ChannelHandlerContext ctx, Object packet, ChannelPromise promise) {
     ByteBuf buf = DEFAULT.buffer();
-    ClientOutPacket p = ((ClientOutPacket) packet);
-    buf.writeInt(0);
-    buf.writeByte(ClientOutType.of(p).ordinal());
-    p.write(buf);
-    int len = buf.writerIndex();
-    buf.resetWriterIndex();
-    buf.writeInt(len - 4);
-    buf.writerIndex(len);
-    ctx.write(buf, promise);
-    logInfo("Sent packet", "client", getAddress(ctx), "packet", p);
+    try {
+      ClientOutPacket p = ((ClientOutPacket) packet);
+      buf.writeInt(0);
+      buf.writeByte(ClientOutType.of(p).ordinal());
+      p.write(buf);
+      int len = buf.writerIndex();
+      buf.resetWriterIndex();
+      buf.writeInt(len - 4);
+      buf.writerIndex(len);
+      ctx.write(buf, promise);
+      logInfo("Sent packet", "client", getAddress(ctx), "packet", p);
+    }
+    catch (Exception e) {
+      Logging.logSevere("Error while writing found! Packet can't be send!",e);
+    }
   }
 }
