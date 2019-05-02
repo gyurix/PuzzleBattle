@@ -2,15 +2,16 @@ package org.puzzlebattle.client.games.fourinarow;
 
 
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
+import javafx.scene.paint.Paint;
+import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
+import lombok.Getter;
 import org.puzzlebattle.core.gamesettings.FourInARowSettings;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -21,28 +22,27 @@ import java.util.List;
  * @version (1.0)
  */
 public class PanelGrid extends Pane {
-  private final int fontSize = 20;
-  private int distanceOfColumns;
+  private FourInARowClientSettings clientSettings;
+  @Getter
+  private double colSpace, rowSpace;
   private Font font;
-  private List<Rectangle> grid = new ArrayList<Rectangle>();
-  private double initialSpace = 50;
   private Label label;
-  private Rectangle rect;
-  private double spaceFromTop = 10;
-  private double thicknessOfColumns = 15;
-  private double thicknessOfRows = 10;
+  private FourInARowScreen screen;
   private FourInARowSettings settings;
+  private double width, height;
 
 
   /**
    * Specific Grid panel, where additionally position X and Y where panel should be situated can be set
    */
-  public PanelGrid(double width, double height, FourInARowScreen fourInARowScreen) {
-    FourInARowClientSettings clientSettings = fourInARowScreen.getGame().getClientSettings();
-    this.settings = fourInARowScreen.getGame().getSettings();
-    createGrids(this, settings.getMaxy(), settings.getMaxx(), width, height,
-            Color.valueOf(clientSettings.getHorizontalGrid()), Color.valueOf(clientSettings.getVerticalGrid()));
-    createLabels(this, initialSpace / 2, spaceFromTop, width, height, settings.getMaxx(), fourInARowScreen);
+  public PanelGrid(double width, double height, FourInARowScreen screen) {
+    this.settings = screen.getGame().getSettings();
+    this.clientSettings = screen.getGame().getClientSettings();
+    this.width = width;
+    this.height = height;
+    this.screen = screen;
+    createGrid();
+    createLabels();
   }
 
   /**
@@ -51,61 +51,40 @@ public class PanelGrid extends Pane {
    * @param label a sample parameter for a method
    */
   private void applySettingsOnLabel(Label label) {
-
-    font = new Font("TimesNewRoman", fontSize);
+    font = new Font("TimesNewRoman", clientSettings.getFontSize());
     label.setFont(font);
   }
 
   /**
-   * Count column space from width of whole grid. From the whole space is thickness of rectangles given away,
-   * and then divided by number of columns.
-   *
-   * @param numberOfColumns number of columns in grid
-   * @param width           width of whole grid
-   * @return the sum of x and y
+   * Render the gaming map grid
    */
-  private int countColumnSpace(double numberOfColumns, double width) {
-    double sizeOfRowGrids = numberOfColumns * thicknessOfRows;
-    return (int) ((width - sizeOfRowGrids) / numberOfColumns);
+  private void createGrid() {
+    rowSpace = (height - clientSettings.getSpaceFromTop()) / settings.getMaxy();
+    colSpace = (width - clientSettings.getInitialSpace() * 2) / settings.getMaxx();
+    List<Node> nodes = getChildren();
+
+    double rowWidth = width - 2 * clientSettings.getInitialSpace();
+    for (int row = 1; row <= settings.getMaxy(); ++row)
+      nodes.add(createHorizontalLine(clientSettings.getSpaceFromTop() + rowSpace * row, rowWidth));
+
+    double colHeight = height - clientSettings.getSpaceFromTop();
+    for (int col = 0; col <= settings.getMaxx(); ++col) {
+      nodes.add(createVerticalLine(clientSettings.getInitialSpace() + colSpace * col, colHeight));
+    }
   }
 
   /**
-   * Count row space from width of whole grid. From the whole space is thickness of rectangles given away,
-   * and then divided by number of rows.
+   * Creates a new horizontal line to the given Y coordinate
    *
-   * @param numberOfRows number of rows in grid
-   * @param width        width of whole grid
-   * @return row space
+   * @param y     - The y coordinate of the line
+   * @param width - The width of the line
+   * @return The created line
    */
-  private int countRowSpace(double numberOfRows, double width) {
-    double sizeOfRowGrids = numberOfRows * thicknessOfRows;
-    return (int) ((width - sizeOfRowGrids) / numberOfRows);
-  }
-
-  /**
-   * Vertical and horizontal lines as rectangles are created here. Grid consists of this rectangles
-   *
-   * @param panel          panel where grid will be added
-   * @param X              X coordinate position of grid
-   * @param Y              Y coordinate position of grid
-   * @param width          width of the whole grid
-   * @param height         height of the whole grid
-   * @param colorOfRows    color for rows, rectangles which run horizontally
-   * @param colorOfColumns color for columns, rectangles which run vertically
-   */
-  private void createGrids(Pane panel, double X, double Y, double width, double height, Color colorOfRows, Color colorOfColumns) {
-    int rowSpace = countRowSpace(X, width);
-    int columnSpace = countColumnSpace(Y, width);
-
-    for (int i = 0; i < settings.getMaxy() + 1; i = i + 1) {
-      grid.add(createRectangle(initialSpace, i * rowSpace + initialSpace + columnSpace, height, thicknessOfRows, colorOfRows));
-      panel.getChildren().add(grid.get(i));
-    }
-
-    for (int i = 0; i < settings.getMaxx() + 1; i = i + 1) {
-      grid.add(createRectangle(i * rowSpace + initialSpace, initialSpace, thicknessOfColumns, height, colorOfColumns));
-      panel.getChildren().add(grid.get(i + settings.getMaxy() + 1));
-    }
+  private Line createHorizontalLine(double y, double width) {
+    Line line = new Line(clientSettings.getInitialSpace(), y, clientSettings.getInitialSpace() + width, y);
+    line.setStrokeWidth(clientSettings.getThicknessOfRows());
+    line.setStroke(Paint.valueOf(clientSettings.getRowColor()));
+    return line;
   }
 
   /**
@@ -125,82 +104,51 @@ public class PanelGrid extends Pane {
 
   /**
    * Method which creates labels, to mark columns.
-   *
-   * @param panel           panel where labels should be positioned
-   * @param positionX       position X where grid starts, X coordinate
-   * @param positionY       position Y where grid starts, Y coordinate
-   * @param widthOfWindow   width of whole window
-   * @param numberOfWindows number of windows in the row
    */
-  private void createLabels(Pane panel, double positionX, double positionY, double widthOfWindow, double heightOfWindow, int numberOfWindows, FourInARowScreen fourInARowScreen) {
-    this.distanceOfColumns = countRowSpace(numberOfWindows, widthOfWindow) - 1;
-
-    for (int number = 1; number <= numberOfWindows; number = number + 1) {
-      Label label = createLabel(positionX + number * distanceOfColumns + number * thicknessOfRows,
-              positionY, Integer.toString(number));
-      label.setMinHeight(heightOfWindow);
-      label.setMinWidth(distanceOfColumns);
+  private void createLabels() {
+    int positionY = (int) (clientSettings.getSpaceFromTop() * 0.75 - clientSettings.getFontSize());
+    List<Node> children = getChildren();
+    for (int col = 1; col <= settings.getMaxx(); col = col + 1) {
+      Label label = createLabel(clientSettings.getInitialSpace() + colSpace * (col - 1), positionY, Integer.toString(col));
+      label.setMinSize(colSpace, height);
       label.setAlignment(Pos.TOP_CENTER);
-      label.setOnMouseClicked(e -> handleLabel(e, fourInARowScreen));
-      panel.getChildren().add(label);
+      label.setOnMouseClicked(this::handleLabel);
+      children.add(label);
     }
   }
 
   /**
-   * Creates rectangle, which is a grid, one row or column in pane. Given parameters are applied.
-   * Position, size and color is set.
+   * Creates a new vertical line to the given X coordinate
    *
-   * @param X      X coordinate where new rectangle should be located
-   * @param Y      Y coordinate where new rectangle should be located
-   * @param width  width of the rectangle, grid
-   * @param height height of the rectangle, grid
-   * @param color  color of rectangle, which represents grid
-   * @return created specified rectangle located at given coordinates and filled in certain color
+   * @param x      - The x coordinate of the line
+   * @param height - The height of the line
+   * @return The created line
    */
-  private Rectangle createRectangle(double X, double Y, double width, double height, Color color) {
-    rect = new Rectangle(X, Y, width, height);
-    rect.setFill(color);
-    rect.setStroke(color);
-    return rect;
+  private Line createVerticalLine(double x, double height) {
+    Line line = new Line(x, clientSettings.getSpaceFromTop(), x, clientSettings.getSpaceFromTop() + height);
+    line.setStrokeWidth(clientSettings.getThicknessOfRows());
+    line.setStroke(Paint.valueOf(clientSettings.getColColor()));
+    return line;
   }
 
   /**
-   * Method which calculates distance, where coin will take
+   * Method which calculates the center x location to which the coin should land
    *
-   * @param requestedColumn column where coin should fall
-   * @return location of Y coordinate, where coin should fall
+   * @param col - The column where coin should fall
+   * @return The location of X coordinate, where coin should fall
    */
-  public double getColumnX(int requestedColumn) {
-    return initialSpace / 2 + requestedColumn * (distanceOfColumns + thicknessOfRows) + 4;
-  }
-
-  /**
-   * Method which returns distance between columns
-   *
-   * @return distance of column, how columns are far away
-   */
-  public double getDistanceOfColumns() {
-    return distanceOfColumns;
-  }
-
-  /**
-   * Method which returns thickness of rows. How rectangle which represents row is thick.
-   *
-   * @return thickness of rows
-   */
-  public double getThicknessOfRows() {
-    return thicknessOfRows;
+  public double getColumnX(int col) {
+    return clientSettings.getInitialSpace() + (col - 0.5) * colSpace;
   }
 
   /**
    * Handling clicking on label in four in a row game
    *
-   * @param event            - mouse event
-   * @param fourInARowScreen - screen of four in a row game
+   * @param event - mouse event
    */
-  private void handleLabel(MouseEvent event, FourInARowScreen fourInARowScreen) {
+  private void handleLabel(MouseEvent event) {
     Label label = (Label) event.getSource();
     String labelText = label.getText();
-    fourInARowScreen.onKeyEvent(FourInARowClientSettings.getDigit(Integer.parseInt(labelText)));
+    screen.onKeyEvent(FourInARowClientSettings.getDigit(Integer.parseInt(labelText)));
   }
 }

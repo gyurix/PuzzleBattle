@@ -29,7 +29,7 @@ public class FourInARowScreen extends AbstractScreen {
   private static FourInARowScreen instance;
   double coinRadius;
   ArrayList<Coin> coins = new ArrayList<Coin>();
-  Point2D mapSize = new Point2D(400, 400);
+  Point2D mapSize = new Point2D(500, 500);
   @Getter
   private FourInARowGame game;
 
@@ -43,7 +43,7 @@ public class FourInARowScreen extends AbstractScreen {
     pane = new PanelGrid(mapSize.getX(), mapSize.getY(), this);
     pane.setBackground(new Background(new BackgroundFill(
             Paint.valueOf(game.getClientSettings().getBackground()), null, null)));
-    coinRadius = getPane().getDistanceOfColumns() * 0.4f;
+    coinRadius = getPane().getColSpace() * 0.4f;
   }
 
   /**

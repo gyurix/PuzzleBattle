@@ -41,15 +41,25 @@
   },
   "fourInARowTemplates": {
     "four": {
-      "horizontalGrid": "808080",
-      "verticalGrid": "404040",
+      "fontSize": 25,
+      "initialSpace": 50,
+      "spaceFromTop": 60,
+      "thicknessOfColumns": 10,
+      "thicknessOfRows": 5,
+      "colColor": "808080",
+      "rowColor": "404040",
       "your": "FFC000",
       "enemy": "FF0000",
       "background": "D0D0D0"
     },
     "five": {
-      "horizontalGrid": "800000",
-      "verticalGrid": "400000",
+      "fontSize": 18,
+      "initialSpace": 20,
+      "spaceFromTop": 60,
+      "thicknessOfColumns": 6,
+      "thicknessOfRows": 3,
+      "colColor": "800000",
+      "rowColor": "400000",
       "your": "0000FF",
       "enemy": "FF0000",
       "background": "D0D0D0"

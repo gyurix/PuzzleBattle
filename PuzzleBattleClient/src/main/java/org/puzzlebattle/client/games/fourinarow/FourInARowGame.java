@@ -73,10 +73,8 @@ public class FourInARowGame extends Game {
             fillingColumns[col] - 1, fourInARowEntity, playerOnTheMove);
     FourInARowScreen screen = FourInARowScreen.getInstance();
     Coin coin = createCoin(point, screen);
-    startCoinFall(coin, screen.mapSize.getY() - (point.getCoinsInColumnBelow()) *
-            (screen.getPane().getThicknessOfRows() +
-                    screen.getPane().getDistanceOfColumns()) +
-            screen.getPane().getThicknessOfRows(), screen);
+    startCoinFall(coin, clientSettings.getSpaceFromTop() +
+            (settings.getMaxy() - point.getCoinsInColumnBelow() - 0.5) * screen.getPane().getRowSpace(), screen);
   }
 
   /**

@@ -20,9 +20,14 @@ public class FourInARowClientSettings {
   private static KeyCode digit[] = new KeyCode[]{DIGIT0, DIGIT1, DIGIT2, DIGIT3, DIGIT4, DIGIT5, DIGIT6, DIGIT7, DIGIT8, DIGIT9};
   private static KeyCode numpad[] = new KeyCode[]{NUMPAD0, NUMPAD1, NUMPAD2, NUMPAD3, NUMPAD4, NUMPAD5, NUMPAD6, NUMPAD7, NUMPAD8, NUMPAD9};
   private String background;
+  private String colColor;
   private String enemy;
-  private String horizontalGrid;
-  private String verticalGrid;
+  private int fontSize;
+  private int initialSpace;
+  private String rowColor;
+  private int spaceFromTop;
+  private int thicknessOfColumns;
+  private int thicknessOfRows;
   private String your;
 
   /**
