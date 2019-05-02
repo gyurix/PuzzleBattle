@@ -12,7 +12,6 @@ import org.puzzlebattle.client.games.fourinarow.FourInARowScreen;
 import org.puzzlebattle.client.protocol.Client;
 import org.puzzlebattle.client.protocol.packets.in.*;
 import org.puzzlebattle.client.screen.BestPlayersScreen;
-import org.puzzlebattle.client.screen.LoginScreen;
 import org.puzzlebattle.client.screen.PlayerProfileScreen;
 import org.puzzlebattle.client.utils.ThreadUtils;
 import org.puzzlebattle.core.gamesettings.BallBouncerSettings;
@@ -42,7 +41,7 @@ public class ServerConnectedHandler extends ServerHandler {
   @Override
   public void handle(ServerInEndGame packet) {
     ThreadUtils.ui(() -> {
-      new EndDialog(LoginScreen.getInstance().getStage(), client, client.getGame().getType(), packet.getWinner()).show();
+      new EndDialog(client.getOpenScreen().getStage(), client, client.getGame().getType(), packet.getWinner()).show();
       client.setGame(null);
     });
   }
@@ -59,7 +58,7 @@ public class ServerConnectedHandler extends ServerHandler {
       switch (packet.getType()) {
         case FOUR_IN_A_ROW: {
           FourInARowSettings settings = GSON.fromJson(packet.getSettings(), FourInARowSettings.class);
-          new FourInARowScreen(LoginScreen.getInstance().getStage(),
+          new FourInARowScreen(client.getOpenScreen().getStage(),
                   new FourInARowGame(packet.isInitializer(),
                           config.getFourInARowTemplates().get(settings.getTemplate()),
                           settings, client), client).show();
@@ -68,7 +67,7 @@ public class ServerConnectedHandler extends ServerHandler {
         case BOUNCER: {
           BallBouncerSettings settings = GSON.fromJson(packet.getSettings(),
                   BallBouncerSettings.class);
-          new BallBouncerScreen(LoginScreen.getInstance().getStage(),
+          new BallBouncerScreen(client.getOpenScreen().getStage(),
                   new BouncerGame(config.getBallBouncerTemplates().get(settings.getTemplate()),
                           settings, client), client).show();
           break;

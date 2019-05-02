@@ -53,7 +53,7 @@ public class IOUtils {
   /**
    * Saving resources
    *
-   * @param names list of names
+   * @param names list of file names
    */
 
   public static void saveResources(String... names) {
@@ -61,7 +61,8 @@ public class IOUtils {
       try {
         File f = new File(name).getAbsoluteFile();
         f.getParentFile().mkdirs();
-        transloadStream(IOUtils.class.getClassLoader().getResourceAsStream(name), new FileOutputStream(f));
+        if (!f.exists())
+          transloadStream(IOUtils.class.getClassLoader().getResourceAsStream(name), new FileOutputStream(f));
       } catch (Throwable e) {
         System.err.println("Failed to save resource " + name);
         e.printStackTrace();

@@ -1,5 +1,20 @@
 {
   "login": {
-    "languageTitle": "Deutsch (German)"
+    "language": "Sprache",
+    "languageTitle": "Deutsch (German)",
+    "username": "Nutzername",
+    "usernameText": "Tragen Sie hier Ihr Login ein!",
+    "loggingIn": {
+      "title": "Einloggen...",
+      "text": "Einloggen, bitte warten ..."
+    },
+    "incorrect": {
+      "title": "Falsche Anmeldeinformationen",
+      "text": "Die eingegebene Kombination aus Benutzername und Passwort ist falsch."
+    },
+    "password": "Passwort",
+    "register": "Registrieren",
+    "login": "Anmeldung",
+    "return": "Rückkehr"
   }
 }

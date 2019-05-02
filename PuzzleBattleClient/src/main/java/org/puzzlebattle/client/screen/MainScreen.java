@@ -257,7 +257,7 @@ public class MainScreen extends AbstractScreen {
     gridPane.add(vBoxBallBouncerGame, 0, 1);
     gridPane.add(separator, 1, 1);
     gridPane.add(vBoxFourInARowGame, 2, 1);
-    gridPane.setValignment(hEscapeBox, VPos.BOTTOM);
+    GridPane.setValignment(hEscapeBox, VPos.BOTTOM);
     gridPane.add(hEscapeBox, 0, 3);
     this.pane = gridPane;
   }
@@ -267,8 +267,7 @@ public class MainScreen extends AbstractScreen {
    */
   private void reLogin() {
     getStage().close();
-    new LoginScreen(getStage(), new LanguageSelector(getStage(), 100, 25),
-            new Client(ConfigManager.getInstance().getConfig().getServer())).show();
+    new LoginScreen(getStage(), new Client(ConfigManager.getInstance().getConfig().getServer())).show();
   }
 
   /**

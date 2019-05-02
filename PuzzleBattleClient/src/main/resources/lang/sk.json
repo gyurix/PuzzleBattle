@@ -8,15 +8,16 @@
     "usernameText": "Tu napis prihl. meno",
     "languageTitle": "Slovenčina (Slovak)",
     "password": "Heslo",
-    "return": "navrat",
+    "return": "Späť",
     "login": "Prihlásenie",
+    "register": "Registrácia",
     "loggingIn": {
       "title": "Prihlasujem...",
       "text": "Prihlasujem, prosim cakajte..."
     },
     "incorrect": {
-      "title": "Nespravne prihlasovacie udaje",
-      "text": "Zadane meno a heslo je nespravne!"
+      "title": "Nespravne prihlasovacie údaje",
+      "text": "Zadané meno a heslo je nesprávne!"
     }
   },
   "mainScreen": {

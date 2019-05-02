@@ -4,6 +4,7 @@ import lombok.Data;
 import org.puzzlebattle.client.games.Game;
 import org.puzzlebattle.client.games.User;
 import org.puzzlebattle.client.protocol.packets.out.ServerOutPacket;
+import org.puzzlebattle.client.screen.AbstractScreen;
 import org.puzzlebattle.core.entity.AddressInfo;
 import org.puzzlebattle.core.utils.EncryptionUtils;
 
@@ -12,6 +13,7 @@ public class Client {
   private AddressInfo address;
   private ServerConnection connection;
   private User user;
+  private AbstractScreen openScreen;
   private Game game;
   private EncryptionUtils encryptionUtils = new EncryptionUtils();
 

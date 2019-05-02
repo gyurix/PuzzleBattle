@@ -18,16 +18,18 @@ public class ServerLoginHandler extends ServerHandler {
   @Override
   public void handle(ServerInLoginResult packet) {
     if (packet.isResult()) {
-      ThreadUtils.ui(() -> {
-        new MainScreen(LoginScreen.getInstance().getStage(), new SettingsForScreens(), client).show();
-      });
+      ThreadUtils.ui(() -> new MainScreen(client.getOpenScreen().getStage(), new SettingsForScreens(), client).show());
       ServerConnectedHandler handler = new ServerConnectedHandler(channel, client);
       client.getConnection().setHandler(handler);
-      client.setUser(LoginScreen.getInstance().getUser());
       channel.pipeline().replace("handler", "handler", handler);
       return;
     }
-    ThreadUtils.ui(() -> LoginScreen.getInstance().showAlert(ERROR, "login.incorrect"));
+    ThreadUtils.ui(() -> {
+      if (client.getOpenScreen() instanceof LoginScreen)
+        client.getOpenScreen().showAlert(ERROR, "login.incorrect");
+      else
+        client.getOpenScreen().showAlert(ERROR, "register.registrationFailed");
+    });
   }
 
 

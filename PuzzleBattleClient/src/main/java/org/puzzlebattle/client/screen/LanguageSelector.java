@@ -5,7 +5,6 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
-import javafx.stage.Stage;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.puzzlebattle.client.config.ClientConfig;
@@ -31,29 +30,29 @@ public class LanguageSelector extends HBox {
   private HashMap<String, LangFile> langFiles = new HashMap<>();
   private ChoiceBox<LanguageOption> languageChooser;
   private Label languageTitle;
+  private LoginScreen loginScreen;
   private HashMap<String, LanguageOption> optionMap = new HashMap<>();
   private TreeSet<LanguageOption> options = new TreeSet<>();
-  private Stage stageOfLoginScreen;
 
   /**
    * Creation of default language selector instance with default width and height
    *
-   * @param stageOfLoginScreen - stage where login screen will be reloaded after selection of requested language
+   * @param loginScreen - the open login screen
    */
-  public LanguageSelector(Stage stageOfLoginScreen) {
-    this(stageOfLoginScreen, 150, 25);
+  public LanguageSelector(LoginScreen loginScreen) {
+    this(loginScreen, 150, 25);
   }
 
   /**
    * Creation of language selector with specified width and height
    *
-   * @param stageOfLoginScreen - stage where login screen will be reloaded after selection of requested language
-   * @param width              - width of language selector - prefer
-   * @param height             - height of language selector - prefer
+   * @param loginScreen - the current login screen
+   * @param width       - width of language selector - prefer
+   * @param height      - height of language selector - prefer
    */
-  public LanguageSelector(Stage stageOfLoginScreen, double width, double height) {
+  public LanguageSelector(LoginScreen loginScreen, double width, double height) {
     super(10);
-    this.stageOfLoginScreen = stageOfLoginScreen;
+    this.loginScreen = loginScreen;
     this.setPadding(new Insets(10, 5, 5, 10));
     this.setPrefSize(width, height);
     loadLanguages();
@@ -84,9 +83,8 @@ public class LanguageSelector extends HBox {
    */
   private void applyLanguageChoice() {
     lang = langFiles.get(languageChooser.getSelectionModel().getSelectedItem().getCode());
-    stageOfLoginScreen.close();
     languageTitle.setText(lang.get("login.language"));
-    new LoginScreen(stageOfLoginScreen, this, LoginScreen.getInstance().getClient()).show();
+    loginScreen.refresh();
   }
 
   private void loadLanguages() {

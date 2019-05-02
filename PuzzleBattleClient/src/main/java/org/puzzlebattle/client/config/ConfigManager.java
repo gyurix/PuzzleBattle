@@ -21,8 +21,8 @@ public class ConfigManager {
   public void load() {
     Logging.logInfo("Loading config...");
     IOUtils.saveResources(FILENAME);
-    try {
-      config = GSON.fromJson(new FileReader(FILENAME), ClientConfig.class);
+    try (FileReader fr = new FileReader(FILENAME)) {
+      config = GSON.fromJson(fr, ClientConfig.class);
     } catch (IOException e) {
       Logging.logSevere("Error on loading config", "error", e);
     }
@@ -30,8 +30,8 @@ public class ConfigManager {
 
   public void save() {
     Logging.logInfo("Saving config...");
-    try {
-      GSON.toJson(config, new FileWriter(FILENAME));
+    try (FileWriter fw = new FileWriter(FILENAME)) {
+      GSON.toJson(config, fw);
     } catch (IOException e) {
       Logging.logSevere("Error on saving config", "error", e);
     }

@@ -139,6 +139,7 @@ public abstract class AbstractScreen {
     stage.setScene(scene);
     stage.show();
     stage.setOnCloseRequest(e -> onCloseHandler());
+    client.setOpenScreen(this);
   }
 
   /**

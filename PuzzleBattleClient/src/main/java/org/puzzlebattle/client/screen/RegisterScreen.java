@@ -11,7 +11,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
-import lombok.Getter;
 import org.puzzlebattle.client.games.User;
 import org.puzzlebattle.client.protocol.Client;
 import org.puzzlebattle.client.protocol.packets.out.ServerOutRegister;
@@ -26,9 +25,6 @@ import static org.puzzlebattle.core.utils.LangFile.lang;
  * @version (1.0)
  */
 public class RegisterScreen extends AbstractScreen {
-
-  @Getter
-  private static RegisterScreen instance;
   private Button confirmButton;
   private PasswordField confirmPasswordField, passwordField;
   private Label emailLabel, nickLabel, passwordConfLabel, leftLabel, passwordLabel, rightLabel;
@@ -37,15 +33,12 @@ public class RegisterScreen extends AbstractScreen {
   private TextField nickField, emailField;
   private Region regionNickEmail, regionEmailPassword, regionBetweenPassword, regionUpConfirmButton;
   private VBox registerComponents;
-  @Getter
-  private User user;
 
   /**
    * Constructor which apply registering of the screen
    */
   RegisterScreen(Stage stage, Client client) {
     super(stage, client);
-    instance = this;
     prepareComponents();
     stage.setResizable(false);
     Logging.logInfo("Registration screen is created, but not shown.");
@@ -247,17 +240,15 @@ public class RegisterScreen extends AbstractScreen {
     String email = emailField.getText();
     String password = passwordField.getText();
     String passwordConfirm = confirmPasswordField.getText();
-    user = new User(nickName, password, email);
+    client.setUser(new User(nickName, password, email));
 
     if (!password.equals(passwordConfirm)) {
       Logging.logWarning("Passwords aren't same!");
       noSamePasswordsAlert();
       return;
-    } else {
-      Logging.logInfo("Passwords are the same. Registration is completed!");
-      client.sendPacket(new ServerOutRegister(email, password, nickName));
-      new MainScreen(stage, new SettingsForScreens(), client);
     }
+    Logging.logInfo("Passwords are the same. Submitting registration...");
+    client.sendPacket(new ServerOutRegister(email, password, nickName));
   }
 
   /**

@@ -8,7 +8,6 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import org.puzzlebattle.client.config.ConfigManager;
 import org.puzzlebattle.client.protocol.Client;
-import org.puzzlebattle.client.screen.LanguageSelector;
 import org.puzzlebattle.client.screen.LoginScreen;
 import org.puzzlebattle.core.utils.LangFile;
 import org.puzzlebattle.core.utils.Logging;
@@ -42,9 +41,8 @@ public class ClientLauncher extends Application {
     try {
       stage.getIcons().add(new Image("pictures/icon.png"));
       ConfigManager.getInstance().load();
-      LanguageSelector languageSelector = new LanguageSelector(stage);
+      new LoginScreen(stage, new Client(ConfigManager.getInstance().getConfig().getServer())).show();
       LangFile.lang.msg("started", "name", "Puzzle Battle Client", "version", "1.0");
-      new LoginScreen(stage, languageSelector, new Client(ConfigManager.getInstance().getConfig().getServer())).show();
     } catch (Throwable e) {
       Logging.logSevere("Failed to start client", "error", e);
     }

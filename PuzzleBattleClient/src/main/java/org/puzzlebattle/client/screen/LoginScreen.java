@@ -8,7 +8,6 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
-import lombok.Getter;
 import org.puzzlebattle.client.games.User;
 import org.puzzlebattle.client.protocol.Client;
 import org.puzzlebattle.client.protocol.packets.out.ServerOutLogin;
@@ -27,9 +26,8 @@ import static org.puzzlebattle.core.utils.Logging.logInfo;
  * @version (1.0)
  */
 public class LoginScreen extends AbstractScreen {
-  @Getter
-  private static LoginScreen instance;
   private Button confirmButton;
+  private LanguageSelector languageSelector;
   private Region loginButtonRegion, loginPasswordRegion, registerRegion;
   private Label loginLabel;
   private VBox loginPanel;
@@ -40,17 +38,13 @@ public class LoginScreen extends AbstractScreen {
   private Button registerButton;
   private HBox registerPanel;
   private Label separatorLeft, separatorRight;
-  private LanguageSelector languageSelector;
-  @Getter
-  private User user;
 
   /**
    * Constructor which creates screen for log in
    */
-  public LoginScreen(Stage stage, LanguageSelector languageSelector, Client client) {
+  public LoginScreen(Stage stage, Client client) {
     super(stage, client);
-    instance = this;
-    this.languageSelector = languageSelector;
+    this.languageSelector = new LanguageSelector(this);
     createComponentsForLoginScreen();
     prepareScreenAndPane();
     logInfo("Login screen created.");
@@ -134,13 +128,13 @@ public class LoginScreen extends AbstractScreen {
   private void login(Event event) {
     pwd = passwordField.getText();
     login = loginTextField.getText();
-    this.user = new User(login, pwd);
+    client.setUser(new User(login, pwd));
     logInfo("Logging in...", "login", login);
     EncryptionUtils encryptionUtils = client.getEncryptionUtils();
     KeyPair rsa = EncryptionUtils.generateRSA();
     encryptionUtils.setRsaDecryptKey(rsa.getPrivate());
     encryptionUtils.setRsaEncryptKey(rsa.getPublic());
-    client.sendPacket(new ServerOutLogin(user.getUserName(), user.getPassword()));
+    client.sendPacket(new ServerOutLogin(login, pwd));
   }
 
   /**
@@ -226,10 +220,21 @@ public class LoginScreen extends AbstractScreen {
   }
 
   /**
-   * Preparing  screen and pane
+   * Preparing screen and pane
    */
   private void prepareScreenAndPane() {
     prepareLoginPanel();
     prepareBorderPanel();
+  }
+
+  /**
+   * Refreshes the login screen after changing language
+   */
+  public void refresh() {
+    confirmButton.setText(lang.get("login.login"));
+    registerButton.setText(lang.get("login.register"));
+    loginLabel.setText(lang.get("login.username"));
+    passwordLabel.setText(lang.get("login.password"));
+    loginTextField.setText(lang.get("login.usernameText"));
   }
 }
