@@ -69,47 +69,8 @@ public class BouncerGame extends Game {
     );
   }
 
-
-  /**
-   * Method which analyses if enemy don't get a goal.
-   *
-   * @return if you give a goal. Enemy does't catch ball
-   */
-  public boolean isEnemyFailed() {
-    return ball.getCenterY() < mapSize.getY() / 32;
-  }
-
-
-  /**
-   * Method which analyses if you don't get a goal.
-   *
-   * @return if you fails. You don't catch ball.
-   */
-  public boolean isYouFailed() {
-    return ball.getCenterY() > mapSize.getY() - mapSize.getY() / 32;
-  }
-
-  /**
-   * Movement
-   *
-   * @param left      - if bouncer moves to left
-   * @param right     - if bouncer moves to right
-   * @param player    - player of BallBouncer game
-   * @param intensity - intensity
-   */
-  public void move(boolean left, boolean right, BouncerPlayer player, double intensity) {
-    if (left && right)
-      return;
-    Bouncer bouncer = player.getBouncer();
-    double x = bouncer.getX();
-    if (left)
-      bouncer.setX(Math.max(0, x - intensity));
-    else if (right)
-      bouncer.setX(Math.min(mapSize.getX() - bouncer.getWidth(), x + intensity));
-  }
-
   public GameType getType() {
-    return GameType.FOUR_IN_A_ROW;
+    return GameType.BOUNCER;
   }
 
   /**
@@ -141,35 +102,18 @@ public class BouncerGame extends Game {
     client.sendPacket(new ServerOutUpdateGame(new int[]{(right1 ? 1 : 0) - (left1 ? 1 : 0)}));
   }
 
-  /**
-   * Ticking of the ball
-   */
-  public void tick() {
-    move(left1, right1, you, settings.getYou().getMovementIntensity());
-    ball.tick();
-    Point2D vel = enemy.getBouncer().getAppliedVelocity(ball, 1);
-    if (vel == null)
-      vel = you.getBouncer().getAppliedVelocity(ball, -1);
-    if (vel == null) {
-      /*if (isEnemyFailed())
-        you.goal();
-      else if (isYouFailed())
-        enemy.goal();*/
-      return;
-    }
-    ball.setVelocity(vel);
-    ball.tick();
-  }
-
   @Override
   public void updateData(int[] data) {
     if (data[0] == 1)
       you.goal();
     if (data[1] == 1)
       enemy.goal();
-    enemy.getBouncer().setX(data[2]);
-    ball.setCenterX(data[3]);
-    ball.setCenterX(data[4]);
-    ball.setRadius(data[5]);
+    you.getBouncer().setX(data[2]);
+    you.getBouncer().setY(data[3]);
+    enemy.getBouncer().setX(data[4]);
+    enemy.getBouncer().setY(data[5]);
+    ball.setCenterX(data[6]);
+    ball.setCenterY(data[7]);
+    ball.setRadius(data[8]);
   }
 }

@@ -19,7 +19,7 @@ public class ServerInStartGame extends ServerInPacket {
   @Override
   public void read(ByteBuf buf) {
     initializer = buf.readBoolean();
-    settings = ByteBufUtils.readString(buf);
     type = GameType.values()[buf.readUnsignedByte()];
+    settings = ByteBufUtils.readString(buf);
   }
 }
