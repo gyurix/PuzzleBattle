@@ -88,19 +88,3 @@ with the new IV we are going to use for the encryption next time)
 ### Used entities and their relations
 
 ![](resources/db-tables.png)
-
-### Entity descriptions
-
-#### User
-
-#### Game Player
-
-#### Game
-
-#### Game Type
-
-#### Game Settings 
-
-#### Duration
-
-#### Friendship
